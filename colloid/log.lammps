@@ -1,0 +1,154 @@
+LAMMPS (3 Mar 2020)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
+  using 1 OpenMP thread(s) per MPI task
+# Big colloid particles and small LJ particles
+
+units		lj
+atom_style	sphere
+dimension	2
+
+lattice		sq 0.01
+Lattice spacing in x,y,z = 10 10 10
+region		box block 0 30 0 30 -0.5 0.5
+create_box	2 box
+Created orthogonal box = (0 0 -5) to (300 300 5)
+  1 by 1 by 1 MPI processor grid
+create_atoms	1 box
+Created 900 atoms
+  create_atoms CPU = 0.000995874 secs
+
+set		group all type/fraction 2 0.96 23984
+  861 settings made for type/fraction
+
+set		type 1 mass 9
+  39 settings made for mass
+set		type 2 mass 1
+  861 settings made for mass
+
+velocity	all create 1.44 87287 loop geom
+
+# multi neighbor and comm for efficiency
+
+neighbor	1 multi
+neigh_modify	delay 0
+comm_modify     mode multi
+
+# colloid potential
+
+pair_style	colloid 12.5
+pair_coeff	1 1  1.0 1.0 5.0 5.0 12.5
+pair_coeff	1 2  5.0 1.0 5.0 0.0 7.0
+pair_coeff	2 2 10.0 1.0 0.0 0.0 2.5
+
+fix		1 all npt temp 2.0 2.0 1.0 iso 0.0 1.0 10.0 drag 1.0 	        mtk no pchain 0 tchain 1
+fix		2 all enforce2d
+
+dump		1 all atom 1000 dump.colloid
+
+#dump		2 all image 1000 image.*.jpg type type #		zoom 1.5 center d 0.5 0.5 0.5
+#dump_modify	2 pad 5 adiam 1 5.0 adiam 2 1.5
+
+dump		3 all movie 1000 movie.mpg type type #		zoom 1.5 center d 0.5 0.5 0.5
+#dump_modify	3 pad 5 adiam 1 5.0 adiam 2 1.5
+
+thermo_style	custom step temp epair etotal press vol
+thermo		1000
+
+timestep	0.005
+
+run		50000
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 13.5
+  ghost atom cutoff = 13.5
+  binsize = 1.75, bins = 172 172 6
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair colloid, perpetual
+      attributes: half, newton on
+      pair build: half/multi/newton
+      stencil: half/multi/2d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.744 | 5.744 | 5.744 Mbytes
+Step Temp E_pair TotEng Press Volume 
+       0         1.44 -2.2136534e-06    1.4383978  0.014383923        90000 
+    1000    1.9572809 -0.00036743274    1.9547388  0.017982269    98935.161 
+    2000     2.068567 -0.0010518227    2.0652168  0.019466739    96307.439 
+    3000    2.1787472 0.0045846363     2.180911  0.029249545     68560.31 
+    4000    2.1979309 0.0017234058    2.1972121  0.048831814    42699.657 
+    5000    2.1541368 0.0068842503    2.1586276   0.07471981    28571.492 
+    6000     2.111318 0.0024189619    2.1113911  0.091799663     21611.61 
+    7000    2.0789509 0.0060044253    2.0826454   0.11634863    17868.763 
+    8000    2.0628707 0.0058746026    2.0664532   0.12942748     15515.45 
+    9000    2.0582911  0.002183022    2.0581872   0.14641527    13854.751 
+   10000    2.0475486  0.013797459     2.059071   0.17354163    12499.579 
+   11000    2.0462439  0.016807511    2.0607778   0.19263392    11413.353 
+   12000    2.0428938  0.013527442    2.0541513   0.21622557    10529.054 
+   13000    2.0510401 0.0077879588    2.0565492   0.21923009     9751.819 
+   14000    2.0351764  0.021799523    2.0547146   0.24845003    9104.8721 
+   15000    2.0194377  0.033017231    2.0502111   0.28598756      8593.17 
+   16000    2.0366034  0.018172248    2.0525127   0.29813645    8139.2127 
+   17000    2.0186336  0.032519869    2.0489105   0.32451375    7729.1546 
+   18000     2.029239  0.024671379    2.0516557   0.31927046    7357.5833 
+   19000    2.0311955  0.019037324    2.0479759   0.34572164    7046.3292 
+   20000    2.0218333  0.037298514    2.0568853    0.3640607    6770.5141 
+   21000    2.0252373  0.027707568    2.0506946    0.4032417    6541.2695 
+   22000    2.0475066  0.015961218    2.0611928   0.37636279    6297.5752 
+   23000     2.012346  0.043114605    2.0532247   0.43455029    6095.0931 
+   24000    2.0218181   0.03832175    2.0578934   0.50619904    5892.1485 
+   25000     2.017938  0.043236955    2.0589328   0.49891342    5710.9068 
+   26000     2.018125  0.037005925    2.0528886   0.47620684    5600.2094 
+   27000    2.0167772  0.039247683     2.053784   0.48420016     5498.071 
+   28000    2.0089441  0.056620558    2.0633325   0.53860711    5342.4499 
+   29000    2.0240174  0.045588952    2.0673574   0.56031619     5182.375 
+   30000     2.002795  0.063996646    2.0645664   0.63365104    5062.2501 
+   31000    2.0235222  0.044349637    2.0656235   0.62810189    4943.6494 
+   32000    2.0211767  0.048789121    2.0677201   0.64428424     4838.935 
+   33000    2.0183212  0.049118479    2.0651971   0.62914042    4757.1129 
+   34000    1.9865851  0.084609231     2.068987   0.75563472    4672.5501 
+   35000    2.0221179  0.050271036    2.0701422   0.67527616    4587.2492 
+   36000    2.0097921  0.059895928     2.067455    0.7411017    4522.2078 
+   37000    2.0133585  0.059904723    2.0710261   0.77102417    4449.4571 
+   38000    1.9956353  0.080027638    2.0734456   0.75859255    4372.3425 
+   39000    2.0108794  0.067520599    2.0761657   0.77378338    4301.0456 
+   40000    1.9841312  0.098779126    2.0807057   0.86357341    4237.7769 
+   41000    2.0106379  0.070153573    2.0785575   0.76248027    4199.2174 
+   42000      2.01415   0.07059221    2.0825042   0.83969573    4141.7659 
+   43000    2.0472175  0.039473161     2.084416   0.81831572    4054.0615 
+   44000    2.0048437   0.08305484     2.085671   0.90013437    4015.3105 
+   45000    1.9869728   0.10222776    2.0869928   0.90713705    3953.7759 
+   46000    1.9978229  0.091489137    2.0870923   0.89949906    3910.1229 
+   47000    2.0280654  0.060312288    2.0861243   0.90620546    3878.9754 
+   48000    2.0215843   0.07316611    2.0925042   0.91222268    3839.4983 
+   49000    2.0351748  0.067804568    2.1007181   0.93749781    3789.1332 
+   50000    2.0251618  0.078127585    2.1010392   0.96547641    3740.4932 
+Loop time of 8.80549 on 1 procs for 50000 steps with 900 atoms
+
+Performance: 2453014.040 tau/day, 5678.273 timesteps/s
+88.4% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 3.0399     | 3.0399     | 3.0399     |   0.0 | 34.52
+Neigh   | 1.2642     | 1.2642     | 1.2642     |   0.0 | 14.36
+Comm    | 0.22357    | 0.22357    | 0.22357    |   0.0 |  2.54
+Output  | 0.42821    | 0.42821    | 0.42821    |   0.0 |  4.86
+Modify  | 3.5853     | 3.5853     | 3.5853     |   0.0 | 40.72
+Other   |            | 0.2643     |            |       |  3.00
+
+Nlocal:    900 ave 900 max 900 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    528 ave 528 max 528 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    6023 ave 6023 max 6023 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 6023
+Ave neighs/atom = 6.69222
+Neighbor list builds = 3091
+Dangerous builds = 0
+
+Please see the log.cite file for references relevant to this simulation
+
+Total wall time: 0:00:08
