@@ -6,48 +6,46 @@ atom_style	sphere
 dimension	2  #gives dimensionality of simulation
 
 # SYSTEM DEFINITION
-lattice		sq 0.01
-region		box block 0 30 0 30 -0.5 0.5
-create_box	2 box
-create_atoms	1 box
+lattice		sq 0.01 #square unit cell with edge length = 0.01
+region		mybox block 0 30 0 30 -0.5 0.5 #changed ID from box to mybox to avoid confusion, gives xi min and max
+create_box	1 mybox #changed ID from box to mybox, uses 1 atom types
+create_atoms	1 box #atoms of type 1 created in region on lattice points
+#N.B 'box' is correct in the line above; it specifies placement on lattic points
 
-set		group all type/fraction 2 0.96 23984
-
-set		type 1 mass 9
-set		type 2 mass 1
+# SIMULATION SETTINGS
+set		type 1 mass 1
 
 velocity	all create 1.44 87287 loop geom
+#all particles are allocated random velocities for T = 1.44. geom is a type of looping
 
 # multi neighbor and comm for efficiency
 
-neighbor	1 multi
-neigh_modify	delay 0
-comm_modify     mode multi
+neighbor	1 multi #This sets parameters for building pairwise neighbor lists
+neigh_modify	delay 0 #No delay on building new neighbour lists
+comm_modify     mode multi #affects inter-processor communication of atom information
 
-# colloid potential
+# pair-wise interaction potential
+#pair_style	none
+pair_style lj/cut 2.5 #cut-off at 2.5
+pair_coeff * * 1 1 #energy, distance units
 
-pair_style	colloid 12.5
-pair_coeff	1 1  1.0 1.0 5.0 5.0 12.5
-pair_coeff	1 2  5.0 1.0 5.0 0.0 7.0
-pair_coeff	2 2 10.0 1.0 0.0 0.0 2.5
 
 fix		1 all npt temp 2.0 2.0 1.0 iso 0.0 1.0 10.0 drag 1.0 &
 	        mtk no pchain 0 tchain 1
-fix		2 all enforce2d
+#Constant n,P,T compression at T = 2, from P = 0 to 1, no mkt adjustment, original thermostat
 
-dump		1 all atom 1000 dump.colloid
+dump		1 all atom 1000 dump.2Dsphere
 
-#dump		2 all image 1000 image.*.jpg type type &
+dump		3 all movie 1000 2Dsphere.mpg type type &
 #		zoom 1.5 center d 0.5 0.5 0.5
-#dump_modify	2 pad 5 adiam 1 5.0 adiam 2 1.5
-
-dump		3 all movie 1000 movie.mpg type type &
-#		zoom 1.5 center d 0.5 0.5 0.5
-#dump_modify	3 pad 5 adiam 1 5.0 adiam 2 1.5
+#dump_modify	3 pad 5 adiam 1 5.0 
 
 thermo_style	custom step temp epair etotal press vol
-thermo		1000
+#output timestep, temperature, pairwise energy, total energy, pressure, volume
+thermo		1000  #output thermodynamic variables every 1000 timesteps
 
 timestep	0.005
+#size of timestep in given time units
 
 run		50000
+#number of timesteps
