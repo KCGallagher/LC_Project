@@ -146,10 +146,3 @@ Total # of neighbors = 5979
 Ave neighs/atom = 6.64333
 Neighbor list builds = 3108
 Dangerous builds = 0
-#number of timesteps
-
-shell copy log.lammps log.2Dsphere
-
-Please see the log.cite file for references relevant to this simulation
-
-Total wall time: 0:00:06

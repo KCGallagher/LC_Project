@@ -49,3 +49,5 @@ timestep	0.005
 
 run		50000
 #number of timesteps
+
+shell copy log.lammps log.2Dsphere      
