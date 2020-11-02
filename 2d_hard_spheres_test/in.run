@@ -30,8 +30,9 @@ pair_style lj/cut 2.5 #cut-off at 2.5
 pair_coeff * * 1 1 #energy, distance units
 
 
-fix		1 all npt temp 2.0 2.0 1.0 iso 0.0 1.0 10.0 drag 1.0 &
-	        mtk no pchain 0 tchain 1
+#fix		1 all npt temp 2.0 2.0 1.0 iso 0.0 1.0 10.0 drag 1.0 &
+#	        mtk no pchain 0 tchain 1   #SHRINKING BOX
+fix 2 all nvt temp 1.44 1.44 1 #CONSTANT SIZE BOX
 #Constant n,P,T compression at T = 2, from P = 0 to 1, no mkt adjustment, original thermostat
 
 dump		1 all atom 1000 dump.2Dsphere
@@ -50,4 +51,5 @@ timestep	0.005
 run		50000
 #number of timesteps
 
-shell copy log.lammps log.2Dsphere      
+shell copy log.lammps log.2Dsphere   
+shell py energy_plot.py   

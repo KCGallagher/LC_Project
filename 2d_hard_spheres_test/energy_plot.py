@@ -14,7 +14,7 @@ print(start_line, end_line, last_line)
 data_file.close()
 
 """So it appears that each line is deleted from this as it is read. I have no idea why this is, but 
-until I manage to fix that issue, I will close and reopen the file at this point"""
+until I manage to fix that issue, I will close and reopen the file if necessary at this point"""
 
 data = np.genfromtxt(
     fname=file_name,
