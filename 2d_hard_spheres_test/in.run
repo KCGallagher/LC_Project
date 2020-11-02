@@ -51,5 +51,5 @@ timestep	0.005
 run		50000
 #number of timesteps
 
-shell copy log.lammps log.2Dsphere   
-shell py energy_plot.py   
+shell copy log.lammps log.2Dsphere   #copy log file to recognisable name
+shell py energy_plot.py   #runs the energy_plot.py code
