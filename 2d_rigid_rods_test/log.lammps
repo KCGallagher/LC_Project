@@ -1,0 +1,20 @@
+LAMMPS (3 Mar 2020)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
+  using 1 OpenMP thread(s) per MPI task
+# My test script
+
+# INITIALISATION
+units		lj
+atom_style	bond
+dimension	2  #gives dimensionality of simulation
+
+# SYSTEM DEFINITION
+lattice		sq 0.01 #square unit cell with edge length = 0.01
+Lattice spacing in x,y,z = 10 10 10
+region		mybox block 0 30 0 30 -0.5 0.5 #changed ID from box to mybox to avoid confusion, gives xi min and max
+create_box	1 mybox #changed ID from box to mybox, uses 1 atom types
+Created orthogonal box = (0 0 -5) to (300 300 5)
+  1 by 1 by 1 MPI processor grid
+molecule 1 rod_molecule.txt
+ERROR on proc 0: Invalid bond type in Bonds section of molecule file (../molecule.cpp:781)
+Last command: molecule 1 rod_molecule.txt

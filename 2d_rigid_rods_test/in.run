@@ -1,0 +1,56 @@
+# My test script
+
+# INITIALISATION
+units		lj 
+atom_style	bond
+dimension	2  #gives dimensionality of simulation
+
+# SYSTEM DEFINITION
+lattice		sq 0.01 #square unit cell with edge length = 0.01
+region		mybox block 0 30 0 30 -0.5 0.5 #changed ID from box to mybox to avoid confusion, gives xi min and max
+create_box	1 mybox #changed ID from box to mybox, uses 1 atom types
+molecule 1 rod_molecule.txt
+create_atoms	1 box mol 1#atoms of type 1 created in region on lattice points
+#N.B 'box' is correct in the line above; it specifies placement on lattic points
+
+# SIMULATION SETTINGS
+set		type 1 mass 1
+
+velocity	all create 1.44 87287 loop geom
+#all particles are allocated random velocities for T = 1.44. geom is a type of looping
+
+# multi neighbor and comm for efficiency
+
+neighbor	1 multi #This sets parameters for building pairwise neighbor lists
+neigh_modify	delay 0 #No delay on building new neighbour lists
+comm_modify     mode multi #affects inter-processor communication of atom information
+
+# pair-wise interaction potential
+#pair_style	none
+pair_style lj/cut 2.5 #cut-off at 2.5
+pair_coeff * * 1 1 #energy, distance units
+
+
+#fix		1 all npt temp 2.0 2.0 1.0 iso 0.0 1.0 10.0 drag 1.0 &
+#	        mtk no pchain 0 tchain 1   #SHRINKING BOX
+fix 2 all nvt temp 1.44 1.44 1 #CONSTANT SIZE BOX
+#Constant n,P,T compression at T = 2, from P = 0 to 1, no mkt adjustment, original thermostat
+
+dump		1 all atom 1000 dump.2Dsphere
+
+dump		3 all movie 1000 2Dsphere.mpg type type &
+#		zoom 1.5 center d 0.5 0.5 0.5
+#dump_modify	3 pad 5 adiam 1 5.0 
+
+thermo_style	custom step temp epair etotal press vol
+#output timestep, temperature, pairwise energy, total energy, pressure, volume
+thermo		1000  #output thermodynamic variables every 1000 timesteps
+
+timestep	0.005
+#size of timestep in given time units
+
+run		50000
+#number of timesteps
+
+shell copy log.lammps log.2Dsphere   #copy log file to recognisable name
+shell py energy_plot.py   #runs the energy_plot.py code
