@@ -12,9 +12,9 @@ LAMMPS nunchunk data file
 0  dihedral types 
 0  improper types 
 
--5.000000 5.000000 xlo xhi  
--5.000000 5.000000 ylo yhi  
--5.000000 5.000000 zlo zhi  
+-10.000000 10.000000 xlo xhi  
+-10.000000 10.000000 ylo yhi  
+-10.000000 10.000000 zlo zhi  
 
 Masses
 

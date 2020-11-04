@@ -1,14 +1,12 @@
-#
-#
 # VARIABLES  
 variable T         equal  0.50 #0.10 0.36 0.70    
 variable num       equal  1 
 variable N         equal  100 #200 # 250 300 350 
 variable box       equal  50 
 variable t_step    equal  0.005 
-variable mix_steps equal  200000 
+variable mix_steps equal  20000
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  200000
+variable run_steps equal  20000
 variable run_tau   equal  ${t_step}*${run_steps} 
 
 # PARAMETERS    
@@ -49,13 +47,8 @@ thermo_modify norm no
 reset_timestep 0
 
 # FIX
-fix 2 all nph iso 0.5 0.5 100
-fix 3 all langevin 0.5 0.5 1 123456
-#run 50000
-
-#unfix 3
-#fix 4 all nve 
-#fix 5 all langevin ${T} ${T} 1 123456 
+fix 2 all nve 
+fix 3 all langevin ${T} ${T} 1 123456 
 fix recen1 all recenter INIT INIT INIT
 
 
