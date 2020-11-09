@@ -3,8 +3,8 @@
 # VARIABLES  
 variable T         equal  0.50 #0.10 0.36 0.70    
 variable num       equal  1 
-variable N         equal  100 #200 # 250 300 350 
-variable box       equal  50 
+variable N         equal  1 #200 # 250 300 350 
+variable box       equal  10 
 variable t_step    equal  0.005 
 variable mix_steps equal  200000 
 variable mix_tau   equal  ${t_step}*${mix_steps} 
@@ -17,6 +17,9 @@ atom_style molecular
 neighbor 0.4 bin
 neigh_modify every 1 delay 1 check yes
 comm_modify vel yes
+comm_modify cutoff 1.9 
+#KG added to remove "Communication cutoff 1.52 is shorter than a bond length 
+#based estimate of 1.87. This may lead to errors" warning.
 
 # READ  
 read_data input_data_nunchucks_${N}_${box}.file
