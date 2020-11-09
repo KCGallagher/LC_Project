@@ -3,8 +3,8 @@
 # VARIABLES  
 variable T         equal  0.50 #0.10 0.36 0.70    
 variable num       equal  1 
-variable N         equal  1000 #200 # 250 300 350 
-variable box       equal  100.0 
+variable N         equal  1 #200 # 250 300 350 
+variable box       equal  50 
 variable t_step    equal  0.005 
 variable mix_steps equal  50000 
 variable mix_tau   equal  ${t_step}*${mix_steps} 
