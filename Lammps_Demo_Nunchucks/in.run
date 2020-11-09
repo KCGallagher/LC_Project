@@ -3,12 +3,12 @@
 # VARIABLES  
 variable T         equal  0.50 #0.10 0.36 0.70    
 variable num       equal  1 
-variable N         equal  1 #200 # 250 300 350 
-variable box       equal  10 
+variable N         equal  20 #200 # 250 300 350 
+variable box       equal  50 
 variable t_step    equal  0.005 
-variable mix_steps equal  200000 
+variable mix_steps equal  50000 
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  200000
+variable run_steps equal  50000
 variable run_tau   equal  ${t_step}*${run_steps} 
 
 # PARAMETERS    
@@ -72,8 +72,9 @@ dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
 run ${run_steps}
 
 # SHELL
-shell cp output.dump        output_T_${T}_N_${N}_box_${box}_run_${run_tau}_tau_num_${num}.dump
-shell touch T_${T}.done
+shell copy output.dump        output_T_${T}_N_${N}_box_${box}_run_${run_tau}_tau_num_${num}.dump
+shell echo> T_${T}.done
+#shell commands modified for use in windows
 
 #clear
 #next T
