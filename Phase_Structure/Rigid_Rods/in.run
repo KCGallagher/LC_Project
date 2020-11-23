@@ -1,0 +1,70 @@
+# VARIABLES  
+variable T         equal  0.50 #0.10 0.36 0.70  #Can loop over this variable   
+variable num       equal  1 
+variable N         equal  1 #200 # 250 300 350 
+variable box       equal  50 # cubic box of volume 10**3
+variable t_step    equal  0.005 
+variable mix_steps equal  50000 
+variable mix_tau   equal  ${t_step}*${mix_steps} 
+variable run_steps equal  20000 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
+
+
+# PARAMETERS    
+units lj
+atom_style molecular
+neighbor 0.4 bin
+neigh_modify every 1 delay 1 check yes
+comm_modify vel yes
+comm_modify cutoff 1.9 
+#KG added to remove "Communication cutoff 1.52 is shorter than a bond length 
+#based estimate of 1.87. This may lead to errors" warning.
+
+# READ  
+read_data input_data_nunchucks_${N}_${box}.file 
+
+#  BONDS 
+bond_style harmonic
+special_bonds lj 0 1 1
+bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond types.   
+
+# ANGLES  
+angle_style harmonic
+angle_coeff * 500.0  180
+
+# PAIR lj/cut --with interactions, to steady state
+pair_style lj/cut 1.0
+pair_modify shift yes
+pair_coeff * * 1  1.0  1.12
+
+# THERMAL   
+timestep ${t_step}
+thermo   100 
+thermo_style custom step time temp press pe ke etotal vol
+thermo_modify norm no
+reset_timestep 0
+
+# FIX
+fix 2 all nve 
+fix 3 all langevin ${T} ${T} 1 123456 
+fix recen1 all recenter INIT INIT INIT
+
+
+# DUMP OUTPUT 
+dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
+dump_modify 1 sort id
+
+
+# RUN
+run ${run_steps}
+
+# SHELL
+shell copy output.dump        output_T_${T}_box_${box}_run_${run_tau}.dump
+shell echo> T_${T}.done
+#shell commands modified for use in windows
+
+#This section  of codes allows looping over the list of T values
+#clear
+#next T
+#jump in.run
+
