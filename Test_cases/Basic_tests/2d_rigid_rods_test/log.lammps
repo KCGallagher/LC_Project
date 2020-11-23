@@ -40,8 +40,8 @@ WARNING: Atom style in data file differs from currently defined atom style (../r
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.012521 secs
-  read_data CPU = 0.034992 secs
+  special bonds CPU = 0.00598407 secs
+  read_data CPU = 0.037832 secs
 
 #  BONDS
 bond_style harmonic
@@ -50,7 +50,7 @@ special_bonds lj 0 1 1
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.0107498 secs
+  special bonds CPU = 0.00787401 secs
 bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond types.
 
 # ANGLES
@@ -300,21 +300,21 @@ Step Time Temp Press PotEng KinEng TotEng Volume
    19800           99   0.70973957 -0.00034529986    4.1580167    9.5814841    13.739501         8000 
    19900         99.5   0.79396722 -0.0003230155    7.3786929    10.718557     18.09725         8000 
    20000          100   0.52208638 0.00062435438    8.7612417    7.0481661    15.809408         8000 
-Loop time of 0.838388 on 1 procs for 20000 steps with 10 atoms
+Loop time of 1.27808 on 1 procs for 20000 steps with 10 atoms
 
-Performance: 10305491.430 tau/day, 23855.304 timesteps/s
-13.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 6760155.414 tau/day, 15648.508 timesteps/s
+11.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 0.0032859  | 0.0032859  | 0.0032859  |   0.0 |  0.39
-Bond    | 0.026304   | 0.026304   | 0.026304   |   0.0 |  3.14
-Neigh   | 0.013017   | 0.013017   | 0.013017   |   0.0 |  1.55
-Comm    | 0.0059206  | 0.0059206  | 0.0059206  |   0.0 |  0.71
-Output  | 0.73425    | 0.73425    | 0.73425    |   0.0 | 87.58
-Modify  | 0.025479   | 0.025479   | 0.025479   |   0.0 |  3.04
-Other   |            | 0.03013    |            |       |  3.59
+Pair    | 0.0050709  | 0.0050709  | 0.0050709  |   0.0 |  0.40
+Bond    | 0.0283     | 0.0283     | 0.0283     |   0.0 |  2.21
+Neigh   | 0.014616   | 0.014616   | 0.014616   |   0.0 |  1.14
+Comm    | 0.0086217  | 0.0086217  | 0.0086217  |   0.0 |  0.67
+Output  | 1.1569     | 1.1569     | 1.1569     |   0.0 | 90.52
+Modify  | 0.034601   | 0.034601   | 0.034601   |   0.0 |  2.71
+Other   |            | 0.03       |            |       |  2.35
 
 Nlocal:    10 ave 10 max 10 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
