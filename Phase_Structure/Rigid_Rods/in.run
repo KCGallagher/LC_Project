@@ -27,6 +27,7 @@ read_data input_data_nunchucks_${N}_${box}.file
 bond_style harmonic
 special_bonds lj 0 1 1
 bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond types.   
+#0.98 is the distance between ball centres
 
 # ANGLES  
 angle_style harmonic
@@ -36,6 +37,7 @@ angle_coeff * 500.0  180
 pair_style lj/cut 1.0
 pair_modify shift yes
 pair_coeff * * 1  1.0  1.12
+#1.12 is cut-off for potential
 
 # THERMAL   
 timestep ${t_step}

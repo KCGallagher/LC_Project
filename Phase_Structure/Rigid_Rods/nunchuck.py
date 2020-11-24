@@ -30,7 +30,9 @@ import math
 import numpy as np
 from numpy import linalg as LA
 from random import random
-import quaternion
+
+# import quaternion
+from pyquaternion import Quaternion
 
 # unchanged parameters for the beads:
 mass = 1.0
@@ -56,7 +58,7 @@ def within_box(ghost, box_lim):
 
 def perform_rand_rot(ghost):
     new_ghost = np.zeros((10, 3))
-    ran_rot = Quaternion.random()
+    ran_rot = Quaternion.random()  # K changes Q to q
     for i in range(10):
         new_ghost[i] = ran_rot.rotate(ghost[i])
     return new_ghost
@@ -93,7 +95,7 @@ def gen_ghost(box_limit, dist):
         ghost[i] = ghost[0]
         ghost[i][2] += i * dist
     # preform random rotation
-    ran_rot = Quaternion.random()
+    ran_rot = Quaternion.random()  # K changes Q to q
     for i in range(10):
         ghost[i] = ran_rot.rotate(ghost[i])
     # preform random displacement
