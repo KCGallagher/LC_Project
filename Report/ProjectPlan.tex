@@ -1,0 +1,66 @@
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+
+\documentclass[11pt, a4paper]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column) Use additional titlepage argument to generate this
+%\documentclass[12pt, a4paper,twocolumn,titlepage]{article}
+
+\input{structure.tex} % Specifies the document structure and loads requires packages
+\graphicspath{{"/Users/kit gallagher/Documents/Research Review/Report/Figures"}}
+\newcommand*{\subscript}[1]{\ensuremath{_\textrm{{\scriptsize #1}}}}
+
+%	ARTICLE INFORMATION
+
+\title{Simulating Liquid Crystals}
+
+%\author{
+	%\authorstyle{Christopher Gallagher}}
+\author{\authorstyle{Kit Gallagher} 
+	%\institution{University of Cambridge \\
+	\institution{Supervisors: Prof Erika Eiser, Mr Jiaming Yu}}
+% Example of a one line author/institution relationship
+%\author{\newauthor{John Marston} \newinstitution{Universidad Nacional Autónoma de México, Mexico City, Mexico}}
+
+\date{\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
+\usepackage[english]{babel}
+\usepackage{tabularx}
+%\usepackage[backend=biber,doi=false]{biblatex}
+\addbibresource{reportreferences.bib}
+\AtBeginBibliography{\small}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+\maketitle % Print the title
+
+\thispagestyle{firstpage} % Apply the page style for the first page (no headers and footers)
+
+%	ABSTRACT
+
+\lettrineabstract{The programmability of DNA allows us to design anisotropic nano-particles such as rods, triangles and many other shapes. Such anisotropy is a pre-requisite to form liquid crystalline structures. The exciting part is that because we can now make new shapes we expect to obtain completely new liquid crystalline symmetries. Based on oxDNA, a semi-coarse-grained, freely available simulation package that can provide the topological and stability criteria of any DNA nano-particle, the Eiser group developed a more coarse-grained model to simulate large numbers of these mesogens such that their phase-behavior can be studied.} 
+
+%	ARTICLE CONTENTS
+\section{Introduction}
+
+In his project the student will use a cours-grained model, based on LAMMPS \cite{Xing2019}, to study the phase behaviour of ‘nunchuks’, which are two hard rods connected via a flexible linker, such that they can vary their configuration from fully stretched to folded.  Such systems are expected to form smectic (layered) phases at high volume fractions.
+
+%\clearpage
+\printbibliography
+
+\end{document}
+
+%Consider whether you want greater use of T1 and S1 to label states in the document
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wenneker Article
+% LaTeX Template
+% Version 2.0 (28/2/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Vel (vel@LaTeXTemplates.com)
+% Frits Wenneker
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

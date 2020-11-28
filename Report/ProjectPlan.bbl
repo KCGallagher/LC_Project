@@ -1,0 +1,79 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{Xing2019}{article}{}
+      \name{author}{4}{}{%
+        {{hash=5a6cdb5b693d7adc8934a28e4e3f68f6}{%
+           family={Xing},
+           familyi={X\bibinitperiod},
+           given={Zhongyang},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=8d6d2e7b5a61a18c085c6bb6f04e03ec}{%
+           family={Ness},
+           familyi={N\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+        {{hash=7191fa8dca47b12000be59cbab02be45}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=8b27215bcd70aa0401e6760573438192}{%
+           family={Eiser},
+           familyi={E\bibinitperiod},
+           given={Erika},
+           giveni={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Chemical Society ({ACS})}%
+      }
+      \strng{namehash}{2dd7bfa63a41085330f84fc10ed86081}
+      \strng{fullhash}{1151e7bcf9f86064acff9ffc4958b0ff}
+      \strng{bibnamehash}{1151e7bcf9f86064acff9ffc4958b0ff}
+      \strng{authorbibnamehash}{1151e7bcf9f86064acff9ffc4958b0ff}
+      \strng{authornamehash}{2dd7bfa63a41085330f84fc10ed86081}
+      \strng{authorfullhash}{1151e7bcf9f86064acff9ffc4958b0ff}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Macromolecules}
+      \field{month}{1}
+      \field{number}{2}
+      \field{title}{Structural and Linear Elastic Properties of {DNA} Hydrogels by Coarse-Grained Simulation}
+      \field{volume}{52}
+      \field{year}{2019}
+      \field{pages}{504\bibrangedash 512}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1021/acs.macromol.8b01948
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.macromol.8b01948
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.macromol.8b01948
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

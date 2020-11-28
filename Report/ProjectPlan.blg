@@ -1,0 +1,17 @@
+[0] Config.pm:304> INFO - This is Biber 2.14
+[0] Config.pm:307> INFO - Logfile is 'ProjectPlan.blg'
+[130] biber-MSWIN64:322> INFO - === 
+[160] Biber.pm:415> INFO - Reading 'ProjectPlan.bcf'
+[374] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
+[404] Biber.pm:4256> INFO - Processing section 0
+[404] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
+[421] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
+[442] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
+[447] bibtex.pm:1653> INFO - LaTeX decoding ...
+[457] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
+[508] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[508] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[509] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[509] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[520] bbl.pm:652> INFO - Writing 'ProjectPlan.bbl' with encoding 'UTF-8'
+[522] bbl.pm:755> INFO - Output to ProjectPlan.bbl
