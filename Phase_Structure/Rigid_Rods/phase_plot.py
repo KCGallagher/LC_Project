@@ -1,6 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+loop_var_name = "mix_steps"
+
 file_name = "log.lammps"
 start_lines = []
 end_lines = []
@@ -12,11 +14,13 @@ blank_lines_count = 0
 for i, line in enumerate(data_file):
     if line.isspace():
         blank_lines_count += 1  # running count of num of blank lines
-    if "variable T" in line:  # to extract independant variable values of N (or T etc)
-        N_Values = []
+    if (
+        "variable " + loop_var_name in line
+    ):  # to extract independant variable values of N (or T etc)
+        index_values = []
         for t in line.split():  # separate by whitespace
             try:
-                N_Values.append(float(t))
+                index_values.append(float(t))
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
@@ -27,6 +31,12 @@ for i, line in enumerate(data_file):
         blank_lines.append(
             blank_lines_count
         )  # end of final data readout without blank lines
+
+if not 2 * len(index_values) == len(start_lines):
+    print(
+        "Warning: Number of loop variable values does not match the number of equillibrium runs. "
+        + "Check whether you are reading in the correct loop variable in line 16"
+    )
 
 last_line = i  # last line number in file
 tot_blank_lines = blank_lines_count  # total blank lines in file
@@ -55,7 +65,6 @@ for i in range(1, len(start_lines), 2):
     j = int(
         (i - 1) / 2
     )  # giving range from 0 upwards in integer steps to compare to N_list
-    print(i)
     data = np.genfromtxt(
         fname=file_name,
         names=True,
@@ -65,8 +74,12 @@ for i in range(1, len(start_lines), 2):
     )
     # print(start_lines[i], last_line - end_lines[i])
     # print(data)
-    plt.plot(data["Step"], data["Press"], label="NT= " + str(N_Values[j]))
-    final_values[0, j] = N_Values[j]
+    plt.plot(
+        data["Step"] - np.min(data["Step"]),  # so time starts from zero
+        data["Press"],
+        label=loop_var_name + "= " + str(index_values[j]),
+    )
+    final_values[0, j] = index_values[j]
     final_values[1, j] = np.mean(data["Press"])
     final_values[2, j] = np.mean(data["PotEng"])
 
@@ -74,21 +87,21 @@ print(data.dtype.names)
 
 plt.xlabel("Time Step")
 plt.ylabel("Natural Units")
-plt.title("Evolution of Thermodynamic Variables at different T")
+plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
 plt.legend()
 plt.show()
 
 plt.plot(
-    N_Values,
+    index_values,
     final_values[1, :] / np.amax(final_values[1, :]),
     label="Normalised Pressure",
 )
 plt.plot(
-    N_Values,
+    index_values,
     final_values[2, :] / np.amax(final_values[2, :]),
     label="Normalised Internal energy",
 )
-plt.xlabel("Value of T")
+plt.xlabel("Value of " + loop_var_name)
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
 plt.show()
