@@ -16,11 +16,18 @@ for i, line in enumerate(data_file):
         blank_lines_count += 1  # running count of num of blank lines
     if (
         "variable " + loop_var_name in line
-    ):  # to extract independant variable values of N (or T etc)
-        index_values = []
+    ):  # to extract independant variable values of loop variable
+        loop_var_values = []
         for t in line.split():  # separate by whitespace
             try:
-                index_values.append(float(t))
+                loop_var_values.append(float(t))
+            except ValueError:
+                pass  # any non-floats in this line are ignored
+    if "variable N" in line:  # to extract independant variable value of N
+        loop_var_values = []
+        for t in line.split():  # separate by whitespace
+            try:
+                N = float(t)
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
@@ -32,7 +39,7 @@ for i, line in enumerate(data_file):
             blank_lines_count
         )  # end of final data readout without blank lines
 
-if not 2 * len(index_values) == len(start_lines):
+if not 2 * len(loop_var_values) == len(start_lines):
     print(
         "Warning: Number of loop variable values does not match the number of equillibrium runs. "
         + "Check whether you are reading in the correct loop variable in line 16"
@@ -57,7 +64,9 @@ data_file.close()
 """So it appears that each line is deleted from this as it is read. I have no idea why this is, but 
 until I manage to fix that issue, I will close and reopen the file if necessary at this point"""
 
-final_values = np.zeros((3, int(len(start_lines) / 2)))  # in form Temp/Press/PotEng
+final_values = np.zeros(
+    (4, int(len(start_lines) / 2))
+)  # in form Temp/Press/PotEng/Volume
 # These are the values at equillibrium. Currently output as mean values
 
 for i in range(1, len(start_lines), 2):
@@ -77,32 +86,43 @@ for i in range(1, len(start_lines), 2):
     plt.plot(
         data["Step"] - np.min(data["Step"]),  # so time starts from zero
         data["Press"],
-        label=loop_var_name + "= " + str(index_values[j]),
+        label=loop_var_name + "= " + str(loop_var_values[j]),
     )
-    final_values[0, j] = index_values[j]
+    final_values[0, j] = loop_var_values[j]
     final_values[1, j] = np.mean(data["Press"])
     final_values[2, j] = np.mean(data["PotEng"])
+    final_values[3, j] = np.mean(data["Volume"])
+
+vol_frac = np.reciprocal(final_values[3, :]) * (10 * N * (np.pi / 4))
+print("Volume Fractions: " + str(vol_frac))
 
 print(data.dtype.names)
 
 plt.xlabel("Time Step")
-plt.ylabel("Natural Units")
+plt.ylabel("Pressure (Natural Units)")
 plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
 plt.legend()
 plt.show()
 
 plt.plot(
-    index_values,
+    vol_frac,  # loop_var_values,
     final_values[1, :] / np.amax(final_values[1, :]),
     label="Normalised Pressure",
+    linestyle="",
+    marker="x",
 )
 plt.plot(
-    index_values,
+    vol_frac,  # loop_var_values,
     final_values[2, :] / np.amax(final_values[2, :]),
     label="Normalised Internal energy",
+    linestyle="",
+    marker="o",
 )
-plt.xlabel("Value of " + loop_var_name)
+# plt.xlabel("Value of " + loop_var_name)
+plt.xlabel("Volume Fraction")
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
+plt.title("Phase Plot for 1000 Rigid Rods")
+plt.savefig("phaseplot_frac.png")
 plt.show()
 

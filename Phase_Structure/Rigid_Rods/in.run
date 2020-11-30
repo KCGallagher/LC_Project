@@ -1,10 +1,10 @@
 # VARIABLES  
 variable T         equal  0.5 # 0.1 0.36 0.70  #Can loop over this variable   
 variable num       equal  1 #labelling results only
-variable N         equal  1
-variable box       equal  50 # cubic box of volume 10**3
-variable t_step    equal  0.005 
-variable mix_steps index  1000 5000 
+variable N         equal  1000
+variable box       equal  100 # cubic box of volume 'box'
+variable t_step    equal  0.01 #originally 0.005
+variable mix_steps index  50000 100000 150000 200000 250000 300000
 variable mix_tau   equal  ${t_step}*${mix_steps} 
 variable run_steps equal  5000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
