@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  28 NOV 2020 13:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  29 NOV 2020 22:59
 entering extended mode
 **./ProjectPlan.tex
 (ProjectPlan.tex
@@ -1074,7 +1074,7 @@ Package biblatex Info: ... file 'biblatex.cfg' found.
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.c
 fg"
 File: biblatex.cfg 
-)))
+))
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/csquotes\csquotes.s
 ty"
 Package: csquotes 2019-12-06 v5.2j context-sensitive quotations (JAW)
@@ -1098,7 +1098,7 @@ fg"
 File: csquotes.cfg 
 )
 Package csquotes Info: Enabling multilingual quotes.
-)
+))
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\tabularx.sty"
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.sty"
@@ -1120,7 +1120,7 @@ Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \TX@ftn=\toks38
 )
 LaTeX Font Info:    Trying to load font information for T1+XCharter-TLF on inpu
-t line 29.
+t line 30.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\t1xcharter
 -tlf.fd"
@@ -1128,7 +1128,7 @@ File: T1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for T1/XCharter-
 TLF.
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 29.
+(Font)              scaled to size 10.95pt on input line 30.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 
@@ -1140,43 +1140,43 @@ File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
 ) (ProjectPlan.aux)
 \openout1 = `ProjectPlan.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 29.
-LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 2
-9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 30.
+LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 3
+0.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/cyrillic\t2acmr.fd"
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 29.
-LaTeX Font Info:    Trying to load font information for LY1+ptm on input line 2
-9.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 30.
+LaTeX Font Info:    Trying to load font information for LY1+ptm on input line 3
+0.
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ly1\ly1ptm.fd"
 File: ly1ptm.fd 2001/02/01 font definitions for LY1/ptm using Berry names.
 )
-LaTeX Font Info:    ... okay on input line 29.
-LaTeX Info: Redefining \microtypecontext on input line 29.
+LaTeX Font Info:    ... okay on input line 30.
+LaTeX Info: Redefining \microtypecontext on input line 30.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 29.
+LaTeX Info: Redefining \showhyphens on input line 30.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1211,7 +1211,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 29.
+(lastpage)             ! on input line 30.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1290,10 +1290,10 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 8.0pt on input line 75.
 )
-Package biblatex Info: Reference section=0 on input line 29.
-Package biblatex Info: Reference segment=0 on input line 29.
+Package biblatex Info: Reference section=0 on input line 30.
+Package biblatex Info: Reference segment=0 on input line 30.
 LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
-1.
+2.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ot1phv.fd"
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
@@ -1303,70 +1303,136 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 31--31
+Overfull \hbox (17.0pt too wide) in paragraph at lines 32--32
 [][]
  []
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 31.
+(Font)              scaled to size 12.0pt on input line 32.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 31.
+(Font)              scaled to size 9.0pt on input line 32.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 31--31
+Overfull \hbox (17.0pt too wide) in paragraph at lines 32--32
 [][]
  []
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 37.
+(Font)              scaled to size 10.95pt on input line 38.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 32.60931pt on input line 37.
+(Font)              scaled to size 32.60931pt on input line 38.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 47.95464pt on input line 37.
+(Font)              scaled to size 47.95464pt on input line 38.
 Package lettrine.sty Info: Targeted height = 32.60931pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 32.60916pt (\color {NavyBlue}{T});
 
-(lettrine.sty)             reported on input line 37.
+(lettrine.sty)             reported on input line 38.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 37.
+(Font)              scaled to size 10.95pt on input line 38.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 40.
+(Font)              scaled to size 14.4pt on input line 44.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 40.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 45.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 45.
+(Font)              scaled to size 14.4pt on input line 44.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 45.
-
-AED: lastpage setting LastPage
+(Font)              scaled to size 12.0pt on input line 55.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.95pt on input line 56.
 [1
 
 {C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(ProjectPlan.aux)
+LaTeX Font Info:    Trying to load font information for TS1+XCharter-TLF on inp
+ut line 61.
+
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\ts1xcharte
+r-tlf.fd"
+File: TS1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for TS1/XCharte
+r-TLF.
+)
+LaTeX Font Info:    Font shape `TS1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 10.95pt on input line 61.
+Package microtype Info: Character `textlbrackdbl ' is missing
+(microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+Package microtype Info: Character `textrbrackdbl ' is missing
+(microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+Package microtype Info: Character `texttildelow ' is missing
+(microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
+(microtype)             Ignoring protrusion settings for this character.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 6.0pt on input line 66.
+<Figures/lc_phases_cropped.jpg, id=9, 259.7203pt x 92.59593pt>
+File: Figures/lc_phases_cropped.jpg Graphic file (type jpg)
+<use Figures/lc_phases_cropped.jpg>
+Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 70.
+(pdftex.def)             Requested size: 338.58632pt x 120.71376pt.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 10.0pt on input line 71.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 71.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 71.
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+Make it at least 13.59999pt.
+We now make it that large for the rest of the document.
+This may cause the page layout to be inconsistent, however.
+
+[2 <./Figures/lc_phases_cropped.jpg>] [3]
+<Figures/nunchucks_combined.png, id=20, 1137.24875pt x 551.05875pt>
+File: Figures/nunchucks_combined.png Graphic file (type png)
+<use Figures/nunchucks_combined.png>
+Package pdftex.def Info: Figures/nunchucks_combined.png  used on input line 124
+.
+(pdftex.def)             Requested size: 338.58632pt x 164.06602pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4] [5 <./Figures/nunchucks_combined.png>]
+Overfull \hbox (8.28204pt too wide) in paragraph at lines 167--167
+[]|\T1/XCharter-TLF/m/n/10.95 (-20) Approved:| 
+ []
+
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 7.0pt on input line 174.
+[6]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ 
+AED: lastpage setting LastPage
+[7] (ProjectPlan.aux)
 Package logreq Info: Writing requests to 'ProjectPlan.run.xml'.
 \openout1 = `ProjectPlan.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17508 strings out of 481565
- 303929 string characters out of 2914627
- 983283 words of memory out of 3000000
- 32409 multiletter control sequences out of 15000+200000
- 633371 words of font info for 101 fonts, out of 3000000 for 9000
+ 17886 strings out of 481565
+ 314792 string characters out of 2914627
+ 995391 words of memory out of 3000000
+ 32580 multiletter control sequences out of 15000+200000
+ 683594 words of font info for 241 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,11n,54p,1138b,1712s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xcharter/xch
-_uy5hgr.enc}{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/ba
-se/8r.enc}<C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/x
-charter/XCharter-Bold.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/xcharter/XCharter-Roman.pfb><C:/Users/KitG/AppData/Local/Program
-s/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/P
-rograms/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectPlan.pdf (1 page, 127753 bytes).
+ 47i,11n,77p,1138b,1717s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\e
+ctt1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xch
+arter/xch_q7u3cc.enc}{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc
+/dvips/xcharter/xch_uy5hgr.enc}{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9
+/fonts/enc/dvips/base/8r.enc}<C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/f
+onts/type1/public/xcharter/XCharter-Bold.pfb><C:/Users/KitG/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/public/xcharter/XCharter-Italic.pfb><C:/Users/KitG/A
+ppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/xcharter/XCharter-Roman.pfb
+><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmr10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/
+type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on ProjectPlan.pdf (7 pages, 533211 bytes).
 PDF statistics:
- 24 PDF objects out of 1000 (max. 8388607)
+ 93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 25601 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 38923 words of extra memory for PDF output out of 42996 (max. 10000000)
 
