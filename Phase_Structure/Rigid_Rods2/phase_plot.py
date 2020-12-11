@@ -39,6 +39,8 @@ for i, line in enumerate(data_file):
             blank_lines_count
         )  # end of final data readout without blank lines
 
+loop_var_values = [5000, 10000, 15000]  # added to match temporarly fix
+
 if not 2 * len(loop_var_values) == len(start_lines):
     print(
         "Warning: Number of loop variable values does not match the number of equillibrium runs. "
@@ -122,7 +124,7 @@ plt.plot(
 plt.xlabel("Volume Fraction")
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
-plt.title("Phase Plot for 1000 Rigid Rods")
+plt.title("Phase Plot for " + str(N) + " Rigid Rods")
 plt.savefig("phaseplot_frac.png")
 plt.show()
 
