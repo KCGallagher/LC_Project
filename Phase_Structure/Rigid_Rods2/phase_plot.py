@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-loop_var_name = "mix_steps"
+loop_var_name = "mix_steps"  # user defined!
 
 file_name = "log.lammps"
 start_lines = []

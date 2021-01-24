@@ -48,12 +48,10 @@ thermo_style custom step time temp press pe ke etotal vol
 thermo_modify norm no
 # reset_timestep 0
 
-
 # DUMP OUTPUT 
 dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
 dump_modify 1 sort id
 
-label loop #line to loop back to
 
 # FIX
 fix 2 all nph iso 0.5 0.5 100
@@ -76,7 +74,6 @@ shell echo> T_${T}.done
 #shell commands modified for use in windows
 
 #This section  of codes allows looping over the list of T values
-#clear
+clear
 next mix_steps
-jump in.run loop  #jumps back to loop label
-
+jump in.run  #jumps back to start
