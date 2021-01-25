@@ -1,33 +1,35 @@
 #SETUP
 # Runs on the first loop only
-# shell del *.dump     # delete all dump files before first run
+# shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
 shell del restart.time*     # delete all current restart files before first run
-shell lmp_serial -in in.run_setup     # first run of file, generate first restart
+shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
+
+#VARIABLES
+variable N         equal  1000  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable T         equal  0.5 
+variable t_step    equal  0.005 #originally 0.005
+variable mix_steps index  50000 50000 50000 50000 50000
+variable mix_tau   equal  ${t_step}*${mix_steps} 
+variable run_steps equal  200000 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 
 #LOOP START
-label loop
+label loop  #start loop from here
 read_restart restart.time*      
 # this reads in latest restart file, * is wildcard for timestep
 
-#VARIABLES
-variable T         equal  0.5 
-variable t_step    equal  0.01 #originally 0.005
-variable mix_steps index  500 500 500
-variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  500 # steps to run simulation in order to reach steady state
-variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 
 # THERMAL   
 timestep ${t_step}
 thermo   100 
 thermo_style custom step time temp press pe ke etotal vol
 thermo_modify norm no
-reset_timestep 0
 
 
 # DUMP OUTPUT 
-dump  1  all custom 1000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
-dump_modify 1 sort id
+dump  1  all custom 50000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N (1000?) steps
+#dump_modify 1 sort id
 
 # FIX
 fix 2 all nph iso 0.5 0.5 100
@@ -49,3 +51,5 @@ write_restart restart.time*
 clear
 next mix_steps
 jump in.run_loop loop  #jumps back to loop label
+
+shell py phase_plot.py # runs phase analysis
