@@ -1,14 +1,17 @@
 LAMMPS (3 Mar 2020)
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
   using 1 OpenMP thread(s) per MPI task
+#SETUP
+# Runs on the first loop only
+shell del *.dump     # delete all dump files before first run
 shell del restart.time*     # delete all current restart files before first run
 shell lmp_serial -in in.run_setup     # first run of file, generate first restart
-WARNING: Shell command returned with non-zero status (../input.cpp:1364)
 
+#LOOP START
 label loop
-read_restart restart.time*      # reads in latest restart file, * is wildcard for timestep
+read_restart restart.time*
   restoring atom style molecular from restart
-  orthogonal box = (-4.73418 -4.73418 -4.73418) to (4.73418 4.73418 4.73418)
+  orthogonal box = (-5 -5 -5) to (5 5 5)
   1 by 1 by 1 MPI processor grid
   restoring pair style lj/cut from restart
   restoring bond style harmonic from restart
@@ -20,14 +23,12 @@ read_restart restart.time*      # reads in latest restart file, * is wildcard fo
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.004987 secs
-  read_restart CPU = 0.024935 secs
+  special bonds CPU = 0.00498605 secs
+  read_restart CPU = 0.013957 secs
+# this reads in latest restart file, * is wildcard for timestep
 
 #VARIABLES
-variable T         equal  0.5 # 0.1 0.36 0.70  #Can loop over this variable
-variable num       equal  1 #labelling results only
-variable N         equal  1
-variable box       equal  10 # cubic box of volume 'box'
+variable T         equal  0.5
 variable t_step    equal  0.01 #originally 0.005
 variable mix_steps index  500 500 500
 variable mix_tau   equal  ${t_step}*${mix_steps}
@@ -48,7 +49,162 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT
-dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
+dump  1  all custom 1000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 1000 output_T_0.5__time_*.dump id mol type x y z vx vy vz
+dump_modify 1 sort id
+
+# FIX
+fix 2 all nph iso 0.5 0.5 100
+fix 3 all langevin 0.5 0.5 1 123456
+run ${mix_steps}
+run 500
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 1.42
+  ghost atom cutoff = 1.9
+  binsize = 0.71, bins = 15 15 15
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton
+      stencil: half/bin/3d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 7.853 | 7.853 | 7.853 Mbytes
+Step Time Temp Press PotEng KinEng TotEng Volume 
+       0            0            0 -3.2640557e-16 1.8797076e-27            0 1.8797076e-27         1000 
+     100            1   0.52088938 -0.025692841      4.70704    7.0320066    11.739047    993.21401 
+     200            2   0.72066695 0.00070048872    8.3562921    9.7290038    18.085296    973.30921 
+     300            3   0.76788892 0.0017107838    6.2248719      10.3665    16.591372    941.30597 
+     400            4    0.9915698  0.016795197    6.5131454    13.386192    19.899338    899.01617 
+     500            5   0.48296886 0.0092467407    10.022296    6.5200796    16.542376    848.83855 
+Loop time of 0.0388958 on 1 procs for 500 steps with 10 atoms
+
+Performance: 11106584.660 tau/day, 12854.843 timesteps/s
+0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.00099683 | 0.00099683 | 0.00099683 |   0.0 |  2.56
+Bond    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0.018888   | 0.018888   | 0.018888   |   0.0 | 48.56
+Modify  | 0.019011   | 0.019011   | 0.019011   |   0.0 | 48.88
+Other   |            | 0          |            |       |  0.00
+
+Nlocal:    10 ave 10 max 10 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    6 ave 6 max 6 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    0 ave 0 max 0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Ave special neighs/atom = 4.8
+Neighbor list builds = 37
+Dangerous builds = 11
+
+unfix 2
+unfix 3
+fix 4 all nve
+fix 5 all langevin ${T} ${T} 1 123456
+fix 5 all langevin 0.5 ${T} 1 123456
+fix 5 all langevin 0.5 0.5 1 123456
+fix recen1 all recenter INIT INIT INIT
+
+
+# RUN
+run ${run_steps}
+run 500
+Per MPI rank memory allocation (min/avg/max) = 7.853 | 7.853 | 7.853 Mbytes
+Step Time Temp Press PotEng KinEng TotEng Volume 
+     500            5   0.48296886 0.0092467407    10.022296    6.5200796    16.542376    848.83855 
+     600            6   0.69868265 -0.035627046    6.4318751    9.4322157    15.864091    848.83855 
+     700            7   0.63000589  0.023482125    7.9982865    8.5050796    16.503366    848.83855 
+     800            8   0.67066066 0.00037309756    6.5879407    9.0539189     15.64186    848.83855 
+     900            9   0.89950001  0.022073749    5.2446518     12.14325    17.387902    848.83855 
+    1000           10   0.47141395 -0.0023395894    9.0248324    6.3640883    15.388921    848.83855 
+Loop time of 0.0119681 on 1 procs for 500 steps with 10 atoms
+
+Performance: 36095847.006 tau/day, 41777.601 timesteps/s
+0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Bond    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0.010971   | 0.010971   | 0.010971   |   0.0 | 91.67
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.0009971  |            |       |  8.33
+
+Nlocal:    10 ave 10 max 10 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    8 ave 8 max 8 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    0 ave 0 max 0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 0
+Ave neighs/atom = 0
+Ave special neighs/atom = 4.8
+Neighbor list builds = 32
+Dangerous builds = 4
+write_restart restart.time*
+
+#This section  of codes allows looping over the list of T values
+clear
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
+  using 1 OpenMP thread(s) per MPI task
+next mix_steps
+jump in.run_loop loop  #jumps back to loop label
+read_restart restart.time*
+  restoring atom style molecular from restart
+  orthogonal box = (-4.73418 -4.73418 -4.73418) to (4.73418 4.73418 4.73418)
+  1 by 1 by 1 MPI processor grid
+  restoring pair style lj/cut from restart
+  restoring bond style harmonic from restart
+  restoring angle style harmonic from restart
+  10 atoms
+  9 bonds
+  8 angles
+  2 = max # of 1-2 neighbors
+  2 = max # of 1-3 neighbors
+  4 = max # of 1-4 neighbors
+  6 = max # of special neighbors
+  special bonds CPU = 0.00299191 secs
+  read_restart CPU = 0.0129631 secs
+# this reads in latest restart file, * is wildcard for timestep
+
+#VARIABLES
+variable T         equal  0.5
+variable t_step    equal  0.01 #originally 0.005
+variable mix_steps index  500 500 500
+variable mix_tau   equal  ${t_step}*${mix_steps}
+variable mix_tau   equal  0.01*${mix_steps}
+variable mix_tau   equal  0.01*500
+variable run_steps equal  500 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
+variable run_tau   equal  0.01*${run_steps} 
+variable run_tau   equal  0.01*500 
+
+# THERMAL
+timestep ${t_step}
+timestep 0.01
+thermo   100
+thermo_style custom step time temp press pe ke etotal vol
+thermo_modify norm no
+# reset_timestep 0
+
+
+# DUMP OUTPUT
+dump  1  all custom 1000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 1000 output_T_0.5__time_*.dump id mol type x y z vx vy vz
 dump_modify 1 sort id
 
 # FIX
@@ -76,20 +232,20 @@ Step Time Temp Press PotEng KinEng TotEng Volume
     1300            3   0.62511412 -0.0024301346    6.6659712    8.4390406    15.105012    761.93685 
     1400            4    0.8221562  0.035342333    4.6129788    11.099109    15.712087    703.33113 
     1500            5   0.47534619 -0.018234959    7.9104573    6.4171735    14.327631    638.83629 
-Loop time of 0.0408909 on 1 procs for 500 steps with 10 atoms
+Loop time of 0.0428841 on 1 procs for 500 steps with 10 atoms
 
-Performance: 10564689.480 tau/day, 12227.650 timesteps/s
-114.6% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 10073660.987 tau/day, 11659.330 timesteps/s
+36.4% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
 Pair    | 0          | 0          | 0          |   0.0 |  0.00
-Bond    | 0          | 0          | 0          |   0.0 |  0.00
-Neigh   | 0.00099707 | 0.00099707 | 0.00099707 |   0.0 |  2.44
+Bond    | 0.00099778 | 0.00099778 | 0.00099778 |   0.0 |  2.33
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
 Comm    | 0          | 0          | 0          |   0.0 |  0.00
-Output  | 0.01789    | 0.01789    | 0.01789    |   0.0 | 43.75
-Modify  | 0.022004   | 0.022004   | 0.022004   |   0.0 | 53.81
+Output  | 0.020883   | 0.020883   | 0.020883   |   0.0 | 48.70
+Modify  | 0.021003   | 0.021003   | 0.021003   |   0.0 | 48.98
 Other   |            | 0          |            |       |  0.00
 
 Nlocal:    10 ave 10 max 10 min
@@ -125,21 +281,21 @@ Step Time Temp Press PotEng KinEng TotEng Volume
     1800            8    0.5855334 -0.026817514     4.247509    7.9047009     12.15221    638.83629 
     1900            9   0.61798771  0.058809539    7.2628818     8.342834    15.605716    638.83629 
     2000           10   0.54888576 -0.029737619    6.6277066    7.4099577    14.037664    638.83629 
-Loop time of 0.010956 on 1 procs for 500 steps with 10 atoms
+Loop time of 0.0189478 on 1 procs for 500 steps with 10 atoms
 
-Performance: 39430272.844 tau/day, 45636.890 timesteps/s
-0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 22799432.864 tau/day, 26388.232 timesteps/s
+82.5% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
 Pair    | 0          | 0          | 0          |   0.0 |  0.00
 Bond    | 0          | 0          | 0          |   0.0 |  0.00
-Neigh   | 0.00099611 | 0.00099611 | 0.00099611 |   0.0 |  9.09
-Comm    | 0.0019791  | 0.0019791  | 0.0019791  |   0.0 | 18.06
-Output  | 0.0079808  | 0.0079808  | 0.0079808  |   0.0 | 72.84
-Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0          |            |       |  0.00
+Neigh   | 0.0010011  | 0.0010011  | 0.0010011  |   0.0 |  5.28
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0.015954   | 0.015954   | 0.015954   |   0.0 | 84.20
+Modify  | 0.00099587 | 0.00099587 | 0.00099587 |   0.0 |  5.26
+Other   |            | 0.0009971  |            |       |  5.26
 
 Nlocal:    10 ave 10 max 10 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -155,22 +311,13 @@ Neighbor list builds = 26
 Dangerous builds = 0
 write_restart restart.time*
 
-# SHELL
-shell copy output.dump        output_T_${T}_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_5.dump
-shell echo> T_${T}.done
-shell echo> T_0.5.done
-#shell commands modified for use in windows
-
 #This section  of codes allows looping over the list of T values
 clear
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
   using 1 OpenMP thread(s) per MPI task
 next mix_steps
 jump in.run_loop loop  #jumps back to loop label
-read_restart restart.time*      # reads in latest restart file, * is wildcard for timestep
+read_restart restart.time*
   restoring atom style molecular from restart
   orthogonal box = (-4.30626 -4.30626 -4.30626) to (4.30626 4.30626 4.30626)
   1 by 1 by 1 MPI processor grid
@@ -184,14 +331,12 @@ read_restart restart.time*      # reads in latest restart file, * is wildcard fo
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.00299096 secs
-  read_restart CPU = 0.012953 secs
+  special bonds CPU = 0.00298905 secs
+  read_restart CPU = 0.0149229 secs
+# this reads in latest restart file, * is wildcard for timestep
 
 #VARIABLES
-variable T         equal  0.5 # 0.1 0.36 0.70  #Can loop over this variable
-variable num       equal  1 #labelling results only
-variable N         equal  1
-variable box       equal  10 # cubic box of volume 'box'
+variable T         equal  0.5
 variable t_step    equal  0.01 #originally 0.005
 variable mix_steps index  500 500 500
 variable mix_tau   equal  ${t_step}*${mix_steps}
@@ -212,7 +357,8 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT
-dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
+dump  1  all custom 1000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 1000 output_T_0.5__time_*.dump id mol type x y z vx vy vz
 dump_modify 1 sort id
 
 # FIX
@@ -240,20 +386,20 @@ Step Time Temp Press PotEng KinEng TotEng Volume
     2300            3    0.6766256 -0.014974452    8.6328365    9.1344455    17.767282    595.42665 
     2400            4   0.89611619   0.07242633    5.7533029    12.097569    17.850871    564.47329 
     2500            5   0.51462568 -0.034892819    7.1930027    6.9474467    14.140449    528.45341 
-Loop time of 0.038902 on 1 procs for 500 steps with 10 atoms
+Loop time of 0.0378969 on 1 procs for 500 steps with 10 atoms
 
-Performance: 11104814.871 tau/day, 12852.795 timesteps/s
-0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+Performance: 11399357.840 tau/day, 13193.701 timesteps/s
+41.2% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
 Pair    | 0          | 0          | 0          |   0.0 |  0.00
-Bond    | 0.00099802 | 0.00099802 | 0.00099802 |   0.0 |  2.57
-Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Bond    | 0.00099707 | 0.00099707 | 0.00099707 |   0.0 |  2.63
+Neigh   | 0.0010099  | 0.0010099  | 0.0010099  |   0.0 |  2.66
 Comm    | 0          | 0          | 0          |   0.0 |  0.00
-Output  | 0.019916   | 0.019916   | 0.019916   |   0.0 | 51.19
-Modify  | 0.017988   | 0.017988   | 0.017988   |   0.0 | 46.24
+Output  | 0.015893   | 0.015893   | 0.015893   |   0.0 | 41.94
+Modify  | 0.019997   | 0.019997   | 0.019997   |   0.0 | 52.77
 Other   |            | 0          |            |       |  0.00
 
 Nlocal:    10 ave 10 max 10 min
@@ -289,21 +435,21 @@ Step Time Temp Press PotEng KinEng TotEng Volume
     2800            8   0.64176524 -0.0071367817    7.0381874    8.6638307    15.702018    528.45341 
     2900            9   0.80510251  0.064657681    4.8597445    10.868884    15.728628    528.45341 
     3000           10   0.51361224 -0.046366319    6.7173302    6.9337652    13.651095    528.45341 
-Loop time of 0.00698304 on 1 procs for 500 steps with 10 atoms
+Loop time of 0.011966 on 1 procs for 500 steps with 10 atoms
 
-Performance: 61864158.148 tau/day, 71602.035 timesteps/s
+Performance: 36102319.791 tau/day, 41785.092 timesteps/s
 0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
 Pair    | 0          | 0          | 0          |   0.0 |  0.00
-Bond    | 0          | 0          | 0          |   0.0 |  0.00
-Neigh   | 0.00099802 | 0.00099802 | 0.00099802 |   0.0 | 14.29
+Bond    | 0.0010011  | 0.0010011  | 0.0010011  |   0.0 |  8.37
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
 Comm    | 0          | 0          | 0          |   0.0 |  0.00
-Output  | 0.004988   | 0.004988   | 0.004988   |   0.0 | 71.43
+Output  | 0.0099678  | 0.0099678  | 0.0099678  |   0.0 | 83.30
 Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.0009971  |            |       | 14.28
+Other   |            | 0.0009971  |            |       |  8.33
 
 Nlocal:    10 ave 10 max 10 min
 Histogram: 1 0 0 0 0 0 0 0 0 0
@@ -319,183 +465,10 @@ Neighbor list builds = 26
 Dangerous builds = 1
 write_restart restart.time*
 
-# SHELL
-shell copy output.dump        output_T_${T}_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_5.dump
-shell echo> T_${T}.done
-shell echo> T_0.5.done
-#shell commands modified for use in windows
-
 #This section  of codes allows looping over the list of T values
 clear
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
   using 1 OpenMP thread(s) per MPI task
 next mix_steps
 jump in.run_loop loop  #jumps back to loop label
-read_restart restart.time*      # reads in latest restart file, * is wildcard for timestep
-  restoring atom style molecular from restart
-  orthogonal box = (-4.0424 -4.0424 -4.0424) to (4.0424 4.0424 4.0424)
-  1 by 1 by 1 MPI processor grid
-  restoring pair style lj/cut from restart
-  restoring bond style harmonic from restart
-  restoring angle style harmonic from restart
-  10 atoms
-  9 bonds
-  8 angles
-  2 = max # of 1-2 neighbors
-  2 = max # of 1-3 neighbors
-  4 = max # of 1-4 neighbors
-  6 = max # of special neighbors
-  special bonds CPU = 0.013963 secs
-  read_restart CPU = 0.023942 secs
-
-#VARIABLES
-variable T         equal  0.5 # 0.1 0.36 0.70  #Can loop over this variable
-variable num       equal  1 #labelling results only
-variable N         equal  1
-variable box       equal  10 # cubic box of volume 'box'
-variable t_step    equal  0.01 #originally 0.005
-variable mix_steps index  500 500 500
-variable mix_tau   equal  ${t_step}*${mix_steps}
-variable mix_tau   equal  0.01*${mix_steps}
-variable mix_tau   equal  0.01*500
-variable run_steps equal  500 # steps to run simulation in order to reach steady state
-variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
-variable run_tau   equal  0.01*${run_steps} 
-variable run_tau   equal  0.01*500 
-
-# THERMAL
-timestep ${t_step}
-timestep 0.01
-thermo   100
-thermo_style custom step time temp press pe ke etotal vol
-thermo_modify norm no
-# reset_timestep 0
-
-
-# DUMP OUTPUT
-dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
-dump_modify 1 sort id
-
-# FIX
-fix 2 all nph iso 0.5 0.5 100
-fix 3 all langevin 0.5 0.5 1 123456
-run ${mix_steps}
-run 500
-Neighbor list info ...
-  update every 1 steps, delay 10 steps, check yes
-  max neighbors/atom: 2000, page size: 100000
-  master list distance cutoff = 1.42
-  ghost atom cutoff = 1.9
-  binsize = 0.71, bins = 12 12 12
-  1 neighbor lists, perpetual/occasional/extra = 1 0 0
-  (1) pair lj/cut, perpetual
-      attributes: half, newton on
-      pair build: half/bin/newton
-      stencil: half/bin/3d/newton
-      bin: standard
-Per MPI rank memory allocation (min/avg/max) = 7.838 | 7.838 | 7.838 Mbytes
-Step Time Temp Press PotEng KinEng TotEng Volume 
-    3000            0   0.51361224 -0.046366319    6.7173302    6.9337652    13.651095    528.45341 
-    3100            1    0.6978154  0.034151672    5.5598905    9.4205079    14.980398    524.74477 
-    3200            2   0.79482903  0.083704344    8.8579927    10.730192    19.588185    513.77528 
-    3300            3   0.69515695 -0.006906419    6.8652847    9.3846188    16.249904     496.2357 
-    3400            4   0.77432242  0.070358836      4.92055    10.453353    15.373903    473.08758 
-    3500            5   0.50366793   -0.0629624    6.4550554    6.7995171    13.254572     445.9182 
-Loop time of 0.038902 on 1 procs for 500 steps with 10 atoms
-
-Performance: 11104814.871 tau/day, 12852.795 timesteps/s
-40.2% CPU use with 1 MPI tasks x 1 OpenMP threads
-
-MPI task timing breakdown:
-Section |  min time  |  avg time  |  max time  |%varavg| %total
----------------------------------------------------------------
-Pair    | 0          | 0          | 0          |   0.0 |  0.00
-Bond    | 0.00099707 | 0.00099707 | 0.00099707 |   0.0 |  2.56
-Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.00098085 | 0.00098085 | 0.00098085 |   0.0 |  2.52
-Output  | 0.017975   | 0.017975   | 0.017975   |   0.0 | 46.21
-Modify  | 0.017948   | 0.017948   | 0.017948   |   0.0 | 46.14
-Other   |            | 0.001001   |            |       |  2.57
-
-Nlocal:    10 ave 10 max 10 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:    30 ave 30 max 30 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-Neighs:    0 ave 0 max 0 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-
-Total # of neighbors = 0
-Ave neighs/atom = 0
-Ave special neighs/atom = 4.8
-Neighbor list builds = 33
-Dangerous builds = 7
-
-unfix 2
-unfix 3
-fix 4 all nve
-fix 5 all langevin ${T} ${T} 1 123456
-fix 5 all langevin 0.5 ${T} 1 123456
-fix 5 all langevin 0.5 0.5 1 123456
-fix recen1 all recenter INIT INIT INIT
-
-
-# RUN
-run ${run_steps}
-run 500
-Per MPI rank memory allocation (min/avg/max) = 7.838 | 7.838 | 7.838 Mbytes
-Step Time Temp Press PotEng KinEng TotEng Volume 
-    3500            5   0.50366793   -0.0629624    6.4550554    6.7995171    13.254572     445.9182 
-    3600            6   0.53060516 -0.013841748    5.0256898    7.1631696    12.188859     445.9182 
-    3700            7   0.86628013  0.045904261    4.3419073    11.694782    16.036689     445.9182 
-    3800            8   0.51273517 -0.058747352    10.462498    6.9219249    17.384423     445.9182 
-    3900            9   0.80232752  0.035170711    8.8769635    10.831421    19.708385     445.9182 
-    4000           10   0.38822717 0.0047904355    9.8776246    5.2410668    15.118691     445.9182 
-Loop time of 0.01895 on 1 procs for 500 steps with 10 atoms
-
-Performance: 22796851.212 tau/day, 26385.244 timesteps/s
-0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
-
-MPI task timing breakdown:
-Section |  min time  |  avg time  |  max time  |%varavg| %total
----------------------------------------------------------------
-Pair    | 0          | 0          | 0          |   0.0 |  0.00
-Bond    | 0          | 0          | 0          |   0.0 |  0.00
-Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0          | 0          | 0          |   0.0 |  0.00
-Output  | 0.016957   | 0.016957   | 0.016957   |   0.0 | 89.48
-Modify  | 0.00099587 | 0.00099587 | 0.00099587 |   0.0 |  5.26
-Other   |            | 0.0009971  |            |       |  5.26
-
-Nlocal:    10 ave 10 max 10 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-Nghost:    36 ave 36 max 36 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-Neighs:    0 ave 0 max 0 min
-Histogram: 1 0 0 0 0 0 0 0 0 0
-
-Total # of neighbors = 0
-Ave neighs/atom = 0
-Ave special neighs/atom = 4.8
-Neighbor list builds = 23
-Dangerous builds = 1
-write_restart restart.time*
-
-# SHELL
-shell copy output.dump        output_T_${T}_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_${box}_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_${run_tau}.dump
-shell copy output.dump        output_T_0.5_box_10_run_5.dump
-shell echo> T_${T}.done
-shell echo> T_0.5.done
-#shell commands modified for use in windows
-
-#This section  of codes allows looping over the list of T values
-clear
-OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
-  using 1 OpenMP thread(s) per MPI task
-next mix_steps
-jump in.run_loop loop  #jumps back to loop label
-Total wall time: 0:00:01
+Total wall time: 0:00:00

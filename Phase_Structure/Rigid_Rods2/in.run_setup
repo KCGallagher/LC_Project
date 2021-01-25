@@ -1,14 +1,8 @@
 # VARIABLES  
-variable T         equal  0.5 # 0.1 0.36 0.70  #Can loop over this variable   
 variable num       equal  1 #labelling results only
 variable N         equal  1
 variable box       equal  10 # cubic box of volume 'box'
-variable t_step    equal  0.01 #originally 0.005
-variable mix_steps equal  500
-variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  500 # steps to run simulation in order to reach steady state
-variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
-#use index to loop over variable
+
 
 # PARAMETERS    
 units lj
@@ -39,45 +33,8 @@ pair_modify shift yes
 pair_coeff * * 1  1.0  1.12
 #1.12 is cut-off for potential
 
-
-
-# THERMAL   
-timestep ${t_step}
-thermo   100 
-thermo_style custom step time temp press pe ke etotal vol
-thermo_modify norm no
-# reset_timestep 0
-
-
-# DUMP OUTPUT 
-dump  1  all custom 1000 output.dump id mol type x y z vx vy vz
-dump_modify 1 sort id
-
-#label loop #line to loop back to
-
-# FIX
-fix 2 all nph iso 0.5 0.5 100
-fix 3 all langevin 0.5 0.5 1 123456
-run ${mix_steps}
-
-unfix 2
-unfix 3
-fix 4 all nve 
-fix 5 all langevin ${T} ${T} 1 123456 
-fix recen1 all recenter INIT INIT INIT
-
-
-# RUN
-run ${run_steps}
 write_restart restart.time*
 
-# SHELL
-shell copy output.dump        output_T_${T}_box_${box}_run_${run_tau}.dump
-shell echo> T_${T}.done
-#shell commands modified for use in windows
 
-#This section  of codes allows looping over the list of T values
-clear
-next mix_steps
-jump in.run #loop  #jumps back to loop label
+
 
