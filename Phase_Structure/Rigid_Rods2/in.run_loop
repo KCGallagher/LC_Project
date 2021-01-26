@@ -52,4 +52,4 @@ clear
 next mix_steps
 jump in.run_loop loop  #jumps back to loop label
 
-shell py phase_plot.py # runs phase analysis
+shell py phase_plot.py #runs phase analysis

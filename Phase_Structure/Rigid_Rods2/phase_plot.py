@@ -39,13 +39,15 @@ for i, line in enumerate(data_file):
             blank_lines_count
         )  # end of final data readout without blank lines
 
-loop_var_values = [5000, 10000, 15000]  # added to match temporarly fix
+# loop_var_values = [5000, 10000, 15000]  # added to match temporarly fix
 
 if not 2 * len(loop_var_values) == len(start_lines):
     print(
         "Warning: Number of loop variable values does not match the number of equillibrium runs. "
         + "Check whether you are reading in the correct loop variable in line 16"
     )
+    # print("Number of loop variable values: " + str(len(loop_var_values)))
+    # print("Number of eq runs: " + str(len(start_lines)))
 
 last_line = i  # last line number in file
 tot_blank_lines = blank_lines_count  # total blank lines in file
