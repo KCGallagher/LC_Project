@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.ndimage import uniform_filter1d  # for rolling average
 
 loop_var_name = "mix_steps"  # user defined!
 
@@ -73,6 +74,7 @@ final_values = np.zeros(
 )  # in form Temp/Press/PotEng/Volume
 # These are the values at equillibrium. Currently output as mean values
 
+total_loop_var = 0
 for i in range(1, len(start_lines), 2):
     # taking every other i to only get equillibrium values; each N has a thermalisation and an equillibrium run
     j = int(
@@ -85,17 +87,24 @@ for i in range(1, len(start_lines), 2):
         skip_footer=last_line - end_lines_adj[i] + 1,
         comments=None,
     )
-    # print(start_lines[i], last_line - end_lines[i])
-    # print(data)
+
+    total_loop_var += loop_var_values[j]
     plt.plot(
         data["Step"] - np.min(data["Step"]),  # so time starts from zero
-        data["Press"],
-        label=loop_var_name + "= " + str(loop_var_values[j]),
+        # data["Press"],
+        uniform_filter1d(data["Press"], size=int(5e2)),  # rolling average
+        label=loop_var_name + "= " + str(int(total_loop_var)),
     )
+
+    end_index = int(len(data["Press"]))
+    start_index = int(0.9 * end_index)
+    # selecting only final 10% of data to average, so sys has reached equilibrium
+
     final_values[0, j] = loop_var_values[j]
-    final_values[1, j] = np.mean(data["Press"])
-    final_values[2, j] = np.mean(data["PotEng"])
-    final_values[3, j] = np.mean(data["Volume"])
+    final_values[1, j] = np.mean(data["Press"][start_index:end_index])
+    final_values[2, j] = np.mean(data["PotEng"][start_index:end_index])
+    final_values[3, j] = np.mean(data["Volume"][start_index:end_index])
+
 
 vol_frac = np.reciprocal(final_values[3, :]) * (10 * N * (np.pi / 4))
 print("Volume Fractions: " + str(vol_frac))
@@ -106,15 +115,9 @@ plt.xlabel("Time Step")
 plt.ylabel("Pressure (Natural Units)")
 plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
 plt.legend()
+plt.savefig("pressureplot_frac.png")
 plt.show()
 
-plt.plot(
-    vol_frac,  # loop_var_values,
-    final_values[1, :] / np.amax(final_values[1, :]),
-    label="Normalised Pressure",
-    linestyle="",
-    marker="x",
-)
 plt.plot(
     vol_frac,  # loop_var_values,
     final_values[2, :] / np.amax(final_values[2, :]),
@@ -122,11 +125,19 @@ plt.plot(
     linestyle="",
     marker="o",
 )
+plt.plot(
+    vol_frac,  # loop_var_values,
+    final_values[1, :] / np.amax(final_values[1, :]),
+    label="Normalised Pressure",
+    linestyle="",
+    marker="x",
+)
+
 # plt.xlabel("Value of " + loop_var_name)
 plt.xlabel("Volume Fraction")
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
-plt.title("Phase Plot for " + str(N) + " Rigid Rods")
+plt.title("Phase Plot for " + str(int(N)) + " Rigid Rods")
 plt.savefig("phaseplot_frac.png")
 plt.show()
 

@@ -144,7 +144,7 @@ def plot_all(accepted, n_mol, box_lim):
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(x_list, y_list, z_list, c=cols, marker="o", s=350)
     ax.set_xlim(-box_lim, box_lim)
-    ax.set_ylim(-box_lim, box_lim)
+    ax.set_ylim(-box_lim, box_lim)  # change this to get oblong box
     ax.set_zlim(-box_lim, box_lim)
     ax.grid(False)
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
