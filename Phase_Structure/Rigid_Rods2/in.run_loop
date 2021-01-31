@@ -1,6 +1,6 @@
 #SETUP
 # Runs on the first loop only
-# shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
+shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
 shell del restart.time*     # delete all current restart files before first run
 shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
 
@@ -10,7 +10,7 @@ variable T         equal  0.5
 variable t_step    equal  0.005 #originally 0.005
 variable mix_steps index  50000 50000 50000 50000 50000 50000
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  1000000 # steps to run simulation in order to reach steady state
+variable run_steps equal  500000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 
 #LOOP START
@@ -27,13 +27,13 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT 
-dump  1  all custom 10000 output_T_${T}__time_*.dump id mol type x y z vx vy vz
-# dumps all positions etc every N (1000?) steps
+dump  1  all custom 100 output_T_${T}__time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N  steps
 #dump_modify 1 sort id
 
 # FIX
-fix 2 all nph iso 0.5 0.5 100
-fix 3 all langevin 0.5 0.5 1 123456
+fix 2 all nph iso ${T} ${T} 100   #changed from T = 0.5 to match variable T
+fix 3 all langevin ${T} ${T} 1 123456 #as above
 run ${mix_steps}
 
 unfix 2

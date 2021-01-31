@@ -39,15 +39,28 @@ mass = 1.0
 dist = 0.98
 rad = 0.56
 
+elongation = 3
+# aspect ratio of oblong base; y axis is E times longer than x and z axes
+
+
+def scale_vector(j):
+    """Returns scale factor for axis of index j"""
+    if j == 1:
+        return elongation  # extended y axis
+    elif j == 0 or j == 2:
+        return 1
+    else:
+        raise ValueError("Unexpected Index: recieved value " + str(j))
+
 
 def within_box(ghost, box_lim):
     flag = True
     toBreak = False
     for i in range(0, 10, 9):  # check only the edge beads
         for j in range(3):
-            print(i, j)
-            if abs(ghost[i][j]) > box_lim:
-                print("out")
+            # print(i, j)
+            if abs(ghost[i][j]) > scale_vector(j) * box_lim:
+                # print("out")
                 flag = False
                 toBreak = True
                 break
@@ -100,7 +113,9 @@ def gen_ghost(box_limit, dist):
         ghost[i] = ran_rot.rotate(ghost[i])
     # preform random displacement
     ran_dis_x = (random() - 0.5e0) * 2.0 * (box_limit)
-    ran_dis_y = (random() - 0.5e0) * 2.0 * (box_limit)
+    ran_dis_y = (
+        (random() - 0.5e0) * 2.0 * elongation * (box_limit)
+    )  # change for oblong box?
     ran_dis_z = (random() - 0.5e0) * 2.0 * (box_limit)
     for i in range(10):
         ghost[i][0] += ran_dis_x
@@ -144,7 +159,9 @@ def plot_all(accepted, n_mol, box_lim):
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(x_list, y_list, z_list, c=cols, marker="o", s=350)
     ax.set_xlim(-box_lim, box_lim)
-    ax.set_ylim(-box_lim, box_lim)  # change this to get oblong box
+    ax.set_ylim(
+        -elongation * box_lim, elongation * box_lim
+    )  # change this to get oblong box
     ax.set_zlim(-box_lim, box_lim)
     ax.grid(False)
     ax.w_xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
@@ -178,7 +195,7 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
         g.write("0  improper types \n\n")
 
         g.write("-%f %f xlo xhi  \n" % (box_limit, box_limit))
-        g.write("-%f %f ylo yhi  \n" % (box_limit, box_limit))
+        g.write("-%f %f ylo yhi  \n" % (elongation * box_limit, elongation * box_limit))
         g.write("-%f %f zlo zhi  \n\n" % (box_limit, box_limit))
 
         g.write("Masses\n\n")
@@ -395,7 +412,7 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
 # -----------------------------------------------------------
 
 
-if args.generate:
+if args.generate:  # ie argument -g
 
     import numpy as np
     from shutil import copyfile
@@ -463,12 +480,12 @@ if args.generate:
         "input_data_nunchucks_"
         + str(n_molecules)
         + "_"
-        + str((box_limit) * 2)
+        + str(int((box_limit) * 2))
         + ".file"
     )
     copyfile(src, dst)
 
-if args.replot:
+if args.replot:  # ie argument -r
     n_molecules, box_limit = args.replot
     n_molecules = int(n_molecules)
     box_limit = float(box_limit)
