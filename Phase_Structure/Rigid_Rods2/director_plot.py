@@ -1,6 +1,9 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy.ndimage import uniform_filter1d  # for rolling average
 
 file_root = "output_T_0.5__time_"  # two underscores to match typo in previous code
+sampling_freq = 10  # only samples one in X files (must be integer)
 
 # READ PARAMETER VALUES FROM LOG FILE
 
@@ -49,17 +52,20 @@ for i, line in enumerate(log_file):
 log_file.close()
 
 run_time = tot_mix_time + run_num * equilibrium_time
-time_range = range(0, int(run_time), int(dump_interval))
+time_range = range(0, int(run_time), int(dump_interval * sampling_freq))
 print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
 )
 
-time_range = range(0, 50, 100)  # FOR SIMPLICITY IN TESTING
+# time_range = range(0, 500, 100)  # FOR SIMPLICITY IN TESTING
 
 # DEFINE FUNCTION TO FIND DIRECTOR FROM OUTPUT DATA
 def order_param(data):
     """Input data in array of size Molecule Number x 3 x 3
+
+    Order param is defined as ave((3cos^2(theta)-1)/2) where theta is the angle between
+    the molecule director and mean director
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
@@ -68,14 +74,21 @@ def order_param(data):
     """
     directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
     mean_director = np.mean(directors, axis=0)
-    return mean_director
+    norm_mean_director = mean_director / np.linalg.norm(mean_director)
+    cosine_values = np.zeros_like(directors)
+    for index, vector in enumerate(directors):
+        cosine_values[index] = np.dot(
+            norm_mean_director, (vector / np.linalg.norm(vector))
+        )
+    order_param = np.mean((3 * np.square(cosine_values) - 1) / 2)
+    return order_param
 
 
 # READ MOLECULE POSITIONS
 
 order_param_values = np.zeros(len(time_range))
-for i, t in enumerate(time_range):  # interate over dump files
-    data_file = open(file_root + str(t) + ".dump", "r")
+for i, time in enumerate(time_range):  # interate over dump files
+    data_file = open(file_root + str(time) + ".dump", "r")
     extract_data = False  # start of file doesn't contain particle values
 
     rod_positions = np.zeros((N_molecules, 2, 3))
@@ -102,7 +115,18 @@ for i, t in enumerate(time_range):  # interate over dump files
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
-    print(rod_positions)
-    print(order_param(rod_positions))
-    # order_param_values[j] = FUNCTION  #evaluate order param at time t
+    order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
+    print("T = " + str(time) + "/" + str(run_time))
+
+plt.plot(time_range, abs(order_param_values))
+plt.plot(
+    time_range,
+    uniform_filter1d(abs(order_param_values), size=int(1e2)),
+    linestyle="--",
+)
+plt.xlabel("Time (arbitrary units)")
+plt.ylabel("Order Parameter")
+plt.title("Evolution of Order Parameter")
+plt.savefig("director_evo2.png")
+plt.show()
 
