@@ -57,28 +57,40 @@ print(
 
 time_range = range(0, 500, 100)  # FOR SIMPLICITY IN TESTING
 
+# DEFINE FUNCTION TO FIND DIRECTOR FROM OUTPUT DATA
+
 
 # READ MOLECULE POSITIONS
 
-for t in time_range:  # interate over dump files
+order_param_values = np.zeros(len(time_range))
+for i, t in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(t) + ".dump", "r")
     extract_data = False  # start of file doesn't contain particle values
 
-    rod_positions = 0
+    rod_positions = np.zeros((N_molecules, 2, 3))
+    """Indices are Molecule Number/ First (0), Last (1) atom, or difference (2)/ Positional coord"""
 
-    for i, line in enumerate(data_file):
+    for line in data_file:
         if "ITEM: ATOMS" in line:  # to start reading data
             extract_data = True
             continue  # don't attempt to read this line
+
         if extract_data:
+            # each line is in the form "id mol type x y z vx vy vz"
             particle_values = []
             for t in line.split():  # separate by whitespace
                 try:
                     particle_values.append(float(t))
                 except ValueError:
                     pass  # any non-floats in this line are ignored
-            print(particle_values)
-            extract_data = (
-                False  # for testing purposes, should give first line each time
-            )
-    data_file.close()
+
+            # Save positional coordatinates of end particles
+            if int(particle_values[2]) == 1:  # first particle in molecule
+                rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
+            if int(particle_values[2]) == 10:  # last particle in molecule
+                rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
+
+    data_file.close()  # close data_file for time step t
+    print(rod_positions)
+    # order_param_values[j] = FUNCTION  #evaluate order param at time t
+
