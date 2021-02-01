@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
 
-file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
+file_root = "output_T_0.5__time_"  # two underscores to match typo in previous code
 sampling_freq = 1  # only samples one in X files (must be integer)
 
 # READ PARAMETER VALUES FROM LOG FILE
@@ -58,7 +58,7 @@ print(
     + str((N_molecules, run_time, dump_interval))
 )
 
-# time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
+# time_range = range(0, 500, 100)  # FOR SIMPLICITY IN TESTING
 
 # DEFINE FUNCTION TO FIND DIRECTOR FROM OUTPUT DATA
 def order_param(data):
@@ -118,7 +118,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
 
-plt.plot(time_range, (order_param_values))
+plt.plot(time_range, abs(order_param_values))
 plt.plot(
     time_range,
     uniform_filter1d(abs(order_param_values), size=int(1e2)),
@@ -127,6 +127,6 @@ plt.plot(
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-plt.savefig("director_evo2.png")
+#plt.savefig("director_evo.png")
 plt.show()
 
