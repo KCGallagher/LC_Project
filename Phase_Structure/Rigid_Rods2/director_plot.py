@@ -55,9 +55,20 @@ print(
     + str((N_molecules, run_time, dump_interval))
 )
 
-time_range = range(0, 500, 100)  # FOR SIMPLICITY IN TESTING
+time_range = range(0, 50, 100)  # FOR SIMPLICITY IN TESTING
 
 # DEFINE FUNCTION TO FIND DIRECTOR FROM OUTPUT DATA
+def order_param(data):
+    """Input data in array of size Molecule Number x 3 x 3
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Second index gives particle number within molecule (first/last)
+    Third index gives the component of the position (x,y,z)
+    """
+    directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
+    mean_director = np.mean(directors, axis=0)
+    return mean_director
 
 
 # READ MOLECULE POSITIONS
@@ -68,7 +79,7 @@ for i, t in enumerate(time_range):  # interate over dump files
     extract_data = False  # start of file doesn't contain particle values
 
     rod_positions = np.zeros((N_molecules, 2, 3))
-    """Indices are Molecule Number/ First (0), Last (1) atom, or difference (2)/ Positional coord"""
+    """Indices are Molecule Number/ First (0) or Last (1) atom,/ Positional coord index"""
 
     for line in data_file:
         if "ITEM: ATOMS" in line:  # to start reading data
@@ -92,5 +103,6 @@ for i, t in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     print(rod_positions)
+    print(order_param(rod_positions))
     # order_param_values[j] = FUNCTION  #evaluate order param at time t
 
