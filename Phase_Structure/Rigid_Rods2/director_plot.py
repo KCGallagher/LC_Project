@@ -10,7 +10,7 @@ sampling_freq = 1  # only samples one in X files (must be integer)
 
 file_name = "log.lammps"
 log_file = open(file_name, "r")
-tot_mix_time = 0
+mix_steps_values = []
 
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
@@ -38,7 +38,7 @@ for i, line in enumerate(log_file):
         run_num = 0  # counts number of runs
         for t in line.split():
             try:
-                tot_mix_time += int(t)
+                mix_steps_values.append(int(t))
                 run_num += 1
             except ValueError:
                 pass
@@ -53,6 +53,7 @@ for i, line in enumerate(log_file):
 
 log_file.close()
 
+tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num * equilibrium_time
 time_range = range(0, int(run_time), int(dump_interval * sampling_freq))
 print(
@@ -61,10 +62,24 @@ print(
 )
 
 # EXTRACT VOLUME FROM LOG DATA
+try:
+    vol_frac = pickle.load(open("volume_fractions.p", "rb"))
+except FileNotFoundError:
+    print("Warning: No Volume fraction data: Need to run phase_plot first")
 
-vol_frac = pickle.load(open("volume_fractions.p", "rb"))
-print(vol_frac)
-vol_frac = pickle.load(open("volme_fractions.p", "rb"))
+assert len(vol_frac) == run_num, "Should be an entry in vol_frac for every mixing run"
+vol_frac = np.repeat(vol_frac, 2)  # Adds volume fraction for post equillibration
+
+time_for_vf = np.zeros_like(vol_frac)  # for plotting vol frac over time
+running_time = 0
+for i in range(len(vol_frac)):
+    if i % 2 == 0:  # even, so mixing run
+        running_time += mix_steps_values[int(i / 2)]
+    else:  # equillibrium runs
+        running_time += equilibrium_time
+    time_for_vf[i] = running_time
+
+print(time_for_vf)
 
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
@@ -136,6 +151,30 @@ plt.plot(
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-plt.savefig("director_evo.png")
+# plt.savefig("order_plot.png")
+plt.show()
+
+fig, ax1 = plt.subplots()
+
+color = "tab:red"
+ax1.set_xlabel("Time (arbitrary units)")
+ax1.set_ylabel("Order Parameter", color=color)
+ax1.plot(
+    time_range, uniform_filter1d(abs(order_param_values), size=int(4e2)), color=color
+)
+ax1.tick_params(axis="y", labelcolor=color)
+
+ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+color = "tab:blue"
+ax2.set_ylabel(
+    "Volume Fraction", color=color
+)  # we already handled the x-label with ax1
+ax2.plot(time_for_vf, vol_frac, color=color)
+ax2.tick_params(axis="y", labelcolor=color)
+
+plt.title("Evolution of Order Parameter")
+fig.tight_layout()  # otherwise the right y-label is slightly clipped
+# plt.savefig("order_and_volfrac.png")
 plt.show()
 
