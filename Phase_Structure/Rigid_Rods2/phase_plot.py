@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
+import pickle
 
 loop_var_name = "mix_steps"  # user defined!
 
@@ -108,6 +109,7 @@ for i in range(1, len(start_lines), 2):
 
 vol_frac = np.reciprocal(final_values[3, :]) * (10 * N * (np.pi / 4))
 print("Volume Fractions: " + str(vol_frac))
+pickle.dump(vol_frac, open( "volume_fractions.p", "wb" ))
 
 print(data.dtype.names)
 

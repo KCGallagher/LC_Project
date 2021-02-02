@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
+import pickle
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
 sampling_freq = 1  # only samples one in X files (must be integer)
@@ -49,6 +50,7 @@ for i, line in enumerate(log_file):
             except ValueError:
                 pass
         # this comes up first in file so no searching variable here
+
 log_file.close()
 
 run_time = tot_mix_time + run_num * equilibrium_time
@@ -57,6 +59,13 @@ print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
 )
+
+# EXTRACT VOLUME FROM LOG DATA
+
+vol_frac = pickle.load(open("volume_fractions.p", "rb"))
+print(vol_frac)
+vol_frac = pickle.load(open("volme_fractions.p", "rb"))
+
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
@@ -118,15 +127,15 @@ for i, time in enumerate(time_range):  # interate over dump files
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
 
-plt.plot(time_range, (order_param_values))
+plt.plot(time_range, abs(order_param_values))
 plt.plot(
     time_range,
-    uniform_filter1d(abs(order_param_values), size=int(1e2)),
+    uniform_filter1d(abs(order_param_values), size=int(4e2)),
     linestyle="--",
 )
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-plt.savefig("director_evo2.png")
+plt.savefig("director_evo.png")
 plt.show()
 
