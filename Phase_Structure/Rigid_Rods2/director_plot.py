@@ -6,6 +6,8 @@ import pickle
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
 sampling_freq = 1  # only samples one in X files (must be integer)
 
+# plt.rcParams.update({"font.size": 18}) #for figures to go into latex at halfwidth
+
 # READ PARAMETER VALUES FROM LOG FILE
 
 file_name = "log.lammps"
