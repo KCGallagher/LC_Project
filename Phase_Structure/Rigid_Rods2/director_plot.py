@@ -4,9 +4,9 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 import pickle
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
-sampling_freq = 10  # only samples one in X files (must be integer)
+sampling_freq = 1  # only samples one in X files (must be integer)
 
-# plt.rcParams.update({"font.size": 18}) #for figures to go into latex at halfwidth
+plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
 # READ PARAMETER VALUES FROM LOG FILE
 
@@ -86,38 +86,16 @@ print(time_for_vf)
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
-# DEFINE FUNCTION TO FIND DIRECTOR FROM OUTPUT DATA
+
 def order_param(data):
     """Input data in array of size Molecule Number x 3 x 3
 
-    Order param is defined as ave((3cos^2(theta)-1)/2) where theta is the angle between
-    the molecule director and mean director
-
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
     Second index gives particle number within molecule (first/last)
     Third index gives the component of the position (x,y,z)
-    """
-    directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
-    mean_director = np.mean(directors, axis=0)
-    norm_mean_director = mean_director / np.linalg.norm(mean_director)
-    cosine_values = np.zeros_like(directors)
-    for index, vector in enumerate(directors):
-        cosine_values[index] = np.dot(
-            norm_mean_director, (vector / np.linalg.norm(vector))
-        )
-    order_param = np.mean((3 * np.square(cosine_values) - 1) / 2)
-    print(order_param)
-    return order_param
 
-
-def order_param2(data):
-    """Input data in array of size Molecule Number x 3 x 3
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule (first/last)
-    Third index gives the component of the position (x,y,z)
+    Method for calculation of Order Param given by Eppenga (1984)
     """
     directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
     norm_directors = directors / np.linalg.norm(directors, axis=1).reshape(
@@ -136,7 +114,6 @@ def order_param2(data):
 # READ MOLECULE POSITIONS
 
 order_param_values = np.zeros(len(time_range))
-order_param_values2 = np.zeros(len(time_range))
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
     extract_data = False  # start of file doesn't contain particle values
@@ -166,37 +143,17 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
-    order_param_values2[i] = order_param2(
-        rod_positions
-    )  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
 
+
 plt.plot(time_range, order_param_values)
-plt.plot(time_range, order_param_values2)
-plt.show()
-
 plt.plot(
-    time_range,
-    uniform_filter1d(abs(order_param_values), size=int(4e2)),
-    linestyle="--",
-)
-plt.plot(
-    time_range,
-    uniform_filter1d(abs(order_param_values2), size=int(4e2)),
-    linestyle="--",
-)
-plt.show()
-
-plt.plot(time_range, abs(order_param_values))
-plt.plot(
-    time_range,
-    uniform_filter1d(abs(order_param_values), size=int(4e2)),
-    linestyle="--",
+    time_range, uniform_filter1d(order_param_values, size=int(10)), linestyle="--",
 )
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-# plt.savefig("order_plot.png")
+plt.savefig("order_plot.png")
 plt.show()
 
 fig, ax1 = plt.subplots()
@@ -204,9 +161,7 @@ fig, ax1 = plt.subplots()
 color = "tab:red"
 ax1.set_xlabel("Time (arbitrary units)")
 ax1.set_ylabel("Order Parameter", color=color)
-ax1.plot(
-    time_range, uniform_filter1d(abs(order_param_values), size=int(4e2)), color=color
-)
+ax1.plot(time_range, uniform_filter1d(order_param_values, size=int(10)), color=color)
 ax1.tick_params(axis="y", labelcolor=color)
 
 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
@@ -220,6 +175,6 @@ ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-# plt.savefig("order_and_volfrac.png")
+plt.savefig("order_and_volfrac.png")
 plt.show()
 
