@@ -4,7 +4,7 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 import pickle
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
-sampling_freq = 1  # only samples one in X files (must be integer)
+sampling_freq = 10  # only samples one in X files (must be integer)
 
 # plt.rcParams.update({"font.size": 18}) #for figures to go into latex at halfwidth
 
@@ -107,12 +107,36 @@ def order_param(data):
             norm_mean_director, (vector / np.linalg.norm(vector))
         )
     order_param = np.mean((3 * np.square(cosine_values) - 1) / 2)
+    print(order_param)
     return order_param
+
+
+def order_param2(data):
+    """Input data in array of size Molecule Number x 3 x 3
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Second index gives particle number within molecule (first/last)
+    Third index gives the component of the position (x,y,z)
+    """
+    directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
+    norm_directors = directors / np.linalg.norm(directors, axis=1).reshape(
+        -1, 1
+    )  # reshape allows broadcasting
+    M_matrix = np.zeros((3, 3))
+    for i, j in np.ndindex(M_matrix.shape):
+        M_matrix[i, j] = (
+            np.sum(norm_directors[:, i] * norm_directors[:, j]) / N_molecules
+        )
+    M_eigen = np.linalg.eigvals(M_matrix)
+    Q_eigen = (3 * M_eigen - 1) / 2
+    return max(Q_eigen)  # largest eigenvalue corresponds to traditional order parameter
 
 
 # READ MOLECULE POSITIONS
 
 order_param_values = np.zeros(len(time_range))
+order_param_values2 = np.zeros(len(time_range))
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
     extract_data = False  # start of file doesn't contain particle values
@@ -142,7 +166,26 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
+    order_param_values2[i] = order_param2(
+        rod_positions
+    )  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
+
+plt.plot(time_range, order_param_values)
+plt.plot(time_range, order_param_values2)
+plt.show()
+
+plt.plot(
+    time_range,
+    uniform_filter1d(abs(order_param_values), size=int(4e2)),
+    linestyle="--",
+)
+plt.plot(
+    time_range,
+    uniform_filter1d(abs(order_param_values2), size=int(4e2)),
+    linestyle="--",
+)
+plt.show()
 
 plt.plot(time_range, abs(order_param_values))
 plt.plot(
