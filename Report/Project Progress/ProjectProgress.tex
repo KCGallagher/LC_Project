@@ -1,0 +1,94 @@
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+
+\documentclass[11pt, a4paper]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column) Use additional titlepage argument to generate this
+%\documentclass[12pt, a4paper,twocolumn,titlepage]{article}
+
+\input{structure.tex} % Specifies the document structure and loads requires packages
+\usepackage{graphicx}
+\graphicspath{{../Figures/}}
+\newcommand*{\subscript}[1]{\ensuremath{_\textrm{{\scriptsize #1}}}}
+
+%	ARTICLE INFORMATION
+
+\title{Simulating Liquid Crystals}
+
+%\author{
+	%\authorstyle{Christopher Gallagher}}
+\author{\authorstyle{Kit Gallagher} 
+	%\institution{University of Cambridge \\
+	\institution{Supervisors: Prof Erika Eiser, Mr Jiaming Yu}}
+% Example of a one line author/institution relationship
+%\author{\newauthor{John Marston} \newinstitution{Universidad Nacional Autónoma de México, Mexico City, Mexico}}
+
+\date{\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
+\usepackage[english]{babel}
+\usepackage{tabularx}
+%\renewcommand{\thefootnote}{\roman{footnote}}  %use roman lettering for footnotes instead
+\usepackage[backend=biber,doi=false]{biblatex}
+\addbibresource{reportreferences.bib}
+%\AtBeginBibliography{\small}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+\maketitle % Print the title
+
+\thispagestyle{firstpage} % Apply the page style for the first page (no headers and footers)
+
+%	ABSTRACT
+
+\lettrineabstract{This document is simply to give an overview of methods used and data obtained in the project. It is likely that many of the methods and results detailed here will be used in the final report, but this is not intended to be a full report; rather a collection of ideas that can be used in the writing of this final report.} 
+
+
+
+
+%	ARTICLE CONTENTS
+\section{Methods}
+\subsection{Order Parameter}
+first methd didn't work etc
+
+\section{Results}
+\subsection{Square Simulation Region}
+First long simulation to achieve nematic phase formation. \cite{Xing2019}.
+
+\begin{figure}[ht]
+	\begin{subfigure}{.45\textwidth}
+		\centering
+		% include first image
+		\includegraphics[width=\linewidth]{Figures/longrun_phasetrans2}  
+		\caption{Liquid State}
+		\label{fig:cubic_liquid}
+	\end{subfigure}
+	\hfill %% useful if width of each figure is less the .5\textwidth
+	\begin{subfigure}{.42\textwidth}
+		\centering
+		% include second image
+		\includegraphics[width=\linewidth]{Figures/longrun_phasetrans3}  
+		\caption{Nematic State}
+		\label{fig:cubic_nematic}
+	\end{subfigure}
+	\caption{Comparison between phase appearance, before an after the nematic phase transition. Note the common alignment in the nematic phase, without positional order.}
+	\label{fig:pitformation}
+\end{figure}
+
+%\clearpage
+\printbibliography
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wenneker Article
+% LaTeX Template
+% Version 2.0 (28/2/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Vel (vel@LaTeXTemplates.com)
+% Frits Wenneker
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
