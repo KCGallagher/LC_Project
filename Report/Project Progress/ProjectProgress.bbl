@@ -19,58 +19,48 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
-    \entry{Xing2019}{article}{}
-      \name{author}{4}{}{%
-        {{hash=5a6cdb5b693d7adc8934a28e4e3f68f6}{%
-           family={Xing},
-           familyi={X\bibinitperiod},
-           given={Zhongyang},
-           giveni={Z\bibinitperiod}}}%
-        {{hash=8d6d2e7b5a61a18c085c6bb6f04e03ec}{%
-           family={Ness},
-           familyi={N\bibinitperiod},
-           given={Christopher},
-           giveni={C\bibinitperiod}}}%
-        {{hash=7191fa8dca47b12000be59cbab02be45}{%
+    \entry{Eppenga1984}{article}{}
+      \name{author}{2}{}{%
+        {{hash=dc181b16c066bc2f6a96e2a52b5157b9}{%
+           family={Eppenga},
+           familyi={E\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=25cac8153fb1c77a337df1e6ec985e30}{%
            family={Frenkel},
            familyi={F\bibinitperiod},
-           given={Daan},
+           given={D.},
            giveni={D\bibinitperiod}}}%
-        {{hash=8b27215bcd70aa0401e6760573438192}{%
-           family={Eiser},
-           familyi={E\bibinitperiod},
-           given={Erika},
-           giveni={E\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
-        {American Chemical Society ({ACS})}%
+        {Informa {UK} Limited}%
       }
-      \strng{namehash}{2dd7bfa63a41085330f84fc10ed86081}
-      \strng{fullhash}{1151e7bcf9f86064acff9ffc4958b0ff}
-      \strng{bibnamehash}{1151e7bcf9f86064acff9ffc4958b0ff}
-      \strng{authorbibnamehash}{1151e7bcf9f86064acff9ffc4958b0ff}
-      \strng{authornamehash}{2dd7bfa63a41085330f84fc10ed86081}
-      \strng{authorfullhash}{1151e7bcf9f86064acff9ffc4958b0ff}
+      \strng{namehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{fullhash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{bibnamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authorbibnamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authornamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authorfullhash}{8be973dfa937b41382a9e5a1e7317abc}
       \field{sortinit}{1}
       \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{Macromolecules}
-      \field{month}{1}
-      \field{number}{2}
-      \field{title}{Structural and Linear Elastic Properties of {DNA} Hydrogels by Coarse-Grained Simulation}
+      \field{journaltitle}{Molecular Physics}
+      \field{month}{8}
+      \field{number}{6}
+      \field{title}{Monte Carlo study of the isotropic and nematic phases of infinitely thin hard platelets}
       \field{volume}{52}
-      \field{year}{2019}
-      \field{pages}{504\bibrangedash 512}
-      \range{pages}{9}
+      \field{year}{1984}
+      \field{pages}{1303\bibrangedash 1334}
+      \range{pages}{32}
       \verb{doi}
-      \verb 10.1021/acs.macromol.8b01948
+      \verb 10.1080/00268978400101951
       \endverb
       \verb{urlraw}
-      \verb https://doi.org/10.1021/acs.macromol.8b01948
+      \verb https://doi.org/10.1080/00268978400101951
       \endverb
       \verb{url}
-      \verb https://doi.org/10.1021/acs.macromol.8b01948
+      \verb https://doi.org/10.1080/00268978400101951
       \endverb
     \endentry
   \enddatalist

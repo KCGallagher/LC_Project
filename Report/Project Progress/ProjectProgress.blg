@@ -1,17 +1,17 @@
-[1] Config.pm:304> INFO - This is Biber 2.14
+[0] Config.pm:304> INFO - This is Biber 2.14
 [1] Config.pm:307> INFO - Logfile is 'ProjectProgress.blg'
-[114] biber-MSWIN64:322> INFO - === 
-[147] Biber.pm:415> INFO - Reading 'ProjectProgress.bcf'
-[305] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
-[331] Biber.pm:4256> INFO - Processing section 0
-[335] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
-[367] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
-[393] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
-[401] bibtex.pm:1653> INFO - LaTeX decoding ...
-[412] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
-[469] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[469] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[470] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[470] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[483] bbl.pm:652> INFO - Writing 'ProjectProgress.bbl' with encoding 'UTF-8'
-[487] bbl.pm:755> INFO - Output to ProjectProgress.bbl
+[74] biber-MSWIN64:322> INFO - === 
+[95] Biber.pm:415> INFO - Reading 'ProjectProgress.bcf'
+[202] Biber.pm:943> INFO - Found 1 citekeys in bib section 0
+[220] Biber.pm:4256> INFO - Processing section 0
+[220] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
+[230] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
+[247] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
+[251] bibtex.pm:1653> INFO - LaTeX decoding ...
+[257] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
+[289] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[289] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[289] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[289] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[296] bbl.pm:652> INFO - Writing 'ProjectProgress.bbl' with encoding 'UTF-8'
+[297] bbl.pm:755> INFO - Output to ProjectProgress.bbl

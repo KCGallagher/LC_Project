@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  6 FEB 2021 11:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  6 FEB 2021 18:10
 entering extended mode
 **./ProjectProgress.tex
 (ProjectProgress.tex
@@ -1269,7 +1269,7 @@ g"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 75.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 65.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1278,7 +1278,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 g"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 75.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 65.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1288,7 +1288,7 @@ g"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 75.
+(Font)              scaled to size 8.0pt on input line 65.
 )
 Package biblatex Info: Reference section=0 on input line 31.
 Package biblatex Info: Reference segment=0 on input line 31.
@@ -1335,35 +1335,51 @@ LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 14.4pt on input line 45.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 12.0pt on input line 46.
-<Figures/longrun_phasetrans2.png, id=1, 333.6465pt x 331.83975pt>
-File: Figures/longrun_phasetrans2.png Graphic file (type png)
-<use Figures/longrun_phasetrans2.png>
-Package pdftex.def Info: Figures/longrun_phasetrans2.png  used on input line 57
-.
-(pdftex.def)             Requested size: 217.66211pt x 216.48318pt.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 58.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 58.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 58.
-<Figures/longrun_phasetrans3.png, id=3, 292.09125pt x 301.72725pt>
-File: Figures/longrun_phasetrans3.png Graphic file (type png)
-<use Figures/longrun_phasetrans3.png>
-Package pdftex.def Info: Figures/longrun_phasetrans3.png  used on input line 65
-.
-(pdftex.def)             Requested size: 203.1518pt x 209.85866pt.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 69.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 69.
-
-AED: lastpage setting LastPage
+(Font)              scaled to size 10.95pt on input line 47.
 [1
 
 {C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+<Figures/longrun_phasetrans2.png, id=15, 333.6465pt x 331.83975pt>
+File: Figures/longrun_phasetrans2.png Graphic file (type png)
+<use Figures/longrun_phasetrans2.png>
+Package pdftex.def Info: Figures/longrun_phasetrans2.png  used on input line 66
+.
+(pdftex.def)             Requested size: 217.66211pt x 216.48318pt.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 10.0pt on input line 67.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 9.0pt on input line 67.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 76.
+(Font)              scaled to size 9.0pt on input line 67.
+<Figures/longrun_phasetrans3.png, id=17, 292.09125pt x 301.72725pt>
+File: Figures/longrun_phasetrans3.png Graphic file (type png)
+<use Figures/longrun_phasetrans3.png>
+Package pdftex.def Info: Figures/longrun_phasetrans3.png  used on input line 74
+.
+(pdftex.def)             Requested size: 203.1518pt x 209.85866pt.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 78.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 78.
+<Figures/phaseplot_frac_cubic.png, id=18, 405.4347pt x 297.7524pt>
+File: Figures/phaseplot_frac_cubic.png Graphic file (type png)
+<use Figures/phaseplot_frac_cubic.png>
+Package pdftex.def Info: Figures/phaseplot_frac_cubic.png  used on input line 9
+1.
+(pdftex.def)             Requested size: 217.66211pt x 159.85251pt.
+<Figures/pressureplot_frac_cubic.png, id=19, 400.3758pt x 299.1978pt>
+File: Figures/pressureplot_frac_cubic.png Graphic file (type png)
+<use Figures/pressureplot_frac_cubic.png>
+Package pdftex.def Info: Figures/pressureplot_frac_cubic.png  used on input lin
+e 97.
+(pdftex.def)             Requested size: 217.66211pt x 162.66008pt.
+<Figures/director_evo_cubic.png, id=20, 403.9893pt x 299.9205pt>
+File: Figures/director_evo_cubic.png Graphic file (type png)
+<use Figures/director_evo_cubic.png>
+Package pdftex.def Info: Figures/director_evo_cubic.png  used on input line 109
+.
+(pdftex.def)             Requested size: 338.58632pt x 251.37317pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1372,30 +1388,59 @@ We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
 
 [2 <./Figures/longrun_phasetrans2.png> <./Figures/longrun_phasetrans3.png>]
-(ProjectProgress.aux)
+<Figures/longrun2_oblong.png, id=26, 385.44pt x 289.08pt>
+File: Figures/longrun2_oblong.png Graphic file (type png)
+<use Figures/longrun2_oblong.png>
+Package pdftex.def Info: Figures/longrun2_oblong.png  used on input line 127.
+(pdftex.def)             Requested size: 338.58632pt x 253.93684pt.
+<Figures/phaseplot_frac_oblong.png, id=27, 400.3758pt x 299.1978pt>
+File: Figures/phaseplot_frac_oblong.png Graphic file (type png)
+<use Figures/phaseplot_frac_oblong.png>
+Package pdftex.def Info: Figures/phaseplot_frac_oblong.png  used on input line 
+137.
+(pdftex.def)             Requested size: 217.66211pt x 162.66008pt.
+<Figures/order_and_volfrac_oblong.png, id=28, 448.074pt x 318.7107pt>
+File: Figures/order_and_volfrac_oblong.png Graphic file (type png)
+<use Figures/order_and_volfrac_oblong.png>
+Package pdftex.def Info: Figures/order_and_volfrac_oblong.png  used on input li
+ne 143.
+(pdftex.def)             Requested size: 217.66211pt x 154.82251pt.
+
+[3 <./Figures/phaseplot_frac_cubic.png> <./Figures/pressureplot_frac_cubic.png>
+] [4 <./Figures/director_evo_cubic.png> <./Figures/longrun2_oblong.png>]
+
+AED: lastpage setting LastPage
+[5 <./Figures/phaseplot_frac_oblong.png> <./Figures/order_and_volfrac_oblong.pn
+g>] (ProjectProgress.aux)
 Package logreq Info: Writing requests to 'ProjectProgress.run.xml'.
 \openout1 = `ProjectProgress.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17559 strings out of 481565
- 305530 string characters out of 2914627
- 984289 words of memory out of 3000000
- 32430 multiletter control sequences out of 15000+200000
- 659146 words of font info for 111 fonts, out of 3000000 for 9000
+ 17712 strings out of 481565
+ 309848 string characters out of 2914627
+ 989353 words of memory out of 3000000
+ 32479 multiletter control sequences out of 15000+200000
+ 670374 words of font info for 178 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,11n,77p,1142b,1703s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,11n,77p,1142b,1705s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xcharter/xch
 _uy5hgr.enc}{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/ba
 se/8r.enc}<C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/x
 charter/XCharter-Bold.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/font
 s/type1/public/xcharter/XCharter-Italic.pfb><C:/Users/KitG/AppData/Local/Progra
 ms/MiKTeX 2.9/fonts/type1/public/xcharter/XCharter-Roman.pfb><C:/Users/KitG/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/Ki
-tG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectProgress.pdf (2 pages, 937066 bytes).
+Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Us
+ers/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi1
+0.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmr10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/Mi
+KTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Progr
+ams/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on ProjectProgress.pdf (5 pages, 1434823 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
+ 77 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 36875 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 36905 words of extra memory for PDF output out of 42996 (max. 10000000)
 

@@ -2187,7 +2187,7 @@
     <bcf:datasource type="file" datatype="bibtex">reportreferences.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">Xing2019</bcf:citekey>
+    <bcf:citekey order="1">Eppenga1984</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
