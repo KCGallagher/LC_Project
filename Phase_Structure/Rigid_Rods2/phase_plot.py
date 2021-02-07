@@ -107,9 +107,15 @@ for i in range(1, len(start_lines), 2):
     final_values[3, j] = np.mean(data["Volume"][start_index:end_index])
 
 
-vol_frac = np.reciprocal(final_values[3, :]) * (10 * N * (np.pi / 4))
-print("Volume Fractions: " + str(vol_frac))
-pickle.dump(vol_frac, open("volume_fractions.p", "wb"))
+def vol_frac(volume_data):
+    """Returns array of volume fraction data from volume array"""
+    return np.reciprocal(volume_data) * (10 * N * (np.pi * 0.56 ** 2))
+    # See OneNote details of form to use here
+
+
+vol_frac_data = vol_frac(final_values[3, :])
+print("Volume Fractions: " + str(vol_frac_data))
+pickle.dump(vol_frac_data, open("volume_fractions.p", "wb"))
 
 print(data.dtype.names)
 
@@ -121,14 +127,14 @@ plt.legend()
 plt.show()
 
 plt.plot(
-    vol_frac,  # loop_var_values,
+    vol_frac_data,  # loop_var_values,
     final_values[2, :] / np.amax(final_values[2, :]),
     label="Normalised Internal energy",
     linestyle="",
     marker="o",
 )
 plt.plot(
-    vol_frac,  # loop_var_values,
+    vol_frac_data,  # loop_var_values,
     final_values[1, :] / np.amax(final_values[1, :]),
     label="Normalised Pressure",
     linestyle="",

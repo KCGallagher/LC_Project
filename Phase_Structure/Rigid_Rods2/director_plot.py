@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
-import pickle
+from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
 sampling_freq = 1  # only samples one in X files (must be integer)
@@ -63,26 +63,6 @@ print(
     + str((N_molecules, run_time, dump_interval))
 )
 
-# EXTRACT VOLUME FROM LOG DATA
-try:
-    vol_frac = pickle.load(open("volume_fractions.p", "rb"))
-except FileNotFoundError:
-    print("Warning: No Volume fraction data: Need to run phase_plot first")
-
-assert len(vol_frac) == run_num, "Should be an entry in vol_frac for every mixing run"
-vol_frac = np.repeat(vol_frac, 2)  # Adds volume fraction for post equillibration
-
-time_for_vf = np.zeros_like(vol_frac)  # for plotting vol frac over time
-running_time = 0
-for i in range(len(vol_frac)):
-    if i % 2 == 0:  # even, so mixing run
-        running_time += mix_steps_values[int(i / 2)]
-    else:  # equillibrium runs
-        running_time += equilibrium_time
-    time_for_vf[i] = running_time
-
-print(time_for_vf)
-
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
@@ -114,19 +94,41 @@ def order_param(data):
 # READ MOLECULE POSITIONS
 
 order_param_values = np.zeros(len(time_range))
+volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
-    extract_data = False  # start of file doesn't contain particle values
+    extract_atom_data = False  # start of file doesn't contain particle values
+    extract_box_data = False  # start of file doesn't contain box dimension
 
+    box_volume = 1
     rod_positions = np.zeros((N_molecules, 2, 3))
     """Indices are Molecule Number/ First (0) or Last (1) atom,/ Positional coord index"""
 
     for line in data_file:
-        if "ITEM: ATOMS" in line:  # to start reading data
-            extract_data = True
+        if "ITEM: BOX" in line:  # to start reading volume data
+            extract_box_data = True
+            extract_atom_data = False
             continue  # don't attempt to read this line
 
-        if extract_data:
+        if "ITEM: ATOMS" in line:  # to start reading particle data
+            extract_box_data = False
+            extract_atom_data = True
+            continue
+
+        if extract_box_data and not extract_atom_data:
+            # evaluate before particle values
+            # each line gives box max and min in a single axis
+            box_dimension = []
+            for d in line.split():  # separate by whitespace
+                try:
+                    box_dimension.append(float(d))
+                except ValueError:
+                    pass  # any non-floats in this line are ignored
+            box_volume *= box_dimension[1] - box_dimension[0]
+            # multiply box volume by length of this dimension of box
+
+        if extract_atom_data and not extract_box_data:
+            # evaluate after box dimension collection
             # each line is in the form "id mol type x y z vx vy vz"
             particle_values = []
             for t in line.split():  # separate by whitespace
@@ -142,6 +144,7 @@ for i, time in enumerate(time_range):  # interate over dump files
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
+    volume_values[i] = box_volume
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
 
@@ -170,7 +173,7 @@ color = "tab:blue"
 ax2.set_ylabel(
     "Volume Fraction", color=color
 )  # we already handled the x-label with ax1
-ax2.plot(time_for_vf, vol_frac, color=color)
+ax2.plot(time_range, vol_frac(volume_values), color=color)
 ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
@@ -178,3 +181,7 @@ fig.tight_layout()  # otherwise the right y-label is slightly clipped
 # plt.savefig("order_and_volfrac.png")
 plt.show()
 
+plt.plot(vol_frac(volume_values), order_param_values, "rx")
+plt.ylabel("Order Parameter")
+plt.xlabel("Volume Fraction")
+plt.show()
