@@ -109,7 +109,7 @@ for i in range(1, len(start_lines), 2):
 
 vol_frac = np.reciprocal(final_values[3, :]) * (10 * N * (np.pi / 4))
 print("Volume Fractions: " + str(vol_frac))
-pickle.dump(vol_frac, open( "volume_fractions.p", "wb" ))
+pickle.dump(vol_frac, open("volume_fractions.p", "wb"))
 
 print(data.dtype.names)
 
@@ -117,7 +117,7 @@ plt.xlabel("Time Step")
 plt.ylabel("Pressure (Natural Units)")
 plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
 plt.legend()
-plt.savefig("pressureplot_frac.png")
+# plt.savefig("pressureplot_frac.png")
 plt.show()
 
 plt.plot(
@@ -140,6 +140,6 @@ plt.xlabel("Volume Fraction")
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
 plt.title("Phase Plot for " + str(int(N)) + " Rigid Rods")
-plt.savefig("phaseplot_frac.png")
+# plt.savefig("phaseplot_frac.png")
 plt.show()
 

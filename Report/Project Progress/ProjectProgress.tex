@@ -53,6 +53,10 @@
 
 However, in our case the local director is not known, and so I have approximated it as the mean director averaged across all particles. Eppenga et al. \cite{Eppenga1984} suggest an alternative method, for when this local director is not known.
 
+In summary they express this order parameter through the tensor $\textbf{Q}$, where the largest eigenvalue corresponds to the traditional eigenvalue.
+This is conveniently done by finding the eigenvalues of tensor M, which shares eigenvectors with Q and has eigenvectors which can be related to those of Q.
+Figure 2A in this paper shows the relationship between the ideal order parameter and the largest eigenvalue; there is very good agreement beyond very small values, and so this is clearly sufficient to approximate the true order parameter. Mathematical details of this may be included in an appendix?
+
 \section{Results}
 \subsection{Square Simulation Region}
 This section details the results from my first long simulation to achieve nematic phase formation. This simulation took three hours to run, and consisted of 6 shrinking stages (each of 50,000 steps), with 1,000,000 simulation steps between each one. It had 1000 particles inside a cubic box, of initial side length 10 times greater than the length of one nanoparticle. The final side length of the box was 2.5 times greater than the length of one nanoparticle, with a final volume fraction within the box of X\%.%haven't decided how to quantify this
@@ -149,6 +153,16 @@ Further long-time simulations, with 18 shrinking sections of 25000 steps and 500
 Again thermodynamic variables have been recorded over time here. It is particularly telling that the points cluster at high pressures in Figure \ref{fig:oblong_pressure_phase}; this indicates that we are approaching the maximal volume fraction and further compression is not possible here, hence it is unlikely we will observe this section of the graph levelling off.
 
 A quasi-discrete change in order parameter is observed clearly in this system as the volume fraction increases, depicted in Figure \ref{fig:oblong_order_evo}. Again smoothing is required to obtain this order parameter, and the absolute value must be taken to avoid negative values. These suggest that mean value approach to calculate the local director may not be valid, and a more advanced method will be implemented for future simulations.
+
+We may introduce the alternative order parameter (from Eppenga et al.) introduced in Section \ref{Order_param_theory}, to produce the phase curve in Figure \ref{fig:oblong_order2}. It should be noted that the increase in order parameter is much steeper in this new formulation, and better defines the phase transition. However, the bigger difference is within the amount of data-processing required; the need for curve smoothing (via a uniform-window rolling average) is significantly reduced, and no negative values are now obtained. 
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/order_and_volfrac_oblong2}
+	\caption{Evolution of the order parameter and volume fraction over time; note the even steeper change in order parameter with minimal noise at median times.}
+	\label{fig:oblong_order2}
+\end{figure}
+
 
 %\clearpage
 \printbibliography
