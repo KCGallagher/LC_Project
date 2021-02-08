@@ -123,7 +123,7 @@ plt.xlabel("Time Step")
 plt.ylabel("Pressure (Natural Units)")
 plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
 plt.legend()
-# plt.savefig("pressureplot_frac.png")
+plt.savefig("pressureplot_frac.png")
 plt.show()
 
 plt.plot(
@@ -141,11 +141,10 @@ plt.plot(
     marker="x",
 )
 
-# plt.xlabel("Value of " + loop_var_name)
 plt.xlabel("Volume Fraction")
 plt.ylabel("Normalised Thermodynamic Variable")
 plt.legend()
 plt.title("Phase Plot for " + str(int(N)) + " Rigid Rods")
-# plt.savefig("phaseplot_frac.png")
+plt.savefig("phaseplot_frac.png")
 plt.show()
 
