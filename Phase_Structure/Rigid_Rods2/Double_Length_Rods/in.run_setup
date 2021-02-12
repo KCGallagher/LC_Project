@@ -1,7 +1,9 @@
+package omp 8
+
 # VARIABLES  
 variable num       equal  1 #labelling results only
 variable N         equal  1000
-variable box       equal  250 # cubic box of volume 'box'
+variable box       equal  100 # cubic box of volume 'box'
 
 print "variable N        equal  $N" #for phase plot code to read out
 

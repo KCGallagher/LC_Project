@@ -5,7 +5,7 @@
     Instructions: (soon)
     Requirements: (soon)
 
-    Updated by KG to code for two particles of length 5 instead
+    Updated by KG to code for one particle of length 16 instead
 """
 
 import time
@@ -58,7 +58,7 @@ def scale_vector(j):
 def within_box(ghost, box_lim):
     flag = True
     toBreak = False
-    for i in range(0, 10, 9):  # check only the edge beads
+    for i in range(0, 16, 15):  # check only the edge beads
         for j in range(3):
             # print(i, j)
             if abs(ghost[i][j]) > scale_vector(j) * box_lim:
@@ -72,22 +72,22 @@ def within_box(ghost, box_lim):
 
 
 def perform_rand_rot(ghost):
-    new_ghost = np.zeros((10, 3))
-    ran_rot = Quaternion.random()  # K changes Q to q
-    for i in range(10):
+    new_ghost = np.zeros((16, 3))
+    ran_rot = Quaternion.random()
+    for i in range(16):
         new_ghost[i] = ran_rot.rotate(ghost[i])
     return new_ghost
 
 
 def they_overlap(ghost, accepted, mol, rad):
     overlap = False
-    lista = list(range(10))  # [0,1,2,4,5,7,8]
+    lista = list(range(16))  # [0,1,2,4,5,7,8]
     break_flag = False
 
     for k in range(mol):
         for i in lista:
             for j in lista:
-                dist = np.linalg.norm(accepted[10 * k + i] - ghost[j])
+                dist = np.linalg.norm(accepted[16 * k + i] - ghost[j])
                 if dist < 2 * rad:
                     break_flag = True
                     overlap = True
@@ -100,18 +100,18 @@ def they_overlap(ghost, accepted, mol, rad):
 
 
 def gen_ghost(box_limit, dist):
-    ghost = np.zeros((10, 3))
+    ghost = np.zeros((16, 3))
     # center 0
     ghost[0][0] = 0
     ghost[0][1] = 0
     ghost[0][2] = 0
-    # tail of the next 9 beads
-    for i in range(1, 10, 1):
+    # tail of the next 15 beads
+    for i in range(1, 16, 1):
         ghost[i] = ghost[0]
         ghost[i][2] += i * dist
     # preform random rotation
     ran_rot = Quaternion.random()  # K changes Q to q
-    for i in range(10):
+    for i in range(16):
         ghost[i] = ran_rot.rotate(ghost[i])
     # preform random displacement
     ran_dis_x = (random() - 0.5e0) * 2.0 * (box_limit)
@@ -119,7 +119,7 @@ def gen_ghost(box_limit, dist):
         (random() - 0.5e0) * 2.0 * elongation * (box_limit)
     )  # change for oblong box?
     ran_dis_z = (random() - 0.5e0) * 2.0 * (box_limit)
-    for i in range(10):
+    for i in range(16):
         ghost[i][0] += ran_dis_x
         ghost[i][1] += ran_dis_y
         ghost[i][2] += ran_dis_z
@@ -156,7 +156,7 @@ def plot_all(accepted, n_mol, box_lim):
     x_list = [row[0] for row in accepted]
     y_list = [row[1] for row in accepted]
     z_list = [row[2] for row in accepted]
-    cols = cm.seismic(np.linspace(0, 10, 10 * n_mol) / 10)
+    cols = cm.seismic(np.linspace(0, 16, 16 * n_mol) / 16)
     fig = plt.figure()
     ax = fig.add_subplot(111, projection="3d")
     ax.scatter(x_list, y_list, z_list, c=cols, marker="o", s=350)
@@ -179,9 +179,9 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
 
     with open("input_data.file", "w") as g:
         g.write("LAMMPS nunchunk data file \n\n")
-        atoms = 10 * n_molecules
-        bonds = 8 * n_molecules
-        angles = 6 * n_molecules
+        atoms = 16 * n_molecules
+        bonds = 15 * n_molecules
+        angles = 14 * n_molecules
         dihedrals = 0 * n_molecules
         impropers = 0 * n_molecules
         g.write("%d  atoms          \n" % atoms)
@@ -190,9 +190,9 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
         g.write("%d  dihedrals      \n" % dihedrals)
         g.write("%d  impropers    \n\n" % impropers)
 
-        g.write("10 atom types     \n")
-        g.write("9  bond types     \n")
-        g.write("8  angle types    \n")
+        g.write("16 atom types     \n")
+        g.write("15  bond types     \n")
+        g.write("14 angle types    \n")
         g.write("0  dihedral types \n")
         g.write("0  improper types \n\n")
 
@@ -210,7 +210,13 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
         g.write("\t 7  %s \n" % mass)
         g.write("\t 8  %s \n" % mass)
         g.write("\t 9  %s \n" % mass)
-        g.write("\t 10 %s \n\n" % mass)
+        g.write("\t 10 %s \n" % mass)
+        g.write("\t 11 %s \n" % mass)
+        g.write("\t 12 %s \n" % mass)
+        g.write("\t 13 %s \n" % mass)
+        g.write("\t 14 %s \n" % mass)
+        g.write("\t 15 %s \n" % mass)
+        g.write("\t 16 %s \n\n" % mass)
 
         g.write("Atoms \n\n")
         for i in range(0, n_molecules, 1):
@@ -219,12 +225,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 1,
+                    16 * i + 1,
                     i + 1,
                     1,
-                    acc[10 * i][0],
-                    acc[10 * i][1],
-                    acc[10 * i][2],
+                    acc[16 * i][0],
+                    acc[16 * i][1],
+                    acc[16 * i][2],
                     0,
                     0,
                     0,
@@ -233,12 +239,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 2,
+                    16 * i + 2,
                     i + 1,
                     2,
-                    acc[10 * i + 1][0],
-                    acc[10 * i + 1][1],
-                    acc[10 * i + 1][2],
+                    acc[16 * i + 1][0],
+                    acc[16 * i + 1][1],
+                    acc[16 * i + 1][2],
                     0,
                     0,
                     0,
@@ -247,12 +253,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 3,
+                    16 * i + 3,
                     i + 1,
                     3,
-                    acc[10 * i + 2][0],
-                    acc[10 * i + 2][1],
-                    acc[10 * i + 2][2],
+                    acc[16 * i + 2][0],
+                    acc[16 * i + 2][1],
+                    acc[16 * i + 2][2],
                     0,
                     0,
                     0,
@@ -261,12 +267,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 4,
+                    16 * i + 4,
                     i + 1,
                     4,
-                    acc[10 * i + 3][0],
-                    acc[10 * i + 3][1],
-                    acc[10 * i + 3][2],
+                    acc[16 * i + 3][0],
+                    acc[16 * i + 3][1],
+                    acc[16 * i + 3][2],
                     0,
                     0,
                     0,
@@ -275,12 +281,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 5,
+                    16 * i + 5,
                     i + 1,
                     5,
-                    acc[10 * i + 4][0],
-                    acc[10 * i + 4][1],
-                    acc[10 * i + 4][2],
+                    acc[16 * i + 4][0],
+                    acc[16 * i + 4][1],
+                    acc[16 * i + 4][2],
                     0,
                     0,
                     0,
@@ -289,12 +295,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 6,
+                    16 * i + 6,
                     i + 1,
                     6,
-                    acc[10 * i + 5][0],
-                    acc[10 * i + 5][1],
-                    acc[10 * i + 5][2],
+                    acc[16 * i + 5][0],
+                    acc[16 * i + 5][1],
+                    acc[16 * i + 5][2],
                     0,
                     0,
                     0,
@@ -303,12 +309,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 7,
+                    16 * i + 7,
                     i + 1,
                     7,
-                    acc[10 * i + 6][0],
-                    acc[10 * i + 6][1],
-                    acc[10 * i + 6][2],
+                    acc[16 * i + 6][0],
+                    acc[16 * i + 6][1],
+                    acc[16 * i + 6][2],
                     0,
                     0,
                     0,
@@ -317,12 +323,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 8,
+                    16 * i + 8,
                     i + 1,
                     8,
-                    acc[10 * i + 7][0],
-                    acc[10 * i + 7][1],
-                    acc[10 * i + 7][2],
+                    acc[16 * i + 7][0],
+                    acc[16 * i + 7][1],
+                    acc[16 * i + 7][2],
                     0,
                     0,
                     0,
@@ -331,12 +337,12 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 9,
+                    16 * i + 9,
                     i + 1,
                     9,
-                    acc[10 * i + 8][0],
-                    acc[10 * i + 8][1],
-                    acc[10 * i + 8][2],
+                    acc[16 * i + 8][0],
+                    acc[16 * i + 8][1],
+                    acc[16 * i + 8][2],
                     0,
                     0,
                     0,
@@ -345,12 +351,96 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             g.write(
                 "\t %d %d %d %s %s %s %d %d %d \n"
                 % (
-                    10 * i + 10,
+                    16 * i + 10,
                     i + 1,
                     10,
-                    acc[10 * i + 9][0],
-                    acc[10 * i + 9][1],
-                    acc[10 * i + 9][2],
+                    acc[16 * i + 9][0],
+                    acc[16 * i + 9][1],
+                    acc[16 * i + 9][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 11,
+                    i + 1,
+                    11,
+                    acc[16 * i + 10][0],
+                    acc[16 * i + 10][1],
+                    acc[16 * i + 10][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 12,
+                    i + 1,
+                    12,
+                    acc[16 * i + 11][0],
+                    acc[16 * i + 11][1],
+                    acc[16 * i + 11][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 13,
+                    i + 1,
+                    13,
+                    acc[16 * i + 12][0],
+                    acc[16 * i + 12][1],
+                    acc[16 * i + 12][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 14,
+                    i + 1,
+                    14,
+                    acc[16 * i + 13][0],
+                    acc[16 * i + 13][1],
+                    acc[16 * i + 13][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 15,
+                    i + 1,
+                    15,
+                    acc[16 * i + 14][0],
+                    acc[16 * i + 14][1],
+                    acc[16 * i + 14][2],
+                    0,
+                    0,
+                    0,
+                )
+            )
+            g.write(
+                "\t %d %d %d %s %s %s %d %d %d \n"
+                % (
+                    16 * i + 16,
+                    i + 1,
+                    16,
+                    acc[16 * i + 15][0],
+                    acc[16 * i + 15][1],
+                    acc[16 * i + 15][2],
                     0,
                     0,
                     0,
@@ -361,14 +451,21 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
         g.write("Bonds \n\n")
         for i in range(0, n_molecules, 1):
             # N bond-type atom1-atom2
-            g.write("\t %d %d %d %d \n" % (9 * i + 1, 1, 10 * i + 1, 10 * i + 2))
-            g.write("\t %d %d %d %d \n" % (9 * i + 2, 2, 10 * i + 2, 10 * i + 3))
-            g.write("\t %d %d %d %d \n" % (9 * i + 3, 3, 10 * i + 3, 10 * i + 4))
-            g.write("\t %d %d %d %d \n" % (9 * i + 4, 4, 10 * i + 4, 10 * i + 5))
-            g.write("\t %d %d %d %d \n" % (9 * i + 6, 6, 10 * i + 6, 10 * i + 7))
-            g.write("\t %d %d %d %d \n" % (9 * i + 7, 7, 10 * i + 7, 10 * i + 8))
-            g.write("\t %d %d %d %d \n" % (9 * i + 8, 8, 10 * i + 8, 10 * i + 9))
-            g.write("\t %d %d %d %d \n" % (9 * i + 9, 9, 10 * i + 9, 10 * i + 10))
+            g.write("\t %d %d %d %d \n" % (15 * i + 1, 1, 16 * i + 1, 16 * i + 2))
+            g.write("\t %d %d %d %d \n" % (15 * i + 2, 2, 16 * i + 2, 16 * i + 3))
+            g.write("\t %d %d %d %d \n" % (15 * i + 3, 3, 16 * i + 3, 16 * i + 4))
+            g.write("\t %d %d %d %d \n" % (15 * i + 4, 4, 16 * i + 4, 16 * i + 5))
+            g.write("\t %d %d %d %d \n" % (15 * i + 5, 5, 16 * i + 5, 16 * i + 6))
+            g.write("\t %d %d %d %d \n" % (15 * i + 6, 6, 16 * i + 6, 16 * i + 7))
+            g.write("\t %d %d %d %d \n" % (15 * i + 7, 7, 16 * i + 7, 16 * i + 8))
+            g.write("\t %d %d %d %d \n" % (15 * i + 8, 8, 16 * i + 8, 16 * i + 9))
+            g.write("\t %d %d %d %d \n" % (15 * i + 9, 9, 16 * i + 9, 16 * i + 10))
+            g.write("\t %d %d %d %d \n" % (15 * i + 10, 10, 16 * i + 10, 16 * i + 11))
+            g.write("\t %d %d %d %d \n" % (15 * i + 11, 11, 16 * i + 11, 16 * i + 12))
+            g.write("\t %d %d %d %d \n" % (15 * i + 12, 12, 16 * i + 12, 16 * i + 13))
+            g.write("\t %d %d %d %d \n" % (15 * i + 13, 13, 16 * i + 13, 16 * i + 14))
+            g.write("\t %d %d %d %d \n" % (15 * i + 14, 14, 16 * i + 14, 16 * i + 15))
+            g.write("\t %d %d %d %d \n" % (15 * i + 15, 15, 16 * i + 15, 16 * i + 16))
 
         g.write("\n\n")
         g.write("Angles \n\n")
@@ -376,27 +473,59 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
             # N angle-type atom1-atom2(central)-atom3
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 1, 1, 10 * i + 1, 10 * i + 2, 10 * i + 3)
+                % (14 * i + 1, 1, 16 * i + 1, 16 * i + 2, 16 * i + 3)
             )
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 2, 2, 10 * i + 2, 10 * i + 3, 10 * i + 4)
+                % (14 * i + 2, 2, 16 * i + 2, 16 * i + 3, 16 * i + 4)
             )
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 3, 3, 10 * i + 3, 10 * i + 4, 10 * i + 5)
+                % (14 * i + 3, 3, 16 * i + 3, 16 * i + 4, 16 * i + 5)
             )
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 6, 6, 10 * i + 6, 10 * i + 7, 10 * i + 8)
+                % (14 * i + 4, 4, 16 * i + 4, 16 * i + 5, 16 * i + 6)
             )
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 7, 7, 10 * i + 7, 10 * i + 8, 10 * i + 9)
+                % (14 * i + 5, 5, 16 * i + 5, 16 * i + 6, 16 * i + 7)
             )
             g.write(
                 "\t %d %d %d %d %d \n"
-                % (8 * i + 8, 8, 10 * i + 8, 10 * i + 9, 10 * i + 10)
+                % (14 * i + 6, 6, 16 * i + 6, 16 * i + 7, 16 * i + 8)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 7, 7, 16 * i + 7, 16 * i + 8, 16 * i + 9)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 8, 8, 16 * i + 8, 16 * i + 9, 16 * i + 10)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 9, 9, 16 * i + 9, 16 * i + 10, 16 * i + 11)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 10, 10, 16 * i + 10, 16 * i + 11, 16 * i + 12)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 11, 11, 16 * i + 11, 16 * i + 12, 16 * i + 13)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 12, 12, 16 * i + 12, 16 * i + 13, 16 * i + 14)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 13, 13, 16 * i + 13, 16 * i + 14, 16 * i + 15)
+            )
+            g.write(
+                "\t %d %d %d %d %d \n"
+                % (14 * i + 14, 14, 16 * i + 14, 16 * i + 15, 16 * i + 16)
             )
 
     return ()
@@ -414,15 +543,15 @@ if args.generate:  # ie argument -g
     n_molecules = int(args.generate[0])
     box_limit = float(args.generate[1]) / 2.0
     rot_threshold = 500
-    ghost_mol = np.zeros((10, 3))
-    accpt_mol = np.zeros((10 * n_molecules, 3))
+    ghost_mol = np.zeros((16, 3))
+    accpt_mol = np.zeros((16 * n_molecules, 3))
 
     start_time = time.time()
     # first one is always accepted
     ghost_mol = gen_ghost(box_limit, dist)
     while within_box(ghost_mol, box_limit) == False:
         ghost_mol = gen_ghost(box_limit, dist)
-    for i in range(10):
+    for i in range(16):
         accpt_mol[i] = ghost_mol[i]
     mol = 1
     while mol < n_molecules:
@@ -444,8 +573,8 @@ if args.generate:  # ie argument -g
             flag = they_overlap(ghost_mol, accpt_mol, mol, 0.56)
         # -------if not then add them to the list of accepted----------------
         if flag == False:
-            for i in range(10):
-                accpt_mol[10 * mol + i] = ghost_mol[i]
+            for i in range(16):
+                accpt_mol[16 * mol + i] = ghost_mol[i]
         print(mol)
         # -----------------------move to next mol--------------------------
         mol += 1
@@ -485,7 +614,7 @@ if args.replot:  # ie argument -r
     infiles = "rawdata_" + str(n_molecules) + "_" + str((box_limit) * 2)
 
     # ------------------- initialisation ---------------------
-    accepted = np.zeros((10 * n_molecules, 3))
+    accepted = np.zeros((16 * n_molecules, 3))
     i = 0
 
     # ------------------ call from functions.py --------------
