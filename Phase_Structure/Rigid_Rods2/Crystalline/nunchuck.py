@@ -5,7 +5,8 @@
     Instructions: (soon)
     Requirements: (soon)
 
-    Adapted significantly by KG to produce crystalline array
+    Adapted significantly by KG to produce crystalline array. takes 3 input arguments (x_num, y_num, z_num), 
+    as well as flag for mode (-g for generator). I.e. py nunchuck.py -g 3 2 4
 """
 
 import time
@@ -28,21 +29,10 @@ from random import random
 
 # unchanged parameters for the beads:
 mass = 1.0
-dist = 1  # by default
+dist = 1.98  # by default
 rad = 0.56
-
-elongation = 3
-# aspect ratio of oblong base; y axis is E times longer than x and z axes
-
-
-def scale_vector(j):
-    """Returns scale factor for axis of index j"""
-    if j == 1:
-        return elongation  # extended y axis
-    elif j == 0 or j == 2:
-        return 1
-    else:
-        raise ValueError("Unexpected Index: recieved value " + str(j))
+mol_length = (9 * dist) + (2 * rad)
+# ie for 9 bonds, plus two ends of the molecule
 
 
 def plot_all(accepted, n_mol, box_lim):
@@ -93,7 +83,7 @@ def plot_all(accepted, n_mol, box_lim):
     return ()
 
 
-def print_formatted_file(acc, n_molecules, box_limit, mass):
+def print_formatted_file(acc, n_molecules, mass):
     from shutil import copyfile
 
     with open("input_data.file", "w") as g:
@@ -115,9 +105,9 @@ def print_formatted_file(acc, n_molecules, box_limit, mass):
         g.write("0  dihedral types \n")
         g.write("0  improper types \n\n")
 
-        g.write("-%f %f xlo xhi  \n" % (box_limit, box_limit))
-        g.write("-%f %f ylo yhi  \n" % (elongation * box_limit, elongation * box_limit))
-        g.write("-%f %f zlo zhi  \n\n" % (box_limit, box_limit))
+        g.write("-%f %f xlo xhi  \n" % (0, x_num * (1 + spacer)))
+        g.write("-%f %f ylo yhi  \n" % (0, y_num * (mol_length + spacer)))
+        g.write("-%f %f zlo zhi  \n\n" % (0, z_num * (1 + spacer)))
 
         g.write("Masses\n\n")
         g.write("\t 1  %s \n" % mass)
@@ -338,36 +328,40 @@ if args.generate:  # ie argument -g
     import numpy as np
     from shutil import copyfile
 
-    # inititalsation
-    n_molecules = int(args.generate[0])
-    box_limit = float(args.generate[1]) / 2.0
-    accpt_mol = np.zeros((10 * n_molecules, 3))
-
-    x_num = 3
-    y_num = 2
-    z_num = 4
+    # inititalisation
+    x_num = int(args.generate[0])
+    y_num = int(args.generate[1])
+    z_num = int(args.generate[2])
     n_molecules = x_num * y_num * z_num
     spacer = 2 * rad
-    # spacer = 0
+
+    accpt_mol = np.zeros((10 * n_molecules, 3))
+    shuffle_molecules = False
 
     start_time = time.time()
     for n in range(n_molecules):
         mol_pos_index = [
-            n // (x_num * y_num),
-            n % y_num,
             (n // y_num) % x_num,
+            n % y_num,
+            n // (x_num * y_num),
         ]
         # print(mol_pos_index)
         for i in range(10):
             # iterate over atoms in each molecule
             accpt_mol[10 * n + i, :] = [
                 mol_pos_index[0] * (1 + spacer),
-                mol_pos_index[1] * (10 + spacer) + i,
+                mol_pos_index[1] * (mol_length + spacer) + i * dist,
                 mol_pos_index[2] * (1 + spacer),
             ]
             # aligns all molecules along the long y axis
+    accpt_mol = accpt_mol + spacer  # constant offset
 
-    print(accpt_mol)
+    if shuffle_molecules:
+        rng = np.random.default_rng()
+        print(accpt_mol)
+        rng.shuffle(accpt_mol, axis=0)
+        print(accpt_mol)
+
     end_time = time.time()
     print("\n time for execution: " + str(end_time - start_time) + " seconds \n")
 
@@ -375,18 +369,12 @@ if args.generate:  # ie argument -g
     # plot_all(accpt_mol, n_molecules, box_limit)
 
     # --------------------------print all--------------------------------
-    print_formatted_file(accpt_mol, n_molecules, box_limit, mass)
+    print_formatted_file(accpt_mol, n_molecules, mass)
     print("done")
 
     # ---------------- rename the input_data.file ------------------------
     src = "input_data.file"
-    dst = (
-        "input_data_nunchucks_"
-        + str(n_molecules)
-        + "_"
-        + str(int((box_limit) * 2))
-        + ".file"
-    )
+    dst = "input_data_nunchucks_" + str(n_molecules) + ".file"
     copyfile(src, dst)
 
 """Frankly there is no need for the replotting option; OVITO recognises the LAMMPS input file format,
