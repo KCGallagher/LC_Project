@@ -1,0 +1,94 @@
+LAMMPS (3 Mar 2020)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
+  using 1 OpenMP thread(s) per MPI task
+package omp 0
+using multi-threaded neighbor list subroutines
+package omp 8
+set 8 OpenMP thread(s) per MPI task
+using multi-threaded neighbor list subroutines
+#run with lmp_serial -pk omp 8 -sf omp -in in.run_loop
+
+#SETUP
+# Runs on the first loop only
+shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
+shell del restart.time*     # delete all current restart files before first run
+shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
+
+#VARIABLES
+variable N         equal  1024  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable T         equal  0.5
+variable t_step    equal  0.005 #originally 0.005
+variable mix_steps equal  50000
+variable mix_tau   equal  ${t_step}*${mix_steps}
+variable mix_tau   equal  0.005*${mix_steps}
+variable mix_tau   equal  0.005*50000
+variable run_steps equal  50000 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
+variable run_tau   equal  0.005*${run_steps} 
+variable run_tau   equal  0.005*50000 
+#1000 particles averages 35,000 steps per minute
+
+#LOOP START
+label loop  #start loop from here
+read_restart restart.time*
+  restoring atom style molecular from restart
+  orthogonal box = (-0 -0 -0) to (33.92 44.24 33.92)
+  1 by 1 by 1 MPI processor grid
+  restoring pair style lj/cut/omp from restart
+  restoring bond style harmonic/omp from restart
+  restoring angle style harmonic/omp from restart
+  10240 atoms
+  9216 bonds
+  8192 angles
+  2 = max # of 1-2 neighbors
+  2 = max # of 1-3 neighbors
+  4 = max # of 1-4 neighbors
+  6 = max # of special neighbors
+  special bonds CPU = 0.017792 secs
+  read_restart CPU = 0.0422699 secs
+# this reads in latest restart file, * is wildcard for timestep
+
+
+# THERMAL
+timestep ${t_step}
+timestep 0.005
+thermo   100
+thermo_style custom step time temp press pe ke etotal vol
+thermo_modify norm no
+
+
+# DUMP OUTPUT
+dump  1  all custom 1 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 1 output_T_0.5_time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N  steps
+dump_modify 1 sort id
+
+# FIX
+fix 2 all nph iso ${T} ${T} 100   #changed from T = 0.5 to match variable T
+fix 2 all nph iso 0.5 ${T} 100   
+fix 2 all nph iso 0.5 0.5 100   
+fix 3 all langevin ${T} ${T} 1 123456 #as above
+fix 3 all langevin 0.5 ${T} 1 123456 
+fix 3 all langevin 0.5 0.5 1 123456 
+run ${mix_steps}
+run 50000
+Last active /omp style is angle_style harmonic/omp
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 1.42
+  ghost atom cutoff = 1.9
+  binsize = 0.71, bins = 48 63 48
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut/omp, perpetual
+      attributes: half, newton on, omp
+      pair build: half/bin/newton/omp
+      stencil: half/bin/3d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 16.89 | 16.89 | 16.89 Mbytes
+Step Time Temp Press PotEng KinEng TotEng Volume 
+       0            0            0 1.4592199e-15 8.5265128e-11            0 8.5265128e-11    50901.058 
+     100          0.5   0.21803763  0.018757588    2605.4828    3348.7309    5954.2137    50896.312 
+     200            1   0.33822393 0.0018915043    4143.5547    5194.6123     9338.167    50882.242 
+     300          1.5   0.40504913  0.011647682     5197.114     6220.947    11418.061    50858.813 
+     400            2    0.4426669  0.013132316    5836.9191    6798.6996    12635.619    50826.114 

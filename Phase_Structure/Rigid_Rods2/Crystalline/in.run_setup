@@ -1,7 +1,6 @@
 # VARIABLES  
 variable num       equal  1 #labelling results only
-variable N         equal  1000
-variable box       equal  100 # cubic box of volume 'box'
+variable N         equal  1024
 
 print "variable N        equal  $N" #for phase plot code to read out
 
@@ -16,7 +15,7 @@ comm_modify cutoff 1.9
 #based estimate of 1.87. This may lead to errors" warning.
 
 # READ  
-read_data input_data_nunchucks_${N}_${box}.file 
+read_data input_data_nunchucks_${N}.file 
 
 #  BONDS 
 bond_style harmonic

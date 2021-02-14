@@ -29,7 +29,7 @@ from random import random
 
 # unchanged parameters for the beads:
 mass = 1.0
-dist = 1.98  # by default
+dist = 0.98  # by default
 rad = 0.56
 mol_length = (9 * dist) + (2 * rad)
 # ie for 9 bonds, plus two ends of the molecule
@@ -373,6 +373,11 @@ if args.generate:  # ie argument -g
     print("done")
 
     # ---------------- rename the input_data.file ------------------------
+    box_volume = (
+        (x_num * (1 + spacer))
+        * (y_num * (mol_length + spacer))
+        * (z_num * (1 + spacer))
+    )  # for inclusion in filename if desired
     src = "input_data.file"
     dst = "input_data_nunchucks_" + str(n_molecules) + ".file"
     copyfile(src, dst)
