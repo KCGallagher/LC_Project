@@ -4,6 +4,8 @@
     last updated: 2019/09/20 
     Instructions: (soon)
     Requirements: (soon)
+
+    Adapted significantly by KG to produce crystalline array
 """
 
 import time
@@ -15,28 +17,18 @@ parser.add_argument(
     "--generate",
     nargs="+",
     default=None,
-    help="generate new configuration from scratsch.",
+    help="generate new configuration from scratch.",
 )
-parser.add_argument(
-    "-r",
-    "--replot",
-    nargs="+",
-    help="Replots what has been written in the rawdata files.",
-)
-parser.add_argument("-a", "--analyse", nargs="+", help="to be included shortly")
-parser.add_argument("-d", "--rdf", nargs="+", help="to be included shortly")
 args = parser.parse_args()
 import math
 import numpy as np
 from numpy import linalg as LA
 from random import random
 
-# import quaternion
-from pyquaternion import Quaternion
 
 # unchanged parameters for the beads:
 mass = 1.0
-dist = 0.98
+dist = 1  # by default
 rad = 0.56
 
 elongation = 3
@@ -51,77 +43,6 @@ def scale_vector(j):
         return 1
     else:
         raise ValueError("Unexpected Index: recieved value " + str(j))
-
-
-def within_box(ghost, box_lim):
-    flag = True
-    toBreak = False
-    for i in range(0, 10, 9):  # check only the edge beads
-        for j in range(3):
-            # print(i, j)
-            if abs(ghost[i][j]) > scale_vector(j) * box_lim:
-                # print("out")
-                flag = False
-                toBreak = True
-                break
-        if toBreak == True:
-            break
-    return flag
-
-
-def perform_rand_rot(ghost):
-    new_ghost = np.zeros((10, 3))
-    ran_rot = Quaternion.random()  # K changes Q to q
-    for i in range(10):
-        new_ghost[i] = ran_rot.rotate(ghost[i])
-    return new_ghost
-
-
-def they_overlap(ghost, accepted, mol, rad):
-    overlap = False
-    lista = list(range(10))  # [0,1,2,4,5,7,8]
-    break_flag = False
-
-    for k in range(mol):
-        for i in lista:
-            for j in lista:
-                dist = np.linalg.norm(accepted[10 * k + i] - ghost[j])
-                if dist < 2 * rad:
-                    break_flag = True
-                    overlap = True
-                    break
-            if break_flag == True:
-                break
-        if break_flag == True:
-            break
-    return overlap
-
-
-def gen_ghost(box_limit, dist):
-    ghost = np.zeros((10, 3))
-    # center 0
-    ghost[0][0] = 0
-    ghost[0][1] = 0
-    ghost[0][2] = 0
-    # tail of the next 9 beads
-    for i in range(1, 10, 1):
-        ghost[i] = ghost[0]
-        ghost[i][2] += i * dist
-    # preform random rotation
-    ran_rot = Quaternion.random()  # K changes Q to q
-    for i in range(10):
-        ghost[i] = ran_rot.rotate(ghost[i])
-    # preform random displacement
-    ran_dis_x = (random() - 0.5e0) * 2.0 * (box_limit)
-    ran_dis_y = (
-        (random() - 0.5e0) * 2.0 * elongation * (box_limit)
-    )  # change for oblong box?
-    ran_dis_z = (random() - 0.5e0) * 2.0 * (box_limit)
-    for i in range(10):
-        ghost[i][0] += ran_dis_x
-        ghost[i][1] += ran_dis_y
-        ghost[i][2] += ran_dis_z
-    return ghost
 
 
 def plot_all(accepted, n_mol, box_lim):
@@ -420,59 +341,42 @@ if args.generate:  # ie argument -g
     # inititalsation
     n_molecules = int(args.generate[0])
     box_limit = float(args.generate[1]) / 2.0
-    rot_threshold = 500
-    ghost_mol = np.zeros((10, 3))
     accpt_mol = np.zeros((10 * n_molecules, 3))
 
+    x_num = 3
+    y_num = 2
+    z_num = 4
+    n_molecules = x_num * y_num * z_num
+    spacer = 2 * rad
+    # spacer = 0
+
     start_time = time.time()
-    # first one is always accepted
-    ghost_mol = gen_ghost(box_limit, dist)
-    while within_box(ghost_mol, box_limit) == False:
-        ghost_mol = gen_ghost(box_limit, dist)
-    for i in range(10):
-        accpt_mol[i] = ghost_mol[i]
-    mol = 1
-    while mol < n_molecules:
-        # ----------------------generate ghost molecule--------------------
-        ghost_mol = gen_ghost(box_limit, dist)
-        while within_box(ghost_mol, box_limit) == False:
-            ghost_mol = gen_ghost(box_limit, dist)
-        # -------------check overlaping and perform a mx of 200 rots-----------
-        flag = they_overlap(ghost_mol, accpt_mol, mol, rad)
-        attempt_num = 0
-        while flag == True:
-            attempt_num += 1
-            if attempt_num > rot_threshold:
-                mol -= 1
-                break
-            ghost_mol = perform_rand_rot(ghost_mol)
-            while within_box(ghost_mol, box_limit) == False:
-                ghost_mol = gen_ghost(box_limit, dist)
-            flag = they_overlap(ghost_mol, accpt_mol, mol, 0.56)
-        # -------if not then add them to the list of accepted----------------
-        if flag == False:
-            for i in range(10):
-                accpt_mol[10 * mol + i] = ghost_mol[i]
-        print(mol)
-        # -----------------------move to next mol--------------------------
-        mol += 1
+    for n in range(n_molecules):
+        mol_pos_index = [
+            n // (x_num * y_num),
+            n % y_num,
+            (n // y_num) % x_num,
+        ]
+        # print(mol_pos_index)
+        for i in range(10):
+            # iterate over atoms in each molecule
+            accpt_mol[10 * n + i, :] = [
+                mol_pos_index[0] * (1 + spacer),
+                mol_pos_index[1] * (10 + spacer) + i,
+                mol_pos_index[2] * (1 + spacer),
+            ]
+            # aligns all molecules along the long y axis
+
+    print(accpt_mol)
     end_time = time.time()
     print("\n time for execution: " + str(end_time - start_time) + " seconds \n")
 
     # ---------------------------plot all------------------------------
-    plot_all(accpt_mol, n_molecules, box_limit)
+    # plot_all(accpt_mol, n_molecules, box_limit)
 
     # --------------------------print all--------------------------------
     print_formatted_file(accpt_mol, n_molecules, box_limit, mass)
     print("done")
-
-    with open("accepted.dat", "w") as f:
-        string_accpt_mol = str(accpt_mol).replace("[", "").replace("]", "")
-        f.writelines(string_accpt_mol + "\n")
-
-    # --save a copy to be read by load_plot.py----------------------------
-    target_name = "rawdata_" + str(n_molecules) + "_" + str((box_limit) * 2)
-    copyfile("accepted.dat", target_name)
 
     # ---------------- rename the input_data.file ------------------------
     src = "input_data.file"
@@ -485,20 +389,5 @@ if args.generate:  # ie argument -g
     )
     copyfile(src, dst)
 
-if args.replot:  # ie argument -r
-    n_molecules, box_limit = args.replot
-    n_molecules = int(n_molecules)
-    box_limit = float(box_limit)
-    infiles = "rawdata_" + str(n_molecules) + "_" + str((box_limit) * 2)
-
-    # ------------------- initialisation ---------------------
-    accepted = np.zeros((10 * n_molecules, 3))
-    i = 0
-
-    # ------------------ call from functions.py --------------
-    with open(infile, "r") as g:
-        for row in g.readlines():
-            accepted[i][0], accepted[i][1], accepted[i][2] = row.split()
-            i += 1
-        plot_all(accepted, n_molecules, box_limit)
-
+"""Frankly there is no need for the replotting option; OVITO recognises the LAMMPS input file format,
+ if you specify the atom_style as molecular. It gives a much better visualisation of the particles."""
