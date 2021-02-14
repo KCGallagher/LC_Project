@@ -1,5 +1,3 @@
-package omp 8
-
 # VARIABLES  
 variable num       equal  1 #labelling results only
 variable N         equal  1000
