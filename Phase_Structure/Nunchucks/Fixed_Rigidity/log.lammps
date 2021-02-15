@@ -37,8 +37,8 @@ read_restart restart.time*
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.00698209 secs
-  read_restart CPU = 0.0309169 secs
+  special bonds CPU = 0.013963 secs
+  read_restart CPU = 0.0388942 secs
 # this reads in latest restart file, * is wildcard for timestep
 
 
@@ -63,7 +63,4 @@ fix 2 all nph iso 0.5 0.5 100
 fix 3 all langevin ${T} ${T} 1 123456 #as above
 fix 3 all langevin 0.5 ${T} 1 123456 
 fix 3 all langevin 0.5 0.5 1 123456 
-run ${mix_steps}
-run 50000
-Neighbor list info ...
-  update every 1 steps, delay 10 steps, check
+run $

@@ -8,7 +8,7 @@ shell lmp_serial -in in.run_setup     # first run of file, generate first restar
 variable N         equal  1000  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
 variable T         equal  0.5 
 variable t_step    equal  0.005 #originally 0.005
-variable mix_steps index  50000 50000 30000 10000 10000 10000 10000 10000 30000 30000 
+variable mix_steps index  50000 50000 50000 50000 50000 50000
 variable mix_tau   equal  ${t_step}*${mix_steps} 
 variable run_steps equal  2000000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
@@ -28,7 +28,7 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT 
-dump  1  all custom 10000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 25000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
 # dumps all positions etc every N  steps
 dump_modify 1 sort id
 
