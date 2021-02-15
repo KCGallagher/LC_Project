@@ -39,7 +39,7 @@ mass = 1.0
 dist = 0.98
 rad = 0.56
 
-elongation = 3
+elongation = 1
 # aspect ratio of oblong base; y axis is E times longer than x and z axes
 
 

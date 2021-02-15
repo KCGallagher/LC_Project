@@ -27,6 +27,7 @@ bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond 
 # ANGLES  
 angle_style harmonic
 angle_coeff * 500.0  180
+angle_coeff 5 500.0  150    #this is basically the only change!!
 
 # PAIR lj/cut --with interactions, to steady state
 pair_style lj/cut 1.0
