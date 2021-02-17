@@ -3,8 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
-file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
+file_root = "output_T_0.5_time_"
 sampling_freq = 1  # only samples one in X files (must be integer)
+plotting_freq = 50  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -67,33 +68,27 @@ print(
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
 
-def order_param(data):
-    """Input data in array of size Molecule Number x 3 x 3
+def angle_dist(data):
+    """Input data in array of size Molecule Number x 4 x 3
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule (first/last)
+    Second index gives particle number within molecule (1/5/6/10)
     Third index gives the component of the position (x,y,z)
 
-    Method for calculation of Order Param given by Eppenga (1984)
     """
-    directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
-    norm_directors = directors / np.linalg.norm(directors, axis=1).reshape(
-        -1, 1
-    )  # reshape allows broadcasting
-    M_matrix = np.zeros((3, 3))
-    for i, j in np.ndindex(M_matrix.shape):
-        M_matrix[i, j] = (
-            np.sum(norm_directors[:, i] * norm_directors[:, j]) / N_molecules
-        )
-    M_eigen = np.linalg.eigvals(M_matrix)
-    Q_eigen = (3 * M_eigen - 1) / 2
-    return max(Q_eigen)  # largest eigenvalue corresponds to traditional order parameter
+    rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
+    norm_rod_1 = rod_1 / np.linalg.norm(rod_1, axis=1).reshape(-1, 1)
+    rod_2 = data[:, 3, :] - data[:, 2, :]  # director vector for second end of molecule
+    norm_rod_2 = rod_2 / np.linalg.norm(rod_2, axis=1).reshape(-1, 1)
+
+    angle_values = np.sum(norm_rod_1 * norm_rod_2, axis=1)
+    return angle_values
 
 
 # READ MOLECULE POSITIONS
 
-order_param_values = np.zeros(len(time_range))
+angle_mean_values = np.zeros(len(time_range))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
@@ -101,8 +96,8 @@ for i, time in enumerate(time_range):  # interate over dump files
     extract_box_data = False  # start of file doesn't contain box dimension
 
     box_volume = 1
-    rod_positions = np.zeros((N_molecules, 2, 3))
-    """Indices are Molecule Number/ First (0) or Last (1) atom,/ Positional coord index"""
+    rod_positions = np.zeros((N_molecules, 4, 3))
+    """Indices are Molecule Number; Atom number 1/5/6/10 ; Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -138,51 +133,55 @@ for i, time in enumerate(time_range):  # interate over dump files
                     pass  # any non-floats in this line are ignored
 
             # Save positional coordatinates of end particles
-            if int(particle_values[2]) == 1:  # first particle in molecule
+            if int(particle_values[2]) == 1:  # first particle in first rod
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in molecule
+            if int(particle_values[2]) == 5:  # last particle in first rod
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
+            if int(particle_values[2]) == 6:  # first particle in second rod
+                rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+            if int(particle_values[2]) == 10:  # last particle in second rod
+                rod_positions[int(particle_values[1]) - 1, 3, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
+    angle_mean_values[i] = np.mean(
+        angle_dist(rod_positions)
+    )  # evaluate order param at time t
+
+    tot_plot_num = len(time_range) // plotting_freq
+    colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
+    if i % plotting_freq == 0 and time != 0:
+        if i == plotting_freq or i == tot_plot_num * plotting_freq:
+            # label only start and end points
+            plt.hist(
+                angle_dist(rod_positions),
+                density=True,
+                histtype="step",
+                color=colors[i // plotting_freq - 1],
+                label=("T = " + str(int(time))),
+            )
+        else:
+            plt.hist(
+                angle_dist(rod_positions),
+                density=True,
+                histtype="step",
+                color=colors[i // plotting_freq - 1],
+            )
+
     print("T = " + str(time) + "/" + str(run_time))
 
+plt.title("Evolution of angle distribution over time")
+plt.xlabel(r"Mean Angle ($cos(\theta)$)")
+plt.ylabel("Normalised Frequency")
+plt.legend()
+plt.show()
 
-plt.plot(time_range, order_param_values)
+plt.plot(time_range, angle_mean_values)
 plt.plot(
-    time_range, uniform_filter1d(order_param_values, size=int(10)), linestyle="--",
+    time_range, uniform_filter1d(angle_mean_values, size=int(10)), linestyle="--",
 )
 plt.xlabel("Time (arbitrary units)")
-plt.ylabel("Order Parameter")
-plt.title("Evolution of Order Parameter")
-# plt.savefig("order_plot.png")
-plt.show()
-
-fig, ax1 = plt.subplots()
-
-color = "tab:red"
-ax1.set_xlabel("Time (arbitrary units)")
-ax1.set_ylabel("Order Parameter", color=color)
-ax1.plot(time_range, uniform_filter1d(order_param_values, size=int(10)), color=color)
-ax1.tick_params(axis="y", labelcolor=color)
-
-ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
-color = "tab:blue"
-ax2.set_ylabel(
-    "Volume Fraction", color=color
-)  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values), color=color)
-ax2.tick_params(axis="y", labelcolor=color)
-
-plt.title("Evolution of Order Parameter")
-fig.tight_layout()  # otherwise the right y-label is slightly clipped
-# plt.savefig("order_and_volfrac.png")
-plt.show()
-
-plt.plot(vol_frac(volume_values), order_param_values, "rx")
-plt.ylabel("Order Parameter")
-plt.xlabel("Volume Fraction")
-plt.savefig("order_vs_volfrac.png")
+plt.ylabel(r"Mean Angle ($cos(\theta)$)")
+plt.title("Evolution of Mean Angle")
+plt.savefig("angle_mean.png")
 plt.show()
