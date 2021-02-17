@@ -6,7 +6,7 @@
     Requirements: (soon)
 
     Adapted significantly by KG to produce crystalline array. takes 3 input arguments (x_num, y_num, z_num), 
-    as well as flag for mode (-g for generator). I.e. py nunchuck.py -g 3 2 4
+    as well as flag for mode (-g for generator). I.e. py nunchuck.py -g 16 4 16
 """
 
 import time
@@ -333,7 +333,7 @@ if args.generate:  # ie argument -g
     y_num = int(args.generate[1])
     z_num = int(args.generate[2])
     n_molecules = x_num * y_num * z_num
-    spacer = 2 * rad
+    spacer = 2 * rad - dist
 
     accpt_mol = np.zeros((10 * n_molecules, 3))
     shuffle_molecules = False
@@ -354,7 +354,7 @@ if args.generate:  # ie argument -g
                 mol_pos_index[2] * (1 + spacer),
             ]
             # aligns all molecules along the long y axis
-    accpt_mol = accpt_mol + spacer  # constant offset
+    accpt_mol = accpt_mol + rad  # constant offset
 
     if shuffle_molecules:
         rng = np.random.default_rng()

@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
 import pickle
 
+
+def vol_frac(volume_data):
+    """Returns array of volume fraction data from volume array"""
+    return np.reciprocal(volume_data) * (10 * N * (np.pi * 0.56 ** 2))
+    # See OneNote details of form to use here
+
+
 loop_var_name = "mix_steps"  # user defined!
 
 file_name = "log.lammps"
@@ -105,12 +112,6 @@ for i in range(1, len(start_lines), 2):
     final_values[1, j] = np.mean(data["Press"][start_index:end_index])
     final_values[2, j] = np.mean(data["PotEng"][start_index:end_index])
     final_values[3, j] = np.mean(data["Volume"][start_index:end_index])
-
-
-def vol_frac(volume_data):
-    """Returns array of volume fraction data from volume array"""
-    return np.reciprocal(volume_data) * (10 * N * (np.pi * 0.56 ** 2))
-    # See OneNote details of form to use here
 
 
 vol_frac_data = vol_frac(final_values[3, :])
