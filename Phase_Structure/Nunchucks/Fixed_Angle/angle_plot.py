@@ -5,7 +5,7 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 30  # only samples one in X files (must be integer)
+sampling_freq = 1  # only samples one in X files (must be integer) #30
 plotting_freq = 2  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -69,7 +69,7 @@ print(
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
 
-def angle_dist(data):
+def angle_dist(data, remove_split_mol=True):
     """Input data in array of size Molecule Number x 4 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -77,13 +77,28 @@ def angle_dist(data):
     Second index gives particle number within molecule (1/5/6/10)
     Third index gives the component of the position (x,y,z)
 
+    Allows option to remove molecules that are split across the boundaries of the box
+
     """
+
+    if remove_split_mol:
+        molecules_removed = 0
+        # where molecule end-to-end length is greater than 10, replace with nans
+        for i in range(N_molecules):
+            if np.linalg.norm(data[i, 3, :] - data[i, 0, :]) > 10.5:
+                data[i, :, :].fill(np.nan)
+                molecules_removed += 1
+                # remove data for molecules that are longer than expected (ie 10 units)
+                # this is due to them spanning the edges of the simulation region
+        print("Number of molecules removed is : " + str(molecules_removed))
+
     rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
     norm_rod_1 = rod_1 / np.linalg.norm(rod_1, axis=1).reshape(-1, 1)
     rod_2 = data[:, 3, :] - data[:, 2, :]  # director vector for second end of molecule
     norm_rod_2 = rod_2 / np.linalg.norm(rod_2, axis=1).reshape(-1, 1)
 
     angle_values = np.sum(norm_rod_1 * norm_rod_2, axis=1)
+    angle_values = angle_values[~np.isnan(angle_values)]  # remove nans
     return angle_values
 
 
@@ -145,9 +160,9 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    angle_mean_values[i] = np.mean(
-        angle_dist(rod_positions)
-    )  # evaluate order param at time t
+
+    angle_data = angle_dist(rod_positions)
+    angle_mean_values[i] = np.mean(angle_data)  # evaluate order param at time t
 
     tot_plot_num = len(time_range) // plotting_freq
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
@@ -155,7 +170,7 @@ for i, time in enumerate(time_range):  # interate over dump files
         if i == plotting_freq or i == tot_plot_num * plotting_freq:
             # label only start and end points
             plt.hist(
-                angle_dist(rod_positions),
+                angle_data,
                 density=True,
                 histtype="step",
                 color=colors[i // plotting_freq - 1],
@@ -163,7 +178,7 @@ for i, time in enumerate(time_range):  # interate over dump files
             )
         else:
             plt.hist(
-                angle_dist(rod_positions),
+                angle_data,
                 density=True,
                 histtype="step",
                 color=colors[i // plotting_freq - 1],
