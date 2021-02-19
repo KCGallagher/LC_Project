@@ -5,8 +5,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 1  # only samples one in X files (must be integer) #30
-plotting_freq = 2  # only plots on in X of the sampled distributions
+sampling_freq = 5  # only samples one in X files (must be integer) #30
+plotting_freq = 5  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -167,22 +167,34 @@ for i, time in enumerate(time_range):  # interate over dump files
     tot_plot_num = len(time_range) // plotting_freq
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i % plotting_freq == 0 and time != 0:
-        if i == plotting_freq or i == tot_plot_num * plotting_freq:
+        print(time)
+        if i == plotting_freq or time >= run_time - (
+            dump_interval * sampling_freq * plotting_freq
+        ):
             # label only start and end points
-            plt.hist(
+            # plt.hist(
+            #     angle_data,
+            #     density=True,
+            #     histtype="step",
+            #     color=colors[i // plotting_freq - 1],
+            #     label="T = " + str(int(time)),
+            # )
+            sns.kdeplot(
                 angle_data,
-                density=True,
-                histtype="step",
-                color=colors[i // plotting_freq - 1],
                 label="T = " + str(int(time)),
+                color=colors[i // plotting_freq - 1],
+                bw_adjust=0.5,  # adjusts smoothing (default is 1)
+                # gridsize=50,  #adjusts points in average (default is 200)
             )
         else:
-            plt.hist(
+            sns.kdeplot(
                 angle_data,
-                density=True,
-                histtype="step",
                 color=colors[i // plotting_freq - 1],
+                alpha=1,
+                bw_adjust=0.5,
+                # gridsize=50
             )
+            # alpha may be used to adjust transparency
 
     print("T = " + str(time) + "/" + str(run_time))
 
