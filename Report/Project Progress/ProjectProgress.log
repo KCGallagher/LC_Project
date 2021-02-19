@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  7 FEB 2021 10:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  19 FEB 2021 11:39
 entering extended mode
 **./ProjectProgress.tex
 (ProjectProgress.tex
@@ -1410,27 +1410,45 @@ ne 147.
 
 [3 <./Figures/phaseplot_frac_cubic.png> <./Figures/pressureplot_frac_cubic.png>
 ] [4 <./Figures/director_evo_cubic.png> <./Figures/longrun2_oblong.png>]
-<Figures/order_and_volfrac_oblong2.png, id=39, 462.528pt x 346.896pt>
+<Figures/order_and_volfrac_oblong2.png, id=39, 441.5697pt x 310.0383pt>
 File: Figures/order_and_volfrac_oblong2.png Graphic file (type png)
 <use Figures/order_and_volfrac_oblong2.png>
 Package pdftex.def Info: Figures/order_and_volfrac_oblong2.png  used on input l
-ine 161.
-(pdftex.def)             Requested size: 338.58632pt x 253.95184pt.
+ine 162.
+(pdftex.def)             Requested size: 217.66211pt x 152.8284pt.
+<Figures/order_and_volfrac_longrods.png, id=40, 434.3427pt x 304.2567pt>
+File: Figures/order_and_volfrac_longrods.png Graphic file (type png)
+<use Figures/order_and_volfrac_longrods.png>
+Package pdftex.def Info: Figures/order_and_volfrac_longrods.png  used on input 
+line 168.
+(pdftex.def)             Requested size: 217.66211pt x 152.47617pt.
 
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
-AED: lastpage setting LastPage
+ []
+
 [5 <./Figures/phaseplot_frac_oblong.png> <./Figures/order_and_volfrac_oblong.pn
-g>] [6 <./Figures/order_and_volfrac_oblong2.png>] (ProjectProgress.aux)
+g> <./Figures/order_and_volfrac_oblong2.png> <./Figures/order_and_volfrac_longr
+ods.png>]
+<Figures/order_and_volfrac_crystal.png, id=48, 437.2335pt x 302.8113pt>
+File: Figures/order_and_volfrac_crystal.png Graphic file (type png)
+<use Figures/order_and_volfrac_crystal.png>
+Package pdftex.def Info: Figures/order_and_volfrac_crystal.png  used on input l
+ine 188.
+(pdftex.def)             Requested size: 338.58632pt x 234.49612pt.
+ 
+AED: lastpage setting LastPage
+[6 <./Figures/order_and_volfrac_crystal.png>] (ProjectProgress.aux)
 Package logreq Info: Writing requests to 'ProjectProgress.run.xml'.
 \openout1 = `ProjectProgress.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17739 strings out of 481565
- 310629 string characters out of 2914627
- 989361 words of memory out of 3000000
- 32493 multiletter control sequences out of 15000+200000
- 689942 words of font info for 189 fonts, out of 3000000 for 9000
+ 17781 strings out of 481565
+ 311913 string characters out of 2914627
+ 989379 words of memory out of 3000000
+ 32509 multiletter control sequences out of 15000+200000
+ 692848 words of font info for 205 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,11n,77p,1142b,1705s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xcharter/xch
@@ -1447,9 +1465,9 @@ ublic/amsfonts/cm/cmr8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Progr
 ams/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectProgress.pdf (6 pages, 1476503 bytes).
+Output written on ProjectProgress.pdf (6 pages, 1531599 bytes).
 PDF statistics:
- 82 PDF objects out of 1000 (max. 8388607)
+ 86 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 38446 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 38456 words of extra memory for PDF output out of 42996 (max. 10000000)
 

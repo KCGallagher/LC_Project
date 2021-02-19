@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 1  # only samples one in X files (must be integer)
-plotting_freq = 50  # only plots on in X of the sampled distributions
+sampling_freq = 30  # only samples one in X files (must be integer)
+plotting_freq = 2  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -158,7 +159,7 @@ for i, time in enumerate(time_range):  # interate over dump files
                 density=True,
                 histtype="step",
                 color=colors[i // plotting_freq - 1],
-                label=("T = " + str(int(time))),
+                label="T = " + str(int(time)),
             )
         else:
             plt.hist(
@@ -174,6 +175,7 @@ plt.title("Evolution of angle distribution over time")
 plt.xlabel(r"Mean Angle ($cos(\theta)$)")
 plt.ylabel("Normalised Frequency")
 plt.legend()
+plt.savefig("angle_dist.png")
 plt.show()
 
 plt.plot(time_range, angle_mean_values)

@@ -154,15 +154,41 @@ Again thermodynamic variables have been recorded over time here. It is particula
 
 A quasi-discrete change in order parameter is observed clearly in this system as the volume fraction increases, depicted in Figure \ref{fig:oblong_order_evo}. Again smoothing is required to obtain this order parameter, and the absolute value must be taken to avoid negative values. These suggest that mean value approach to calculate the local director may not be valid, and a more advanced method will be implemented for future simulations.
 
-We may introduce the alternative order parameter (from Eppenga et al.) introduced in Section \ref{Order_param_theory}, to produce the phase curve in Figure \ref{fig:oblong_order2}. It should be noted that the increase in order parameter is much steeper in this new formulation, and better defines the phase transition. However, the bigger difference is within the amount of data-processing required; the need for curve smoothing (via a uniform-window rolling average) is significantly reduced, and no negative values are now obtained. 
+We may introduce the alternative order parameter (from Eppenga et al.) introduced in Section \ref{Order_param_theory}, to produce the phase curve in Figure \ref{fig:oblong_order2}. It should be noted that the increase in order parameter is much steeper in this new formulation, and better defines the phase transition. However, the bigger difference is within the amount of data-processing required; the need for curve smoothing (via a uniform-window rolling average) is significantly reduced, and no negative values are now obtained.
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{Figures/order_and_volfrac_oblong2}
-	\caption{Evolution of the order parameter and volume fraction over time; note the even steeper change in order parameter with minimal noise at median times.}
-	\label{fig:oblong_order2}
-\end{figure}
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\linewidth]{Figures/order_and_volfrac_oblong2}
+		\caption{Evolution of the order parameter and volume fraction over time for particles with an aspect ratio = 10; note the even steeper change in order parameter with minimal noise at median times.}
+		\label{fig:oblong_order2}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[b]{0.45\textwidth}
+		\includegraphics[width=\linewidth]{Figures/order_and_volfrac_longrods}
+		\caption{Evolution of the order parameter for longer particles, with an extended aspect ratio = 16. Note the phase transition occurs at a lower volume fraction here.}
+		\label{fig:oblong_order_long}
+	\end{minipage}
+\end{figure} 
 
+The validity of this method (and Onsager theory in general) may be verified through variation of the aspect ratio of the particles considered. I considered two cases here; the first was that of half length rods, with an aspect ratio of 5. This was in response to data from my supervisor which suggested a phase transition may occur here with a volume fraction of 50\%; despite Onsager's prediction that this would require a volume fraction of 0.8 (higher than can be physically achieved with sphere-based particles due to their limited packing efficiency of 74\%). My simulations seems to support Onsager's theory; I was only able to achieve a maximal volume fraction of 56\% with no formation of an ordered phase occurring. 
+
+I also considered rigid rods formed of 16 adjacent spheres, which therefore are predicted to undergo a nematic phase transition at the critical volume fraction of 25\%. Figure \ref{fig:oblong_order_long} displays the evolution of the order parameter for this system, and is in agreement with this theoretical prediction.\\
+
+
+\subsection{Expanding Simulation Region}
+In this section, I introduce simulations ran `in reverse' - i.e. starting from a perfectly ordered (crystalline) phase, and then expanding the simulation region to observe the introduction of disorder. This is particularly important to demonstrate the validity of the nematic phase transition we have previously observed when shrinking the simulation region, and particularly that it was observed at equilibrium. This is because non-equilibrium effects will manifest themselves as hysteresis here; i.e. the 'backwards' phase transition will not occur at the same critical volume fraction as the 'forwards' (i.e. reducing volume fraction) transition.
+
+The expanding simulation region is controlled by the time integration of Nose-Hoover style non-Hamiltonian equations of motion on a isoenthalpic ensemble. This is specified in LAMMPS by a target pressure, and a damping term, so that the system evolves isenthalpically to achieve this. The target pressure must be lower than the system pressure for expansion to occur (and the rate of expansion is controlled by the damping term, however this has been kept constant from previous simulations). It is also worth noting that a langevin thermostat is employed here to ensure the temperature of the system is conserved during this process.
+
+As expected, we observed a nematic phase transition over the critical volume fraction of 0.4 in this system. We also observed a second phase transition in Figure \ref{fig:crystalline_order}, that we believe corresponds to the smectic-nematic phase transition, however further work is required to verify this (such as calculation of a more appropriate order parameter for this phase transition). 
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/order_and_volfrac_crystal}
+	\caption{Evolution of the order parameter and volume fraction over time; note the two phase transitions observed (corresponding to steep changes in the order parameter).}
+	\label{fig:crystalline_order}
+\end{figure}
 
 %\clearpage
 \printbibliography
