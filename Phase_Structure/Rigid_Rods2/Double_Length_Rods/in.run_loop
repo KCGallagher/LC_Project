@@ -10,9 +10,9 @@ shell lmp_serial -in in.run_setup     # first run of file, generate first restar
 variable N         equal  1000  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
 variable T         equal  0.5 
 variable t_step    equal  0.005 #originally 0.005
-variable mix_steps index  75000 75000 40000 20000 20000 20000 20000 20000 
+variable mix_steps index  90000 90000 20000 20000 20000 
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  2500000 # steps to run simulation in order to reach steady state
+variable run_steps equal  3000000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 #1000 particles averages 35,000 steps per minute SO 1600 IS SLOWER
 
