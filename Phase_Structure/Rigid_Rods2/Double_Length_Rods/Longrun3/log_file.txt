@@ -1,0 +1,11 @@
+This run's results suggest the nematic phase is forming below the critical volume 
+fraction of 0.25, occuring between 0.18 and 0.22. This is worrying and not in agreement with 
+predictions from Onsager's theory; it is not clear why this has occured 'early'.
+
+There is also uncertainty on the method of volume fraction calculation here;
+as the ONsager model is based on cylindrical particles. If a smaller radius is used, the volume
+fraction is reduced to the expected level, given in the subdirectory here.
+
+Finally, we again form multiple phases in this extended simulation region; it would be preferrable 
+to avoid this and so a further simulation may be attempted with a cubic region (as this extended region
+may not aid director cohesion across the system).

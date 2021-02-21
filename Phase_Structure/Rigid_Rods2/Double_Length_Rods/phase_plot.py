@@ -6,7 +6,7 @@ import pickle
 
 def vol_frac(volume_data):
     """Returns array of volume fraction data from volume array"""
-    return np.reciprocal(volume_data) * (10 * N * (np.pi * 0.56 ** 2))
+    return np.reciprocal(volume_data) * (16 * N * (np.pi * 0.5 ** 2))
     # See OneNote details of form to use here
 
 

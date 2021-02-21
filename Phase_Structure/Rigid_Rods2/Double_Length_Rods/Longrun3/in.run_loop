@@ -1,0 +1,59 @@
+#SETUP
+# Runs on the first loop only
+package omp 8
+
+shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
+shell del restart.time*     # delete all current restart files before first run
+shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
+
+#VARIABLES
+variable N         equal  1000  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable T         equal  0.5 
+variable t_step    equal  0.005 #originally 0.005
+variable mix_steps index  90000 90000 20000 20000 20000 
+variable mix_tau   equal  ${t_step}*${mix_steps} 
+variable run_steps equal  3000000 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
+#1000 particles averages 35,000 steps per minute SO 1600 IS SLOWER
+
+#LOOP START
+label loop  #start loop from here
+read_restart restart.time*      
+# this reads in latest restart file, * is wildcard for timestep
+
+
+# THERMAL   
+timestep ${t_step}
+thermo   100 
+thermo_style custom step time temp press pe ke etotal vol
+thermo_modify norm no
+
+
+# DUMP OUTPUT 
+dump  1  all custom 20000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N  steps
+dump_modify 1 sort id
+
+# FIX
+fix 2 all nph iso ${T} ${T} 100  #changed from T = 0.5 to match variable T
+fix 3 all langevin ${T} ${T} 1 123456 #as above
+run ${mix_steps}
+
+unfix 2
+unfix 3
+fix 4 all nve 
+fix 5 all langevin ${T} ${T} 1 123456 
+fix recen1 all recenter INIT INIT INIT
+
+
+# RUN
+run ${run_steps}
+write_restart restart.time*
+
+#This section  of codes allows looping over the list of T values
+clear
+next mix_steps
+jump in.run_loop loop  #jumps back to loop label
+
+shell py phase_plot.py #runs phase analysis
+shell py director_plot.py #runs phase analysis
