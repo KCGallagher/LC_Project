@@ -1,4 +1,5 @@
 import numpy as np
+import scipy
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
@@ -9,6 +10,21 @@ sampling_freq = 5  # only samples one in X files (must be integer) #30
 plotting_freq = 5  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
+
+
+def order_param(data):
+    """Input data in array of length Molecule Number 
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Third index gives the component of the position of CoM (x,y,z)
+
+    Method for calculation given by Polson (1997) 10.1103/PhysRevE.56.R6260
+    """
+    k = 2 * np.pi / 10  # divide by length of molecule
+    exp_values = np.exp(1j * k * data)
+    return np.abs(np.sum(exp_values)) / N_molecules
+
 
 # READ PARAMETER VALUES FROM LOG FILE
 
@@ -83,8 +99,10 @@ def CoM_dist(data):
 
 # READ MOLECULE POSITIONS
 
-CoM_mean_values = np.zeros(len(time_range))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
+order_param_values = np.full(len(time_range), np.nan)
+CoM_mean_values = []
+CoM_mean_times = []
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
     extract_atom_data = False  # start of file doesn't contain particle values
@@ -133,57 +151,116 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
+    order_param_values[i] = order_param(rod_positions[:, 1])
 
     CoM_data = rod_positions[:, 1]  # select y coordinate
-    CoM_mean_values[i] = np.mean(CoM_data)  # evaluate order param at time t
+    # kde_data = scipy.stats.gaussian_kde(CoM_data)
 
+    plot_num = 0
     tot_plot_num = len(time_range) // plotting_freq
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i % plotting_freq == 0 and time != 0:
-        print(time)
         if i == plotting_freq or time >= run_time - (
             dump_interval * sampling_freq * plotting_freq
         ):
-            # label only start and end points
-            # plt.hist(
-            #     CoM_data,
-            #     density=True,
-            #     histtype="step",
-            #     color=colors[i // plotting_freq - 1],
-            #     label="T = " + str(int(time)),
-            # )
-            sns.kdeplot(
+
+            my_kde = sns.kdeplot(
                 CoM_data,
                 label="T = " + str(int(time)),
                 color=colors[i // plotting_freq - 1],
                 bw_adjust=0.5,  # adjusts smoothing (default is 1)
+                cut=0,
+                # clip=(0, 50), # cuts off x limit
                 # gridsize=50,  #adjusts points in average (default is 200)
             )
         else:
-            sns.kdeplot(
+            my_kde = sns.kdeplot(
                 CoM_data,
                 color=colors[i // plotting_freq - 1],
                 alpha=1,
                 bw_adjust=0.5,
+                cut=0,
+                # clip=(0, 50), # cuts off x limit
                 # gridsize=50
             )
             # alpha may be used to adjust transparency
+        line = my_kde.lines[plot_num - 1]
+        x, y = line.get_data()
+        CoM_mean_values.append(max(y) - min(y))
+        CoM_mean_times.append(time)  # evaluate order param at time t
+        plot_num += 1
+        print(max(y), min(y))
 
     print("T = " + str(time) + "/" + str(run_time))
 
 plt.title("Evolution of CoM distribution over time")
-plt.xlabel(r"Mean CoM ($cos(\theta)$)")
+plt.xlabel("Mean CoM")
 plt.ylabel("Normalised Frequency")
 plt.legend()
 plt.savefig("CoM_dist.png")
 plt.show()
 
-plt.plot(time_range, CoM_mean_values)
+plt.plot(CoM_mean_times, CoM_mean_values)
 plt.plot(
-    time_range, uniform_filter1d(CoM_mean_values, size=int(10)), linestyle="--",
+    CoM_mean_times, uniform_filter1d(CoM_mean_values, size=int(10)), linestyle="--",
 )
 plt.xlabel("Time (arbitrary units)")
-plt.ylabel(r"Mean CoM ($cos(\theta)$)")
+plt.ylabel("Mean CoM")
 plt.title("Evolution of Mean CoM")
 plt.savefig("CoM_mean.png")
+plt.show()
+
+fig, ax1 = plt.subplots()
+
+color = "tab:red"
+ax1.set_xlabel("Time (arbitrary units)")
+ax1.set_ylabel("CoM density variation", color=color)
+ax1.plot(CoM_mean_times, uniform_filter1d(CoM_mean_values, size=int(10)), color=color)
+ax1.tick_params(axis="y", labelcolor=color)
+
+ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+color = "tab:blue"
+ax2.set_ylabel(
+    "Volume Fraction", color=color
+)  # we already handled the x-label with ax1
+ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.tick_params(axis="y", labelcolor=color)
+
+plt.title("Evolution of CoM Density")
+fig.tight_layout()  # otherwise the right y-label is slightly clipped
+plt.savefig("CoMdensity_and_volfrac.png")
+plt.show()
+
+plt.plot(time_range, order_param_values)
+plt.plot(
+    time_range, uniform_filter1d(order_param_values, size=int(10)), linestyle="--",
+)
+plt.xlabel("Time (arbitrary units)")
+plt.ylabel("Order Parameter")
+plt.title("Evolution of Smectic Order Parameter")
+plt.savefig("smectic_order_evo.png")
+plt.show()
+
+
+fig, ax1 = plt.subplots()
+
+color = "tab:red"
+ax1.set_xlabel("Time (arbitrary units)")
+ax1.set_ylabel("Smectic Order Parameter", color=color)
+ax1.plot(time_range, order_param_values, color=color)
+ax1.tick_params(axis="y", labelcolor=color)
+
+ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+color = "tab:blue"
+ax2.set_ylabel(
+    "Volume Fraction", color=color
+)  # we already handled the x-label with ax1
+ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.tick_params(axis="y", labelcolor=color)
+
+plt.title("Evolution of Order Parameter")
+fig.tight_layout()  # otherwise the right y-label is slightly clipped
+plt.savefig("s_order_and_volfrac2.png")
 plt.show()
