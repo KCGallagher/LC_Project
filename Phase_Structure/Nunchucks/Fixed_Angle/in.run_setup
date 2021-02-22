@@ -1,8 +1,8 @@
 # VARIABLES  
 variable num       equal  1 #labelling results only
-variable N         equal  2
-variable len       equal  9
-variable box       equal  200 # cubic box of volume 'box'
+variable N         equal  1000
+variable len       equal  15
+variable box       equal  100 # cubic box of volume 'box'
 
 print "variable N        equal  $N" #for phase plot code to read out
 
