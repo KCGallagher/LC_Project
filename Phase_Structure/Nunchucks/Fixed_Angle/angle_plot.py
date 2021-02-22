@@ -29,6 +29,13 @@ for i, line in enumerate(log_file):
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
+    if "variable len" in line:  # to extract length of molecule
+        for t in line.split():  # separate by whitespace
+            try:
+                mol_length = int(t)
+            except ValueError:
+                pass  # any non-floats in this line are ignored
+
     if "dump" and "all custom" in line:  # to extract time interval for dump
         for t in line.split():  # separate by whitespace
             try:
@@ -70,11 +77,11 @@ print(
 
 
 def angle_dist(data, remove_split_mol=True):
-    """Input data in array of size Molecule Number x 4 x 3
+    """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule (1/5/6/10)
+    Second index gives particle number within molecule (1st/mid/last)
     Third index gives the component of the position (x,y,z)
 
     Allows option to remove molecules that are split across the boundaries of the box
@@ -83,9 +90,9 @@ def angle_dist(data, remove_split_mol=True):
 
     if remove_split_mol:
         molecules_removed = 0
-        # where molecule end-to-end length is greater than 10, replace with nans
+        # where molecule end-to-end length is greater than expected, replace with nans
         for i in range(N_molecules):
-            if np.linalg.norm(data[i, 3, :] - data[i, 0, :]) > 10.5:
+            if np.linalg.norm(data[i, 2, :] - data[i, 0, :]) > (mol_length + 0.5):
                 data[i, :, :].fill(np.nan)
                 molecules_removed += 1
                 # remove data for molecules that are longer than expected (ie 10 units)
@@ -94,7 +101,7 @@ def angle_dist(data, remove_split_mol=True):
 
     rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
     norm_rod_1 = rod_1 / np.linalg.norm(rod_1, axis=1).reshape(-1, 1)
-    rod_2 = data[:, 3, :] - data[:, 2, :]  # director vector for second end of molecule
+    rod_2 = data[:, 2, :] - data[:, 1, :]  # director vector for second end of molecule
     norm_rod_2 = rod_2 / np.linalg.norm(rod_2, axis=1).reshape(-1, 1)
 
     angle_values = np.sum(norm_rod_1 * norm_rod_2, axis=1)
@@ -112,8 +119,8 @@ for i, time in enumerate(time_range):  # interate over dump files
     extract_box_data = False  # start of file doesn't contain box dimension
 
     box_volume = 1
-    rod_positions = np.zeros((N_molecules, 4, 3))
-    """Indices are Molecule Number; Atom number 1/5/6/10 ; Positional coord index"""
+    rod_positions = np.zeros((N_molecules, 3, 3))
+    """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -148,15 +155,22 @@ for i, time in enumerate(time_range):  # interate over dump files
                 except ValueError:
                     pass  # any non-floats in this line are ignored
 
-            # Save positional coordatinates of end particles
-            if int(particle_values[2]) == 1:  # first particle in first rod
+            # # Save positional coordatinates of end particles - REGULAR
+            # if int(particle_values[2]) == 1:  # first particle
+            #     rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
+            # if int(particle_values[2]) == int((mol_length + 1) / 2):  # central particle
+            #     rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
+            # if int(particle_values[2]) == mol_length:  # last particle
+            #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+
+            # Save positional coordatinates of end particles - CLOSE
+            centre = (mol_length + 1) / 2
+            if int(particle_values[2]) == int(centre - 1):
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == 5:  # last particle in first rod
+            if int(particle_values[2]) == int(centre):  # central particle
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            if int(particle_values[2]) == 6:  # first particle in second rod
+            if int(particle_values[2]) == int(centre + 1):
                 rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in second rod
-                rod_positions[int(particle_values[1]) - 1, 3, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume

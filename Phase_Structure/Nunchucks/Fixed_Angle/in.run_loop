@@ -5,7 +5,8 @@ shell del restart.time*     # delete all current restart files before first run
 shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
 
 #VARIABLES
-variable N         equal  1000  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable N         equal  2  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable len       equal  9  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
 variable T         equal  0.5 
 variable t_step    equal  0.005 #originally 0.005
 variable mix_steps index  10000 
