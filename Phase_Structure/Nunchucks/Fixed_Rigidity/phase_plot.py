@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
-import pickle
+
 
 loop_var_name = "mix_steps"  # user defined!
 
@@ -26,10 +26,15 @@ for i, line in enumerate(data_file):
             except ValueError:
                 pass  # any non-floats in this line are ignored
     if "variable N" in line:  # to extract independant variable value of N
-        loop_var_values = []
         for t in line.split():  # separate by whitespace
             try:
                 N = float(t)
+            except ValueError:
+                pass  # any non-floats in this line are ignored
+    if "variable len" in line:  # to extract length of molecule
+        for t in line.split():  # separate by whitespace
+            try:
+                mol_length = float(t)
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
@@ -109,14 +114,12 @@ for i in range(1, len(start_lines), 2):
 
 def vol_frac(volume_data):
     """Returns array of volume fraction data from volume array"""
-    return np.reciprocal(volume_data) * (10 * N * (np.pi * 0.56 ** 2))
+    return np.reciprocal(volume_data) * (mol_length * N * (np.pi * 0.56 ** 2))
     # See OneNote details of form to use here
 
 
 vol_frac_data = vol_frac(final_values[3, :])
 print("Volume Fractions: " + str(vol_frac_data))
-pickle.dump(vol_frac_data, open("volume_fractions.p", "wb"))
-
 print(data.dtype.names)
 
 plt.xlabel("Time Step")

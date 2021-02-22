@@ -29,7 +29,7 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT 
-dump  1  all custom 100 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 25000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
 # dumps all positions etc every N  steps
 dump_modify 1 sort id
 
