@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
-import pickle
+
 
 loop_var_name = "mix_steps"  # user defined!
 
@@ -120,8 +120,6 @@ def vol_frac(volume_data):
 
 vol_frac_data = vol_frac(final_values[3, :])
 print("Volume Fractions: " + str(vol_frac_data))
-pickle.dump(vol_frac_data, open("volume_fractions.p", "wb"))
-
 print(data.dtype.names)
 
 plt.xlabel("Time Step")
