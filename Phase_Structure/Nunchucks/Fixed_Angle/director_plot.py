@@ -4,7 +4,7 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
-sampling_freq = 10  # only samples one in X files (must be integer)
+sampling_freq = 5  # only samples one in X files (must be integer)
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -156,7 +156,7 @@ plt.plot(
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-# plt.savefig("order_plot.png")
+plt.savefig("order_plot.png")
 plt.show()
 
 fig, ax1 = plt.subplots()
@@ -178,7 +178,7 @@ ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-# plt.savefig("order_and_volfrac.png")
+plt.savefig("order_and_volfrac.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), order_param_values, "rx")
