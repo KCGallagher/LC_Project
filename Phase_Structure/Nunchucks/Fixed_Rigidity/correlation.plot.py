@@ -114,11 +114,11 @@ def eval_angle_array(data):
 
 
 def correlation_func(data):
-    # angle_array = eval_angle_array(data)
-    max_separation = 10  # np.max(angle_array[:, :, 0])
+    angle_array = eval_angle_array(data)
+    max_separation = np.max(angle_array[:, :, 0])
     separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM)
 
-    return separation_bins, np.ones_like(separation_bins)
+    return separation_bins, time * np.ones_like(separation_bins)
 
 
 # READ MOLECULE POSITIONS
@@ -192,7 +192,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
-    if i == 1 or i == tot_plot_num:
+    if i == 0 or i == tot_plot_num - 1:
         # label only start and end points
         # plt.hist(
         #     angle_data,
@@ -205,17 +205,21 @@ for i, time in enumerate(time_range):  # interate over dump files
             separation_bins,
             correlation_data,
             label="T = " + str(int(time)),
-            color=colors[i - 1],
+            color=colors[i],
         )
     else:
         plt.plot(
-            separation_bins, correlation_data, color=colors[i - 1], alpha=1,
+            separation_bins,
+            correlation_data,
+            color=colors[i],
+            alpha=1,
+            label="(T = )" + str(int(time)),
         )
         # alpha may be used to adjust transparency
 
     print("T = " + str(time) + "/" + str(run_time))
 
-plt.title("Evolution of Pairwise Angular Correlation Function over time")
+plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
 plt.legend()
