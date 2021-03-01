@@ -1,10 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
-file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
-sampling_freq = 10  # only samples one in X files (must be integer)
+FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
+SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
+SEPARATION_BIN_NUM = 10  # number of bins for radius dependance pair-wise correlation
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -27,8 +29,15 @@ for i, line in enumerate(log_file):
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
+    if "variable len" in line:  # to extract length of molecule
+        for t in line.split():
+            try:
+                mol_length = int(t)
+            except ValueError:
+                pass  # any non-floats in this line are ignored
+
     if "dump" and "all custom" in line:  # to extract time interval for dump
-        for t in line.split():  # separate by whitespace
+        for t in line.split():
             try:
                 dump_interval = int(t)
                 # interval is the last integer in that line
@@ -57,7 +66,7 @@ log_file.close()
 
 tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num * equilibrium_time
-time_range = range(0, int(run_time), int(dump_interval * sampling_freq))
+time_range = range(0, int(run_time), int(dump_interval * SAMPLING_FREQ))
 print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
@@ -67,7 +76,17 @@ print(
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
 
-def order_param(data):
+def find_angle(vec1, vec2):
+    """Finds angle between two vectors"""
+    assert len(vec1) == len(vec2), "Vectors should be the same dimension"
+
+    vec1 = vec1 / np.linalg.norm(vec1)  # normalise vectors
+    vec2 = vec2 / np.linalg.norm(vec2)
+
+    return np.sum(vec1 * vec2)
+
+
+def eval_angle_array(data):
     """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -75,20 +94,31 @@ def order_param(data):
     Second index gives particle number within molecule (first/last)
     Third index gives the component of the position (x,y,z)
 
-    Method for calculation of Order Param given by Eppenga (1984)
+    Outputs N x N x 2 array, for pairwise values of separation and angle
+    Be aware this may generate very large arrays
     """
-    directors = data[:, 1, :] - data[:, 0, :]  # director vector for each molecule
-    norm_directors = directors / np.linalg.norm(directors, axis=1).reshape(
-        -1, 1
-    )  # reshape allows broadcasting
-    M_matrix = np.zeros((3, 3))
-    for i, j in np.ndindex(M_matrix.shape):
-        M_matrix[i, j] = (
-            np.sum(norm_directors[:, i] * norm_directors[:, j]) / N_molecules
-        )
-    M_eigen = np.linalg.eigvals(M_matrix)
-    Q_eigen = (3 * M_eigen - 1) / 2
-    return max(Q_eigen)  # largest eigenvalue corresponds to traditional order parameter
+    angle_array = np.zeros((N_molecules, N_molecules, 2), dtype=np.float32)
+    # dtype specified to reduce storgae required
+
+    rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
+    rod_2 = data[:, 2, :] - data[:, 1, :]  # director vector for second end of molecule
+
+    for i in range(N_molecules):
+        for j in range(N_molecules):
+            # Separation between centres of each molecule:
+            angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
+            # Angle between arms of molecule:
+            angle_array[i, j, 1] = find_angle(rod_1[i, :], rod_2[j, :])
+
+    return angle_array
+
+
+def correlation_func(data):
+    # angle_array = eval_angle_array(data)
+    max_separation = 10  # np.max(angle_array[:, :, 0])
+    separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM)
+
+    return separation_bins, np.ones_like(separation_bins)
 
 
 # READ MOLECULE POSITIONS
@@ -96,13 +126,13 @@ def order_param(data):
 order_param_values = np.zeros(len(time_range))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 for i, time in enumerate(time_range):  # interate over dump files
-    data_file = open(file_root + str(time) + ".dump", "r")
+    data_file = open(FILE_ROOT + str(time) + ".dump", "r")
     extract_atom_data = False  # start of file doesn't contain particle values
     extract_box_data = False  # start of file doesn't contain box dimension
 
     box_volume = 1
-    rod_positions = np.zeros((N_molecules, 2, 3))
-    """Indices are Molecule Number/ First (0) or Last (1) atom,/ Positional coord index"""
+    rod_positions = np.zeros((N_molecules, 3, 3))
+    """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -137,14 +167,57 @@ for i, time in enumerate(time_range):  # interate over dump files
                 except ValueError:
                     pass  # any non-floats in this line are ignored
 
-            # Save positional coordatinates of end particles
-            if int(particle_values[2]) == 1:  # first particle in molecule
+            # # Save positional coordatinates of end particles - REGULAR
+            # if int(particle_values[2]) == 1:  # first particle
+            #     rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
+            # if int(particle_values[2]) == int((mol_length + 1) / 2):  # central particle
+            #     rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
+            # if int(particle_values[2]) == mol_length:  # last particle
+            #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+
+            # Save positional coordatinates of end particles - CLOSE
+            centre = (mol_length + 1) / 2
+            if int(particle_values[2]) == int(centre - 1):
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in molecule
+            if int(particle_values[2]) == int(centre):  # central particle
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
+            if int(particle_values[2]) == int(centre + 1):
+                rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
+    separation_bins, correlation_data = correlation_func(
+        rod_positions
+    )  # evaluate order param at time t
+
+    tot_plot_num = len(time_range)
+    colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
+    if i == 1 or i == tot_plot_num:
+        # label only start and end points
+        # plt.hist(
+        #     angle_data,
+        #     density=True,
+        #     histtype="step",
+        #     color=colors[i // PLOTTING_FREQ - 1],
+        #     label="T = " + str(int(time)),
+        # )
+        plt.plot(
+            separation_bins,
+            correlation_data,
+            label="T = " + str(int(time)),
+            color=colors[i - 1],
+        )
+    else:
+        plt.plot(
+            separation_bins, correlation_data, color=colors[i - 1], alpha=1,
+        )
+        # alpha may be used to adjust transparency
+
     print("T = " + str(time) + "/" + str(run_time))
 
+plt.title("Evolution of Pairwise Angular Correlation Function over time")
+plt.xlabel("Particle Separation")
+plt.ylabel("Correlation Function")
+plt.legend()
+plt.savefig("correlation_func.png")
+plt.show()
