@@ -27,6 +27,13 @@ for i, line in enumerate(log_file):
             except ValueError:
                 pass  # any non-floats in this line are ignored
 
+    if "variable len" in line:  # to extract length of molecule
+        for t in line.split():  # separate by whitespace
+            try:
+                mol_length = int(t)
+            except ValueError:
+                pass  # any non-floats in this line are ignored
+
     if "dump" and "all custom" in line:  # to extract time interval for dump
         for t in line.split():  # separate by whitespace
             try:
@@ -173,7 +180,7 @@ color = "tab:blue"
 ax2.set_ylabel(
     "Volume Fraction", color=color
 )  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.plot(time_range, vol_frac(volume_values, mol_length, N_molecules), color=color)
 ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
