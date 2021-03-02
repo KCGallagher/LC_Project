@@ -16,6 +16,8 @@ file_name = "log.lammps"
 log_file = open(file_name, "r")
 mix_steps_values = []
 
+mol_length = 16
+
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
 

@@ -106,7 +106,7 @@ def eval_angle_array(data):
         for j in range(N_molecules):
             # Separation between centres of each molecule:
             angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
-            # Angle between arms of molecule:
+            # Angle between the two molecules:
             angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
 
     return angle_array
@@ -119,6 +119,20 @@ def correlation_func(data):
     bin_width = max_separation / SEPARATION_BIN_NUM
     separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM, endpoint=False)
     correlation_data = np.zeros_like(separation_bins)
+
+    # for n, radius in enumerate(separation_bins):
+    #     sum = 0  # running total of legendre polynomials
+    #     count = 0  # for calculation of average value
+    #     for value in np.nditer(angle_array):
+    #         if angle_array[i, j, 0] > radius and angle_array[i, j, 0] < (
+    #             radius + bin_width
+    #         ):
+    #             sum_values += np.polynomial.legendre.legval(
+    #                 angle_array[i, j, 1], [0, 0, 1]
+    #             )
+    #             # finds second order legendre polynomial
+    #             count += 1
+    #     correlation_data[n] = sum_values / count
 
     for n, radius in enumerate(separation_bins):
         # mask data outside the relevant radius range
