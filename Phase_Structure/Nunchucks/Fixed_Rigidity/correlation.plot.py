@@ -121,19 +121,31 @@ def correlation_func(data):
     separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM, endpoint=False)
     correlation_data = np.zeros_like(separation_bins)
 
+    # for n, radius in enumerate(separation_bins):
+    #     sum = 0  # running total of legendre polynomials
+    #     count = 0  # for calculation of average value
+    #     for value in np.nditer(angle_array):
+    #         if angle_array[i, j, 0] > radius and angle_array[i, j, 0] < (
+    #             radius + bin_width
+    #         ):
+    #             sum_values += np.polynomial.legendre.legval(
+    #                 angle_array[i, j, 1], [0, 0, 1]
+    #             )
+    #             # finds second order legendre polynomial
+    #             count += 1
+    #     correlation_data[n] = sum_values / count
+
     for n, radius in enumerate(separation_bins):
-        sum = 0  # running total of legendre polynomials
-        count = 0  # for calculation of average value
-        for value in np.nditer(angle_array):
-            if angle_array[i, j, 0] > radius and angle_array[i, j, 0] < (
-                radius + bin_width
-            ):
-                sum_values += np.polynomial.legendre.legval(
-                    angle_array[i, j, 1], [0, 0, 1]
-                )
-                # finds second order legendre polynomial
-                count += 1
-        correlation_data[n] = sum_values / count
+        # mask data outside the relevant radius range
+        relevant_data = np.ma.masked_where(
+            np.logical_or(
+                (angle_array[:, :, 0] < radius),
+                (angle_array[:, :, 0] > (radius + bin_width)),
+            ),
+            angle_array[:, :, 1],  # act on angle data
+        )
+        correlation_data[n] = np.mean(relevant_data)
+
         print("    radius = " + str(radius) + "/" + str(max_separation))
 
     return separation_bins, correlation_data
