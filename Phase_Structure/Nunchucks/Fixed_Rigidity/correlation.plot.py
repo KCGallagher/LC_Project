@@ -240,6 +240,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     print("T = " + str(time) + "/" + str(run_time))
 
+plt.colorbar(cs)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
