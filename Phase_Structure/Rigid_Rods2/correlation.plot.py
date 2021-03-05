@@ -8,6 +8,8 @@ FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous co
 SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 10  # number of bins for radius dependance pair-wise correlation
 
+mol_length = 10
+
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
 # READ PARAMETER VALUES FROM LOG FILE
@@ -15,8 +17,6 @@ plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwi
 file_name = "log.lammps"
 log_file = open(file_name, "r")
 mix_steps_values = []
-
-mol_length = 10
 
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
@@ -124,14 +124,18 @@ def correlation_func(data):
 
     for n, radius in enumerate(separation_bins):
         # mask data outside the relevant radius range
-        relevant_data = np.ma.masked_where(
+        relevant_angles = np.ma.masked_where(
             np.logical_or(
                 (angle_array[:, :, 0] < radius),
                 (angle_array[:, :, 0] > (radius + bin_width)),
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-        correlation_data[n] = np.mean(relevant_data)
+        legendre_polynomials = np.polynomial.legendre.legval(
+            relevant_angles[:, :], [0, 0, 1]
+        )
+
+        correlation_data[n] = np.mean(legendre_polynomials)
 
         print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
 

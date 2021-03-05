@@ -16,8 +16,6 @@ file_name = "log.lammps"
 log_file = open(file_name, "r")
 mix_steps_values = []
 
-mol_length = 16
-
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
 
@@ -124,14 +122,18 @@ def correlation_func(data):
 
     for n, radius in enumerate(separation_bins):
         # mask data outside the relevant radius range
-        relevant_data = np.ma.masked_where(
+        relevant_angles = np.ma.masked_where(
             np.logical_or(
                 (angle_array[:, :, 0] < radius),
                 (angle_array[:, :, 0] > (radius + bin_width)),
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-        correlation_data[n] = np.mean(relevant_data)
+        legendre_polynomials = np.polynomial.legendre.legval(
+            relevant_angles[:, :], [0, 0, 1]
+        )
+
+        correlation_data[n] = np.mean(legendre_polynomials)
 
         print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
 

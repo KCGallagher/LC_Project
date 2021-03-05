@@ -5,8 +5,9 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 1000  # only samples one in X files (must be integer)
+SAMPLING_FREQ = 500  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+mol_length = 10
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -15,8 +16,6 @@ plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwi
 file_name = "log.lammps"
 log_file = open(file_name, "r")
 mix_steps_values = []
-
-mol_length = 10
 
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
@@ -102,15 +101,14 @@ def eval_angle_array(data):
     angle_array = np.zeros((N_molecules, N_molecules, 2), dtype=np.float32)
     # dtype specified to reduce storgae required
 
-    rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
-    rod_2 = data[:, 2, :] - data[:, 1, :]  # director vector for second end of molecule
+    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
 
     for i in range(N_molecules):
         for j in range(N_molecules):
             # Separation between centres of each molecule:
             angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
             # Angle between arms of molecule:
-            angle_array[i, j, 1] = find_angle(rod_1[i, :], rod_2[j, :])
+            angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
 
     return angle_array
 
@@ -123,32 +121,22 @@ def correlation_func(data):
     separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM, endpoint=False)
     correlation_data = np.zeros_like(separation_bins)
 
-    # for n, radius in enumerate(separation_bins):
-    #     sum = 0  # running total of legendre polynomials
-    #     count = 0  # for calculation of average value
-    #     for value in np.nditer(angle_array):
-    #         if angle_array[i, j, 0] > radius and angle_array[i, j, 0] < (
-    #             radius + bin_width
-    #         ):
-    #             sum_values += np.polynomial.legendre.legval(
-    #                 angle_array[i, j, 1], [0, 0, 1]
-    #             )
-    #             # finds second order legendre polynomial
-    #             count += 1
-    #     correlation_data[n] = sum_values / count
-
     for n, radius in enumerate(separation_bins):
         # mask data outside the relevant radius range
-        relevant_data = np.ma.masked_where(
+        relevant_angles = np.ma.masked_where(
             np.logical_or(
                 (angle_array[:, :, 0] < radius),
                 (angle_array[:, :, 0] > (radius + bin_width)),
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-        correlation_data[n] = np.mean(relevant_data)
+        legendre_polynomials = np.polynomial.legendre.legval(
+            relevant_angles[:, :], [0, 0, 1]
+        )
 
-        print("    radius = " + str(radius) + "/" + str(max_separation))
+        correlation_data[n] = np.mean(legendre_polynomials)
+
+        print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
 
     return separation_bins, correlation_data
 

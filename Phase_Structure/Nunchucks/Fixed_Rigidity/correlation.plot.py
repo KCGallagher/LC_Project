@@ -6,7 +6,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 10  # number of bins for radius dependance pair-wise correlation
+SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -122,14 +122,18 @@ def correlation_func(data):
 
     for n, radius in enumerate(separation_bins):
         # mask data outside the relevant radius range
-        relevant_data = np.ma.masked_where(
+        relevant_angles = np.ma.masked_where(
             np.logical_or(
                 (angle_array[:, :, 0] < radius),
                 (angle_array[:, :, 0] > (radius + bin_width)),
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-        correlation_data[n] = np.mean(relevant_data)
+        legendre_polynomials = np.polynomial.legendre.legval(
+            relevant_angles[:, :], [0, 0, 1]
+        )
+
+        correlation_data[n] = np.mean(legendre_polynomials)
 
         print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
 
@@ -207,7 +211,9 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
-    if i == 0 or i == tot_plot_num - 1:
+    if i == 0:
+        continue
+    if i == 1 or i == tot_plot_num - 1:
         # label only start and end points
         # plt.hist(
         #     angle_data,
