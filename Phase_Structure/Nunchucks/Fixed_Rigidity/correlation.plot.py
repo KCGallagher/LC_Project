@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
@@ -212,38 +213,19 @@ for i, time in enumerate(time_range):  # interate over dump files
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
-        continue
-    if i == 1 or i == tot_plot_num - 1:
-        # label only start and end points
-        # plt.hist(
-        #     angle_data,
-        #     density=True,
-        #     histtype="step",
-        #     color=colors[i // PLOTTING_FREQ - 1],
-        #     label="T = " + str(int(time)),
-        # )
-        plt.plot(
-            separation_bins,
-            correlation_data,
-            label="T = " + str(int(time)),
-            color=colors[i],
-        )
-    else:
-        plt.plot(
-            separation_bins,
-            correlation_data,
-            color=colors[i],
-            alpha=1,
-            label="(T = )" + str(int(time)),
-        )
-        # alpha may be used to adjust transparency
+        continue  # don't plot this case
+    plt.plot(
+        separation_bins, correlation_data, color=colors[i],
+    )
 
     print("T = " + str(time) + "/" + str(run_time))
 
-plt.colorbar(cs)
+sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
+cbar = plt.colorbar(sm)
+cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
+
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.legend()
 plt.savefig("correlation_func.png")
 plt.show()

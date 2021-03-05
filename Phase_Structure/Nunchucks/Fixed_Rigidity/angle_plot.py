@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
@@ -164,7 +165,7 @@ for i, time in enumerate(time_range):  # interate over dump files
             #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
 
             # Save positional coordatinates of end particles - CLOSE
-            centre = (mol_length + 1) / 2
+            centre = (mol_length + 1) / 2  # for odd length molecules only
             if int(particle_values[2]) == int(centre - 1):
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
             if int(particle_values[2]) == int(centre):  # central particle
@@ -182,40 +183,23 @@ for i, time in enumerate(time_range):  # interate over dump files
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i % plotting_freq == 0 and time != 0:
         print(time)
-        if i == plotting_freq or time >= run_time - (
-            dump_interval * sampling_freq * plotting_freq
-        ):
-            # label only start and end points
-            # plt.hist(
-            #     angle_data,
-            #     density=True,
-            #     histtype="step",
-            #     color=colors[i // plotting_freq - 1],
-            #     label="T = " + str(int(time)),
-            # )
-            sns.kdeplot(
-                angle_data,
-                label="T = " + str(int(time)),
-                color=colors[i // plotting_freq - 1],
-                bw_adjust=0.5,  # adjusts smoothing (default is 1)
-                # gridsize=50,  #adjusts points in average (default is 200)
-            )
-        else:
-            sns.kdeplot(
-                angle_data,
-                color=colors[i // plotting_freq - 1],
-                alpha=1,
-                bw_adjust=0.5,
-                # gridsize=50
-            )
-            # alpha may be used to adjust transparency
+        sns.kdeplot(
+            angle_data,
+            color=colors[i // plotting_freq - 1],
+            bw_adjust=0.5,  # adjusts smoothing (default is 1)
+            # gridsize=50,
+            alpha=1,  # adjusts transparency
+        )
 
     print("T = " + str(time) + "/" + str(run_time))
 
-plt.title("Evolution of angle distribution over time")
+sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
+cbar = plt.colorbar(sm)
+cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
+
+plt.title("Evolution of angle distribution")
 plt.xlabel(r"Mean Angle ($cos(\theta)$)")
 plt.ylabel("Normalised Frequency")
-plt.legend()
 plt.savefig("angle_dist.png")
 plt.show()
 
