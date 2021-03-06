@@ -6,7 +6,7 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
+SAMPLING_FREQ = 200  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -98,19 +98,23 @@ def eval_angle_array(data):
     Outputs N x N x 2 array, for pairwise values of separation and angle
     Be aware this may generate very large arrays
     """
-    angle_array = np.zeros((N_molecules, N_molecules, 2), dtype=np.float32)
+    angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
     # dtype specified to reduce storgae required
 
     director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
 
-    for i in range(N_molecules):
-        for j in range(N_molecules):
+    for i in range(N_molecules - 1):
+        for j in range(
+            i + 1, N_molecules
+        ):  # only consider terms of symmetric matrix above diagonal
             # Separation between centres of each molecule:
             angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
             # Angle between arms of molecule:
             angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
-
-    return angle_array
+    angle_array2 = np.ma.masked_invalid(
+        angle_array[:, :, :]
+    )  # mask empty values below diagonal
+    return angle_array2
 
 
 def correlation_func(data):
@@ -130,6 +134,7 @@ def correlation_func(data):
             ),
             angle_array[:, :, 1],  # act on angle data
         )
+
         legendre_polynomials = np.polynomial.legendre.legval(
             relevant_angles[:, :], [0, 0, 1]
         )
