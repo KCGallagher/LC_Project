@@ -8,7 +8,6 @@ from phase_plot import vol_frac
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
-MIN_SAMPLE_SIZE = 1e3
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -88,7 +87,22 @@ def find_angle(vec1, vec2):
     return np.sum(vec1 * vec2)
 
 
-def eval_angle_array(data):
+def find_separation(pos1, pos2, box_dim):
+    """Finds separation between two positions
+
+    This method finds the minimum separation, accounting for the periodic BC
+    pos1, pos2 are the position vectors of the two points
+    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
+    separation = pos1 - pos2
+    for i in range(len(pos1)):  # should be 3 dimensional
+        if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
+            # use distance to ghost instead
+            separation[i] = box_dim[i] - np.abs(pos1[i] - pos2[i])
+
+    return np.linalg.norm(separation)
+
+
+def eval_angle_array(data, box_dim):
     """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -99,23 +113,28 @@ def eval_angle_array(data):
     Outputs N x N x 2 array, for pairwise values of separation and angle
     Be aware this may generate very large arrays
     """
-    angle_array = np.zeros((N_molecules, N_molecules, 2), dtype=np.float32)
+    angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
     # dtype specified to reduce storgae required
 
     director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
 
-    for i in range(N_molecules):
-        for j in range(N_molecules):
+    for i in range(N_molecules - 1):
+        for j in range(i + 1, N_molecules):
+            # Only considering terms of symmetric matrix above diagonal
             # Separation between centres of each molecule:
-            angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
+            angle_array[i, j, 0] = find_separation(
+                data[i, 1, :], data[j, 1, :], box_dim
+            )
             # Angle between arms of molecule:
             angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
+    angle_array_masked = np.ma.masked_invalid(
+        angle_array[:, :, :]
+    )  # mask empty values below diagonal
+    return angle_array_masked
 
-    return angle_array
 
-
-def correlation_func(data):
-    angle_array = eval_angle_array(data)
+def correlation_func(data, box_dim):
+    angle_array = eval_angle_array(data, box_dim)
     max_separation = np.max(angle_array[:, :, 0])
 
     bin_width = max_separation / SEPARATION_BIN_NUM
@@ -131,16 +150,15 @@ def correlation_func(data):
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-        if relevant_angles.count() > (
-            MIN_SAMPLE_SIZE / 2
-        ):  # factor of 2 for double counting each pair
-            legendre_polynomials = np.polynomial.legendre.legval(
-                relevant_angles[:, :], [0, 0, 1]
-            )
-            correlation_data[n] = np.mean(legendre_polynomials)
-        else:
-            correlation_data[n] = np.nan
-        # print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
+
+        legendre_polynomials = np.polynomial.legendre.legval(
+            relevant_angles[:, :], [0, 0, 1]
+        )  # evaluate 2nd order legendre polynomial
+
+        correlation_data[n] = np.mean(legendre_polynomials)
+
+        print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
+
     return separation_bins, correlation_data
 
 
@@ -154,6 +172,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     extract_box_data = False  # start of file doesn't contain box dimension
 
     box_volume = 1
+    box_dimensions = []  # to store side lengths of box for period boundary adjustment
     rod_positions = np.zeros((N_molecules, 3, 3))
     """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
 
@@ -171,14 +190,15 @@ for i, time in enumerate(time_range):  # interate over dump files
         if extract_box_data and not extract_atom_data:
             # evaluate before particle values
             # each line gives box max and min in a single axis
-            box_dimension = []
+            box_limits = []
             for d in line.split():  # separate by whitespace
                 try:
-                    box_dimension.append(float(d))
+                    box_limits.append(float(d))
                 except ValueError:
                     pass  # any non-floats in this line are ignored
-            box_volume *= box_dimension[1] - box_dimension[0]
+            box_volume *= box_limits[1] - box_limits[0]
             # multiply box volume by length of this dimension of box
+            box_dimensions.append(box_limits[1] - box_limits[0])
 
         if extract_atom_data and not extract_box_data:
             # evaluate after box dimension collection
@@ -210,7 +230,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
     separation_bins, correlation_data = correlation_func(
-        rod_positions
+        rod_positions, box_dimensions
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
