@@ -103,7 +103,7 @@ def find_separation(pos1, pos2, box_dim):
 
 
 def eval_angle_array(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3
+    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
@@ -134,6 +134,15 @@ def eval_angle_array(data, box_dim):
 
 
 def correlation_func(data, box_dim):
+    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Second index gives particle number within molecule (first/last)
+    Third index gives the component of the position (x,y,z)
+
+    Returns array of correlation data at each radius"""
+
     angle_array = eval_angle_array(data, box_dim)
     max_separation = np.max(angle_array[:, :, 0])
 
