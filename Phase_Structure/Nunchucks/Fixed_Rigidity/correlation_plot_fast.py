@@ -1,3 +1,7 @@
+"""Optimised method to calculate the pair-wise orientational order correlation function.
+As detailed by Daan Frenkel, uses spherical harmonics so avoid costly angle calculations (which are O(N^2))
+Uses the end-to-end molecule vector as the director"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -9,6 +13,8 @@ from phase_plot import vol_frac
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+
+# mol_length = 10  #uncomment on older datasets
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 

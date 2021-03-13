@@ -1,5 +1,4 @@
-"""Traditional method to calculate the pair-wise orientational order correlation function
-Uses the end-to-end molecule vector as the director"""
+"""Additional approaches to calcuating the pair-wise orientational order correlaiton function, using different director vectors"""
 
 import numpy as np
 import matplotlib.pyplot as plt
