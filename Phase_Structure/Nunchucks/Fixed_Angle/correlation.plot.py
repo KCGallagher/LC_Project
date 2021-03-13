@@ -224,7 +224,7 @@ for i, time in enumerate(time_range):  # interate over dump files
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
             if int(particle_values[2]) == int(centre):  # central particle
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            if int(particle_values[2]) == int(centre + 1):
+            if int(particle_values[2]) == int(centre - 2):  # CHANGED
                 rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
@@ -250,5 +250,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func.png")
+plt.savefig("correlation_func_half.png")
 plt.show()
