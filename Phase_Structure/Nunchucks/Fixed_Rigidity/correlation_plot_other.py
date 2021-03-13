@@ -8,8 +8,11 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
+SEPARATION_BIN_NUM = 5  # number of bins for radius dependance pair-wise correlation
+
+DIRECTOR_METHOD = "normal"
+# Options are molecule/arm/bisector
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -79,6 +82,37 @@ print(
 
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
+def find_director(data, method="molecule"):
+    """Obtains director from molecule positions, through a variety of methods
+    
+    First index gives molecule number
+    Second index gives particle number within molecule 
+        Corresponds to: start of director/ centre/ end of director
+    Third index gives the component of the position (x,y,z)
+
+    'molecule' calculates director between ends of the molecule; 
+    'arm' calculates director along first arm of molecule; 
+    'bisector' gives the director along the bisector of the join angle; 
+    'normal' gives the bisector out of the plane of the molecule
+    """
+
+    if method == "molecule":
+        return data[:, 2, :] - data[:, 0, :]
+
+    elif method == "arm":
+        return data[:, 1, :] - data[:, 0, :]
+
+    elif method == "bisector":
+        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
+        return data[:, 1, :] - midpoints
+
+    elif method == "normal":
+        arm1 = data[:, 1, :] - data[:, 0, :]
+        arm2 = data[:, 2, :] - data[:, 1, :]
+        return np.cross(arm1, arm2)
+
+    else:
+        raise ValueError("Unknown argument to find_director()")
 
 
 def find_angle(vec1, vec2):
@@ -111,7 +145,8 @@ def eval_angle_array(data, box_dim):
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule (first/last)
+    Second index gives particle number within molecule 
+        Corresponds to: start of director/ centre/ end of director
     Third index gives the component of the position (x,y,z)
 
     Outputs N x N x 2 array, for pairwise values of separation and angle
@@ -120,7 +155,9 @@ def eval_angle_array(data, box_dim):
     angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
     # dtype specified to reduce storgae required
 
-    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
+    director = find_director(
+        data, method=DIRECTOR_METHOD
+    )  # director vector for whole of molecule
 
     for i in range(N_molecules - 1):
         for j in range(i + 1, N_molecules):
@@ -263,5 +300,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func.png")
+plt.savefig("correlation_func_testnorm.png")
 plt.show()
