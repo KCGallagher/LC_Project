@@ -6,8 +6,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 5  # number of bins for radius dependance pair-wise correlation
+SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
+SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -145,7 +145,6 @@ def correlation_func(data, box_dim):
 
     angle_array = eval_angle_array(data, box_dim)
     max_separation = np.max(angle_array[:, :, 0])
-    print(max_separation, np.linalg.norm(box_dim))
 
     bin_width = max_separation / SEPARATION_BIN_NUM
     separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM, endpoint=False)
