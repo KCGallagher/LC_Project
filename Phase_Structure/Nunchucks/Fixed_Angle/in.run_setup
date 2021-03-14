@@ -28,7 +28,7 @@ bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond 
 # ANGLES  
 angle_style harmonic
 angle_coeff * 500.0  180
-angle_coeff $((v_len-1)/2) 500.0  150    #flexible at central bond
+angle_coeff $((v_len-1)/2) 500.0  120    #flexible at central bond
 
 
 # PAIR lj/cut --with interactions, to steady state
