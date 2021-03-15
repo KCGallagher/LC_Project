@@ -55,7 +55,3 @@ angle_coeff $((v_len-1)/2) 500.0  60    #flexible at central bond
 reset_timestep 0
 
 write_restart restart.time*
-
-
-
-

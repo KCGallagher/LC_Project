@@ -1,85 +1,217 @@
 LAMMPS (3 Mar 2020)
 OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
   using 1 OpenMP thread(s) per MPI task
-#run with lmp_serial -pk omp 8 -sf omp -in in.run_loop
-
-#SETUP
-# Runs on the first loop only
-shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
-shell del restart.time*     # delete all current restart files before first run
-shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
-
-#VARIABLES
-variable N         equal  1024  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+# VARIABLES
+variable num       equal  1 #labelling results only
+variable N         equal  1024
+variable len       equal  15
 variable T         equal  0.5
-variable t_step    equal  0.005 #originally 0.005
-variable mix_steps index  25000 25000 25000 25000 25000 25000 25000 25000 25000 25000
-variable mix_tau   equal  ${t_step}*${mix_steps}
-variable mix_tau   equal  0.005*${mix_steps}
-variable mix_tau   equal  0.005*25000
-variable run_steps equal  2000000 # steps to run simulation in order to reach steady state
-variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
-variable run_tau   equal  0.005*${run_steps} 
-variable run_tau   equal  0.005*2000000 
-#1000 particles averages 35,000 steps per minute
 
-#LOOP START
-label loop  #start loop from here
-read_restart restart.time*
-  restoring atom style molecular from restart
-  orthogonal box = (-0 -0 -0) to (18.24 40.32 18.24)
+shell del output*
+
+print "variable N        equal  $N" #for phase plot code to read out
+variable N        equal  1024
+
+# PARAMETERS
+units lj
+atom_style molecular
+neighbor 0.4 bin
+neigh_modify every 1 delay 1 check yes
+comm_modify vel yes
+comm_modify cutoff 1.9
+#KG added cutoff to remove "Communication cutoff 1.52 is shorter than a bond length
+#based estimate of 1.87. This may lead to errors" warning.
+
+# READ
+read_data input_data_nunchucks_${N}_${len}.file
+read_data input_data_nunchucks_1024_${len}.file
+read_data input_data_nunchucks_1024_15.file
+  orthogonal box = (0 0 0) to (18.24 59.92 18.24)
   1 by 1 by 1 MPI processor grid
-  restoring pair style lj/cut from restart
-  restoring bond style harmonic from restart
-  restoring angle style harmonic from restart
-  10240 atoms
-  9216 bonds
-  8192 angles
+  reading atoms ...
+  15360 atoms
+  scanning bonds ...
+  1 = max bonds/atom
+  scanning angles ...
+  1 = max angles/atom
+  reading bonds ...
+  14336 bonds
+  reading angles ...
+  13312 angles
   2 = max # of 1-2 neighbors
   2 = max # of 1-3 neighbors
   4 = max # of 1-4 neighbors
   6 = max # of special neighbors
-  special bonds CPU = 0.017952 secs
-  read_restart CPU = 0.0558469 secs
-# this reads in latest restart file, * is wildcard for timestep
+  special bonds CPU = 0.0179482 secs
+  read_data CPU = 0.211008 secs
 
+#  BONDS
+bond_style harmonic
+special_bonds lj 0 1 1
+  2 = max # of 1-2 neighbors
+  2 = max # of 1-3 neighbors
+  4 = max # of 1-4 neighbors
+  6 = max # of special neighbors
+  special bonds CPU = 0.0199559 secs
+bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond types.
+#0.98 is the distance between ball centres
 
-# THERMAL
-timestep ${t_step}
-timestep 0.005
-thermo   100
-thermo_style custom step time temp press pe ke etotal vol
-thermo_modify norm no
+# STRAIGHT ANGLES
+angle_style harmonic
+angle_coeff * 500.0  180
+angle_coeff $((v_len-1)/2) 500.0  180    #not yet flexible at central bond
+angle_coeff 7 500.0  180    
 
+# PAIR lj/cut --with interactions, to steady state
+pair_style lj/cut 1.0
+pair_modify shift yes
+pair_coeff * * 1  1.0  1.12
+#1.12 is cut-off for potential
 
-# DUMP OUTPUT
-dump  1  all custom 1 output_T_${T}_time_*.dump id mol type x y z vx vy vz
-dump  1  all custom 1 output_T_0.5_time_*.dump id mol type x y z vx vy vz
+# DUMP OUTPUT #temporary for testing
+dump  1  all custom 100 output_time_*.dump id mol type x y z vx vy vz
 # dumps all positions etc every N  steps
 dump_modify 1 sort id
 
 # FIX
-fix 2 all nph iso 0.0001 0.0001 1000   #reduced target pressure here
+fix 2 all nph iso 0.0001 0.0001 10   #reduced target pressure here
 fix 3 all langevin ${T} ${T} 1 123456 #as above
 fix 3 all langevin 0.5 ${T} 1 123456 
 fix 3 all langevin 0.5 0.5 1 123456 
-run ${mix_steps}
-run 25000
+
+# RUN
+run 1000
 Neighbor list info ...
-  update every 1 steps, delay 10 steps, check yes
+  update every 1 steps, delay 1 steps, check yes
   max neighbors/atom: 2000, page size: 100000
-  master list distance cutoff = 1.42
+  master list distance cutoff = 1.52
   ghost atom cutoff = 1.9
-  binsize = 0.71, bins = 26 57 26
+  binsize = 0.76, bins = 24 79 24
   1 neighbor lists, perpetual/occasional/extra = 1 0 0
   (1) pair lj/cut, perpetual
       attributes: half, newton on
       pair build: half/bin/newton
       stencil: half/bin/3d/newton
       bin: standard
-Per MPI rank memory allocation (min/avg/max) = 16.42 | 16.42 | 16.42 Mbytes
-Step Time Temp Press PotEng KinEng TotEng Volume 
-       0            0            0 -2.7685018e-15    561470.83            0    561470.83    13414.367 
-     100          0.5          nan          nan          nan          nan          nan          nan 
-     200            1          nan          nan          nan          nan          nan          nan 
-     300          1.5          nan          nan          nan          nan          nan          nan 
+Per MPI rank memory allocation (min/avg/max) = 17.68 | 17.68 | 17.68 Mbytes
+Step Temp E_pair E_mol TotEng Press Volume 
+       0            0            0 3.4792053e-27 3.4792053e-27 5.5887514e-15     19935.24 
+    1000   0.49356567  0.024673554   0.65410293    1.4190768   0.36725624    21342.574 
+Loop time of 4.38349 on 1 procs for 1000 steps with 15360 atoms
+
+Performance: 98551.566 tau/day, 228.129 timesteps/s
+96.6% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.57182    | 0.57182    | 0.57182    |   0.0 | 13.04
+Bond    | 1.3264     | 1.3264     | 1.3264     |   0.0 | 30.26
+Neigh   | 0.50979    | 0.50979    | 0.50979    |   0.0 | 11.63
+Comm    | 0.18135    | 0.18135    | 0.18135    |   0.0 |  4.14
+Output  | 0.54301    | 0.54301    | 0.54301    |   0.0 | 12.39
+Modify  | 1.1632     | 1.1632     | 1.1632     |   0.0 | 26.54
+Other   |            | 0.08796    |            |       |  2.01
+
+Nlocal:    15360 ave 15360 max 15360 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    8597 ave 8597 max 8597 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    67229 ave 67229 max 67229 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 67229
+Ave neighs/atom = 4.37689
+Ave special neighs/atom = 5.2
+Neighbor list builds = 59
+Dangerous builds = 0
+
+# REFIX
+unfix 2
+unfix 3
+fix 4 all nve
+fix 5 all langevin ${T} ${T} 1 123456
+fix 5 all langevin 0.5 ${T} 1 123456
+fix 5 all langevin 0.5 0.5 1 123456
+fix recen1 all recenter INIT INIT INIT
+
+# BENT ANGLES
+angle_coeff $((v_len-1)/2) 500.0  150    #noW semibent at central bond
+angle_coeff 7 500.0  150    
+run 250
+Per MPI rank memory allocation (min/avg/max) = 17.69 | 17.69 | 17.69 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+    1000   0.49356567  0.024673554    8.8270443    9.5920182   0.36725624 
+    1250    1.2836994   0.20178259    1.6885295    3.8157358    1.6898324 
+Loop time of 1.09231 on 1 procs for 250 steps with 15360 atoms
+
+Performance: 98873.467 tau/day, 228.874 timesteps/s
+98.7% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.1391     | 0.1391     | 0.1391     |   0.0 | 12.73
+Bond    | 0.22443    | 0.22443    | 0.22443    |   0.0 | 20.55
+Neigh   | 0.35032    | 0.35032    | 0.35032    |   0.0 | 32.07
+Comm    | 0.049824   | 0.049824   | 0.049824   |   0.0 |  4.56
+Output  | 0.091496   | 0.091496   | 0.091496   |   0.0 |  8.38
+Modify  | 0.21818    | 0.21818    | 0.21818    |   0.0 | 19.97
+Other   |            | 0.01896    |            |       |  1.74
+
+Nlocal:    15360 ave 15360 max 15360 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    8037 ave 8037 max 8037 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    65921 ave 65921 max 65921 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 65921
+Ave neighs/atom = 4.29173
+Ave special neighs/atom = 5.2
+Neighbor list builds = 35
+Dangerous builds = 0
+angle_coeff $((v_len-1)/2) 500.0  120    #noW bent at central bond
+angle_coeff 7 500.0  120    
+run 250
+Per MPI rank memory allocation (min/avg/max) = 17.69 | 17.69 | 17.69 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+    1250    1.2836994   0.20178259     10.99597    13.123176    1.6898324 
+    1500    1.5528979   0.50330883    2.3911528    5.2236568    3.6104287 
+Loop time of 1.24697 on 1 procs for 250 steps with 15360 atoms
+
+Performance: 86610.079 tau/day, 200.486 timesteps/s
+96.5% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.18157    | 0.18157    | 0.18157    |   0.0 | 14.56
+Bond    | 0.21971    | 0.21971    | 0.21971    |   0.0 | 17.62
+Neigh   | 0.40678    | 0.40678    | 0.40678    |   0.0 | 32.62
+Comm    | 0.044691   | 0.044691   | 0.044691   |   0.0 |  3.58
+Output  | 0.13528    | 0.13528    | 0.13528    |   0.0 | 10.85
+Modify  | 0.22549    | 0.22549    | 0.22549    |   0.0 | 18.08
+Other   |            | 0.03345    |            |       |  2.68
+
+Nlocal:    15360 ave 15360 max 15360 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    7672 ave 7672 max 7672 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    70273 ave 70273 max 70273 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 70273
+Ave neighs/atom = 4.57507
+Ave special neighs/atom = 5.2
+Neighbor list builds = 41
+Dangerous builds = 0
+
+reset_timestep 0
+
+write_restart restart.time*
+
+
+
+
+Total wall time: 0:00:07

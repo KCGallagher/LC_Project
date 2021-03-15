@@ -14,7 +14,7 @@
 import time
 import argparse
 
-parser = argparse.ArgumentParser(description="generate nunchunks of 10 beads")
+parser = argparse.ArgumentParser(description="generate nunchunks of 'mol_length' beads")
 parser.add_argument(
     "-g",
     "--generate",
