@@ -4,7 +4,7 @@ variable N         equal  1024
 variable len       equal  15
 variable T         equal  0.5 
 
-shell del output*
+shell del output* # used for testing
 
 print "variable N        equal  $N" #for phase plot code to read out
 
@@ -39,9 +39,9 @@ pair_coeff * * 1  1.0  1.12
 #1.12 is cut-off for potential
 
 # DUMP OUTPUT #temporary for testing
-dump  1  all custom 100 output_time_*.dump id mol type x y z vx vy vz
+# dump  1  all custom 100 output_time_*.dump id mol type x y z vx vy vz
 # dumps all positions etc every N  steps
-dump_modify 1 sort id
+# dump_modify 1 sort id
 
 # FIX
 fix 2 all nph iso 0.0001 0.0001 10   #reduced target pressure here
@@ -58,7 +58,7 @@ fix 5 all langevin ${T} ${T} 1 123456
 fix recen1 all recenter INIT INIT INIT
 
 # BENT ANGLES  
-angle_coeff $((v_len-1)/2) 500.0  150    #noW semibent at central bond
+angle_coeff $((v_len-1)/2) 500.0  150    #now semibent at central bond
 run 250
 angle_coeff $((v_len-1)/2) 500.0  120    #noW bent at central bond
 run 250

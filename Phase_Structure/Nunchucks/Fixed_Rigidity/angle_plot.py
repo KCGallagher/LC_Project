@@ -102,7 +102,8 @@ def angle_dist(data, remove_split_mol=True):
 
     rod_1 = data[:, 1, :] - data[:, 0, :]  # director vector for first end of molecule
     norm_rod_1 = rod_1 / np.linalg.norm(rod_1, axis=1).reshape(-1, 1)
-    rod_2 = data[:, 2, :] - data[:, 1, :]  # director vector for second end of molecule
+    rod_2 = data[:, 1, :] - data[:, 2, :]  # director vector for second end of molecule
+    # note this is defined so the two vectors point away from the centre of the molecule
     norm_rod_2 = rod_2 / np.linalg.norm(rod_2, axis=1).reshape(-1, 1)
 
     angle_values = np.sum(norm_rod_1 * norm_rod_2, axis=1)
