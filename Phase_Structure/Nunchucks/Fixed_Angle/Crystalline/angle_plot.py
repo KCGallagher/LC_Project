@@ -9,6 +9,8 @@ file_root = "output_T_0.5_time_"
 sampling_freq = 50  # only samples one in X files (must be integer) #30
 plotting_freq = 1  # only plots on in X of the sampled distributions
 
+mol_length = 15
+
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
 # READ PARAMETER VALUES FROM LOG FILE
