@@ -105,6 +105,7 @@ def rms_displacement(pos_t, pos_0, box_dim, use_vector=False):
     If use_vector is true, returns average displacement in each coordinate axis"""
     if use_vector:
         rms_vector = np.abs((pos_t - pos_0))
+        print(rms_vector.shape)
         return np.mean(rms_vector, axis=0)
     else:
         rms_value = np.linalg.norm((pos_t - pos_0))
