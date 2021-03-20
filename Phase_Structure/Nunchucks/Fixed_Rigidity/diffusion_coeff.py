@@ -9,6 +9,8 @@ from phase_plot import vol_frac
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 1  # only samples one in X files (must be integer)
 
+DIRECTIONAL_COEFF = True
+
 # mol_length = 10  #uncomment on older datasets
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -89,32 +91,42 @@ for i in range(len(mix_steps_values)):
 
 assert time_counter == run_time, "Unexpected result in sampling times"
 
-print(sampling_times)
-
 # CALCULATE THE RMS DISPLACEMENT
 
 
-def rms_displacement(pos_t, pos_0, box_dim):
+def rms_displacement(pos_t, pos_0, box_dim, use_vector=False):
     """Input data in array of size Molecule Number x 3, and list of box_dim
 
     Input data will be com_positions array which stores input data   
     First index gives molecule number
     Second index gives the component of the position (x,y,z)
 
-    Returns rms displacement from initial displacement"""
-
-    rms_value = np.linalg.norm((pos_t - pos_0))
-
-    return np.mean(rms_value)
+    If use_vector is false, returns rms displacement from initial displacement
+    If use_vector is true, returns average displacement in each coordinate axis"""
+    if use_vector:
+        print(pos_t.shape, pos_0.shape)
+        rms_vector = np.abs((pos_t - pos_0))
+        print(rms_vector.shape)
+        return np.mean(rms_vector, axis=0)
+    else:
+        rms_value = np.linalg.norm((pos_t - pos_0))
+        return np.mean(rms_value)
 
 
 # READ MOLECULE POSITIONS
 
-rms_disp_values = np.zeros(len(time_range))
+if DIRECTIONAL_COEFF:
+    dimension_num = 3
+    axis_labels = ["x", "y", "z"]
+else:
+    dimension_num = 1
+    axis_labels = ["RMS"]
+
+displacement_values = np.zeros((len(time_range), dimension_num))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
 # for sampled measurements:
-sampled_D_values = np.full(len(mix_steps_values), np.nan)
+sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
 sampled_vol_values = np.full(len(mix_steps_values), np.nan)
 
 for i, time in enumerate(time_range):  # interate over dump files
@@ -124,8 +136,8 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     box_volume = 1
     box_dimensions = []  # to store side lengths of box for period boundary adjustment
-    com_positions = np.zeros((N_molecules, 3, 3))
-    """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
+    com_positions = np.zeros((N_molecules, 3))
+    """Indices are Molecule Number;  Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -171,10 +183,13 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     if time == 0:
         initial_positions = com_positions
-        rms_disp_values[0] = np.nan
+        displacement_values[0, :] = np.nan
     else:
-        rms_disp_values[i] = rms_displacement(
-            com_positions, initial_positions, box_dimensions
+        displacement_values[i, :] = rms_displacement(
+            com_positions,
+            initial_positions,
+            box_dimensions,
+            use_vector=DIRECTIONAL_COEFF,
         )  # evaluate <x^2> at time t
 
     # For specific sample measurement
@@ -187,27 +202,31 @@ for i, time in enumerate(time_range):  # interate over dump files
             sampled_vol_values[indices[0]] = box_volume
         else:  # end of sampling period
             sampled_rms = rms_displacement(
-                com_positions, initial_sample, box_dimensions
+                com_positions,
+                initial_sample,
+                box_dimensions,
+                use_vector=DIRECTIONAL_COEFF,
             )  # initial sample taken from previous iteration in if clause
-            sampled_D_values[indices[0]] = sampled_rms / (6 * equilibrium_time)
+            sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
         print(time, box_volume, indices)
 
-    # print("T = " + str(time) + "/" + str(run_time))
+    print("T = " + str(time) + "/" + str(run_time))
 
 
 print(sampled_D_values)
 print(sampled_vol_values)
 
 time_range[0] = 1  # avoid divide by zero error, will be ignored anyway
-diffusion_coeff_values = (
-    (1 / 6) * rms_disp_values * np.reciprocal(time_range, dtype="float64")
-)
+diffusion_coeff_values = (1 / 6) * np.divide(displacement_values.T, time_range).T
+
 print("Mean Diffussion Coefficients: " + str(np.nanmean(diffusion_coeff_values)))
 
-plt.plot(time_range, rms_disp_values)
+for i in range(dimension_num):
+    plt.plot(time_range, displacement_values[:, i], label=axis_labels[i])
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Diffusion Coefficient")
+plt.legend()
 plt.savefig("rms_displacement.png")
 plt.show()
 
@@ -235,15 +254,21 @@ fig.tight_layout()  # otherwise the right y-label is slightly clipped
 plt.savefig("order_and_diffusion.png")
 plt.show()
 
-plt.plot(vol_frac(volume_values), diffusion_coeff_values, "rx")
+for i in range(dimension_num):
+    plt.plot(
+        vol_frac(volume_values), diffusion_coeff_values[:, i], "x", label=axis_labels[i]
+    )
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
+plt.legend()
 plt.savefig("order_vs_diffusion.png")
 plt.show()
 
-plt.plot(sampled_vol_values, sampled_D_values, "bx")
+for i in range(dimension_num):
+    plt.plot(sampled_vol_values, sampled_D_values[:, i], "x", label=axis_labels[i])
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
+plt.legend()
 plt.savefig("order_vs_diffusion_sampled.png")
 plt.show()
 
