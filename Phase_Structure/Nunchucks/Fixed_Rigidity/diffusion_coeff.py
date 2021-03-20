@@ -19,6 +19,7 @@ file_name = "log.lammps"
 log_file = open(file_name, "r")
 mix_steps_values = []
 
+
 for i, line in enumerate(log_file):
     """For loop iteratres over every line in file to find the required variables.
 
@@ -75,20 +76,22 @@ print(
     + str((N_molecules, run_time, dump_interval))
 )
 
+# GENERATE LIST OF TIME STEPS TO SAMPLE
 
-def find_separation(pos1, pos2, box_dim):
-    """Finds separation between two positions
+sampling_times = np.zeros((len(mix_steps_values), 2))
+# Gives start and end times for each equillibrium run
+time_counter = 0
+for i in range(len(mix_steps_values)):
+    time_counter += mix_steps_values[i]
+    sampling_times[i, 0] = time_counter
+    time_counter += equilibrium_time
+    sampling_times[i, 1] = time_counter
 
-    This method finds the minimum separation, accounting for the periodic BC
-    pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
-    separation = pos1 - pos2
-    for i in range(len(pos1)):  # should be 3 dimensional
-        if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
-            # use distance to ghost instead
-            separation[i] = box_dim[i] - np.abs(pos1[i] - pos2[i])
+assert time_counter == run_time, "Unexpected result in sampling times"
 
-    return np.linalg.norm(separation)
+print(sampling_times)
+
+# CALCULATE THE RMS DISPLACEMENT
 
 
 def rms_displacement(pos_t, pos_0, box_dim):
@@ -109,6 +112,11 @@ def rms_displacement(pos_t, pos_0, box_dim):
 
 rms_disp_values = np.zeros(len(time_range))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
+
+# for sampled measurements:
+sampled_D_values = np.full(len(mix_steps_values), np.nan)
+sampled_vol_values = np.full(len(mix_steps_values), np.nan)
+
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(FILE_ROOT + str(time) + ".dump", "r")
     extract_atom_data = False  # start of file doesn't contain particle values
@@ -169,8 +177,27 @@ for i, time in enumerate(time_range):  # interate over dump files
             com_positions, initial_positions, box_dimensions
         )  # evaluate <x^2> at time t
 
-    print("T = " + str(time) + "/" + str(run_time))
+    # For specific sample measurement
 
+    if time in sampling_times:
+        where_output = np.where(sampling_times == time)
+        indices = (where_output[0][0], where_output[1][0])
+        if indices[1] == 0:  # start of sampling period
+            initial_sample = com_positions
+            sampled_vol_values[indices[0]] = box_volume
+        else:  # end of sampling period
+            sampled_rms = rms_displacement(
+                com_positions, initial_sample, box_dimensions
+            )  # initial sample taken from previous iteration in if clause
+            sampled_D_values[indices[0]] = sampled_rms / (6 * equilibrium_time)
+            # D value for i-th equillibration period
+        print(time, box_volume, indices)
+
+    # print("T = " + str(time) + "/" + str(run_time))
+
+
+print(sampled_D_values)
+print(sampled_vol_values)
 
 time_range[0] = 1  # avoid divide by zero error, will be ignored anyway
 diffusion_coeff_values = (
@@ -209,8 +236,14 @@ plt.savefig("order_and_diffusion.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), diffusion_coeff_values, "rx")
-plt.ylabel("Order Parameter")
+plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.savefig("order_vs_diffusion.png")
+plt.show()
+
+plt.plot(sampled_vol_values, sampled_D_values, "bx")
+plt.ylabel("Diffusion Coefficient")
+plt.xlabel("Volume Fraction")
+plt.savefig("order_vs_diffusion_sampled.png")
 plt.show()
 
