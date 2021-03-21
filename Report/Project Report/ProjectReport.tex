@@ -1,0 +1,103 @@
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+
+\documentclass[11pt, a4paper]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column) Use additional titlepage argument to generate this
+%\documentclass[12pt, a4paper,twocolumn,titlepage]{article}
+
+\input{structure.tex} % Specifies the document structure and loads requires packages
+\graphicspath{{"/Users/kit gallagher/Documents/Research Review/Report/Figures"}}
+\newcommand*{\subscript}[1]{\ensuremath{_\textrm{{\scriptsize #1}}}}
+
+%	ARTICLE INFORMATION
+
+\title{Simulating Liquid Crystals}
+
+%\author{
+	%\authorstyle{Christopher Gallagher}}
+\author{\authorstyle{Kit Gallagher} 
+	%\institution{University of Cambridge \\
+	\institution{Supervisors: Prof Erika Eiser, Mr Jiaming Yu}}
+% Example of a one line author/institution relationship
+%\author{\newauthor{John Marston} \newinstitution{Universidad Nacional Autónoma de México, Mexico City, Mexico}}
+
+\date{\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
+\usepackage[english]{babel}
+\usepackage{tabularx}
+%\renewcommand{\thefootnote}{\roman{footnote}}  %use roman lettering for footnotes instead
+%\usepackage[backend=biber,doi=false]{biblatex}
+\addbibresource{reportreferences.bib}
+%\AtBeginBibliography{\small}
+%----------------------------------------------------------------------------------------
+\begin{document}
+	
+%Your project should contain the following statement on the first page of the project: Except where specific reference is made to the work of others, this work is original and has not been already submitted either wholly or in part to satisfy any degree requirement at this or any other university.	A link to your on-line notebook should also be added to the first page of your report before uploading the project.
+
+\maketitle % Print the title
+
+\thispagestyle{firstpage} % Apply the page style for the first page (no headers and footers)
+
+%	ABSTRACT
+
+\lettrineabstract{The specificity of DNA base-pair interactions gives considerable functional control in the design of anisotropic nano-particles, enabling the formation of liquid crystal phases. This project aims to study the liquid phase behaviour of such non-conventional liquid crystal molecules, with a particular focus on the novel `nunchuck' structure - two rigid rods connected via a flexible linker. The Eiser Group have previously considered intra-molecular interaction potentials at the single-nucleotide level for a single DNA nanoparticle, and I am now implementing these potentials in larger, more coarse-grained models of multiple nanoparticles, through open-source software LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator). Such systems are expected to form smectic (layered) phases at high volume fractions. THIS WILL BE EDITED AT THE END}
+
+\section{Introduction}
+What are we studying? (brief)
+Why are we interested? Applications of this!
+Outline of report
+
+\section{Background}
+\subsection{Liquid Crystals}
+Include known phases etc 
+\subsection{Onsager Theory}
+Introduce theoretical predictions to be validated later
+Mathematical derivations may be provided in appendicies
+
+\section{Methods}
+\subsection{Simulation - LAMMPS Software}
+Detail how this works. Include description of natural units conversions etc
+\subsection{Analysis}
+Includes custom written python scripts and OVITO freeware. Credit scripts written by other group members.
+
+\section{Rigid Rod Simulations}
+
+
+\section{Nunchuck Simulations}
+
+
+
+\section{Conclusion}
+Summarise key results from above, and emphasise their importance 
+Also give limitations of results obtained, and suggest direction for further work
+
+
+%\clearpage
+\printbibliography
+
+\begin{appendices}
+
+\section{Onsager Theory}
+\section{Netamtic Order Parameter}
+include theoretical derivation and calculation
+
+\section{Code?}
+
+\end{appendices}
+
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wenneker Article
+% LaTeX Template
+% Version 2.0 (28/2/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Vel (vel@LaTeXTemplates.com)
+% Frits Wenneker
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
