@@ -7,8 +7,6 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 1  # only samples one in X files (must be integer)
-
 DIRECTIONAL_COEFF = True
 
 # mol_length = 10  #uncomment on older datasets
@@ -72,7 +70,7 @@ log_file.close()
 
 tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num * equilibrium_time
-time_range = np.arange(0, int(run_time), int(dump_interval * SAMPLING_FREQ))
+time_range = np.arange(0, int(run_time), int(dump_interval))
 print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
@@ -92,20 +90,40 @@ for i in range(len(mix_steps_values)):
 assert time_counter == run_time, "Unexpected result in sampling times"
 
 # CALCULATE THE RMS DISPLACEMENT
+def periodic_bc_displacement(current_pos, previous_pos, box_dim, tolerance=0.5):
+    """Input position data in arrays of size Molecule Number x 3, and list of box_dim
+
+    Input data will be com_positions array which stores input data   
+    First index gives molecule number
+    Second index gives the component of the position (x,y,z)
+    'tolerance' is the maximum allowed step size (without assuming boundary crossing)
+        It is measured as a fraction of the box dimensions, default is 0.5
+
+    Returns an additional displacement vector which track displacement over boundaries of box"""
+    delta_x = current_pos - previous_pos
+    output_displacement = np.zeros_like(delta_x)
+    for i in range(len(box_dim)):
+        # adds displacement equal to box dimension in direction of boundary crossing
+        output_displacement[:, i] += np.where(
+            delta_x[:, i] > tolerance * box_dim[i], -box_dim[i], 0
+        )  # crossings in negative axis direction (to give large +ve delta_x)
+        output_displacement[:, i] += np.where(
+            delta_x[:, i] < -1 * tolerance * box_dim[i], box_dim[i], 0
+        )  # crossings in positive axis direction
+    return output_displacement
 
 
-def rms_displacement(pos_t, pos_0, box_dim, use_vector=False):
+def rms_displacement(pos_t, pos_0, use_vector=False):
     """Input data in array of size Molecule Number x 3, and list of box_dim
 
     Input data will be com_positions array which stores input data   
     First index gives molecule number
     Second index gives the component of the position (x,y,z)
 
-    If use_vector is false, returns rms displacement from initial displacement
+    If use_vector is false (default), returns rms displacement from initial displacement
     If use_vector is true, returns average displacement in each coordinate axis"""
     if use_vector:
         rms_vector = np.abs((pos_t - pos_0))
-        print(rms_vector.shape)
         return np.mean(rms_vector, axis=0)
     else:
         rms_value = np.linalg.norm((pos_t - pos_0))
@@ -121,12 +139,14 @@ else:
     dimension_num = 1
     axis_labels = ["RMS"]
 
-displacement_values = np.zeros((len(time_range), dimension_num))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
 # for sampled measurements:
 sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
 sampled_vol_values = np.full(len(mix_steps_values), np.nan)
+
+extra_displacement = np.zeros((N_molecules, 3))
+# additional values to account for crossing the boundaries of the box
 
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(FILE_ROOT + str(time) + ".dump", "r")
@@ -180,18 +200,10 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    if time == 0:
-        initial_positions = com_positions
-        displacement_values[0, :] = np.nan
-    else:
-        displacement_values[i, :] = rms_displacement(
-            com_positions,
-            initial_positions,
-            box_dimensions,
-            use_vector=DIRECTIONAL_COEFF,
-        )  # evaluate <x^2> at time t
-
-    # For specific sample measurement
+    if time != 0:  # skip this for the first step
+        extra_displacement += periodic_bc_displacement(
+            com_positions, previous_positions, box_dimensions
+        )
 
     if time in sampling_times:
         where_output = np.where(sampling_times == time)
@@ -199,75 +211,32 @@ for i, time in enumerate(time_range):  # interate over dump files
         if indices[1] == 0:  # start of sampling period
             initial_sample = com_positions
             sampled_vol_values[indices[0]] = box_volume
+
+            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
         else:  # end of sampling period
+            # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
-                com_positions,
+                com_positions + extra_displacement,
                 initial_sample,
-                box_dimensions,
                 use_vector=DIRECTIONAL_COEFF,
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
-        print(time, box_volume, indices)
 
+    previous_positions = com_positions
     print("T = " + str(time) + "/" + str(run_time))
 
 
-print(sampled_D_values)
-print(sampled_vol_values)
+# print(sampled_D_values)
+# # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
+# print(sampled_vol_values)
 
-time_range[0] = 1  # avoid divide by zero error, will be ignored anyway
-diffusion_coeff_values = (1 / 6) * np.divide(displacement_values.T, time_range).T
-
-print("Mean Diffussion Coefficients: " + str(np.nanmean(diffusion_coeff_values)))
-
-for i in range(dimension_num):
-    plt.plot(time_range, displacement_values[:, i], label=axis_labels[i])
-plt.xlabel("Time (arbitrary units)")
-plt.ylabel("Diffusion Coefficient")
-plt.legend()
-plt.savefig("rms_displacement.png")
-plt.show()
-
-fig, ax1 = plt.subplots()
-
-color = "tab:red"
-ax1.set_xlabel("Time (arbitrary units)")
-ax1.set_ylabel("Diffusion Coefficient", color=color)
-ax1.plot(
-    time_range, diffusion_coeff_values, color=color,
-)
-ax1.tick_params(axis="y", labelcolor=color)
-
-ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
-
-color = "tab:blue"
-ax2.set_ylabel(
-    "Volume Fraction", color=color
-)  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values, mol_length, N_molecules), color=color)
-ax2.tick_params(axis="y", labelcolor=color)
-
-plt.title("Evolution of Diffusion Coefficient")
-fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.savefig("order_and_diffusion.png")
-plt.show()
-
-for i in range(dimension_num):
-    plt.plot(
-        vol_frac(volume_values), diffusion_coeff_values[:, i], "x", label=axis_labels[i]
-    )
-plt.ylabel("Diffusion Coefficient")
-plt.xlabel("Volume Fraction")
-plt.legend()
-plt.savefig("order_vs_diffusion.png")
-plt.show()
 
 for i in range(dimension_num):
     plt.plot(sampled_vol_values, sampled_D_values[:, i], "x", label=axis_labels[i])
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
-plt.savefig("order_vs_diffusion_sampled.png")
+plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
 

@@ -1,5 +1,5 @@
-"""Traditional method to calculate the pair-wise orientational order correlation function
-Uses the end-to-end molecule vector as the director"""
+"""Calculates the diffusion coefficient over each equillibration run. 
+Accounts for additional displacement when crossing the periodi cboundary conditions"""
 
 import numpy as np
 import matplotlib.pyplot as plt

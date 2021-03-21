@@ -1,0 +1,155 @@
+LAMMPS (3 Mar 2020)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread. (../comm.cpp:94)
+  using 1 OpenMP thread(s) per MPI task
+#run with lmp_serial -pk omp 8 -sf omp -in in.run_loop
+
+#SETUP
+# Runs on the first loop only
+shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
+shell del restart.time*     # delete all current restart files before first run
+shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
+
+#VARIABLES
+variable N         equal  1024  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable len       equal  15
+variable T         equal  0.5
+variable t_step    equal  0.005 #originally 0.005
+variable mix_steps index  0 100000 100000 100000 100000 100000 100000 100000
+variable mix_tau   equal  ${t_step}*${mix_steps}
+variable mix_tau   equal  0.005*${mix_steps}
+variable mix_tau   equal  0.005*0
+variable run_steps equal  1500000 # steps to run simulation in order to reach steady state
+variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
+variable run_tau   equal  0.005*${run_steps} 
+variable run_tau   equal  0.005*1500000 
+#1000 particles averages 35,000 steps per minute
+
+#LOOP START
+label loop  #start loop from here
+read_restart restart.time*
+  restoring atom style molecular from restart
+  orthogonal box = (-0.209749 -0.689043 -0.209749) to (18.4497 60.609 18.4497)
+  1 by 1 by 1 MPI processor grid
+  restoring pair style lj/cut from restart
+  restoring bond style harmonic from restart
+  restoring angle style harmonic from restart
+  15360 atoms
+  14336 bonds
+  13312 angles
+  2 = max # of 1-2 neighbors
+  2 = max # of 1-3 neighbors
+  4 = max # of 1-4 neighbors
+  6 = max # of special neighbors
+  special bonds CPU = 0.00897312 secs
+  read_restart CPU = 0.031389 secs
+# this reads in latest restart file, * is wildcard for timestep
+
+
+# THERMAL
+timestep ${t_step}
+timestep 0.005
+thermo   100
+thermo_style custom step time temp press pe ke etotal vol
+thermo_modify norm no
+
+
+# DUMP OUTPUT
+dump  1  all custom 25000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 25000 output_T_0.5_time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N  steps
+dump_modify 1 sort id
+
+# FIX
+fix 2 all nph iso 0.0001 0.0001 1000   #reduced target pressure here
+fix 3 all langevin ${T} ${T} 1 123456 #as above
+fix 3 all langevin 0.5 ${T} 1 123456 
+fix 3 all langevin 0.5 0.5 1 123456 
+run ${mix_steps}
+run 0
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 1.42
+  ghost atom cutoff = 1.9
+  binsize = 0.71, bins = 27 87 27
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair lj/cut, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton
+      stencil: half/bin/3d/newton
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 17.61 | 17.61 | 17.61 Mbytes
+Step Time Temp Press PotEng KinEng TotEng Volume 
+       0            0    1.5528979    3.6104287     44458.93    35776.438    80235.369    21342.574 
+Loop time of 0 on 1 procs for 0 steps with 15360 atoms
+
+0.0% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Bond    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0          |            |       |  0.00
+
+Nlocal:    15360 ave 15360 max 15360 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    7672 ave 7672 max 7672 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    57868 ave 57868 max 57868 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 57868
+Ave neighs/atom = 3.76745
+Ave special neighs/atom = 5.2
+Neighbor list builds = 0
+Dangerous builds = 0
+
+unfix 2
+unfix 3
+fix 4 all nve
+fix 5 all langevin ${T} ${T} 1 123456
+fix 5 all langevin 0.5 ${T} 1 123456
+fix 5 all langevin 0.5 0.5 1 123456
+fix recen1 all recenter INIT INIT INIT
+
+
+# RUN
+run ${run_steps}
+run 1500000
+Per MPI rank memory allocation (min/avg/max) = 17.61 | 17.61 | 17.61 Mbytes
+Step Time Temp Press PotEng KinEng TotEng Volume 
+       0            0    1.5528979    3.6104287     44458.93    35776.438    80235.369    21342.574 
+     100          0.5    1.1593046    2.1410066    33624.225    26708.639    60332.864    21342.574 
+     200            1   0.92182239    2.7453164    26943.654    21237.405     48181.06    21342.574 
+     300          1.5   0.75726589    2.0877924    23040.333     17446.27    40486.603    21342.574 
+     400            2   0.66718833    2.1066144    20298.599    15371.018    35669.618    21342.574 
+     500          2.5    0.6036002    1.9486152    18781.353    13906.043    32687.396    21342.574 
+     600            3   0.57147386    1.8493721     17343.97    13165.901    30509.871    21342.574 
+     700          3.5   0.55239107    1.8079829    16522.905    12726.262    29249.167    21342.574 
+     800            4   0.53723232    1.7731017    15982.248    12377.027    28359.275    21342.574 
+     900          4.5   0.52660931     1.695205    15381.543    12132.289    27513.831    21342.574 
+    1000            5   0.51458554    1.6104042    15201.483    11855.279    27056.762    21342.574 
+    1100          5.5   0.51094937     1.717042    14959.455    11771.507    26730.962    21342.574 
+    1200            6   0.50973469    1.5675092    14713.589    11743.523    26457.112    21342.574 
+    1300          6.5   0.50682516    1.5452335    14530.388    11676.491    26206.879    21342.574 
+    1400            7   0.50101574    1.4711557    14473.904    11542.651    26016.555    21342.574 
+    1500          7.5   0.50338737    1.5537926    14295.684     11597.29    25892.973    21342.574 
+    1600            8   0.49949661    1.5644685    14258.346    11507.653    25765.999    21342.574 
+    1700          8.5   0.50049706    1.4373826     14008.63    11530.701    25539.331    21342.574 
+    1800            9   0.50011636     1.505735    13967.886    11521.931    25489.816    21342.574 
+    1900          9.5   0.49918936    1.5627733     13905.21    11500.574    25405.784    21342.574 
+    2000           10   0.50032516    1.4051117    13797.962    11526.741    25324.704    21342.574 
+    2100         10.5   0.50540698    1.4048024    13787.712    11643.819    25431.531    21342.574 
+    2200           11   0.50139247    1.4312276    13782.602     11551.33    25333.932    21342.574 
+    2300         11.5   0.50880653    1.4584073    13593.671    11722.139     25315.81    21342.574 
+    2400           12   0.50263273    1.3467746     13575.45    11579.904    25155.354    21342.574 
+    2500         12.5   0.50156037    1.4576514    13534.982    11555.199     25090.18    21342.574 
+    2600           13   0.50167264     1.346658    13379.877    11557.785    24937.662    21342.574 
+    2700         13.5   0.50217232    1.3853576    13388.871    11569.297    24958.168    21342.574 
+    2800           14   0.50054677    1.3961546    13381.292    11531.847    24913.138    21342.574 
+    2900         14.5   0.49939388    1.3288646    13277.309    11505.286    24782.595    2

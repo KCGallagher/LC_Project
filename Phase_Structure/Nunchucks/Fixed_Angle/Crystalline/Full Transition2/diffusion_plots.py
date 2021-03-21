@@ -1,5 +1,5 @@
-"""Calculates the rms displacement over the simulation, and diffusion coefficient over different timescales
-Plots these over time, including a directional approach (treating each coordinate separately)."""
+"""Traditional method to calculate the pair-wise orientational order correlation function
+Uses the end-to-end molecule vector as the director"""
 
 import numpy as np
 import matplotlib.pyplot as plt
