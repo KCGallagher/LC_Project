@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  21 MAR 2021 18:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  21 MAR 2021 18:44
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1300,7 +1300,7 @@ LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 Package biblatex Info: Reference section=0 on input line 30.
 Package biblatex Info: Reference segment=0 on input line 30.
 LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
-2.
+4.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ot1phv.fd"
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
@@ -1310,43 +1310,43 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 32--32
+Overfull \hbox (17.0pt too wide) in paragraph at lines 34--34
 [][]
  []
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 32.
+(Font)              scaled to size 12.0pt on input line 34.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 32.
+(Font)              scaled to size 9.0pt on input line 34.
 
-Overfull \hbox (17.0pt too wide) in paragraph at lines 32--32
+Overfull \hbox (17.0pt too wide) in paragraph at lines 34--34
 [][]
  []
 
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 38.
+(Font)              scaled to size 10.95pt on input line 40.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 32.60931pt on input line 38.
+(Font)              scaled to size 32.60931pt on input line 40.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 47.95464pt on input line 38.
+(Font)              scaled to size 47.95464pt on input line 40.
 Package lettrine.sty Info: Targeted height = 32.60931pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 32.60916pt (\color {NavyBlue}{T});
 
-(lettrine.sty)             reported on input line 38.
+(lettrine.sty)             reported on input line 40.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 38.
+(Font)              scaled to size 10.95pt on input line 40.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 40.
+(Font)              scaled to size 14.4pt on input line 42.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 40.
+(Font)              scaled to size 14.4pt on input line 42.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 46.
+(Font)              scaled to size 12.0pt on input line 49.
 [1
 
 {C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 71.
+(Font)              scaled to size 10.95pt on input line 74.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1369,7 +1369,7 @@ Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 Here is how much of TeX's memory you used:
  17705 strings out of 481565
  309681 string characters out of 2914627
- 994780 words of memory out of 3000000
+ 993780 words of memory out of 3000000
  32567 multiletter control sequences out of 15000+200000
  629210 words of font info for 116 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1384,7 +1384,7 @@ al/Programs/MiKTeX 2.9/fonts/type1/public/xcharter/XCharter-Roman.pfb><C:/Users
 /KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:
 /Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.
 pfb>
-Output written on ProjectReport.pdf (4 pages, 195364 bytes).
+Output written on ProjectReport.pdf (4 pages, 195478 bytes).
 PDF statistics:
  67 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
