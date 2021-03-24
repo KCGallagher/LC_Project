@@ -40,7 +40,7 @@
 \lettrineabstract{The specificity of DNA base-pair interactions gives considerable functional control in the design of anisotropic nano-particles, enabling the formation of liquid crystal phases. This project aims to study the liquid phase behaviour of such non-conventional liquid crystal molecules, with a particular focus on the novel `nunchuck' structure - two rigid rods connected via a flexible linker. The Eiser Group have previously considered intra-molecular interaction potentials at the single-nucleotide level for a single DNA nanoparticle, and I am now implementing these potentials in larger, more coarse-grained models of multiple nanoparticles, through open-source software LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator). Such systems are expected to form smectic (layered) phases at high volume fractions. THIS WILL BE EDITED AT THE END}
 
 \section{Introduction}
-What are we studying? (brief)
+What are we studying? (brief) - introduce nunchuck particles (but not implementation)
 Why are we interested? Applications of this!
 
 Outline of report
@@ -62,9 +62,7 @@ As introduced in Section \ref{sec:PrevWork}, all molecular dynamics simulations 
 \subsection{Simulation Molecules}
 As introduced in Section \textbf{X}, we are considering `nunchuck' molecules formed of two rigid rods connected by a flexible linker, as depicted in Figure \ref{fig:nunchuck_analogy}. However, as the interaction potential of an anisotropic particle is rather complex, it is computationally simpler to consider each molecule as a system of connected spheres, each with a separate isotropic interaction potential (detailed further in Section \ref{pair_potential}).
 
-This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods of aspect ratio 7. The ss-DNA is represented by a further sphere in the centre of the molecule, coloured differently in red to highlight its differing mechanical properties. It has a modified bond angle, so the molecule is bent around this element, and reduced bond rigidity so the particle may also stretch about this point.
-
-
+This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods of aspect ratio 7. The ss-DNA is represented by a further sphere in the centre of the molecule, coloured differently in red to highlight its differing mechanical properties. It has a modified bond angle, so the molecule is bent around this element, and reduced bond rigidity so the particle may also stretch about this point. 
 
 \begin{figure}[ht]
 	\hfill  %NOT SURE ABOUT THIS!
@@ -86,21 +84,27 @@ This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods o
 	\hfill
 \end{figure}
 
-The nunchucks are formed of two rigid rods of ds-DNA, connected via a flexible linker of ss-DNA, and the complete nunchuck is modelled as a rod of 60 base pairs long. With the standard values for DNA of radius $r = 2$nm and length (per base pair) of $l=0.33$nm, we obtain an aspect ratio of 10 for this rod. . Within LAMMPS, this is expressed as ten spherical balls (aspect ratio 1) bound rigidly together in a linear structure. 
+A system of natural units was used in simulations, and replicated in tour results here. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are both set to unity. The simulation timescale is then fixed by the choice of these values, and the mass of the simulation body. 
 
-It should be noted that a system of natural units is used throughout this paper. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are both set to unity. The simulation timescale is then fixed by the choice of these values, and the mass of the simulation body. 
+The physical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be generalised to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over an appropriate timescale determined by their material properties \cite{Rapaport2004}.
 
-The physical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be applied to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over a timescale determined by their material properties \cite{Rapaport2004}.
+For the nunchuck particles considered, a length scale of \SI{2}{\nano\metre} is used (corresponding to the width of ds-DNA, and hence the diameter of a simulation sphere) \cite{Arnott1972}. It is worth noting that the persistence length of DNA is around \SI{50}{\nano\metre} \cite{Garcia2007}, so the approximation of perfect rigidity is valid for all rods considered here (maximum length \SI{30}{\nano\metre}). Using the standard value of \SI{0.33}{\nano\metre} \cite{Langridge1960} for the average length of a base pair, each sphere corresponds to a sequence of six base pairs. This gives the mass of each sphere as \SI{6.5e-24}{\kilogram}, based on an average formula mass per base pair of \SI{650}{\dalton} \cite{Duewer2018}). 
 
-For the nunchuck particles considered, a lengthscale of 2nm corresponds to particle size.
+We may also define the characteristic energy scale; this is formally the depth of the potential well in the full Lennard-Jones potential, but the thermal energy serves as a common approximation \cite{Pan2010} in agreement with experimental data \cite{Wang2002}. Using these values, we find that the characteristic timescale for this system is \SI{79}{\pico\second}. In this context, the simulation timestep would be \SI{0.4}{\pico\second}, and typical simulation of \num{20e6} steps had a total duration of \SI{7.9}{\micro\second}. For \num{1000} particles, this took approximately $8$ hours to run on a standard laptop CPU. %check these
 
-It is worth noting that the persistence length of DNA is around 50nm \cite{Garcia2007}, so the approximation of perfect rigidity is valid over the length-scale of the molecule.
+
+\subsection{Simulation Structure}
+All simulations in this report were conducted for systems of 1000 particles, with a time step of $0.005\tau$, (where $\tau$ is the characteristic time), unless otherwise stated. The system is initially configured in a disordered, dilute state; a non-trivial process for large numbers of mesogens, as molecules must be placed randomly without overlap, to prevent any initial order affecting the formation of ordered phases. I am grateful to Iria Pantazi for writing a python script to automate this process for dilute rigid rod systems, and a generalised version of this is available in the supplementary material. %MAYBE?? THINK ABOUT THIS!
+
+An isenthalpic ensemble is used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, is then used to allow the system to reach thermodynamic equilibrium. Time integration is evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}.
+
+A typical simulation consists of multiple phases, alternating between these two ensembles to sample the system properties at a range of volume fractions. The output of thermodynamic variables, as well as particle positions, as the end of each phase allows for subsequent calculation of the order parameter at equilibrium. This data is also retrieved at regular intervals during each simulation phase, to track the time evolution of the system.
+
+To ensure stability of the system, a Langevin thermostat \cite{Schneider1978} is also used throughout, and energy conservation was verified over a range of timescales. The damping for all thermostats is equal to the characteristic timescale of the simulation (i.e. unity in natural units).
+
+
 
 \subsection{Intermolecular Potential} \label{pair_potential}
-parameters and potentials used etc.
-Timescales and simulation sizes used etc
-
-
 A shifted, cut-off Lennard-Jones potential was chosen to represent pair-wise interactions between molecules. While the Lennard-Jones potential \cite{Jones1924a, Jones1924b} has long been the natural choice for molecular dynamics simulations \cite{Stephan2019}, its infinite range introduces computational complexity as interactions between all pairs of particles must be considered. It is therefore increasingly common to use a cut-off version, whereby the potential is set to zero beyond a `cut-off' radius, and here we chose to neglect the entire attractive tail. As well as simplifying the calculations required, this also allows our results to be generalised to any mesogens without attractive inter-molecular forces (that typically favour ordered-phase formation), as any phase transitions observed here must be purely entropically driven. This is commonly known as a soft-core model, where particle overlap is suppressed via this repulsive potential rather than any excluded volume interactions, and is computationally much less demanding \cite{Paolini1993, Hughes2008}.
 %can cite frenkel on entropically drive transitions if req
 
@@ -128,6 +132,8 @@ Includes custom written python scripts and OVITO freeware. Credit scripts writte
 Summarise key results from above, and emphasise their importance 
 Also give limitations of results obtained, and suggest direction for further work
 
+\section*{Acknowledgements}
+I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supervisor (Mr Jiaming Yu), as I am very grateful for continual teaching, advice and support that they provided. I am also indebted to Prof Daan Frenkel for the kind insights he offered.
 
 %\clearpage
 \printbibliography
