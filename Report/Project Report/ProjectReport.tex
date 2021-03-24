@@ -51,10 +51,36 @@ Include known phases etc
 \subsection{Onsager Theory}
 Introduce theoretical predictions to be validated later
 Mathematical derivations may be provided in appendicies
+\subsection{Previous Computational Work} \label{PrevWork}
 
 \section{Methods}
 \subsection{Simulation - LAMMPS Software}
 Detail how this works. Include description of natural units conversions etc
+
+As introduced in Section \ref{PrevWork}, all molecular dynamics simulations were completed in LAMMPS. LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) is a medium coarse-grained, classical molecular dynamics code developed to replicate  solid-state materials and soft matter mesoscopic systems \cite{Plimpton1995, LAMMPS}.
+
+It should be noted that a system of natural units are used throughout this paper. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are set to unity.
+
+Thephysical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be applied to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over a timescale determined by their material properties \cite{Rapaport2004}.
+
+%Can expand on this if needs be, from rapaport
+
+\subsection{Simulation Parameters}
+parameters and potentials used etc.
+Timescales and simulation sizes used etc
+
+
+A shifted, cut-off Lennard-Jones potential was chosen to represent pair-wise interactions between molecules. While the Lennard-Jones potential \cite{Jones1924a, Jones1924b} has long been the natural choice for molecular dynamics simulations \cite{Stephan2019}, its infinite range introduces computational complexity as interactions between all pairs of particles must be considered. It is therefore increasingly common to use a cut-off version, whereby the potential is set to zero beyond a `cut-off' radius, and here we chose to neglect the entire attractive tail. As well as simplifying the calculations required, this also allows our results to be generalised to any mesogens without attractive inter-molecular forces (that typically favour ordered-phase formation), as any phase transitions observed here must be purely entropically driven. This is commonly known as a soft-core model, where particle overlap is suppressed via this repulsive potential rather than any excluded volume interactions, and is computationally much less demanding \cite{Paolini1993, Hughes2008}.
+%can cite frenkel on entropically drive transitions if req
+
+However, this cut-off may cause unphysical behaviour if the potential does not tend to zero smoothly at this point. This is remedied by the addition of a constant term, described in the full form of the pair-wise potential $U_{ij}$ in (\ref{lj_cut}):
+
+\begin{equation} \label{lj_cut}
+U_{ij} = 4\epsilon \left[ \left( \frac{\sigma}{r_{ij}} \right) ^{12} - \left( \frac{\sigma}{r_{ij}} \right) ^{6}	\right] + \epsilon \qquad	 r_{ij} < r_{c} = 2^{1/6} \sigma
+\end{equation}
+
+Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the system, formally given by the distance at which the $U_{ij} = 0$ and the depth of the potential well. It is worth noting that the effect of this constant term on the overall thermodynamic quantities is well documented \cite{Stephan2020, Shaul2010}, and changes in lyotropic properties are negligible in 3D bulk liquids with a conserved particle number \cite{Smit1991}. 
+ 
 \subsection{Analysis}
 Includes custom written python scripts and OVITO freeware. Credit scripts written by other group members.
 
