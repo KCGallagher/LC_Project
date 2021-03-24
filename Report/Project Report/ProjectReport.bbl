@@ -111,6 +111,84 @@
       \verb https://doi.org/10.1017/cbo9780511816581
       \endverb
     \endentry
+    \entry{Garcia2007}{article}{}
+      \name{author}{9}{}{%
+        {{hash=3a3cbe3bee0c5b84bb4ff78dfb91d15d}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={Hernan\bibnamedelima G.},
+           giveni={H\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=7cdc3a0f7c0ab232868e0d669f34b290}{%
+           family={Grayson},
+           familyi={G\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=0a135b0fb848daf41a0a967d860eb670}{%
+           family={Han},
+           familyi={H\bibinitperiod},
+           given={Lin},
+           giveni={L\bibinitperiod}}}%
+        {{hash=5db370a3955d0e479a7f7551ebc04e5a}{%
+           family={Inamdar},
+           familyi={I\bibinitperiod},
+           given={Mandar},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8011afdbe77dfa9bc07e21d8a948ac11}{%
+           family={Kondev},
+           familyi={K\bibinitperiod},
+           given={Jan{é}},
+           giveni={J\bibinitperiod}}}%
+        {{hash=5ea9cf0d7ff7aae496df937b40349060}{%
+           family={Nelson},
+           familyi={N\bibinitperiod},
+           given={Philip\bibnamedelima C.},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=db7f39acd822484a5ceba469cc4e3b88}{%
+           family={Phillips},
+           familyi={P\bibinitperiod},
+           given={Rob},
+           giveni={R\bibinitperiod}}}%
+        {{hash=8ba2d4899401df26a59c11ca78b1356a}{%
+           family={Widom},
+           familyi={W\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=4576efe6997baec13c4308a09d16e00d}{%
+           family={Wiggins},
+           familyi={W\bibinitperiod},
+           given={Paul\bibnamedelima A.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley}%
+      }
+      \strng{namehash}{329d71b8bd54c7dec3b81ae18ab5e6cb}
+      \strng{fullhash}{fd73de43bb4979eb9cbfd4d789ecf740}
+      \strng{bibnamehash}{fd73de43bb4979eb9cbfd4d789ecf740}
+      \strng{authorbibnamehash}{fd73de43bb4979eb9cbfd4d789ecf740}
+      \strng{authornamehash}{329d71b8bd54c7dec3b81ae18ab5e6cb}
+      \strng{authorfullhash}{fd73de43bb4979eb9cbfd4d789ecf740}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biopolymers}
+      \field{number}{2}
+      \field{title}{Biological consequences of tightly bent {DNA}: The other life of a macromolecular celebrity}
+      \field{volume}{85}
+      \field{year}{2007}
+      \field{pages}{115\bibrangedash 130}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1002/bip.20627
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1002/bip.20627
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1002/bip.20627
+      \endverb
+    \endentry
     \entry{Jones1924a}{article}{}
       \name{author}{1}{}{%
         {{hash=1d27374abae598dc0453721b0ba79a26}{%
@@ -129,8 +207,8 @@
       \strng{authornamehash}{1d27374abae598dc0453721b0ba79a26}
       \strng{authorfullhash}{1d27374abae598dc0453721b0ba79a26}
       \field{extraname}{1}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Proceedings of the Royal Society of London. Series A, Containing Papers of a Mathematical and Physical Character}
@@ -169,8 +247,8 @@
       \strng{authornamehash}{1d27374abae598dc0453721b0ba79a26}
       \strng{authorfullhash}{1d27374abae598dc0453721b0ba79a26}
       \field{extraname}{2}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Proceedings of the Royal Society of London. Series A, Containing Papers of a Mathematical and Physical Character}
@@ -224,8 +302,8 @@
       \strng{authornamehash}{12fe7175f23d95866deff77e7c097a4a}
       \strng{authorfullhash}{591867c0810a0f8787aba7b6a05f9878}
       \field{extraname}{1}
-      \field{sortinit}{4}
-      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Chemical Information and Modeling}
@@ -273,8 +351,8 @@
       \strng{authorbibnamehash}{a3b504c4d7fd335dc11124e66f507f02}
       \strng{authornamehash}{31f753eff2d28f6a346a96bd33eeca46}
       \strng{authorfullhash}{a3b504c4d7fd335dc11124e66f507f02}
-      \field{sortinit}{5}
-      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Molecular Physics}
@@ -337,8 +415,8 @@
       \strng{authorbibnamehash}{1c38fea811283bb089487bb71717f948}
       \strng{authornamehash}{1e3bfc8fd354cb6807928d832832dd29}
       \strng{authorfullhash}{1c38fea811283bb089487bb71717f948}
-      \field{sortinit}{5}
-      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Computer Physics Communications}
@@ -387,8 +465,8 @@
       \strng{authornamehash}{12fe7175f23d95866deff77e7c097a4a}
       \strng{authorfullhash}{f791cdd3c84ebdcae1dc72919e1e66fc}
       \field{extraname}{2}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Fluid Phase Equilibria}
@@ -435,8 +513,8 @@
       \strng{authorbibnamehash}{883124b8551ea0688487ec186d37eeb9}
       \strng{authornamehash}{a19ef5b86b98a39ce1a94bb0128de921}
       \strng{authorfullhash}{883124b8551ea0688487ec186d37eeb9}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Collection of Czechoslovak Chemical Communications}
@@ -478,8 +556,8 @@
       \strng{authorbibnamehash}{e3ba1335e171d869da980388ebf333cf}
       \strng{authornamehash}{e3ba1335e171d869da980388ebf333cf}
       \strng{authorfullhash}{e3ba1335e171d869da980388ebf333cf}
-      \field{sortinit}{7}
-      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{The Journal of Chemical Physics}

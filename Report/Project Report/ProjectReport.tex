@@ -51,21 +51,52 @@ Include known phases etc
 \subsection{Onsager Theory}
 Introduce theoretical predictions to be validated later
 Mathematical derivations may be provided in appendicies
-\subsection{Previous Computational Work} \label{PrevWork}
+\subsection{Previous Computational Work} \label{sec:PrevWork}
 
 \section{Methods}
-\subsection{Simulation - LAMMPS Software}
-Detail how this works. Include description of natural units conversions etc
+As introduced in Section \ref{sec:PrevWork}, all molecular dynamics simulations were completed in LAMMPS. LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) is a medium coarse-grained, classical molecular dynamics code developed to replicate  solid-state materials and soft matter mesoscopic systems \cite{Plimpton1995, LAMMPS}.
 
-As introduced in Section \ref{PrevWork}, all molecular dynamics simulations were completed in LAMMPS. LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) is a medium coarse-grained, classical molecular dynamics code developed to replicate  solid-state materials and soft matter mesoscopic systems \cite{Plimpton1995, LAMMPS}.
-
-It should be noted that a system of natural units are used throughout this paper. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are set to unity.
-
-Thephysical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be applied to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over a timescale determined by their material properties \cite{Rapaport2004}.
 
 %Can expand on this if needs be, from rapaport
 
-\subsection{Simulation Parameters}
+\subsection{Simulation Molecules}
+As introduced in Section \textbf{X}, we are considering `nunchuck' molecules formed of two rigid rods connected by a flexible linker, as depicted in Figure \ref{fig:nunchuck_analogy}. However, as the interaction potential of an anisotropic particle is rather complex, it is computationally simpler to consider each molecule as a system of connected spheres, each with a separate isotropic interaction potential (detailed further in Section \ref{pair_potential}).
+
+This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods of aspect ratio 7. The ss-DNA is represented by a further sphere in the centre of the molecule, coloured differently in red to highlight its differing mechanical properties. It has a modified bond angle, so the molecule is bent around this element, and reduced bond rigidity so the particle may also stretch about this point.
+
+
+
+\begin{figure}[ht]
+	\hfill  %NOT SURE ABOUT THIS!
+	\begin{subfigure}{.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{Figures/nunchucks_artist}  
+		\caption{Coarse-grained Model}
+		\label{fig:nunchuck_analogy}
+	\end{subfigure}
+	\hfill %% useful if width of each figure is less the .5\textwidth
+	\begin{subfigure}{.4\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{Figures/nunchuck_profile_coloured}  
+		\caption{LAMMPS Implementation}
+		\label{fig:nunchuck_implementation}
+	\end{subfigure}
+	\caption{Depiction analogy between the DNA mesogen and the nunchucks. Note the appearance of the flexible ss-DNA linker between the rigid ds-DNA rods, and the implementation within LAMMPS on the right. The central red sphere, representing the ss-DNA, is given modified bond properties to replicate the nunchuck's flexibility. Figure (a) created by Jiaming Yu (Eiser Group, Cambridge).}
+	\label{fig:nunchucks_visual}
+	\hfill
+\end{figure}
+
+The nunchucks are formed of two rigid rods of ds-DNA, connected via a flexible linker of ss-DNA, and the complete nunchuck is modelled as a rod of 60 base pairs long. With the standard values for DNA of radius $r = 2$nm and length (per base pair) of $l=0.33$nm, we obtain an aspect ratio of 10 for this rod. . Within LAMMPS, this is expressed as ten spherical balls (aspect ratio 1) bound rigidly together in a linear structure. 
+
+It should be noted that a system of natural units is used throughout this paper. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are both set to unity. The simulation timescale is then fixed by the choice of these values, and the mass of the simulation body. 
+
+The physical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be applied to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over a timescale determined by their material properties \cite{Rapaport2004}.
+
+For the nunchuck particles considered, a lengthscale of 2nm corresponds to particle size.
+
+It is worth noting that the persistence length of DNA is around 50nm \cite{Garcia2007}, so the approximation of perfect rigidity is valid over the length-scale of the molecule.
+
+\subsection{Intermolecular Potential} \label{pair_potential}
 parameters and potentials used etc.
 Timescales and simulation sizes used etc
 
@@ -79,7 +110,9 @@ However, this cut-off may cause unphysical behaviour if the potential does not t
 U_{ij} = 4\epsilon \left[ \left( \frac{\sigma}{r_{ij}} \right) ^{12} - \left( \frac{\sigma}{r_{ij}} \right) ^{6}	\right] + \epsilon \qquad	 r_{ij} < r_{c} = 2^{1/6} \sigma
 \end{equation}
 
-Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the system, formally given by the distance at which the $U_{ij} = 0$ and the depth of the potential well. It is worth noting that the effect of this constant term on the overall thermodynamic quantities is well documented \cite{Stephan2020, Shaul2010}, and changes in lyotropic properties are negligible in 3D bulk liquids with a conserved particle number \cite{Smit1991}. 
+Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the system, formally corresponding to the particle separation at which the $U_{ij} = 0$, and the depth of the potential well. It is worth noting that the effects of this truncation and shift on the overall thermodynamic quantities are well documented \cite{Stephan2020, Shaul2010}, and changes in lyotropic properties are negligible in 3D bulk liquids with a conserved particle number \cite{Smit1991}. 
+
+
  
 \subsection{Analysis}
 Includes custom written python scripts and OVITO freeware. Credit scripts written by other group members.

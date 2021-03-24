@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  24 MAR 2021 16:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  24 MAR 2021 17:02
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1345,8 +1345,29 @@ LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 [1
 
 {C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+<Figures/nunchucks_artist.png, id=9, 603.25375pt x 551.05875pt>
+File: Figures/nunchucks_artist.png Graphic file (type png)
+<use Figures/nunchucks_artist.png>
+Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 80.
+(pdftex.def)             Requested size: 193.47578pt x 176.72919pt.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 10.0pt on input line 81.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 9.0pt on input line 81.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 99.
+(Font)              scaled to size 9.0pt on input line 81.
+<Figures/nunchuck_profile_coloured.png, id=10, 238.491pt x 194.52675pt>
+File: Figures/nunchuck_profile_coloured.png Graphic file (type png)
+<use Figures/nunchuck_profile_coloured.png>
+Package pdftex.def Info: Figures/nunchuck_profile_coloured.png  used on input l
+ine 87.
+(pdftex.def)             Requested size: 193.47578pt x 157.81215pt.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 91.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 91.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.95pt on input line 105.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1354,26 +1375,27 @@ Make it at least 13.59999pt.
 We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
 
-[2]
+[2 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- 
+
+[3] 
 AED: lastpage setting LastPage
-[3] (ProjectReport.aux)
+[4] (ProjectReport.aux)
 Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 \openout1 = `ProjectReport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 17644 strings out of 481565
- 306961 string characters out of 2914627
- 989232 words of memory out of 3000000
- 32506 multiletter control sequences out of 15000+200000
- 629210 words of font info for 116 fonts, out of 3000000 for 9000
+ 17749 strings out of 481565
+ 309691 string characters out of 2914627
+ 990334 words of memory out of 3000000
+ 32557 multiletter control sequences out of 15000+200000
+ 665847 words of font info for 152 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,11n,54p,1148b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,11n,77p,1148b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
 ctt1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xch
 arter/xch_uy5hgr.enc}{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc
@@ -1390,9 +1412,9 @@ eX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/KitG/AppData/Local/Pro
 grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppDa
 ta/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG
 /AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport.pdf (3 pages, 240180 bytes).
+Output written on ProjectReport.pdf (4 pages, 455850 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
+ 85 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26113 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 37387 words of extra memory for PDF output out of 42996 (max. 10000000)
 

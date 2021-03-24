@@ -2190,14 +2190,15 @@
     <bcf:citekey order="1">Plimpton1995</bcf:citekey>
     <bcf:citekey order="1">LAMMPS</bcf:citekey>
     <bcf:citekey order="2">Rapaport2004</bcf:citekey>
-    <bcf:citekey order="3">Jones1924a</bcf:citekey>
-    <bcf:citekey order="3">Jones1924b</bcf:citekey>
-    <bcf:citekey order="4">Stephan2019</bcf:citekey>
-    <bcf:citekey order="5">Paolini1993</bcf:citekey>
-    <bcf:citekey order="5">Hughes2008</bcf:citekey>
-    <bcf:citekey order="6">Stephan2020</bcf:citekey>
-    <bcf:citekey order="6">Shaul2010</bcf:citekey>
-    <bcf:citekey order="7">Smit1991</bcf:citekey>
+    <bcf:citekey order="3">Garcia2007</bcf:citekey>
+    <bcf:citekey order="4">Jones1924a</bcf:citekey>
+    <bcf:citekey order="4">Jones1924b</bcf:citekey>
+    <bcf:citekey order="5">Stephan2019</bcf:citekey>
+    <bcf:citekey order="6">Paolini1993</bcf:citekey>
+    <bcf:citekey order="6">Hughes2008</bcf:citekey>
+    <bcf:citekey order="7">Stephan2020</bcf:citekey>
+    <bcf:citekey order="7">Shaul2010</bcf:citekey>
+    <bcf:citekey order="8">Smit1991</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
