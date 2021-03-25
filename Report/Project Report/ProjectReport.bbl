@@ -19,6 +19,90 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
+    \entry{deGennes1993}{book}{}
+      \name{author}{2}{}{%
+        {{hash=f7f41a22b9c4e0a1f257b4c0f1d48974}{%
+           family={Gennes},
+           familyi={G\bibinitperiod},
+           given={P.G.},
+           giveni={P\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=ec25a1252970f8413805a131d1d67a02}{%
+           family={Prost},
+           familyi={P\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Clarendon Press}%
+      }
+      \strng{namehash}{588f75188831c2696124d04c92f4e5b9}
+      \strng{fullhash}{588f75188831c2696124d04c92f4e5b9}
+      \strng{bibnamehash}{588f75188831c2696124d04c92f4e5b9}
+      \strng{authorbibnamehash}{588f75188831c2696124d04c92f4e5b9}
+      \strng{authornamehash}{588f75188831c2696124d04c92f4e5b9}
+      \strng{authorfullhash}{588f75188831c2696124d04c92f4e5b9}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{2}
+      \field{isbn}{9780198517856}
+      \field{series}{International Series of Monogr}
+      \field{title}{The Physics of Liquid Crystals}
+      \field{year}{1993}
+      \verb{urlraw}
+      \verb https://books.google.co.uk/books?id=0Nw-dzWz5agC
+      \endverb
+      \verb{url}
+      \verb https://books.google.co.uk/books?id=0Nw-dzWz5agC
+      \endverb
+    \endentry
+    \entry{Polson1997}{article}{}
+      \name{author}{2}{}{%
+        {{hash=ce36df17f145592b61650b1392b241f9}{%
+           family={Polson},
+           familyi={P\bibinitperiod},
+           given={James\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=7191fa8dca47b12000be59cbab02be45}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \strng{fullhash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \strng{bibnamehash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \strng{authorbibnamehash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \strng{authornamehash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \strng{authorfullhash}{9f482703b837ddda86f9c4fc350f0e3f}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review E}
+      \field{month}{12}
+      \field{number}{6}
+      \field{title}{First-order nematic-smectic phase transition for hard spherocylinders in the limit of infinite aspect ratio}
+      \field{volume}{56}
+      \field{year}{1997}
+      \field{pages}{R6260\bibrangedash R6263}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1103/physreve.56.r6260
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physreve.56.r6260
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physreve.56.r6260
+      \endverb
+    \endentry
     \entry{Plimpton1995}{article}{}
       \name{author}{1}{}{%
         {{hash=489ae657404ae2a22eccc4f507442f4d}{%
@@ -36,8 +120,8 @@
       \strng{authorbibnamehash}{489ae657404ae2a22eccc4f507442f4d}
       \strng{authornamehash}{489ae657404ae2a22eccc4f507442f4d}
       \strng{authorfullhash}{489ae657404ae2a22eccc4f507442f4d}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Computational Physics}
@@ -62,8 +146,8 @@
       \list{organization}{1}{%
         {Sandia National Labs}%
       }
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labeltitlesource}{title}
       \field{month}{3}
       \field{title}{Large-scale Atomic/Molecular Massively Parallel Simulator}
@@ -92,8 +176,8 @@
       \strng{authorbibnamehash}{9cf62afd7eabdd9f3fd679dc1e2cfb01}
       \strng{authornamehash}{9cf62afd7eabdd9f3fd679dc1e2cfb01}
       \strng{authorfullhash}{9cf62afd7eabdd9f3fd679dc1e2cfb01}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{month}{4}
@@ -133,8 +217,8 @@
       \strng{authorbibnamehash}{f2854cfcc1947e29d07ad6524f29f67a}
       \strng{authornamehash}{f2854cfcc1947e29d07ad6524f29f67a}
       \strng{authorfullhash}{f2854cfcc1947e29d07ad6524f29f67a}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Biochemical and Biophysical Research Communications}
@@ -212,8 +296,8 @@
       \strng{authorbibnamehash}{fd73de43bb4979eb9cbfd4d789ecf740}
       \strng{authornamehash}{329d71b8bd54c7dec3b81ae18ab5e6cb}
       \strng{authorfullhash}{fd73de43bb4979eb9cbfd4d789ecf740}
-      \field{sortinit}{4}
-      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{sortinit}{6}
+      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Biopolymers}
@@ -270,8 +354,8 @@
       \strng{authorbibnamehash}{cf842af61cf0d9a587f3d321391a53e1}
       \strng{authornamehash}{cc48e1faa5fd3d0ee36a7eacdc58a018}
       \strng{authorfullhash}{cf842af61cf0d9a587f3d321391a53e1}
-      \field{sortinit}{5}
-      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{sortinit}{7}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Molecular Biology}
@@ -325,8 +409,8 @@
       \strng{authorbibnamehash}{ba41f86fa9f200d2dca6a028c04f845d}
       \strng{authornamehash}{e1c01b783ae0b43b7bcb1e0808c57628}
       \strng{authorfullhash}{ba41f86fa9f200d2dca6a028c04f845d}
-      \field{sortinit}{6}
-      \field{sortinithash}{7851c86048328b027313775d8fbd2131}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Analytical and Bioanalytical Chemistry}
@@ -379,8 +463,8 @@
       \strng{authorbibnamehash}{3e3e0335cf342827f7f6177332a2c873}
       \strng{authornamehash}{4e3d3ef5176bcfdf47b14edf68ff6cef}
       \strng{authorfullhash}{3e3e0335cf342827f7f6177332a2c873}
-      \field{sortinit}{7}
-      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Sensors and Actuators A: Physical}
@@ -438,8 +522,8 @@
       \strng{authorbibnamehash}{0c392af589ad668c2452c0e30e22fdf6}
       \strng{authornamehash}{b2b9570aad0a90290b0e564a9dba710e}
       \strng{authorfullhash}{0c392af589ad668c2452c0e30e22fdf6}
-      \field{sortinit}{8}
-      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Biophysical Journal}
@@ -460,6 +544,86 @@
       \verb https://doi.org/10.1016/s0006-3495(02)75177-1
       \endverb
     \endentry
+    \entry{Nos1983}{article}{}
+      \name{author}{2}{}{%
+        {{hash=db3457a5be5bcbb5d8935986f68c2507}{%
+           family={Nos{é}},
+           familyi={N\bibinitperiod},
+           given={Shuichi},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c97cd20b9f3849d38d6e69a56046f0af}{%
+           family={Klein},
+           familyi={K\bibinitperiod},
+           given={M.L.},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa {UK} Limited}%
+      }
+      \strng{namehash}{70c2380020266906ead7a7f9ee46b497}
+      \strng{fullhash}{70c2380020266906ead7a7f9ee46b497}
+      \strng{bibnamehash}{70c2380020266906ead7a7f9ee46b497}
+      \strng{authorbibnamehash}{70c2380020266906ead7a7f9ee46b497}
+      \strng{authornamehash}{70c2380020266906ead7a7f9ee46b497}
+      \strng{authorfullhash}{70c2380020266906ead7a7f9ee46b497}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Molecular Physics}
+      \field{month}{12}
+      \field{number}{5}
+      \field{title}{Constant pressure molecular dynamics for molecular systems}
+      \field{volume}{50}
+      \field{year}{1983}
+      \field{pages}{1055\bibrangedash 1076}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1080/00268978300102851
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080/00268978300102851
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/00268978300102851
+      \endverb
+    \endentry
+    \entry{Frenkel2002}{book}{}
+      \name{author}{2}{}{%
+        {{hash=7191fa8dca47b12000be59cbab02be45}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=cf1b6974a4d7bd013e533aea5fcda164}{%
+           family={Smit},
+           familyi={S\bibinitperiod},
+           given={Berend},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Diego}%
+      }
+      \list{publisher}{1}{%
+        {Academic Press}%
+      }
+      \strng{namehash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \strng{fullhash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \strng{bibnamehash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \strng{authorbibnamehash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \strng{authornamehash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \strng{authorfullhash}{3bbfb81f9905414b41a8d83b8c6c6626}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{3}
+      \field{isbn}{978-0-12-267351-1}
+      \field{title}{Understanding molecular simulation : from algorithms to applications}
+      \field{year}{2002}
+      \field{pages}{32\bibrangedash 35}
+      \range{pages}{4}
+    \endentry
     \entry{Nos1984}{article}{}
       \name{author}{1}{}{%
         {{hash=db3457a5be5bcbb5d8935986f68c2507}{%
@@ -477,8 +641,8 @@
       \strng{authorbibnamehash}{db3457a5be5bcbb5d8935986f68c2507}
       \strng{authornamehash}{db3457a5be5bcbb5d8935986f68c2507}
       \strng{authorfullhash}{db3457a5be5bcbb5d8935986f68c2507}
-      \field{sortinit}{9}
-      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{The Journal of Chemical Physics}
@@ -516,8 +680,8 @@
       \strng{authorbibnamehash}{de1fb5702a5bfaecaf843b90fd3ef692}
       \strng{authornamehash}{de1fb5702a5bfaecaf843b90fd3ef692}
       \strng{authorfullhash}{de1fb5702a5bfaecaf843b90fd3ef692}
-      \field{sortinit}{9}
-      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physical Review A}
@@ -959,7 +1123,7 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{Collection of Czechoslovak Chemical Communications}
       \field{number}{4}
-      \field{title}{The effect of truncation and shift on virial coefficients of Lennard–Jones potentials}
+      \field{title}{The effect of truncation and shift on virial coefficients of {Lennard-Jones} potentials}
       \field{volume}{75}
       \field{year}{2010}
       \field{pages}{447\bibrangedash 462}
@@ -996,14 +1160,14 @@
       \strng{authorbibnamehash}{e3ba1335e171d869da980388ebf333cf}
       \strng{authornamehash}{e3ba1335e171d869da980388ebf333cf}
       \strng{authorfullhash}{e3ba1335e171d869da980388ebf333cf}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{The Journal of Chemical Physics}
       \field{month}{4}
       \field{number}{8}
-      \field{title}{Vapor–liquid equilibria of the two-dimensional Lennard-Jones fluid(s)}
+      \field{title}{Vapor–liquid equilibria of the two-dimensional {Lennard-Jones} fluid(s)}
       \field{volume}{94}
       \field{year}{1991}
       \field{pages}{5663\bibrangedash 5668}
@@ -1016,6 +1180,308 @@
       \endverb
       \verb{url}
       \verb https://doi.org/10.1063/1.460477
+      \endverb
+    \endentry
+    \entry{Ovito}{article}{}
+      \name{author}{1}{}{%
+        {{hash=b864adafa3406178312ae6a4c8848a34}{%
+           family={Stukowski},
+           familyi={S\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{IOP} Publishing}%
+      }
+      \strng{namehash}{b864adafa3406178312ae6a4c8848a34}
+      \strng{fullhash}{b864adafa3406178312ae6a4c8848a34}
+      \strng{bibnamehash}{b864adafa3406178312ae6a4c8848a34}
+      \strng{authorbibnamehash}{b864adafa3406178312ae6a4c8848a34}
+      \strng{authornamehash}{b864adafa3406178312ae6a4c8848a34}
+      \strng{authorfullhash}{b864adafa3406178312ae6a4c8848a34}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Modelling and Simulation in Materials Science and Engineering}
+      \field{month}{12}
+      \field{number}{1}
+      \field{title}{Visualization and analysis of atomistic simulation data with {OVITO}–the Open Visualization Tool}
+      \field{volume}{18}
+      \field{year}{2009}
+      \field{pages}{015012}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/0965-0393/18/1/015012
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/0965-0393/18/1/015012
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/0965-0393/18/1/015012
+      \endverb
+    \endentry
+    \entry{Eppenga1984}{article}{}
+      \name{author}{2}{}{%
+        {{hash=dc181b16c066bc2f6a96e2a52b5157b9}{%
+           family={Eppenga},
+           familyi={E\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=25cac8153fb1c77a337df1e6ec985e30}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa {UK} Limited}%
+      }
+      \strng{namehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{fullhash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{bibnamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authorbibnamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authornamehash}{8be973dfa937b41382a9e5a1e7317abc}
+      \strng{authorfullhash}{8be973dfa937b41382a9e5a1e7317abc}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Molecular Physics}
+      \field{month}{8}
+      \field{number}{6}
+      \field{title}{{Monte Carlo} study of the isotropic and nematic phases of infinitely thin hard platelets}
+      \field{volume}{52}
+      \field{year}{1984}
+      \field{pages}{1303\bibrangedash 1334}
+      \range{pages}{32}
+      \verb{doi}
+      \verb 10.1080/00268978400101951
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1080/00268978400101951
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1080/00268978400101951
+      \endverb
+    \endentry
+    \entry{Frenkel1982}{article}{}
+      \name{author}{2}{}{%
+        {{hash=7191fa8dca47b12000be59cbab02be45}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=584945146dc6ce13ebf59241fc9eff31}{%
+           family={Eppenga},
+           familyi={E\bibinitperiod},
+           given={Rob},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{f14038065d38e20f96b0457fa1e20f70}
+      \strng{fullhash}{f14038065d38e20f96b0457fa1e20f70}
+      \strng{bibnamehash}{f14038065d38e20f96b0457fa1e20f70}
+      \strng{authorbibnamehash}{f14038065d38e20f96b0457fa1e20f70}
+      \strng{authornamehash}{f14038065d38e20f96b0457fa1e20f70}
+      \strng{authorfullhash}{f14038065d38e20f96b0457fa1e20f70}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{10}
+      \field{number}{15}
+      \field{title}{{Monte Carlo} Study of the Isotropic-Nematic Transition in a Fluid of Thin Hard Disks}
+      \field{volume}{49}
+      \field{year}{1982}
+      \field{pages}{1089\bibrangedash 1092}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1103/physrevlett.49.1089
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physrevlett.49.1089
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physrevlett.49.1089
+      \endverb
+    \endentry
+    \entry{Zannoni1979}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b7be614a4cb58bd97f04d9d3e6afe187}{%
+           family={Zannoni},
+           familyi={Z\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=20eaa5332b336467d93f1d32d5cc5044}{%
+           family={Luckhurst},
+           familyi={L\bibinitperiod},
+           given={G.\bibnamedelimi R.},
+           giveni={G\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=c299a16d1477bb75fe966f7ff09cd3e9}{%
+           family={Gray},
+           familyi={G\bibinitperiod},
+           given={G.\bibnamedelimi W.},
+           giveni={G\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London}%
+      }
+      \list{publisher}{1}{%
+        {Academic Press}%
+      }
+      \strng{namehash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{fullhash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{bibnamehash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{authorbibnamehash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{authornamehash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{authorfullhash}{b7be614a4cb58bd97f04d9d3e6afe187}
+      \strng{editorbibnamehash}{a51f3053f310cde249f1298dc318e8a1}
+      \strng{editornamehash}{a51f3053f310cde249f1298dc318e8a1}
+      \strng{editorfullhash}{a51f3053f310cde249f1298dc318e8a1}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{chapter}{3}
+      \field{isbn}{9780124589506}
+      \field{title}{The Molecular physics of liquid crystals}
+      \field{year}{1979}
+      \field{pages}{51}
+      \range{pages}{1}
+    \endentry
+    \entry{Parsons1979}{article}{}
+      \name{author}{1}{}{%
+        {{hash=3b62aa4f01841b35bcf0bce5a11d293a}{%
+           family={Parsons},
+           familyi={P\bibinitperiod},
+           given={J.\bibnamedelimi D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \strng{fullhash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \strng{bibnamehash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \strng{authorbibnamehash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \strng{authornamehash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \strng{authorfullhash}{3b62aa4f01841b35bcf0bce5a11d293a}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review A}
+      \field{month}{3}
+      \field{number}{3}
+      \field{title}{Nematic ordering in a system of rods}
+      \field{volume}{19}
+      \field{year}{1979}
+      \field{pages}{1225\bibrangedash 1230}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1103/physreva.19.1225
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physreva.19.1225
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physreva.19.1225
+      \endverb
+    \endentry
+    \entry{Frenkel1985}{article}{}
+      \name{author}{2}{}{%
+        {{hash=25cac8153fb1c77a337df1e6ec985e30}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dc181b16c066bc2f6a96e2a52b5157b9}{%
+           family={Eppenga},
+           familyi={E\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{84982a72cd7abbac5540b8497116cecd}
+      \strng{fullhash}{84982a72cd7abbac5540b8497116cecd}
+      \strng{bibnamehash}{84982a72cd7abbac5540b8497116cecd}
+      \strng{authorbibnamehash}{84982a72cd7abbac5540b8497116cecd}
+      \strng{authornamehash}{84982a72cd7abbac5540b8497116cecd}
+      \strng{authorfullhash}{84982a72cd7abbac5540b8497116cecd}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review A}
+      \field{month}{3}
+      \field{number}{3}
+      \field{title}{Evidence for algebraic orientational order in a two-dimensional hard-core nematic}
+      \field{volume}{31}
+      \field{year}{1985}
+      \field{pages}{1776\bibrangedash 1787}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1103/physreva.31.1776
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physreva.31.1776
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physreva.31.1776
+      \endverb
+    \endentry
+    \entry{Mountain1977}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e2577a56b33853107f17dcdfed698098}{%
+           family={Mountain},
+           familyi={M\bibinitperiod},
+           given={Raymond\bibnamedelima D.},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=a23de8611d0b25e2fc306c454eae7ac3}{%
+           family={Ruijgrok},
+           familyi={R\bibinitperiod},
+           given={Th.W.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier {BV}}%
+      }
+      \strng{namehash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \strng{fullhash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \strng{bibnamehash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \strng{authorbibnamehash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \strng{authornamehash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \strng{authorfullhash}{825ef58c5d8b5961ce11743daf56cf4c}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physica A: Statistical Mechanics and its Applications}
+      \field{month}{12}
+      \field{number}{3}
+      \field{title}{Monte-Carlo study of the {Maier-Saupe} model on square and triangle lattices}
+      \field{volume}{89}
+      \field{year}{1977}
+      \field{pages}{522\bibrangedash 538}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1016/0378-4371(77)90079-6
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/0378-4371(77)90079-6
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/0378-4371(77)90079-6
       \endverb
     \endentry
   \enddatalist

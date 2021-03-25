@@ -42,15 +42,38 @@
 \section{Introduction}
 What are we studying? (brief) - introduce nunchuck particles (but not implementation)
 Why are we interested? Applications of this!
+% intro to entropically driven transitions
 
 Outline of report
 
 \section{Background}
 \subsection{Liquid Crystals}
-Include known phases etc 
+Include known phases etc - de gennes textbook gives useful milestone references 
 \subsection{Onsager Theory}
 Introduce theoretical predictions to be validated later
 Mathematical derivations may be provided in appendicies
+\subsection{Order Parameter}
+%smectic order given by frenkel https://pubs.acs.org/doi/pdf/10.1021/j100322a042
+%can also use https://www.tandfonline.com/doi/full/10.1080/00268976.2018.1471231
+
+The degree of order in a liquid crystal phase is characterised by an order parameter, chosen such that it is non zero in the ordered phase but vanishes in the isotropic phase. A familiar example of this is the magnetisation $\textbf{M}$ of a ferromagnet; when raised above a critical temperature, the magnetisation vanishes as the ferromagnet undergoes a phase transition. While the choice of order parameter for the nematic phase transition is less intuitive than this, it relies on the formation of genuine long-range orientational order. We may therefore define the angle ($\theta$) between each molecule's axis and the system director, and traditionally let the order parameter S be given by:
+
+\begin{equation}
+S_{n} = \left\langle P_{2}(\cos(\theta)) \right\rangle = \left\langle \frac{3}{2}\cos^{2}(\theta) - \frac{1}{2} \right\rangle 
+\end{equation}
+
+where $P_{2}$ simply denotes the second Legendre polynomial \cite{deGennes1993}. While $\langle \cos^{2}(\theta) \rangle$ would function alone as the order parameter, this has the useful property of giving unity for a perfectly aligned system, and zero for a completely random system. Further motivation for this choice is provided in Appendix \ref{sec:OrderParamTheory}.
+
+%add description of pair-wise orientational order coeff
+
+Similarly we will find it helpful to define a smectic order parameter, to characterise the formation of one-dimensional long-range positional order. Intuitively, we expect a non-zero Fourier component of the normalised density along the director, and so we may write:
+
+\begin{equation}
+S_{s} = \frac{1}{N} \left\lvert \sum_{j=1}^{N} \exp^{ik_{z}z_{j}} \right\rvert
+\end{equation}
+
+where the z axis lies along the director, and thus normal to the smectic layers \cite{Polson1997}. Here $k_{z} = 2\pi/\lambda_{z}$, for a layer periodicity of $\lambda_{z}$, and $z_{j}$ is the $z$ coordinate of the centre of mass of the $j$th molecule.
+
 \subsection{Previous Computational Work} \label{sec:PrevWork}
 
 \section{Methods}
@@ -93,14 +116,16 @@ For the nunchuck particles considered, a length scale of \SI{2}{\nano\metre} is 
 We may also define the characteristic energy scale; this is formally the depth of the potential well in the full Lennard-Jones potential, but the thermal energy serves as a common approximation \cite{Pan2010} in agreement with experimental data \cite{Wang2002}. Using these values, we find that the characteristic timescale for this system is \SI{79}{\pico\second}. In this context, the simulation timestep would be \SI{0.4}{\pico\second}, and typical simulation of \num{20e6} steps had a total duration of \SI{7.9}{\micro\second}. For \num{1000} particles, this took approximately $8$ hours to run on a standard laptop CPU. %check these
 
 
-\subsection{Simulation Structure}
-All simulations in this report were conducted for systems of 1000 particles, with a time step of $0.005\tau$, (where $\tau$ is the characteristic time), unless otherwise stated. The system is initially configured in a disordered, dilute state; a non-trivial process for large numbers of mesogens, as molecules must be placed randomly without overlap, to prevent any initial order affecting the formation of ordered phases. I am grateful to Iria Pantazi for writing a python script to automate this process for dilute rigid rod systems, and a generalised version of this is available in the supplementary material. %MAYBE?? THINK ABOUT THIS!
 
-An isenthalpic ensemble is used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, is then used to allow the system to reach thermodynamic equilibrium. Time integration is evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}.
+\subsection{Simulation Structure} %was? is? check your tense here!
+All simulations in this report were conducted a system of 1000 particles, with a time step of $0.005\tau$, (where $\tau$ is the characteristic time), unless otherwise stated. The system was initially configured in a dilute, isotropic state; a non-trivial process for large numbers of mesogens as molecules must be placed randomly without overlap, to prevent any initial order affecting the formation of ordered phases. I am grateful to Iria Pantazi for writing a python script to automate this process for dilute rigid rod systems, and a generalised version of this is available in the supplementary material. Alternatively, simulations were also initiated from a perfectly ordered square crystalline phase, with all molecules aligned along a common axis. The choice of this axis is arbitrary, as the system is invariant under global rotation \cite{Nos1983}, but is taken to be directed along the y-axis for clarity. Care was taken to ensure molecules did not overlap, and the system was stable in this ordered phase.
+%MAYBE INCLUDE CODE IN SUPP MATERIAL?? THINK ABOUT THIS!
 
-A typical simulation consists of multiple phases, alternating between these two ensembles to sample the system properties at a range of volume fractions. The output of thermodynamic variables, as well as particle positions, as the end of each phase allows for subsequent calculation of the order parameter at equilibrium. This data is also retrieved at regular intervals during each simulation phase, to track the time evolution of the system.
+All simulations are conducted within an oblong box defined by the Cartesian axes, with periodic boundary conditions used to eliminate surface effects and replicate conditions in the bulk phase \cite{Frenkel2002}. The aspect ratio of this box may be varied, to support phase formation in anisotropic systems, as discussed in Section \textbf{X}. An isenthalpic ensemble was used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, was then used to allow the system to reach thermodynamic equilibrium. Time integration was evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}.
 
-To ensure stability of the system, a Langevin thermostat \cite{Schneider1978} is also used throughout, and energy conservation was verified over a range of timescales. The damping for all thermostats is equal to the characteristic timescale of the simulation (i.e. unity in natural units).
+A typical simulation consists of multiple stages, alternating between these two ensembles to sample the system properties at a range of volume fractions. Approximately \num{2e4} steps are simulated when varying the simulation volume (depending on the resolution of volume fraction sampling), followed by \num{2e6} to allow the system to reach equilibrium in each stage. The output of thermodynamic variables, as well as particle positions, at the end of each stage allows for subsequent calculation of the order parameter at equilibrium. This data was also retrieved at regular intervals during each simulation stage, to track the time evolution of the system.
+
+To ensure stability of the system, a Langevin thermostat \cite{Schneider1978} was also used throughout, and energy conservation was verified over a range of timescales. The damping for all thermostats is equal to the characteristic timescale of the simulation (i.e. unity in natural units).
 
 
 
@@ -119,10 +144,17 @@ Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the sy
 
  
 \subsection{Analysis}
-Includes custom written python scripts and OVITO freeware. Credit scripts written by other group members.
+
+The visualisation freeware Ovito \cite{Ovito} has been employed to animate the molecule motion over the simulation period, and was used to generate all molecular images presented here. Thermodynamic variables, such as internal energy and pressure, were extracted to track the system's progress towards equilibrium, and verify its stability.
+
+The volume fraction and nematic order parameter were computed for comparison with Onsager's theorem, as detailed in Section \textbf{X}. Calculation of the order parameter is complicated by the absence of an imposed director (ie if no electric field is applied), and we use the approach taken by Eppenga and Frenkel \cite{Eppenga1984} which is reproduced in Appendix \ref{sec:OrderParamCalc}. %or dussi 2018 or many others
+
+Further analysis included the calculation of the smectic order parameter, and pair-wise orientational correlation coefficient, detailed in Section \textbf{X}. All scripts for data extraction and analysis were written by the author, \textit{and can be found in the supplementary material?}.
+
+
 
 \section{Rigid Rod Simulations}
-
+Used to benchmark sys etc and demonstrate techniques to identify phase transitions
 
 \section{Nunchuck Simulations}
 
@@ -133,7 +165,7 @@ Summarise key results from above, and emphasise their importance
 Also give limitations of results obtained, and suggest direction for further work
 
 \section*{Acknowledgements}
-I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supervisor (Mr Jiaming Yu), as I am very grateful for continual teaching, advice and support that they provided. I am also indebted to Prof Daan Frenkel for the kind insights he offered.
+I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supervisor (Mr Jiaming Yu), as I am very grateful for their continual teaching and advice, and for the initial code provided by Jiaming Yu to run single stage rigid rod simulations. I am also indebted to Prof Daan Frenkel for the kind insights he offered.
 
 %\clearpage
 \printbibliography
@@ -141,8 +173,48 @@ I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supe
 \begin{appendices}
 
 \section{Onsager Theory}
-\section{Netamtic Order Parameter}
-include theoretical derivation and calculation
+\section{Nematic Order Parameter} 
+\subsection{Theoretical Outline}\label{sec:OrderParamTheory}
+Here I endeavour to outline the motivation for the nematic order parameter used throughout this report, based on the work of Eppenga and Frenkel \cite{Eppenga1984, Frenkel1982}. The nematic phase may be differentiated from the isotropic phase by the formation of cylindrical symmetry, as opposed to the spherical symmetry of the isotropic phase. The deviation from spherical symmetry may be quantified through a set of order parameters $f(\theta, \phi)$ \cite{Zannoni1979}. when considering the axially symmetric nematic phase, independent of $\phi$, $f(\theta, \phi)$ may be generally expressed in the basis of all even Legendre polynomials $P_{2l}$:
+
+\begin{equation}
+f(\theta) = \sum_{l=0}^{\infty} a_{2l} P_{2l}(\cos(\theta))
+\end{equation}
+
+where $\theta$ is the angle between the molecular orientation and the axis of symmetry of the system. Note that odd-ordered terms are neglected for nonpolar molecules, as the director may point in either of two antiparallel directions and so all odd Legendre polynomials average to zero \cite{Parsons1979}.
+
+In an isotropic phase, $a_{2l}$ vanishes for all $l>0$, so all angular dependence vanishes. More generally,  quantities $\langle P_{2l}(\cos(\theta)) \rangle$ may be used at the order parameter of the system, with the second order term being referred to as the nematic order parameter. Averaging over a population of $N$ molecules, we can therefore write the nematic order parameter $S_{n}$ as:
+
+\begin{equation}
+S_{n} = \frac{1}{N} \left\langle \sum_{i=1}^{N} \left( \frac{3}{2} \cos^{2}(\theta_{i})-\frac{1}{2} \right) \right\rangle
+\end{equation}
+
+\subsection{Calculation}\label{sec:OrderParamCalc}
+The method given above in Appendix \ref{sec:OrderParamTheory} relies on knowledge of the system-wide nematic director (ie the axis of symmetry of the cylindrical phase), to define $\theta_{i}$. However, this is not always possible in physical systems where such a unique direction is not externally imposed.
+
+Instead, as detailed by Frenkel et al. \cite{Frenkel1985}, we maximise the expression:
+
+\begin{equation}
+S^{\prime}_{n}(\boldsymbol{\hat{n}^{\prime}}) = \frac{1}{N} \left[ \sum_{i=1}^{N} \left( \frac{3}{2} (\boldsymbol{\hat{n}^{\prime}} \cdot \boldsymbol{\hat{u}_{i}})^{2}-\frac{1}{2} \right) \right]
+\end{equation}
+
+where $\hat{u_{i}}$ denotes the orientation of the individual molecular axes in the laboratory frame. This may be written further as:
+
+\begin{equation}
+S^{\prime}_{n} = \frac{1}{N} \left\langle \boldsymbol{\hat{n}^{\prime}} \cdot \textbf{Q} \cdot \boldsymbol{\hat{n}^{\prime}}  \right\rangle, \qquad where \enspace \textbf{Q}_{i} = \frac{3}{2} \boldsymbol{\hat{u}_{i}}\boldsymbol{\hat{u}_{i}}-\frac{1}{2}\textbf{I}
+\end{equation}
+
+The tensor order parameter $\langle \textbf{Q} \rangle$ is a traceless symmetric 2nd-rank tensor, with three eigenvalues $\lambda_{+}, \lambda_{0}, \lambda_{-}$ \cite{Eppenga1984}. We typically take the largest eigenvalue $(\lambda_{+})$ as the nematic order parameter, a good approximation in large N limit.
+In practice, we actually calculate the eigenvalues of the related tensor $\textbf{M}$:
+
+\begin{equation}
+\textbf{M} =  \frac{1}{N} \sum_{i=1}^{N} \boldsymbol{\hat{u}_{i}}\boldsymbol{\hat{u}_{j}}
+\end{equation}
+
+as this shares eigenvectors with $\textbf{Q}$, and has eigenvectors $\mu_{n}$ related to $\lambda_{n}$ by: $\mu_{n} = 2/3 \lambda_{n} + 1/3$.
+
+It is worth noting $\lambda_{+}$ is bound above zero, and so does not reach zero in the isotropic phase as would be expected. It is common to use $S =  -2\lambda_{0}$ when considering such disordered systems, as this fluctuates about an average much closer to zero \cite{Mountain1977}. I have not done so in the results presented here, to give continuity in the order parameter over the transition (where the focus on this report lies), however this has meant that the average order parameter in the isotropic phase is slightly above zero.
+
 
 \section{Code?}
 
