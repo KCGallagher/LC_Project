@@ -1,9 +1,10 @@
 """Calculates the diffusion coefficient over each equillibration run. 
-Accounts for additional displacement when crossing the periodi cboundary conditions"""
+Accounts for additional displacement when crossing the periodic boundary conditions"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
+from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
@@ -251,21 +252,53 @@ for i, time in enumerate(time_range):  # interate over dump files
 # print(sampled_D_values)
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
+
+plot_list = range(0, run_num_tot, 1)  # runs to plot
+
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
-fig, axs = plt.subplots(nrows=1, ncols=run_num_tot, sharey=True, figsize=(10, 5))
-for n in range(run_num_tot):
-    axs[n].set_title(r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[n]))
-    for j in range(dimension_num):
-        if n == 0:  # for legend
-            axs[n].loglog(eq_range, rms_disp_values[n, :, j], label=axis_labels[j])
-        else:
-            axs[n].loglog(eq_range, rms_disp_values[n, :, j])
+fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
+for plot_index, data_index in enumerate(plot_list):
+    axs[plot_index].set_title(
+        r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
+    )
+    # print(rms_disp_values[data_index, :, 0])
+    rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
+    eq_time_values = np.array(eq_range)
+    eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-axs[int(run_num_tot / 2)].set_xlabel("Time (Arbitrary Units)")
+    slope, intercept, r_value, p_value, std_err = linregress(
+        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+    )  # consider x axis for purpose of this
+    plot_best_fit = True
+
+    print(
+        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "{:.2f}".format(slope)
+    )  # can add this onto graph with plt.annotate if desired
+
+    for j in range(dimension_num):
+        if plot_index == 0:  # for legend
+            axs[plot_index].loglog(
+                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+            )
+        else:
+            axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
+
+    if plot_best_fit == True:
+        axs[plot_index].plot(
+            eq_time_values,
+            (eq_time_values ** slope) * (10 ** intercept),
+            label="Best fit",
+            linestyle="dashed",
+        )
+
+axs[int(len(plot_list) / 2)].set_xlabel(
+    "Time (Arbitrary Units)"
+)  # use median of plot_list
 axs[0].set_ylabel("RMS displacement")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise.png")
+plt.savefig("rms_displacement_runwise2.png")
 plt.show()
 
 for i in range(dimension_num):

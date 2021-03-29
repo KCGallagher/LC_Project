@@ -1,9 +1,10 @@
-"""Traditional method to calculate the pair-wise orientational order correlation function
-Uses the end-to-end molecule vector as the director"""
+"""Calculates the diffusion coefficient over each equillibration run. 
+Accounts for additional displacement when crossing the periodic boundary conditions"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
+from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
@@ -50,11 +51,11 @@ for i, line in enumerate(log_file):
         break  # got all data, break from for loop
 
     if "variable mix_steps" in line:  # to extract mix_steps (for shrinking)
-        run_num = 0  # counts number of runs
+        run_num_tot = 0  # counts number of runs
         for t in line.split():
             try:
                 mix_steps_values.append(int(t))
-                run_num += 1
+                run_num_tot += 1
             except ValueError:
                 pass
 
@@ -69,8 +70,9 @@ for i, line in enumerate(log_file):
 log_file.close()
 
 tot_mix_time = sum(mix_steps_values)
-run_time = tot_mix_time + run_num * equilibrium_time
+run_time = tot_mix_time + run_num_tot * equilibrium_time
 time_range = np.arange(0, int(run_time), int(dump_interval))
+eq_range = np.arange(0, int(equilibrium_time + dump_interval), int(dump_interval))
 print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
@@ -141,9 +143,15 @@ else:
 
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
+# for ongoing measurements:
+rms_disp_values = np.full((run_num_tot, len(eq_range), dimension_num), np.nan)
+time_origin = 0
+run_num = 0
+
 # for sampled measurements:
 sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
 sampled_vol_values = np.full(len(mix_steps_values), np.nan)
+equilibrium_flag = False  # denotes whether system is currently in an equillibrium run
 
 extra_displacement = np.zeros((N_molecules, 3))
 # additional values to account for crossing the boundaries of the box
@@ -200,12 +208,20 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    if time != 0:  # skip this for the first step
+    if time != 0:  # GIVE PREVIOUS DISPLACEMENT
         extra_displacement += periodic_bc_displacement(
             com_positions, previous_positions, box_dimensions
         )
 
-    if time in sampling_times:
+    if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
+        rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
+            com_positions + extra_displacement,  # takes current values
+            initial_sample,  # reset for each eq run
+            use_vector=DIRECTIONAL_COEFF,
+        )
+
+    if time in sampling_times:  # MEASURE SAMPLING POINTS
+        print("T = " + str(time) + "/" + str(run_time))
         where_output = np.where(sampling_times == time)
         indices = (where_output[0][0], where_output[1][0])
         if indices[1] == 0:  # start of sampling period
@@ -213,6 +229,9 @@ for i, time in enumerate(time_range):  # interate over dump files
             sampled_vol_values[indices[0]] = box_volume
 
             extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+
+            run_origin = i  # so ongoing measurement starts from zero each time
+            equilibrium_flag = True
         else:  # end of sampling period
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
@@ -223,17 +242,69 @@ for i, time in enumerate(time_range):  # interate over dump files
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
 
+            run_num += 1
+            equilibrium_flag = False
+
     previous_positions = com_positions
-    print("T = " + str(time) + "/" + str(run_time))
+    # print("T = " + str(time) + "/" + str(run_time))
 
 
 # print(sampled_D_values)
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
 
+plot_list = range(0, run_num_tot, 2)  # runs to plot (inc step if too many runs)
+
+sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
+
+fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
+for plot_index, data_index in enumerate(plot_list):
+    axs[plot_index].set_title(
+        r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
+    )
+    # print(rms_disp_values[data_index, :, 0])
+    rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
+    eq_time_values = np.array(eq_range)
+    eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
+
+    slope, intercept, r_value, p_value, std_err = linregress(
+        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+    )  # consider x axis for purpose of this
+    plot_best_fit = True
+
+    print(
+        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "{:.2f}".format(slope)
+    )  # can add this onto graph with plt.annotate if desired
+
+    for j in range(dimension_num):
+        if plot_index == 0:  # for legend
+            axs[plot_index].loglog(
+                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+            )
+        else:
+            axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
+
+    if plot_best_fit == True:
+        axs[plot_index].plot(
+            eq_time_values,
+            (eq_time_values ** slope) * (10 ** intercept),
+            label="Best fit",
+            linestyle="dashed",
+        )
+
+axs[int(len(plot_list) / 2)].set_xlabel(
+    "Time (Arbitrary Units)"
+)  # use median of plot_list
+axs[0].set_ylabel("RMS displacement")
+fig.legend(loc="center right")
+plt.savefig("rms_displacement_runwise_bf.png")
+plt.show()
 
 for i in range(dimension_num):
-    plt.plot(sampled_vol_values, sampled_D_values[:, i], "x", label=axis_labels[i])
+    plt.plot(
+        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
+    )
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
