@@ -141,9 +141,14 @@ else:
 
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
+# for ongoing measurements:
+rms_time_values = []
+rms_disp_values = []
+
 # for sampled measurements:
 sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
 sampled_vol_values = np.full(len(mix_steps_values), np.nan)
+equilibrium_flag = False  # denotes whether system is currently in an equillibrium run
 
 extra_displacement = np.zeros((N_molecules, 3))
 # additional values to account for crossing the boundaries of the box
@@ -200,12 +205,13 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    if time != 0:  # skip this for the first step
+    if time != 0:  # GIVE PREVIOUS DISPLACEMENT
         extra_displacement += periodic_bc_displacement(
             com_positions, previous_positions, box_dimensions
         )
 
-    if time in sampling_times:
+    if time in sampling_times:  # MEASURE SAMPLING POINTS
+        print("T = " + str(time) + "/" + str(run_time))
         where_output = np.where(sampling_times == time)
         indices = (where_output[0][0], where_output[1][0])
         if indices[1] == 0:  # start of sampling period
@@ -213,6 +219,7 @@ for i, time in enumerate(time_range):  # interate over dump files
             sampled_vol_values[indices[0]] = box_volume
 
             extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+            equilibrium_flag = True
         else:  # end of sampling period
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
@@ -222,15 +229,31 @@ for i, time in enumerate(time_range):  # interate over dump files
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
+            equilibrium_flag = False
+
+    if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
+        rms_time_values.append(time)
+        current_rms = rms_displacement(
+            com_positions + extra_displacement,  # takes current values
+            initial_sample,  # reset for each eq run
+            use_vector=DIRECTIONAL_COEFF,
+        )
+        rms_disp_values.append(current_rms)
 
     previous_positions = com_positions
-    print("T = " + str(time) + "/" + str(run_time))
+    # print("T = " + str(time) + "/" + str(run_time))
 
 
 # print(sampled_D_values)
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
 
+
+plt.plot(rms_time_values, rms_disp_values, "x")
+plt.xlabel("Time (Arbitrary Units)")
+plt.ylabel("RMS displacement")
+plt.savefig("rms_displacement_runwise.png")
+plt.show()
 
 for i in range(dimension_num):
     plt.plot(sampled_vol_values, sampled_D_values[:, i], "x", label=axis_labels[i])

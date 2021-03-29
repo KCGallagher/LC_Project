@@ -223,7 +223,7 @@ print("Mean Diffussion Coefficients: " + str(np.nanmean(diffusion_coeff_values))
 for i in range(dimension_num):
     plt.plot(time_range, displacement_values[:, i], label=axis_labels[i])
 plt.xlabel("Time (arbitrary units)")
-plt.ylabel("Diffusion Coefficient")
+plt.ylabel("RMS displacement")
 plt.legend()
 plt.savefig("rms_displacement.png")
 plt.show()
@@ -263,7 +263,12 @@ plt.savefig("order_vs_diffusion.png")
 plt.show()
 
 for i in range(dimension_num):
-    plt.plot(sampled_vol_values, sampled_D_values[:, i], "x", label=axis_labels[i])
+    plt.plot(
+        vol_frac(sampled_vol_values, mol_length, N_molecules),
+        sampled_D_values[:, i],
+        "x",
+        label=axis_labels[i],
+    )
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
