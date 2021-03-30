@@ -273,8 +273,8 @@ for plot_index, data_index in enumerate(plot_list):
     plot_best_fit = True
 
     print(
-        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.2f}".format(slope)
+        "For vol frac = " + "{:.4f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "{:.4f}".format(slope)
     )  # can add this onto graph with plt.annotate if desired
 
     for j in range(dimension_num):
