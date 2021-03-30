@@ -163,22 +163,34 @@ fig, ax1 = plt.subplots()
 
 color = "tab:red"
 ax1.set_xlabel("Time (arbitrary units)")
-ax1.set_ylabel("Order Parameter", color=color)
-ax1.plot(time_range, uniform_filter1d(order_param_values, size=int(10)), color=color)
+ax1.set_ylabel(r"Order Parameter ($S_{n}$)", color=color)
+ax1.plot(
+    time_range,
+    uniform_filter1d(order_param_values, size=int(10)),
+    color=color,
+    label="Order Parameter",
+)
 ax1.tick_params(axis="y", labelcolor=color)
 
 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
 
 color = "tab:blue"
 ax2.set_ylabel(
-    "Volume Fraction", color=color
+    r"Volume Fraction ($\phi$)", color=color
 )  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.plot(
+    time_range,
+    vol_frac(volume_values),
+    color=color,
+    linestyle="--",
+    label="Volume Fraction",
+)
 ax2.tick_params(axis="y", labelcolor=color)
 
-plt.title("Evolution of Order Parameter")
+# plt.title("Evolution of Order Parameter")
+fig.legend(loc=(0.165, 0.815))
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-# plt.savefig("order_and_volfrac.png")
+plt.savefig("rigidrod_nemorderparam.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), order_param_values, "rx")

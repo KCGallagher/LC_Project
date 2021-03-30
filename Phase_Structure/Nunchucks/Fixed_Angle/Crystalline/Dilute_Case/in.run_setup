@@ -1,6 +1,6 @@
 # VARIABLES  
 variable num       equal  1 #labelling results only
-variable N         equal  1024
+variable N         equal  50
 variable len       equal  15
 variable T         equal  0.5 
 

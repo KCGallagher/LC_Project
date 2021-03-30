@@ -241,6 +241,7 @@ for i, time in enumerate(time_range):  # interate over dump files
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
+            print(vol_frac(box_volume, mol_length, N_molecules))
 
             run_num += 1
             equilibrium_flag = False
