@@ -207,7 +207,6 @@ for i, time in enumerate(time_range):  # interate over dump files
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
-        print(time, box_volume, indices)
 
     print("T = " + str(time) + "/" + str(run_time))
 
