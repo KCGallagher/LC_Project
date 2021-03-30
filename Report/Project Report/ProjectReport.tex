@@ -154,15 +154,47 @@ Further analysis included the calculation of the smectic order parameter, and pa
 
 
 \section{Rigid Rod Simulations}
-Used to benchmark sys etc and demonstrate techniques to identify phase transitions
+Used to benchmark sys etc and demonstrate techniques to identify phase transitions.
+Detail nematic phase transition (longrun4) and validation through onsager theory
+Extend this with the longer rods which continue to confirm this theory
+
+\subsection{Crystalline Configuration}
+Explain motivation for running simulation in reverse
+Validate location of nematic phase transition
+Introduce additional smectic phase transition (is there literature on the predicted volume fraction here?)
+This last point may be supported by recent plots fortuitously gained when looking into diffusion.
+explain uncertainty on nature of nematic-> smectic transition
 
 \section{Nunchuck Simulations}
+Explain two approaches taken here; fixed angle and fixed rigidity
+describe the challenges in phase identification here, with references if possible
 
 
+describe quasi-nematic phase seen in both cases
+include picture of herringbone-like structure with fixed angle
+include angle distribution for fixed rigidity
 
+\subsection{Orientational Order Parameter}
+introduce new method to characterise this
+detail spherical harmonics approach to calculation in the appendix?
+
+Describe alternative approaches
+LOOK INTO BIAXIAL PHASE FURTHER
+
+\section{Dynamic Properties}
+Explanation this has only been considered recently, and is much less well understood, as much of the prior simulation work was using MC simulations, which can only predict static properties.
+Simplest dynamic property is diffusive coefficient.
+
+Mention simulation complications with periodic bc, and how this was accounted for?
+Give power law prediction and my verification of this in dilute systems.
+include plots of diffusion coefficient over vol frac for full transition, and rms displacement boxes
+
+Go on to david's theories for dilute and semi-dilute systems? \textit{also review onsager definitions here?}
+
+Explain role in verification of phase formation, particularly for the smectic phase aligned along the y axis.
 \section{Conclusion}
 Summarise key results from above, and emphasise their importance 
-Also give limitations of results obtained, and suggest direction for further work
+Also give limitations of results obtained, and suggest direction for further work (for each section?)
 
 \section*{Acknowledgements}
 I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supervisor (Mr Jiaming Yu), as I am very grateful for their continual teaching and advice, and for the initial code provided by Jiaming Yu to run single stage rigid rod simulations. I am also indebted to Prof Daan Frenkel for the kind insights he offered.
