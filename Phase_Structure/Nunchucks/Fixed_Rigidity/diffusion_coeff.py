@@ -264,6 +264,9 @@ for plot_index, data_index in enumerate(plot_list):
     )
     # print(rms_disp_values[data_index, :, 0])
     rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
+    if np.isnan(rms_disp_values[data_index, -1, 0]):  # remove nan at end of array
+        rms_disp_values[data_index, -1, :] = rms_disp_values[data_index, -2, :]
+
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
@@ -273,8 +276,8 @@ for plot_index, data_index in enumerate(plot_list):
     plot_best_fit = True
 
     print(
-        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.2f}".format(slope)
+        "For vol frac = " + "{:.6f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "{:.4f}".format(slope) + ", error = " + "{:.6f}".format(std_err)
     )  # can add this onto graph with plt.annotate if desired
 
     for j in range(dimension_num):

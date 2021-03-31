@@ -262,18 +262,22 @@ for plot_index, data_index in enumerate(plot_list):
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
-    # print(rms_disp_values[data_index, :, 0])
-    rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
+
+    rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
+    if np.isnan(rms_disp_values[data_index, -1, 0]):  # remove nan at end of array
+        rms_disp_values[data_index, -1, :] = rms_disp_values[data_index, -2, :]
     eq_time_values = np.array(eq_range)
-    eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
+    eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluate
 
     slope, intercept, r_value, p_value, std_err = linregress(
-        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+        np.log10(eq_time_values),
+        # np.log10(rms_disp_values[data_index, :,0]),  # x only
+        np.mean(np.log10(rms_disp_values[data_index, :, :]), axis=1),  # all coordinates
     )  # consider x axis for purpose of this
     plot_best_fit = True
 
     print(
-        "For vol frac = " + "{:.4f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "For vol frac = " + "{:.6f}".format(sampled_vol_frac[data_index]) + ", slope = "
         "{:.4f}".format(slope)
     )  # can add this onto graph with plt.annotate if desired
 

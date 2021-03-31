@@ -227,6 +227,7 @@ for i, time in enumerate(time_range):  # interate over dump files
         if indices[1] == 0:  # start of sampling period
             initial_sample = com_positions
             sampled_vol_values[indices[0]] = box_volume
+            print(box_volume)
 
             extra_displacement = np.zeros_like(com_positions)  # reset for each sample
 
@@ -257,14 +258,17 @@ for i, time in enumerate(time_range):  # interate over dump files
 plot_list = range(0, run_num_tot, 1)  # runs to plot
 
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
+print(sampled_vol_frac)
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
 for plot_index, data_index in enumerate(plot_list):
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
-    # print(rms_disp_values[data_index, :, 0])
     rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
+    if np.isnan(rms_disp_values[data_index, -1, 0]):  # remove nan at end of array
+        rms_disp_values[data_index, -1, :] = rms_disp_values[data_index, -2, :]
+
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 

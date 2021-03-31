@@ -6,8 +6,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 5  # only samples one in X files (must be integer) #30
-plotting_freq = 5  # only plots on in X of the sampled distributions
+sampling_freq = 1  # only samples one in X files (must be integer) #30
+plotting_freq = 25  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 

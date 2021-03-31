@@ -1,0 +1,66 @@
+# VARIABLES  
+variable num       equal  1 #labelling results only
+variable N         equal  50
+variable len       equal  15
+variable T         equal  0.5 
+
+shell del output* # used for testing
+
+print "variable N        equal  $N" #for phase plot code to read out
+
+# PARAMETERS    
+units lj
+atom_style molecular
+neighbor 0.4 bin
+neigh_modify every 1 delay 1 check yes
+comm_modify vel yes
+comm_modify cutoff 1.9 
+#KG added cutoff to remove "Communication cutoff 1.52 is shorter than a bond length 
+#based estimate of 1.87. This may lead to errors" warning.
+
+# READ  
+read_data input_data_nunchucks_${N}_${len}.file 
+
+#  BONDS 
+bond_style harmonic
+special_bonds lj 0 1 1
+bond_coeff * 500.0 0.98  # the wildcard (*) means to have the same for all bond types.   
+#0.98 is the distance between ball centres
+
+# STRAIGHT ANGLES  
+angle_style harmonic
+angle_coeff * 500.0  180
+
+# PAIR lj/cut --with interactions, to steady state
+pair_style lj/cut 1.0
+pair_modify shift yes
+pair_coeff * * 1  1.0  1.12
+#1.12 is cut-off for potential
+
+# DUMP OUTPUT #temporary for testing
+# dump  1  all custom 100 output_time_*.dump id mol type x y z vx vy vz
+# dumps all positions etc every N  steps
+# dump_modify 1 sort id
+
+# FIX
+fix 2 all nph iso 0.0001 0.0001 10   #reduced target pressure here
+fix 3 all langevin ${T} ${T} 1 123456 #as above
+
+# RUN
+run 1000
+
+# REFIX
+unfix 2
+unfix 3
+fix 4 all nve 
+fix 5 all langevin ${T} ${T} 1 123456 
+fix recen1 all recenter INIT INIT INIT
+
+
+reset_timestep 0
+
+write_restart restart.time*
+
+
+
+

@@ -1,6 +1,8 @@
 \relax 
 \@nameuse{bbl@beforestart}
 \abx@aux@refcontext{none/global//global/global}
+\abx@aux@cite{Onsager1949}
+\abx@aux@segm{0}{0}{Onsager1949}
 \@writefile{toc}{\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax }
 \@writefile{lof}{\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax }
 \@writefile{lot}{\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax }
@@ -9,7 +11,9 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Liquid Crystals}{1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Onsager Theory}{1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Order Parameter}{1}\protected@file@percent }
+\newlabel{sec:OnsagerTheory}{{2.2}{1}}
+\abx@aux@cite{Frenkel1987}
+\abx@aux@segm{0}{0}{Frenkel1987}
 \abx@aux@cite{deGennes1993}
 \abx@aux@segm{0}{0}{deGennes1993}
 \abx@aux@cite{Polson1997}
@@ -20,6 +24,11 @@
 \abx@aux@segm{0}{0}{Plimpton1995}
 \abx@aux@cite{LAMMPS}
 \abx@aux@segm{0}{0}{LAMMPS}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Order Parameter}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Previous Computational Work}{2}\protected@file@percent }
+\newlabel{sec:PrevWork}{{2.4}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methods}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Simulation Molecules}{2}\protected@file@percent }
 \abx@aux@cite{Rapaport2004}
 \abx@aux@segm{0}{0}{Rapaport2004}
 \abx@aux@cite{Arnott1972}
@@ -34,20 +43,8 @@
 \abx@aux@segm{0}{0}{Pan2010}
 \abx@aux@cite{Wang2002}
 \abx@aux@segm{0}{0}{Wang2002}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Previous Computational Work}{2}\protected@file@percent }
-\newlabel{sec:PrevWork}{{2.4}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Methods}{2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Simulation Molecules}{2}\protected@file@percent }
 \abx@aux@cite{Nos1983}
 \abx@aux@segm{0}{0}{Nos1983}
-\abx@aux@cite{Frenkel2002}
-\abx@aux@segm{0}{0}{Frenkel2002}
-\abx@aux@cite{Nos1984}
-\abx@aux@segm{0}{0}{Nos1984}
-\abx@aux@cite{Hoover1985}
-\abx@aux@segm{0}{0}{Hoover1985}
-\abx@aux@cite{Shinoda2004}
-\abx@aux@segm{0}{0}{Shinoda2004}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:nunchuck_analogy}{{1a}{3}}
 \newlabel{sub@fig:nunchuck_analogy}{{a}{3}}
@@ -56,6 +53,14 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Depiction analogy between the DNA mesogen and the nunchucks. Note the appearance of the flexible ss-DNA linker between the rigid ds-DNA rods, and the implementation within LAMMPS on the right. The central red sphere, representing the ss-DNA, is given modified bond properties to replicate the nunchuck's flexibility. Figure (a) created by Jiaming Yu (Eiser Group, Cambridge).\relax }}{3}\protected@file@percent }
 \newlabel{fig:nunchucks_visual}{{1}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Simulation Structure}{3}\protected@file@percent }
+\abx@aux@cite{Frenkel2002}
+\abx@aux@segm{0}{0}{Frenkel2002}
+\abx@aux@cite{Nos1984}
+\abx@aux@segm{0}{0}{Nos1984}
+\abx@aux@cite{Hoover1985}
+\abx@aux@segm{0}{0}{Hoover1985}
+\abx@aux@cite{Shinoda2004}
+\abx@aux@segm{0}{0}{Shinoda2004}
 \abx@aux@cite{Schneider1978}
 \abx@aux@segm{0}{0}{Schneider1978}
 \abx@aux@cite{Jones1924a}
@@ -82,39 +87,62 @@
 \newlabel{pair_potential}{{3.3}{4}}
 \newlabel{lj_cut}{{3}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Analysis}{4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Rigid Rod Simulations}{4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The evolution of the volume fraction ($\phi $) and the nematic order parameter ($S_{n}$) over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10. The phase transition is observed through a discrete change in the order parameter (in red), occurring after the volume fraction is increased above $0.4$. Note that the contraction steps (where volume fraction is changed) are not of equal durations, and so do not correspond to equal changes in the system volume; rather they are chosen to highlight the phase transition. The timescale of contraction is much less that the timescale of equillibration, but the changes in volume fraction are not instantaneous, despite their appearance here.\relax }}{5}\protected@file@percent }
-\newlabel{fig:rr_nemorderparam}{{2}{5}}
+\abx@aux@cite{Frenkel1984}
+\abx@aux@segm{0}{0}{Frenkel1984}
+\abx@aux@cite{Lee1987}
+\abx@aux@segm{0}{0}{Lee1987}
+\abx@aux@cite{Allen1987}
+\abx@aux@segm{0}{0}{Allen1987}
+\abx@aux@cite{Camp1996}
+\abx@aux@segm{0}{0}{Camp1996}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Rigid Rod Simulations}{5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Crystalline Configuration}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Nunchuck Simulations}{6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Orientational Order Parameter}{6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Nunchuck Simulations}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Orientational Order Parameter}{5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The evolution of the volume fraction ($\phi $) and the nematic order parameter ($S_{n}$) over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10. The phase transition is observed through a discrete change in the order parameter (in red), occurring after the volume fraction is increased above $0.4$. Note that the contraction steps (where volume fraction is changed) are not of equal durations, and so do not correspond to equal changes in the system volume; rather they are chosen to highlight the phase transition. The timescale of contraction is much less that the timescale of equilibration, but the changes in volume fraction are not instantaneous, despite their appearance here.\relax }}{6}\protected@file@percent }
+\newlabel{fig:rr_nemorderparam}{{2}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Dynamic Properties}{6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{6}\protected@file@percent }
+\abx@aux@cite{Doi1988}
+\abx@aux@segm{0}{0}{Doi1988}
+\abx@aux@cite{Odijk1985}
+\abx@aux@segm{0}{0}{Odijk1985}
+\abx@aux@cite{Maier1959}
+\abx@aux@segm{0}{0}{Maier1959}
+\abx@aux@cite{Zannoni1979b}
+\abx@aux@segm{0}{0}{Zannoni1979b}
 \abx@aux@cite{Eppenga1984}
 \abx@aux@segm{0}{0}{Eppenga1984}
 \abx@aux@cite{Frenkel1982}
 \abx@aux@segm{0}{0}{Frenkel1982}
 \abx@aux@cite{Zannoni1979}
 \abx@aux@segm{0}{0}{Zannoni1979}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Onsager Theory}{9}\protected@file@percent }
+\newlabel{sec:OnsagerAppendix}{{A}{9}}
+\newlabel{eq:OnsagerFreeEnergy}{{4}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}Nematic Order Parameter}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Theoretical Outline}{9}\protected@file@percent }
+\newlabel{sec:OrderParamTheory}{{B.1}{9}}
 \abx@aux@cite{Parsons1979}
 \abx@aux@segm{0}{0}{Parsons1979}
 \abx@aux@cite{Frenkel1985}
 \abx@aux@segm{0}{0}{Frenkel1985}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Onsager Theory}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {B}Nematic Order Parameter}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}Theoretical Outline}{8}\protected@file@percent }
-\newlabel{sec:OrderParamTheory}{{B.1}{8}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Calculation}{8}\protected@file@percent }
-\newlabel{sec:OrderParamCalc}{{B.2}{8}}
+\abx@aux@cite{Forster2018}
+\abx@aux@segm{0}{0}{Forster2018}
 \abx@aux@cite{Eppenga1984}
 \abx@aux@segm{0}{0}{Eppenga1984}
 \abx@aux@cite{Mountain1977}
 \abx@aux@segm{0}{0}{Mountain1977}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Code?}{9}\protected@file@percent }
-\newlabel{LastPage}{{}{9}}
-\xdef\lastpage@lastpage{9}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}Calculation}{10}\protected@file@percent }
+\newlabel{sec:OrderParamCalc}{{B.2}{10}}
+\newlabel{eq:FrenkelNemOrder}{{10}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {C}Code?}{11}\protected@file@percent }
+\newlabel{LastPage}{{}{11}}
+\xdef\lastpage@lastpage{11}
 \gdef\lastpage@lastpageHy{}
 \abx@aux@refcontextdefaultsdone
+\abx@aux@defaultrefcontext{0}{Onsager1949}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Frenkel1987}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{deGennes1993}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Polson1997}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Dussi2018}{none/global//global/global}
@@ -143,8 +171,17 @@
 \abx@aux@defaultrefcontext{0}{Smit1991}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Ovito}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Eppenga1984}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Frenkel1984}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Lee1987}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Allen1987}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Camp1996}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Doi1988}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Odijk1985}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Maier1959}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Zannoni1979b}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Frenkel1982}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Zannoni1979}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Parsons1979}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Frenkel1985}{none/global//global/global}
+\abx@aux@defaultrefcontext{0}{Forster2018}{none/global//global/global}
 \abx@aux@defaultrefcontext{0}{Mountain1977}{none/global//global/global}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  30 MAR 2021 16:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  1 APR 2021 00:26
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1348,7 +1348,7 @@ g"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 61.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 60.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1357,7 +1357,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 g"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 61.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 60.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1367,7 +1367,7 @@ g"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 61.
+(Font)              scaled to size 8.0pt on input line 60.
 )
 Package biblatex Info: Reference section=0 on input line 30.
 Package biblatex Info: Reference segment=0 on input line 30.
@@ -1422,37 +1422,34 @@ LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 14.4pt on input line 42.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 12.0pt on input line 50.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 59.
 [1
 
 {C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<Figures/nunchucks_artist.png, id=9, 603.25375pt x 551.05875pt>
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 6.0pt on input line 67.
+<Figures/nunchucks_artist.png, id=10, 603.25375pt x 551.05875pt>
 File: Figures/nunchucks_artist.png Graphic file (type png)
 <use Figures/nunchucks_artist.png>
-Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 94.
+Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 102.
 (pdftex.def)             Requested size: 193.47578pt x 176.72919pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 95.
+(Font)              scaled to size 10.0pt on input line 103.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 95.
+(Font)              scaled to size 9.0pt on input line 103.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 95.
-<Figures/nunchuck_profile_coloured.png, id=10, 238.491pt x 194.52675pt>
+(Font)              scaled to size 9.0pt on input line 103.
+<Figures/nunchuck_profile_coloured.png, id=11, 238.491pt x 194.52675pt>
 File: Figures/nunchuck_profile_coloured.png Graphic file (type png)
 <use Figures/nunchuck_profile_coloured.png>
 Package pdftex.def Info: Figures/nunchuck_profile_coloured.png  used on input l
-ine 101.
+ine 109.
 (pdftex.def)             Requested size: 193.47578pt x 157.81215pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 105.
+(Font)              scaled to size 10.0pt on input line 113.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 105.
-Package textcomp Info: Symbol \textmu not provided by
-(textcomp)             font family XCharter-TLF in TS1 encoding.
-(textcomp)             Default family used instead on input line 116.
+(Font)              scaled to size 10.0pt on input line 113.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 117.
+(Font)              scaled to size 10.95pt on input line 119.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1460,35 +1457,43 @@ Make it at least 13.59999pt.
 We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
 
-[2] [3 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.pn
-g>] [4]
+[2]
+Package textcomp Info: Symbol \textmu not provided by
+(textcomp)             font family XCharter-TLF in TS1 encoding.
+(textcomp)             Default family used instead on input line 124.
+ [3 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
+ [4]
 <Figures/rigidrod_nemorderparam.png, id=33, 462.528pt x 346.896pt>
 File: Figures/rigidrod_nemorderparam.png Graphic file (type png)
 <use Figures/rigidrod_nemorderparam.png>
 Package pdftex.def Info: Figures/rigidrod_nemorderparam.png  used on input line
- 167.
+ 176.
 (pdftex.def)             Requested size: 338.58632pt x 253.95184pt.
- [5 <./Figures/rigidrod_nemorderparam.png>]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5] [6 <./Figures/rigidrod_nemorderparam.png>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [6] [7] [8]
+ [7] [8] [9]
 
 AED: lastpage setting LastPage
-[9] (ProjectReport.aux)
+[10] [11] (ProjectReport.aux)
 Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 \openout1 = `ProjectReport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 20673 strings out of 481565
- 393759 string characters out of 2914627
- 1059142 words of memory out of 3000000
- 35378 multiletter control sequences out of 15000+200000
- 700543 words of font info for 227 fonts, out of 3000000 for 9000
+ 20711 strings out of 481565
+ 395089 string characters out of 2914627
+ 1058720 words of memory out of 3000000
+ 35404 multiletter control sequences out of 15000+200000
+ 701909 words of font info for 235 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,12n,77p,1148b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,11n,77p,1148b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
 ctt1000.pk> <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
 /dpi657\tcrm1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/
@@ -1512,9 +1517,9 @@ s/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/KitG/AppData/Local/P
 rograms/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/L
 ocal/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport.pdf (9 pages, 580259 bytes).
+Output written on ProjectReport.pdf (11 pages, 594782 bytes).
 PDF statistics:
- 139 PDF objects out of 1000 (max. 8388607)
+ 145 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  54288 words of extra memory for PDF output out of 61914 (max. 10000000)
 

@@ -49,9 +49,17 @@ Outline of report
 \section{Background}
 \subsection{Liquid Crystals}
 Include known phases etc - de gennes textbook gives useful milestone references 
-\subsection{Onsager Theory}
-Introduce theoretical predictions to be validated later
-Mathematical derivations may be provided in appendicies
+focus on entropic phase transitions % ie https://www-nature-com.ezp.lib.cam.ac.uk/articles/332822a0
+
+\subsection{Onsager Theory} \label{sec:OnsagerTheory}
+
+Onsager predicted a simple model of lyotropic, entropy-driven phase transitions \cite{Onsager1949}, which will be employed in this project. Rod-like particles are modelled as thin spherocylinders with length $L$ and diamater $D$, and an excluded volume preventing overlap. The interaction potentials between molecules are neglected, and only the configurational entropy of the system considered. Qualitatively, the confinement of rods to parallel orientations (such as in the nematic phase) leads to a decrease in orientational entropy, but an increase in positional entropy (as each rod takes up less space). At sufficiently high concentrations, the positional entropy will dominate, and the system undergo a phase transition from isotropic to nematic. 
+
+The critical volume fraction at transition is approximately $4r/L$, where $r$ is the radius of the rigid rod, and $L$ is the length (detailed of this are given in Appendix \ref{sec:OnsagerAppendix}. Crucially, this means the isotropic--nematic phase transition occurs at lower concentrations for mesogens with greater aspect ratios, and requires a minimum aspect ratio of $L/r = 4$ to occur.
+
+It is worth noting that this result is only valid in the limit of thin spherocylinders, as Onsager's derivation neglects Virial coeffecients $B_{n}$ beyond second order in the expansion of free energy in powers of density \cite{Frenkel1987}; further discussion of this is given in Appendix \ref{sec:OnsagerAppendix}.
+%last sentence could go into appendix
+
 \subsection{Order Parameter}
 %smectic order given by frenkel https://pubs.acs.org/doi/pdf/10.1021/j100322a042
 %can also use https://www.tandfonline.com/doi/full/10.1080/00268976.2018.1471231
@@ -147,7 +155,7 @@ Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the sy
 
 The visualisation freeware Ovito \cite{Ovito} has been employed to animate the molecule motion over the simulation period, and was used to generate all molecular images presented here. Thermodynamic variables, such as internal energy and pressure, were extracted to track the system's progress towards equilibrium, and verify its stability.
 
-The volume fraction and nematic order parameter were computed for comparison with Onsager's theorem, as detailed in Section \textbf{X}. Calculation of the order parameter is complicated by the absence of an imposed director (ie if no electric field is applied), and we use the approach taken by Eppenga and Frenkel \cite{Eppenga1984} which is reproduced in Appendix \ref{sec:OrderParamCalc}. %or dussi 2018 or many others
+The volume fraction and nematic order parameter were computed for comparison with Onsager's theorem, as detailed in Section \ref{sec:OnsagerTheory}. Calculation of the order parameter is complicated by the absence of an imposed director (ie if no electric field is applied), and we use the approach taken by Eppenga and Frenkel \cite{Eppenga1984} which is reproduced in Appendix \ref{sec:OrderParamCalc}. %or dussi 2018 or many others
 
 Further analysis included the calculation of the smectic order parameter, and pair-wise orientational correlation coefficient, detailed in Section \textbf{X}. All scripts for data extraction and analysis were written by the author, \textit{and can be found in the supplementary material?}.
 
@@ -158,9 +166,10 @@ Used to benchmark sys etc and demonstrate techniques to identify phase transitio
 Detail nematic phase transition (longrun4) and validation through onsager theory
 Extend this with the longer rods which continue to confirm this theory
 
-Initially, a system of rigid rods was used to verify the analysis methods applied in this report, in comparison with the predictions made by Onsager's theory in Section \textbf{X}. We focus specifically on the phase transition between the isotropic and nematic phased, as this system is well studied, and these predictions have been separately verified computationally through both Monte Carlo and molecular dynamics simulations \textbf{cite}, (\textit{and experimentally?}).
+Initially, a system of rigid rods was used to verify the analysis methods applied in this report, in comparison with the predictions made by Onsager's theory in Section \ref{sec:OnsagerTheory}. We focus specifically on the phase transition between the isotropic and nematic phases, as this system is well studied, and these predictions have been separately verified computationally through both Monte Carlo \cite{Frenkel1984, Lee1987} and molecular dynamics simulations \cite{Allen1987, Camp1996}.
+%not experimentally; long range maier-snape is better here https://pubs.acs.org/doi/pdf/10.1021/j100303a008
 
-For rigid rods with an aspect ratio of 10, we expect this lyotropic phase transition to occur at a volume fraction of $\phi  = 0.4$, according to \textbf{ref equation}. We consider a system of 1000 rigid rods, formed of 10 sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
+For rigid rods with an aspect ratio of 10, Onsager theory predicts a lyotropic phase transition will occur, with a critical volume fraction of $\phi  = 0.4$. We consider a system of 1000 rigid rods, formed of 10 sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
 
 \begin{figure} [h!]
 	\centering
@@ -217,10 +226,41 @@ I wish to thank my project supervisor (Prof Erika Eiser), and my day-to-day supe
 
 \begin{appendices}
 
-\section{Onsager Theory}
+\section{Onsager Theory} \label{sec:OnsagerAppendix}
+A detailed and accessible derivation is provided by Doi and Edwards \cite{Doi1988}, and is not replicated in full here. Briefly summarising their method, the free energy of the system is initially expanded in powers of concentration $\nu$, and higher order terms neglected to give the form:
+
+\begin{equation} \label{eq:OnsagerFreeEnergy}
+\mathcal{A}[\Psi(\boldsymbol{u})] = \nu k_{B}T \left[ \ln\nu - 1 + \int d\boldsymbol{u} \Psi(\boldsymbol{u}) \ln \Psi(\boldsymbol{u}) + \frac{1}{2} \int d\boldsymbol{u} \int d\boldsymbol{u^{\prime}} \Psi(\boldsymbol{u}) \Psi(\boldsymbol{u^{\prime}}) \beta(\boldsymbol{u}, \boldsymbol{u^{\prime}})  \right]
+\end{equation}
+
+where, for rigid rod-like polymers of diameter $D$ and length $L$, $\beta(\boldsymbol{u}, \boldsymbol{u^{\prime}})$ is given by:
+
+\begin{equation}
+\beta(\boldsymbol{u}, \boldsymbol{u^{\prime}}) = 2DL^{2} \left\lvert \boldsymbol{u} \times \boldsymbol{u^{\prime}} \right\rvert
+\end{equation} 
+
+This expression may be minimised through the use of a Lagrange multiplier, giving a nonlinear integral equation that cannot be solved linearly. Onsager therefore assumed an equilibrium distribution of the form:
+
+\begin{equation}
+\Psi(\boldsymbol{u}) = \frac{\alpha}{4\pi\sinh\alpha} \cosh (\alpha \boldsymbol{u} \cdot \boldsymbol{n})
+\end{equation}
+
+for molecule direction $\boldsymbol{u}$, arbitrary unit vector $\boldsymbol{n}$ and order parameter $\alpha$ determined by minimising the free energy. When the concentration exceeds a critical value $\nu^{*}$, a secondary minimum in free energy appears for $\alpha \neq 0$, corresponding to a thermodynamically stable ordered nematic phase. This may not immediately indicate an equilibrium state; indeed Onsager recognised that the free energy may be lowered further by macroscopic phase separation (although we do not expect to observe this in the system sizes considered here). 
+
+Numerical calculation gives $\nu^{*}$, from which the critical volume fraction $\phi^{*}$ may be obtained for rigid rods:
+
+\begin{equation}
+\nu^{*} = \frac{16}{\pi D L^{2}}, \qquad \phi^{*} = \nu^{*} \frac{\pi D^{2} L}{4} \simeq 4 \frac{D}{L}
+\end{equation}
+
+
+To derive (\ref{eq:OnsagerFreeEnergy}) that we have assumed it is valid to ignore the third (and higher) Virial coefficients. The reduced third virial coefficient scales as $(D/L)\log(L/D)$, and so is relatively small for the systems considered here. While it should be remembered this may introduce some error in the absolute volume fraction for the phase transition, it does not affect the validity of the phases observed themselves.
+
+It is also acknowledged that this is a poor model experimentally; primarily because physical systems either have much lower aspect ratios or are not truly rigid \cite{Odijk1985}. In this case, the long range Maier\textendash Snape theory \cite{Maier1959} is typically used, with the additional benefit that this also accounts for attractive inter-molecular forces. This produces significantly more accurate estimates of the critical volume fraction and the order parameter at the isotropic\textendash nematic transition \cite{Zannoni1979b}.
+
 \section{Nematic Order Parameter} 
 \subsection{Theoretical Outline}\label{sec:OrderParamTheory}
-Here I endeavour to outline the motivation for the nematic order parameter used throughout this report, based on the work of Eppenga and Frenkel \cite{Eppenga1984, Frenkel1982}. The nematic phase may be differentiated from the isotropic phase by the formation of cylindrical symmetry, as opposed to the spherical symmetry of the isotropic phase. The deviation from spherical symmetry may be quantified through a set of order parameters $f(\theta, \phi)$ \cite{Zannoni1979}. when considering the axially symmetric nematic phase, independent of $\phi$, $f(\theta, \phi)$ may be generally expressed in the basis of all even Legendre polynomials $P_{2l}$:
+Here I endeavour to outline the motivation for the nematic order parameter used throughout this report, based on the work of Eppenga and Frenkel \cite{Eppenga1984, Frenkel1982}. The nematic phase may be differentiated from the isotropic phase by the formation of cylindrical symmetry, as opposed to the spherical symmetry of the isotropic phase. The deviation from spherical symmetry may be quantified through a set of order parameters \cite{Zannoni1979}. When considering the axially symmetric nematic phase, independent of $\phi$, the distribution function $f(\theta, \phi)$ may be generally expressed in the basis of all even Legendre polynomials $P_{2l}$:
 
 \begin{equation}
 f(\theta) = \sum_{l=0}^{\infty} a_{2l} P_{2l}(\cos(\theta))
@@ -239,11 +279,11 @@ The method given above in Appendix \ref{sec:OrderParamTheory} relies on knowledg
 
 Instead, as detailed by Frenkel et al. \cite{Frenkel1985}, we maximise the expression:
 
-\begin{equation}
+\begin{equation} \label{eq:FrenkelNemOrder}
 S^{\prime}_{n}(\boldsymbol{\hat{n}^{\prime}}) = \frac{1}{N} \left[ \sum_{i=1}^{N} \left( \frac{3}{2} (\boldsymbol{\hat{n}^{\prime}} \cdot \boldsymbol{\hat{u}_{i}})^{2}-\frac{1}{2} \right) \right]
 \end{equation}
 
-where $\hat{u_{i}}$ denotes the orientation of the individual molecular axes in the laboratory frame. This may be written further as:
+where $\hat{u_{i}}$ denotes the orientation of the individual molecular axes in the laboratory frame, and $(\boldsymbol{\hat{n}^{\prime}})$ is the direction of common alignment - known as the director. In the absence of an electric field, the direction of this is arbitrary, and determined in practice by infinitesimal perturbations to the system though spontaneous symmetry breaking \cite{Forster2018}. (\ref{eq:FrenkelNemOrder}) may be further simplified to:
 
 \begin{equation}
 S^{\prime}_{n} = \frac{1}{N} \left\langle \boldsymbol{\hat{n}^{\prime}} \cdot \textbf{Q} \cdot \boldsymbol{\hat{n}^{\prime}}  \right\rangle, \qquad where \enspace \textbf{Q}_{i} = \frac{3}{2} \boldsymbol{\hat{u}_{i}}\boldsymbol{\hat{u}_{i}}-\frac{1}{2}\textbf{I}
@@ -258,7 +298,7 @@ In practice, we actually calculate the eigenvalues of the related tensor $\textb
 
 as this shares eigenvectors with $\textbf{Q}$, and has eigenvectors $\mu_{n}$ related to $\lambda_{n}$ by: $\mu_{n} = 2/3 \lambda_{n} + 1/3$.
 
-It is worth noting $\lambda_{+}$ is bound above zero, and so does not reach zero in the isotropic phase as would be expected. It is common to use $S =  -2\lambda_{0}$ when considering such disordered systems, as this fluctuates about an average much closer to zero \cite{Mountain1977}. I have not done so in the results presented here, to give continuity in the order parameter over the transition (where the focus on this report lies), however this has meant that the average order parameter in the isotropic phase is slightly above zero.
+It is worth noting $\lambda_{+}$ is bound above zero, and so does not reach zero in the isotropic phase as would be expected. It is common to use $S =  -2\lambda_{0}$ when considering such disordered systems, as this fluctuates about an average much closer to zero \cite{Mountain1977}. I have not done so in the results presented here, to give continuity in the order parameter over the transition (wherein lies the focus of this report), however this has meant that the average order parameter in the isotropic phase is slightly above zero.
 
 
 \section{Code?}
