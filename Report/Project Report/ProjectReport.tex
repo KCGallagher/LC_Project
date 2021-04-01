@@ -129,7 +129,7 @@ We may also define the characteristic energy scale; this is formally the depth o
 All simulations in this report were conducted a system of 1000 particles, with a time step of $0.005\tau$, (where $\tau$ is the characteristic time), unless otherwise stated. The system was initially configured in a dilute, isotropic state; a non-trivial process for large numbers of mesogens as molecules must be placed randomly without overlap, to prevent any initial order affecting the formation of ordered phases. I am grateful to Iria Pantazi for writing a python script to automate this process for dilute rigid rod systems, and a generalised version of this is available in the supplementary material. Alternatively, simulations were also initiated from a perfectly ordered square crystalline phase, with all molecules aligned along a common axis. The choice of this axis is arbitrary, as the system is invariant under global rotation \cite{Nos1983}, but is taken to be directed along the y-axis for clarity. Care was taken to ensure molecules did not overlap, and the system was stable in this ordered phase.
 %MAYBE INCLUDE CODE IN SUPP MATERIAL?? THINK ABOUT THIS!
 
-All simulations are conducted within an oblong box defined by the Cartesian axes, with periodic boundary conditions used to eliminate surface effects and replicate conditions in the bulk phase \cite{Frenkel2002}. The aspect ratio of this box may be varied, to support phase formation in anisotropic systems, as discussed in Section \textbf{X}. An isenthalpic ensemble was used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, was then used to allow the system to reach thermodynamic equilibrium. Time integration was evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}.
+All simulations are conducted within an oblong box defined by the Cartesian axes, with periodic boundary conditions used to eliminate surface effects and replicate conditions in the bulk phase \cite{Frenkel2002}. The aspect ratio of this box may be varied, to support phase formation in anisotropic systems, as discussed in Section \textbf{X}. An isenthalpic ensemble was used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, was then used to allow the system to reach thermodynamic equilibrium. Time integration was evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}, typically with a damping time of $\tau$.
 
 A typical simulation consists of multiple stages, alternating between these two ensembles to sample the system properties at a range of volume fractions. Approximately \num{2e4} steps are simulated when varying the simulation volume (depending on the resolution of volume fraction sampling), followed by \num{2e6} to allow the system to reach equilibrium in each stage. The output of thermodynamic variables, as well as particle positions, at the end of each stage allows for subsequent calculation of the order parameter at equilibrium. This data was also retrieved at regular intervals during each simulation stage, to track the time evolution of the system.
 
@@ -161,10 +161,10 @@ Further analysis included the calculation of the smectic order parameter, and pa
 
 
 
-\section{Rigid Rod Simulations}
-Used to benchmark sys etc and demonstrate techniques to identify phase transitions.
-Detail nematic phase transition (longrun4) and validation through onsager theory
-Extend this with the longer rods which continue to confirm this theory
+\section{Rigid Rod Simulations} \label{sec:RigidRodSims}
+%Used to benchmark sys etc and demonstrate techniques to identify phase transitions.
+%Detail nematic phase transition (longrun4) and validation through onsager theory
+%Extend this with the longer rods which continue to confirm this theory
 
 Initially, a system of rigid rods was used to verify the analysis methods applied in this report, in comparison with the predictions made by Onsager's theory in Section \ref{sec:OnsagerTheory}. We focus specifically on the phase transition between the isotropic and nematic phases, as this system is well studied, and these predictions have been separately verified computationally through both Monte Carlo \cite{Frenkel1984, Lee1987} and molecular dynamics simulations \cite{Allen1987, Camp1996}.
 %not experimentally; long range maier-snape is better here https://pubs.acs.org/doi/pdf/10.1021/j100303a008
@@ -190,11 +190,24 @@ This analysis was then repeated with longer rods, having an aspect ratio of \num
 
 
 \subsection{Crystalline Configuration}
-Explain motivation for running simulation in reverse
-Validate location of nematic phase transition
+%Explain motivation for running simulation in reverse
+%Validate location of nematic phase transition
 Introduce additional smectic phase transition (is there literature on the predicted volume fraction here?)
 This last point may be supported by recent plots fortuitously gained when looking into diffusion.
 explain uncertainty on nature of nematic-> smectic transition
+
+We may also consider phase behaviour upon expansion from an perfectly ordered state, in hope of observing the same phase behaviour `in reverse'. This has two advantages; it allows us to access higher volume fractions that are not easily accessible through molecular dynamics simulations (of a reasonable duration), and also provides verification of the phase transitions previously observed. Ensuring a novel phase is in true equilibrium has long been the bane of liquid crystal simulators, however non-equilibrium effects will manifest themselves in hysteresis of the phase transition (variation in the critical volume fraction dependant on the direction of the transition), and so can be easily identified through this method.
+
+Initially, the particle force centres are configured in a simple cubic crystalline lattice. Again equilibration stages under the microcanonical ensemble (with constant volume) are ran in alternation with an isenthalpic ensemble, however the target pressure for the Nose-Hoover thermostat is now reduced below the system pressure so that expansion occurs in these isenthalpic stages. The length of these stages is unchanged from Section \ref{sec:RigidRodSims}, however the damping of the thermostat is increased to $100\tau$ to ensure stability of the expansion.
+
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/rigidrod_cryorderparam}
+	\caption{The evolution of the volume fraction ($\phi$) against both the nematic ($S_{n}$) and smectic ($S_{s}$) order parameters over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10 initiated in a crystalline phase. A continuous smectic\textendash nematic phase transition is observed (in green) at high volume fractions, followed by a discrete nematic\textendash isotropic transition (in blue), occurring after the volume fraction is decreased below $0.4$.}
+	\label{fig:rr_crystalorder}
+\end{figure} %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Rigid_Rods2\Crystalline\Full_Transition
+
+The isotropic phase formation was observed in the region $0.38 < \phi< 0.41$, in good agreement with the results of Section \ref{sec:RigidRodSims}, and confirming this is indeed an equilibrium phase transition. The higher volume fractions we were able to access here also illumate other phase transitions
 
 \section{Nunchuck Simulations}
 Explain two approaches taken here; fixed angle and fixed rigidity
