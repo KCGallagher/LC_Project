@@ -190,7 +190,7 @@ ax2.tick_params(axis="y", labelcolor=color)
 # plt.title("Evolution of Order Parameter")
 fig.legend(loc=(0.165, 0.815))
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.savefig("rigidrod_nemorderparam.png")
+plt.savefig("rigidrod_nemorderparam.eps")
 plt.show()
 
 plt.plot(vol_frac(volume_values), order_param_values, "rx")

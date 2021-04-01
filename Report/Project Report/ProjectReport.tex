@@ -169,15 +169,24 @@ Extend this with the longer rods which continue to confirm this theory
 Initially, a system of rigid rods was used to verify the analysis methods applied in this report, in comparison with the predictions made by Onsager's theory in Section \ref{sec:OnsagerTheory}. We focus specifically on the phase transition between the isotropic and nematic phases, as this system is well studied, and these predictions have been separately verified computationally through both Monte Carlo \cite{Frenkel1984, Lee1987} and molecular dynamics simulations \cite{Allen1987, Camp1996}.
 %not experimentally; long range maier-snape is better here https://pubs.acs.org/doi/pdf/10.1021/j100303a008
 
-For rigid rods with an aspect ratio of 10, Onsager theory predicts a lyotropic phase transition will occur, with a critical volume fraction of $\phi  = 0.4$. We consider a system of 1000 rigid rods, formed of 10 sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
+For rigid rods with an aspect ratio $L/D = 10$, Onsager theory predicts a lyotropic phase transition will occur, with a critical volume fraction of $\phi  = 0.4$. We consider a system of 1000 rigid rods, formed of 10 sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
 
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=0.7\linewidth]{Figures/rigidrod_nemorderparam}
 	\caption{The evolution of the volume fraction ($\phi$) and the nematic order parameter ($S_{n}$) over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10. The phase transition is observed through a discrete change in the order parameter (in red), occurring after the volume fraction is increased above $0.4$. Note that the contraction steps (where volume fraction is changed) are not of equal durations, and so do not correspond to equal changes in the system volume; rather they are chosen to highlight the phase transition. The timescale of contraction is much less that the timescale of equilibration, but the changes in volume fraction are not instantaneous, despite their appearance here.}
 	\label{fig:rr_nemorderparam}
-\end{figure}
-%maybe tidy up figure; add symbols to axes labels and plot volume fraction with a dashed line (with legend) to make clearer for colour-blind. also remove title formally (and tight layout?)
+\end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Rigid_Rods2
+
+This analysis was then repeated with longer rods, having an aspect ratio of \num{16} and a predicted critical volume fraction of $\phi  = 0.25$. Through multiple simulations, we are similarly able to verify that the critical volume fraction lies in the range $0.23 < \phi< 0.26$, in good agreement with the theory. This also provides a useful example of the characterisation of a phase transition through changes in the thermodynamic variables; Figure \ref{fig:rr_pressureevo} depicts a change in pressure during the equilibration stage of the simulation (during which volume is conserved) corresponding to the isotropic\textendash nematic phase transition.
+
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/rigidrod_pressureevo}
+	\caption{The evolution of pressure on subsequent microcanonical ensembles (between which volume is decreased), when simulating 1000 rigid rods of aspect ratio 16. Note the extended decay in pressure for $\phi  = 0.27$, while the isotropic\textendash nematic phase transition occurs; all other stages remain at equilibrium throughout.}
+	\label{fig:rr_pressureevo}
+\end{figure} %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Rigid_Rods2\Double_Length_Rods
+
 
 
 \subsection{Crystalline Configuration}

@@ -4,9 +4,6 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 import pickle
 
 
-plt.rcParams.update({"font.size": 12})  # for figures to go into latex at halfwidth
-
-
 def vol_frac(volume_data):
     """Returns array of volume fraction data from volume array"""
     return np.reciprocal(volume_data) * (16 * N * (np.pi * 0.5 ** 2))
@@ -86,9 +83,6 @@ final_values = np.zeros(
 # These are the values at equillibrium. Currently output as mean values
 
 total_loop_var = 0
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
-
 for i in range(1, len(start_lines), 2):
     # taking every other i to only get equillibrium values; each N has a thermalisation and an equillibrium run
     j = int(
@@ -103,6 +97,12 @@ for i in range(1, len(start_lines), 2):
     )
 
     total_loop_var += loop_var_values[j]
+    plt.plot(
+        data["Step"] - np.min(data["Step"]),  # so time starts from zero
+        # data["Press"],
+        uniform_filter1d(data["Press"], size=int(5e2)),  # rolling average
+        label=loop_var_name + "= " + str(int(total_loop_var)),
+    )
 
     end_index = int(len(data["Press"]))
     start_index = int(0.9 * end_index)
@@ -113,15 +113,6 @@ for i in range(1, len(start_lines), 2):
     final_values[2, j] = np.mean(data["PotEng"][start_index:end_index])
     final_values[3, j] = np.mean(data["Volume"][start_index:end_index])
 
-    vol_frac_value = vol_frac(final_values[3, j])
-
-    plt.plot(
-        data["Step"] - np.min(data["Step"]),  # so time starts from zero
-        # data["Press"],
-        uniform_filter1d(data["Press"], size=int(5e2)),  # rolling average
-        label=r"$\phi = $" + "{:.2f}".format(vol_frac_value),
-    )
-
 
 vol_frac_data = vol_frac(final_values[3, :])
 print("Volume Fractions: " + str(vol_frac_data))
@@ -129,16 +120,11 @@ pickle.dump(vol_frac_data, open("volume_fractions.p", "wb"))
 
 print(data.dtype.names)
 
-plt.xlabel("Time (Arbitrary Units)")
+plt.xlabel("Time Step")
 plt.ylabel("Pressure (Natural Units)")
-# plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
-# plt.legend(
-#     loc=6, bbox_to_anchor=(0.75, 0.8), labelspacing=-2.5,
-# )
-handles, labels = ax.get_legend_handles_labels()
-ax.legend(handles[::-1], labels[::-1], loc="best")
-plt.tight_layout()
-plt.savefig("pressureplot_frac.eps")
+plt.title("Evolution of Thermodynamic Variables at different " + loop_var_name)
+plt.legend()
+plt.savefig("pressureplot_frac.png")
 plt.show()
 
 plt.plot(
