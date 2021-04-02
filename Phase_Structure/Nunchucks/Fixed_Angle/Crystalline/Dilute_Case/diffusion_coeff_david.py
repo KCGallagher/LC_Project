@@ -317,17 +317,17 @@ fig.legend(loc="center right")
 plt.savefig("sqd_displacement_runwise.png")
 plt.show()
 
-plt.plot(
+plt.semilogx(
     sampled_vol_frac,
     sampled_D_values,
     "+",
     color="Orange",
     label=r"Measured $D$ (Sampling)",
 )
-plt.plot(
+plt.semilogx(
     sampled_vol_frac, regression_D_values, "rx", label=r"Measured $D$ (Regression)"
 )
-plt.plot(
+plt.semilogx(
     sampled_vol_frac,
     regression_D0_values,
     "bx",
