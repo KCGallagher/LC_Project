@@ -41,7 +41,8 @@
 
 \section{Introduction}
 What are we studying? (brief) - introduce nunchuck particles (but not implementation)
-Why are we interested? Applications of this!
+Why are we interested? Applications of this! 
+-Highlight motivations both in applications but also expanding knowledge of understudied area
 % intro to entropically driven transitions
 
 Outline of report
@@ -90,10 +91,10 @@ As introduced in Section \ref{sec:PrevWork}, all molecular dynamics simulations 
 
 %Can expand on this if needs be, from rapaport
 
-\subsection{Simulation Molecules}
+\subsection{Simulation Molecules} \label{sec:SimMolecules}
 As introduced in Section \textbf{X}, we are considering `nunchuck' molecules formed of two rigid rods connected by a flexible linker, as depicted in Figure \ref{fig:nunchuck_analogy}. However, as the interaction potential of an anisotropic particle is rather complex, it is computationally simpler to consider each molecule as a system of connected spheres, each with a separate isotropic interaction potential (detailed further in Section \ref{pair_potential}).
 
-This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods of aspect ratio 7. The ss-DNA is represented by a further sphere in the centre of the molecule, coloured differently in red to highlight its differing mechanical properties. It has a modified bond angle, so the molecule is bent around this element, and reduced bond rigidity so the particle may also stretch about this point. 
+This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid arms of aspect ratio 7. The ss-DNA is represented by a further sphere in the centre of the molecule, coloured differently in red to highlight its differing mechanical properties. It has a modified bond angle, so the molecule is bent around this element, and reduced bond rigidity so the particle may also stretch about this point. We also consider a simplified system of rigid rods with no modifications on the central atom, to verify the analysis methods against known results.
 
 \begin{figure}[ht]
 	\hfill  %NOT SURE ABOUT THIS!
@@ -115,7 +116,7 @@ This is visualised in Figure \ref{fig:nunchuck_implementation}, for rigid rods o
 	\hfill
 \end{figure}
 
-A system of natural units was used in simulations, and replicated in tour results here. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are both set to unity. The simulation timescale is then fixed by the choice of these values, and the mass of the simulation body. 
+A system of natural units was used in simulations, and replicated in our results here. Based on the Lennard-Jones potential, the cut-off length and characteristic energy are both set to unity. The simulation timescale is then fixed by the choice of these values, and the mass of the simulation body. 
 
 The physical values for a system may be considered for a specific system (in this case strands of ds-DNA) through scaling via the relevant mass, length scale and energy scale of this system. However the dimensionless simulations presented here may be generalised to any similarly-shaped mesogens; we would expect other systems to display the same behaviour over an appropriate timescale determined by their material properties \cite{Rapaport2004}.
 
@@ -129,7 +130,7 @@ We may also define the characteristic energy scale; this is formally the depth o
 All simulations in this report were conducted a system of 1000 particles, with a time step of $0.005\tau$, (where $\tau$ is the characteristic time), unless otherwise stated. The system was initially configured in a dilute, isotropic state; a non-trivial process for large numbers of mesogens as molecules must be placed randomly without overlap, to prevent any initial order affecting the formation of ordered phases. I am grateful to Iria Pantazi for writing a python script to automate this process for dilute rigid rod systems, and a generalised version of this is available in the supplementary material. Alternatively, simulations were also initiated from a perfectly ordered square crystalline phase, with all molecules aligned along a common axis. The choice of this axis is arbitrary, as the system is invariant under global rotation \cite{Nos1983}, but is taken to be directed along the y-axis for clarity. Care was taken to ensure molecules did not overlap, and the system was stable in this ordered phase.
 %MAYBE INCLUDE CODE IN SUPP MATERIAL?? THINK ABOUT THIS!
 
-All simulations are conducted within an oblong box defined by the Cartesian axes, with periodic boundary conditions used to eliminate surface effects and replicate conditions in the bulk phase \cite{Frenkel2002}. The aspect ratio of this box may be varied, to support phase formation in anisotropic systems, as discussed in Section \textbf{X}. An isenthalpic ensemble was used (where pressure is fixed) to vary the size of the simulation region, allowing sampling of different volume fractions from the same initial configuration. The  microcanonical ensemble, where both the system volume and energy are conserved, was then used to allow the system to reach thermodynamic equilibrium. Time integration was evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}, typically with a damping time of $\tau$.
+All simulations are conducted within an oblong box defined by the Cartesian axes, with periodic boundary conditions used to eliminate surface effects and replicate conditions in the bulk phase \cite{Frenkel2002}. The aspect ratio of this box may be varied, to support phase formation in anisotropic systems, as discussed in Section \textbf{X}. An isenthalpic ensemble was used (where pressure is fixed) to vary the size of the simulation region (either contracting or expanding), allowing sampling of different volume fractions from the same initial configuration. The microcanonical ensemble, where both the system volume and energy are conserved, was then used to allow the system to reach thermodynamic equilibrium. Time integration was evaluated using the Nose-Hoover thermostat \cite{Nos1984, Hoover1985} natively implemented in LAMMPS \cite{Shinoda2004}, typically with a damping time of $\tau$.
 
 A typical simulation consists of multiple stages, alternating between these two ensembles to sample the system properties at a range of volume fractions. Approximately \num{2e4} steps are simulated when varying the simulation volume (depending on the resolution of volume fraction sampling), followed by \num{2e6} to allow the system to reach equilibrium in each stage. The output of thermodynamic variables, as well as particle positions, at the end of each stage allows for subsequent calculation of the order parameter at equilibrium. This data was also retrieved at regular intervals during each simulation stage, to track the time evolution of the system.
 
@@ -149,10 +150,8 @@ U_{ij} = 4\epsilon \left[ \left( \frac{\sigma}{r_{ij}} \right) ^{12} - \left( \f
 
 Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the system, formally corresponding to the particle separation at which the $U_{ij} = 0$, and the depth of the potential well. It is worth noting that the effects of this truncation and shift on the overall thermodynamic quantities are well documented \cite{Stephan2020, Shaul2010}, and changes in lyotropic properties are negligible in 3D bulk liquids with a conserved particle number \cite{Smit1991}. 
 
-
  
 \subsection{Analysis}
-
 The visualisation freeware Ovito \cite{Ovito} has been employed to animate the molecule motion over the simulation period, and was used to generate all molecular images presented here. Thermodynamic variables, such as internal energy and pressure, were extracted to track the system's progress towards equilibrium, and verify its stability.
 
 The volume fraction and nematic order parameter were computed for comparison with Onsager's theorem, as detailed in Section \ref{sec:OnsagerTheory}. Calculation of the order parameter is complicated by the absence of an imposed director (ie if no electric field is applied), and we use the approach taken by Eppenga and Frenkel \cite{Eppenga1984} which is reproduced in Appendix \ref{sec:OrderParamCalc}. %or dussi 2018 or many others
@@ -166,10 +165,13 @@ Further analysis included the calculation of the smectic order parameter, and pa
 %Detail nematic phase transition (longrun4) and validation through onsager theory
 %Extend this with the longer rods which continue to confirm this theory
 
+
 Initially, a system of rigid rods was used to verify the analysis methods applied in this report, in comparison with the predictions made by Onsager's theory in Section \ref{sec:OnsagerTheory}. We focus specifically on the phase transition between the isotropic and nematic phases, as this system is well studied, and these predictions have been separately verified computationally through both Monte Carlo \cite{Frenkel1984, Lee1987} and molecular dynamics simulations \cite{Allen1987, Camp1996}.
 %not experimentally; long range maier-snape is better here https://pubs.acs.org/doi/pdf/10.1021/j100303a008
 
-For rigid rods with an aspect ratio $L/D = 10$, Onsager theory predicts a lyotropic phase transition will occur, with a critical volume fraction of $\phi  = 0.4$. We consider a system of 1000 rigid rods, formed of 10 sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
+\subsection{Contracting Simulations}
+
+For rigid rods with an aspect ratio $L/D = 10$, Onsager theory predicts a lyotropic phase transition will occur, with a critical volume fraction of $\phi  = 0.4$. We consider a system of \num{1000} rigid rods, formed of \num{10} sequentially connected `balls' (force-centres), and apply alternating stages of contraction (where the volume fraction is increased) and equilibration (where the volume is held constant). Each contraction stage consists of between \num{1e4} and \num{5e4} steps (chosen to identify the critical volume fraction with maximal resolution, while verifying the order parameter is approximately constant outside of this), while the equilibration stage runs for \num{2e6} steps. In this way we are able to confine the possible critical volume fraction to the range $0.39 < \phi< 0.44$, as observed in Figure \ref{fig:rr_nemorderparam}, in good agreement with Onsager's prediction of $\phi = 0.4$.
 
 \begin{figure} [h!]
 	\centering
@@ -189,36 +191,57 @@ This analysis was then repeated with longer rods, having an aspect ratio of \num
 
 
 
-\subsection{Crystalline Configuration}
+\subsection{Expanding Simulations}
 %Explain motivation for running simulation in reverse
 %Validate location of nematic phase transition
-Introduce additional smectic phase transition (is there literature on the predicted volume fraction here?)
-This last point may be supported by recent plots fortuitously gained when looking into diffusion.
-explain uncertainty on nature of nematic-> smectic transition
+%Introduce additional smectic phase transition (is there literature on the predicted volume fraction here?)
+%explain uncertainty on nature of nematic-> smectic transition
 
 We may also consider phase behaviour upon expansion from an perfectly ordered state, in hope of observing the same phase behaviour `in reverse'. This has two advantages; it allows us to access higher volume fractions that are not easily accessible through molecular dynamics simulations (of a reasonable duration), and also provides verification of the phase transitions previously observed. Ensuring a novel phase is in true equilibrium has long been the bane of liquid crystal simulators, however non-equilibrium effects will manifest themselves in hysteresis of the phase transition (variation in the critical volume fraction dependant on the direction of the transition), and so can be easily identified through this method.
 
-Initially, the particle force centres are configured in a simple cubic crystalline lattice. Again equilibration stages under the microcanonical ensemble (with constant volume) are ran in alternation with an isenthalpic ensemble, however the target pressure for the Nose-Hoover thermostat is now reduced below the system pressure so that expansion occurs in these isenthalpic stages. The length of these stages is unchanged from Section \ref{sec:RigidRodSims}, however the damping of the thermostat is increased to $100\tau$ to ensure stability of the expansion.
+Initially, the particle force centres are configured in a simple cubic crystalline lattice. Again equilibration stages under the microcanonical ensemble (with constant volume) are ran in alternation with an isenthalpic ensemble, however the target pressure for the Nose-Hoover thermostat is now reduced below the system pressure so that expansion occurs in these isenthalpic stages. The length of these stages is unchanged from Section \ref{sec:RigidRodSims}, however the thermostat damping is increased to $100\tau$ to ensure stability of the expansion.
 
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=0.7\linewidth]{Figures/rigidrod_cryorderparam}
-	\caption{The evolution of the volume fraction ($\phi$) against both the nematic ($S_{n}$) and smectic ($S_{s}$) order parameters over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10 initiated in a crystalline phase. A continuous smectic\textendash nematic phase transition is observed (in green) at high volume fractions, followed by a discrete nematic\textendash isotropic transition (in blue), occurring after the volume fraction is decreased below $0.4$.}
+	\caption{The evolution of the volume fraction ($\phi$) against both the nematic ($S_{n}$) and smectic ($S_{s}$) order parameters over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10 initiated in a crystalline phase. A continuous smectic\textendash nematic phase transition is observed (in green) at high volume fractions, followed by a discrete nematic\textendash isotropic transition (in blue), occurring after the volume fraction is decreased below $0.4$. Note that there are multiple steps in the smectic order parameter, indicating this transition occurs over a range of volume fractions.}
 	\label{fig:rr_crystalorder}
 \end{figure} %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Rigid_Rods2\Crystalline\Full_Transition
 
-The isotropic phase formation was observed in the region $0.38 < \phi< 0.41$, in good agreement with the results of Section \ref{sec:RigidRodSims}, and confirming this is indeed an equilibrium phase transition. The higher volume fractions we were able to access here also illumate other phase transitions
+
+The isotropic phase formation was observed in the region $0.38 < \phi< 0.41$, in good agreement with the results of Section \ref{sec:RigidRodSims}, and confirming this is indeed an equilibrium phase transition. 
+
+The higher volume fractions accessed at the start of the simulation also give rise to another phase transition; forming this nematic phase from the initial ordered phase. While the system was configured in a crystalline phase, it quickly relaxes into an smectic-like phase with the one-dimensional long-range positional order. The subsequent smectic\textendash nematic transition is then observed in Figure \ref{fig:rr_crystalorder}, with a reduction in the smectic order parameter around $\phi  = 0.6$. This transition is clearly concentration-dependant (with discrete jumps in the order parameter when the volume fraction is reduced), however it occurs over a range of volume fractions and so is likely a continuous phase transition. While our evidence here is not conclusive, this is still a matter of active research and beyond the scope of this report. Theoretical \cite{Wen1987}, computational \cite{Frenkel1988, McGrother1996}, and experimental \cite{Dogic1997, Doane1972} evidence however suggests that this transition is expected to be continuous (or at most weakly first-order) for rigid rods of extended aspect ratios, and occur around this volume fraction. 
+%Frenkels results also find no dependance on aspect ratio (for crit volume frac)
+%Later suggested that this transition is only continuous at large aspect ratios, and first order for ratios much smaller than are used here.
+%Dogic suggests continuous for rigid particles, but first order if flexible, Doane uses hydrocarbon chains to come to the same conclusions
 
 \section{Nunchuck Simulations}
+Further simulations applied the same approaches to the nunchuck molecules introduced in Section \ref{sec:SimMolecules}. These could be configured in two ways; either with a fixed angle between the two rigid arms, or a fixed rigidity (which determines the angular potential between the two arms, and hence the distribution of angles observed). Previous work by Jiaming Yu using OxDNA \cite{OxDNA} has suggested that the fixed rigidity model provides an accurate coarse-grained model of the nunchucks; however the fixed angle approach is also used for simplicity, and because it appears more amenable to ordered phase formation.
+
 Explain two approaches taken here; fixed angle and fixed rigidity
 describe the challenges in phase identification here, with references if possible
 
+
+\subsection{Fixed Rigidity}
+
+\subsection{Fixed Angle}
 
 describe quasi-nematic phase seen in both cases
 include picture of herringbone-like structure with fixed angle
 include angle distribution for fixed rigidity
 
 \subsection{Orientational Order Parameter}
+The suggestion of novel phases in these systems first requires alternative methods to characterise the order of the system; this are typically motivated by the class of symmetry expected here. Given that our system appears to display a degree of orientational order, a length-dependant orientational order parameter is introduced to verify this order is indeed long-ranged (and not simply due to short range steric effects). This also allows the identification of any periodic aspects to the system, as the bend in the nunchucks might be expected to result in the formation of a twisted nematic phase; these would be observed as oscillatory components in the order parameter.
+
+We consider a pair-wise correlation function, where $g(r)$ gives the correlation between the orientation of two particles separated by a distance $r$. 
+
+\textit{equation}
+
+This method is fundamentally limited by the use of a single vector along the molecular axis to define the orientation of the molecule; two vectors (such as along each arm) are required to uniquely specify the orientation of a single molecule. Using the molecule axis alone only accounts for quasi-nematic order; any biaxial or herringbone substructure must be accounted for differently. We therefore also consider orientational correlation functions for the vectors along the bisector of each molecule, and normal to the plane of the nunchuck.
+
+
+
 introduce new method to characterise this
 detail spherical harmonics approach to calculation in the appendix?
 
@@ -305,7 +328,7 @@ Instead, as detailed by Frenkel et al. \cite{Frenkel1985}, we maximise the expre
 S^{\prime}_{n}(\boldsymbol{\hat{n}^{\prime}}) = \frac{1}{N} \left[ \sum_{i=1}^{N} \left( \frac{3}{2} (\boldsymbol{\hat{n}^{\prime}} \cdot \boldsymbol{\hat{u}_{i}})^{2}-\frac{1}{2} \right) \right]
 \end{equation}
 
-where $\hat{u_{i}}$ denotes the orientation of the individual molecular axes in the laboratory frame, and $(\boldsymbol{\hat{n}^{\prime}})$ is the direction of common alignment - known as the director. In the absence of an electric field, the direction of this is arbitrary, and determined in practice by infinitesimal perturbations to the system though spontaneous symmetry breaking \cite{Forster2018}. (\ref{eq:FrenkelNemOrder}) may be further simplified to:
+where $\hat{u_{i}}$ denotes the orientation of the individual molecular axes in the laboratory frame, and $(\boldsymbol{\hat{n}^{\prime}})$ is the direction of common alignment, known as the director. In the absence of an electric field, the direction of this is arbitrary, and determined in practice by infinitesimal perturbations to the system though spontaneous symmetry breaking \cite{Forster2018}. (\ref{eq:FrenkelNemOrder}) may be further simplified to:
 
 \begin{equation}
 S^{\prime}_{n} = \frac{1}{N} \left\langle \boldsymbol{\hat{n}^{\prime}} \cdot \textbf{Q} \cdot \boldsymbol{\hat{n}^{\prime}}  \right\rangle, \qquad where \enspace \textbf{Q}_{i} = \frac{3}{2} \boldsymbol{\hat{u}_{i}}\boldsymbol{\hat{u}_{i}}-\frac{1}{2}\textbf{I}

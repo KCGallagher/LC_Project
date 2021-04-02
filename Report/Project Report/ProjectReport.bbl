@@ -1419,6 +1419,7 @@
       \strng{authorbibnamehash}{fb959b23dba0accef1fd73964283e162}
       \strng{authornamehash}{3720e7f3b511d19f570530bdb7490959}
       \strng{authorfullhash}{fb959b23dba0accef1fd73964283e162}
+      \field{extraname}{1}
       \field{sortinit}{2}
       \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
@@ -1583,6 +1584,253 @@
       \verb https://doi.org/10.1063/1.472146
       \endverb
     \endentry
+    \entry{Wen1987}{article}{}
+      \name{author}{2}{}{%
+        {{hash=9494e496566b0e2237ecf0c82781bae2}{%
+           family={Wen},
+           familyi={W\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=6c36e15b5fdb9fc3b88619fbad44e43b}{%
+           family={Meyer},
+           familyi={M\bibinitperiod},
+           given={Robert\bibnamedelima B.},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \strng{fullhash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \strng{bibnamehash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \strng{authorbibnamehash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \strng{authornamehash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \strng{authorfullhash}{2ee5f90c53b0e89db53a41d74aa5e1e6}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{9}
+      \field{number}{12}
+      \field{title}{Model for smectic-{A} ordering of parallel hard rods}
+      \field{volume}{59}
+      \field{year}{1987}
+      \field{pages}{1325\bibrangedash 1328}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1103/physrevlett.59.1325
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physrevlett.59.1325
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physrevlett.59.1325
+      \endverb
+    \endentry
+    \entry{Frenkel1988}{article}{}
+      \name{author}{3}{}{%
+        {{hash=25cac8153fb1c77a337df1e6ec985e30}{%
+           family={Frenkel},
+           familyi={F\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=61376550c1e1c91b331c0e2f65aa9afd}{%
+           family={Lekkerkerker},
+           familyi={L\bibinitperiod},
+           given={H.\bibnamedelimi N.\bibnamedelimi W.},
+           giveni={H\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=346d2d1876c5378a3666070167a27d3a}{%
+           family={Stroobants},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media {LLC}}%
+      }
+      \strng{namehash}{3720e7f3b511d19f570530bdb7490959}
+      \strng{fullhash}{3d424027213fe4925df5e04fac77be25}
+      \strng{bibnamehash}{3d424027213fe4925df5e04fac77be25}
+      \strng{authorbibnamehash}{3d424027213fe4925df5e04fac77be25}
+      \strng{authornamehash}{3720e7f3b511d19f570530bdb7490959}
+      \strng{authorfullhash}{3d424027213fe4925df5e04fac77be25}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{month}{4}
+      \field{number}{6167}
+      \field{title}{Thermodynamic stability of a smectic phase in a system of hard rods}
+      \field{volume}{332}
+      \field{year}{1988}
+      \field{pages}{822\bibrangedash 823}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1038/332822a0
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1038/332822a0
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1038/332822a0
+      \endverb
+    \endentry
+    \entry{McGrother1996}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b2e1f1366c346a653fe05530c3b174a7}{%
+           family={McGrother},
+           familyi={M\bibinitperiod},
+           given={Simon\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=da0a3a6f5b87a86c0f3e53fed348de09}{%
+           family={Williamson},
+           familyi={W\bibinitperiod},
+           given={Dave\bibnamedelima C.},
+           giveni={D\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=d12dfc62696df7cb2c5fd509f120451c}{%
+           family={Jackson},
+           familyi={J\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {{AIP} Publishing}%
+      }
+      \strng{namehash}{dc723e86c84f094d8494d8217900dd69}
+      \strng{fullhash}{359f59b2a88d704da6060f3163c76927}
+      \strng{bibnamehash}{359f59b2a88d704da6060f3163c76927}
+      \strng{authorbibnamehash}{359f59b2a88d704da6060f3163c76927}
+      \strng{authornamehash}{dc723e86c84f094d8494d8217900dd69}
+      \strng{authorfullhash}{359f59b2a88d704da6060f3163c76927}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Chemical Physics}
+      \field{month}{5}
+      \field{number}{17}
+      \field{title}{A re-examination of the phase diagram of hard spherocylinders}
+      \field{volume}{104}
+      \field{year}{1996}
+      \field{pages}{6755\bibrangedash 6771}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1063/1.471343
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1063/1.471343
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1063/1.471343
+      \endverb
+    \endentry
+    \entry{Dogic1997}{article}{}
+      \name{author}{2}{}{%
+        {{hash=1befc709815b5a5fa99ac28715ce6e62}{%
+           family={Dogic},
+           familyi={D\bibinitperiod},
+           given={Zvonimir},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3e4d2c019de74d31139416774312092b}{%
+           family={Fraden},
+           familyi={F\bibinitperiod},
+           given={Seth},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \strng{fullhash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \strng{bibnamehash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \strng{authorbibnamehash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \strng{authornamehash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \strng{authorfullhash}{e6b85d1ea0e268cbd303b5bb8d178dc5}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{3}
+      \field{number}{12}
+      \field{title}{Smectic Phase in a Colloidal Suspension of Semiflexible Virus Particles}
+      \field{volume}{78}
+      \field{year}{1997}
+      \field{pages}{2417\bibrangedash 2420}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1103/physrevlett.78.2417
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physrevlett.78.2417
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physrevlett.78.2417
+      \endverb
+    \endentry
+    \entry{Doane1972}{article}{}
+      \name{author}{5}{}{%
+        {{hash=8d5da4771a664eed0a487f128a12a0a6}{%
+           family={Doane},
+           familyi={D\bibinitperiod},
+           given={J.\bibnamedelimi W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=5947a85d6f8f25983552fd6af7695e88}{%
+           family={Parker},
+           familyi={P\bibinitperiod},
+           given={R.\bibnamedelimi S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=2261a91f143e7b4c2cd926c2c8419013}{%
+           family={Cvikl},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0e08bac8bf467ca2d9b0e1058eeca225}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={D.\bibnamedelimi L.},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=135e3d0250d11b1a50d75f42bc75f536}{%
+           family={Fishel},
+           familyi={F\bibinitperiod},
+           given={D.\bibnamedelimi L.},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society ({APS})}%
+      }
+      \strng{namehash}{0db9ca5ccb09ac9fe8956fbb74716cef}
+      \strng{fullhash}{83db45b094f8d57d0c598248a1435388}
+      \strng{bibnamehash}{83db45b094f8d57d0c598248a1435388}
+      \strng{authorbibnamehash}{83db45b094f8d57d0c598248a1435388}
+      \strng{authornamehash}{0db9ca5ccb09ac9fe8956fbb74716cef}
+      \strng{authorfullhash}{83db45b094f8d57d0c598248a1435388}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Physical Review Letters}
+      \field{month}{6}
+      \field{number}{26}
+      \field{title}{Possible Second-Order Nematic—Smectic-{APhase} Transition}
+      \field{volume}{28}
+      \field{year}{1972}
+      \field{pages}{1694\bibrangedash 1696}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1103/physrevlett.28.1694
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1103/physrevlett.28.1694
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1103/physrevlett.28.1694
+      \endverb
+    \endentry
     \entry{Doi1988}{book}{}
       \name{author}{2}{}{%
         {{hash=41738b8af396858bb4a342832d263a78}{%
@@ -1605,8 +1853,8 @@
       \strng{authorbibnamehash}{b1b36cbd8c7c32b6d991251a2693dce7}
       \strng{authornamehash}{b1b36cbd8c7c32b6d991251a2693dce7}
       \strng{authorfullhash}{b1b36cbd8c7c32b6d991251a2693dce7}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{chapter}{10}
@@ -1645,8 +1893,8 @@
       \strng{authorbibnamehash}{c631f451cd39704c7f7fe0f73ee1bae3}
       \strng{authornamehash}{c631f451cd39704c7f7fe0f73ee1bae3}
       \strng{authorfullhash}{c631f451cd39704c7f7fe0f73ee1bae3}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{The Journal of Physical Chemistry}
@@ -1972,8 +2220,8 @@
       \strng{authorbibnamehash}{825ef58c5d8b5961ce11743daf56cf4c}
       \strng{authornamehash}{825ef58c5d8b5961ce11743daf56cf4c}
       \strng{authorfullhash}{825ef58c5d8b5961ce11743daf56cf4c}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Physica A: Statistical Mechanics and its Applications}

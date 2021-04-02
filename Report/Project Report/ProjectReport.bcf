@@ -2221,18 +2221,23 @@
     <bcf:citekey order="26">Lee1987</bcf:citekey>
     <bcf:citekey order="27">Allen1987</bcf:citekey>
     <bcf:citekey order="27">Camp1996</bcf:citekey>
-    <bcf:citekey order="28">Doi1988</bcf:citekey>
-    <bcf:citekey order="29">Odijk1985</bcf:citekey>
-    <bcf:citekey order="30">Maier1959</bcf:citekey>
-    <bcf:citekey order="31">Zannoni1979b</bcf:citekey>
-    <bcf:citekey order="32">Eppenga1984</bcf:citekey>
-    <bcf:citekey order="32">Frenkel1982</bcf:citekey>
-    <bcf:citekey order="33">Zannoni1979</bcf:citekey>
-    <bcf:citekey order="34">Parsons1979</bcf:citekey>
-    <bcf:citekey order="35">Frenkel1985</bcf:citekey>
-    <bcf:citekey order="36">Forster2018</bcf:citekey>
-    <bcf:citekey order="37">Eppenga1984</bcf:citekey>
-    <bcf:citekey order="38">Mountain1977</bcf:citekey>
+    <bcf:citekey order="28">Wen1987</bcf:citekey>
+    <bcf:citekey order="29">Frenkel1988</bcf:citekey>
+    <bcf:citekey order="29">McGrother1996</bcf:citekey>
+    <bcf:citekey order="30">Dogic1997</bcf:citekey>
+    <bcf:citekey order="30">Doane1972</bcf:citekey>
+    <bcf:citekey order="31">Doi1988</bcf:citekey>
+    <bcf:citekey order="32">Odijk1985</bcf:citekey>
+    <bcf:citekey order="33">Maier1959</bcf:citekey>
+    <bcf:citekey order="34">Zannoni1979b</bcf:citekey>
+    <bcf:citekey order="35">Eppenga1984</bcf:citekey>
+    <bcf:citekey order="35">Frenkel1982</bcf:citekey>
+    <bcf:citekey order="36">Zannoni1979</bcf:citekey>
+    <bcf:citekey order="37">Parsons1979</bcf:citekey>
+    <bcf:citekey order="38">Frenkel1985</bcf:citekey>
+    <bcf:citekey order="39">Forster2018</bcf:citekey>
+    <bcf:citekey order="40">Eppenga1984</bcf:citekey>
+    <bcf:citekey order="41">Mountain1977</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  1 APR 2021 14:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  1 APR 2021 18:11
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1472,7 +1472,7 @@ ed-to.pdf>
 (epstopdf)                    size: 25767 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_nemorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_nemorderparam.eps>
-(epstopdf)             \includegraphics on input line 176.
+(epstopdf)             \includegraphics on input line 177.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1485,7 +1485,7 @@ File: Figures/rigidrod_nemorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_nemorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_nemorderparam-eps-converted-to.pdf  u
-sed on input line 176.
+sed on input line 177.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1499,7 +1499,7 @@ Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    size: 162006 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_pressureev
 o-eps-converted-to.pdf Figures/rigidrod_pressureevo.eps>
-(epstopdf)             \includegraphics on input line 185.
+(epstopdf)             \includegraphics on input line 186.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1512,7 +1512,7 @@ File: Figures/rigidrod_pressureevo-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Figures/rigidrod_pressureevo-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_pressureevo-eps-converted-to.pdf  use
-d on input line 185.
+d on input line 186.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1522,16 +1522,12 @@ Package epstopdf Info: Source file: <Figures/rigidrod_cryorderparam.eps>
 (epstopdf)                    size: 73775 bytes
 (epstopdf)             Output file: <Figures/rigidrod_cryorderparam-eps-convert
 ed-to.pdf>
+(epstopdf)                    date: 2021-04-01 14:50:52
+(epstopdf)                    size: 29320 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_cryorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_cryorderparam.eps>
 (epstopdf)             \includegraphics on input line 205.
-runsystem(epstopdf --outfile=Figures/rigidrod_cryorderparam-eps-converted-to.pd
-f Figures/rigidrod_cryorderparam.eps)...executed (allowed).
-
-Package epstopdf Info: Result file: <Figures/rigidrod_cryorderparam-eps-convert
-ed-to.pdf>
-(epstopdf)                    date: 2021-04-01 14:50:52
-(epstopdf)                    size: 29320 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_cryorderparam-eps-convert
@@ -1545,18 +1541,23 @@ f)
 Package pdftex.def Info: Figures/rigidrod_cryorderparam-eps-converted-to.pdf  u
 sed on input line 205.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
-[5]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[6 <./Figures/rigidrod_nemorderparam-eps-converted-to.pdf> <./Figures/rigidrod_
-pressureevo-eps-converted-to.pdf>] [7 <./Figures/rigidrod_cryorderparam-eps-con
-verted-to.pdf>]
+[5] [6 <./Figures/rigidrod_nemorderparam-eps-converted-to.pdf> <./Figures/rigid
+rod_pressureevo-eps-converted-to.pdf>] [7 <./Figures/rigidrod_cryorderparam-eps
+-converted-to.pdf>]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [8] [9] [10] [11] 
+ [8] [9]
+Overfull \hbox (12.1842pt too wide) in paragraph at lines 254--254
+[]\T1/XCharter-TLF/m/n/10.95 (-20) J. W. Doane, R. S. Parker, B. Cvikl, D. L. J
+ohn-son, and D. L. Fishel,   Pos-si-ble second-order nematicsmectic-
+ []
+
+[10] [11] 
 AED: lastpage setting LastPage
 [12] (ProjectReport.aux)
 Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
@@ -1564,13 +1565,13 @@ Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 20782 strings out of 481565
- 397347 string characters out of 2914627
- 1058747 words of memory out of 3000000
- 35457 multiletter control sequences out of 15000+200000
- 702477 words of font info for 238 fonts, out of 3000000 for 9000
+ 20804 strings out of 481565
+ 398087 string characters out of 2914627
+ 1058995 words of memory out of 3000000
+ 35467 multiletter control sequences out of 15000+200000
+ 703843 words of font info for 246 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,12n,77p,1148b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,12n,77p,1242b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
 ctt1000.pk> <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
 /dpi657\tcrm1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/
@@ -1594,7 +1595,7 @@ s/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiK
 TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/KitG/AppData/Local/P
 rograms/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/L
 ocal/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport.pdf (12 pages, 768661 bytes).
+Output written on ProjectReport.pdf (12 pages, 769572 bytes).
 PDF statistics:
  275 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

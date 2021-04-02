@@ -205,7 +205,7 @@ ax2.tick_params(axis="y")
 
 fig.legend(loc=(0.48, 0.74))
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.savefig("rigidrod_cryorderparam.eps")
+plt.savefig("rigidrod_cryorderparam.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), nem_order_param_values, "bx", label="Nematic Order")
