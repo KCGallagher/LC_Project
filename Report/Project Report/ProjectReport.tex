@@ -219,17 +219,54 @@ The higher volume fractions accessed at the start of the simulation also give ri
 \section{Nunchuck Simulations}
 Further simulations applied the same approaches to the nunchuck molecules introduced in Section \ref{sec:SimMolecules}. These could be configured in two ways; either with a fixed angle between the two rigid arms, or a fixed rigidity (which determines the angular potential between the two arms, and hence the distribution of angles observed). Previous work by Jiaming Yu using OxDNA \cite{OxDNA} has suggested that the fixed rigidity model provides an accurate coarse-grained model of the nunchucks; however the fixed angle approach is also used for simplicity, and because it appears more amenable to ordered phase formation.
 
-Explain two approaches taken here; fixed angle and fixed rigidity
 describe the challenges in phase identification here, with references if possible
 
+%different phases possible https://pubs.rsc.org/en/content/articlelanding/2011/SM/c1sm05751k#!divAbstract
+%biaxial neamtics (feroomagnetic) https://pubs.acs.org/doi/pdf/10.1021/cm980631g
+%dimers with central flexible spacer https://pubs.rsc.org/en/content/articlepdf/2014/tc/c4tc00212a
 
 \subsection{Fixed Rigidity}
+%basic formation of nematic-like phase
+%change in angle distribution to generate order 
+
+Initially, the fixed rigidity case is considered, with a rigidity parameter of \num{0.1}, giving complete bond flexibility. Despite this, a nematic-like phase was formed at volume fractions $\phi > 0.4$, although with a maximal order parameter of \num{0.25} significantly below that observed previously in nematic phases, indicating that this was not truly nematic. This quasi-ordered phase can be observed in Figure \ref{fig:nun_fr_side}, where clear short range orientational order is visible, but the preferential orientation varies across the simulation region.
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{Figures/nun_fr_side}
+		\caption{Side View}
+		\label{fig:nun_fr_side}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{Figures/nun_fr_perspective}
+		\caption{Perspective View}
+		\label{fig:nun_view_perspective}
+	\end{subfigure}
+	\caption{The quasi-ordered phase formed by \num{1000} fully flexible nunchucks. Note the local regions of aligned rods, suggesting a nematic-like phase, but also the variation of the director across the sample (between these regions). The length scale of any periodicity in this variation is larger than the simulation box itself.}
+	\label{fig:nun_fr_views}
+\end{figure} %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Rigidity\stretch500_rigidity5_len15
+
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.7\linewidth]{Figures/nun_fr_angledist}
+	\caption{A kernel density estimate plot of the distribution of nunchuck opening angle (between the two rigid arms) over time (as the volume fraction is reduced), where nunchucks are completely flexible. Plotted for a system of \num{1000} particles, with the distribution sampled every \num{1e6} time steps. Note the formation of a preferential angle at late times, corresponding to the formation of an ordered phase at high volume fractions.}
+	\label{fig:nun_fr_angledist}
+\end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Rigidity 
+
+Consideration of the distribution of nunchuck bond angles (i.e. the opening angle between the two rigid arms) gives further evidence for some ordered phase formation however, with a clear preferential angle forming in Figure \ref{fig:nun_fr_angledist}. We suggest that the length scale over which this director varies is greater than the size of the simulation region, preventing use of the orientational correlation function described in Section \textbf{X} as well. Unfortunately the computational resources required to simulate larger systems was beyond the scope of this project, due to the scaling of the number of particles required to achieve the same volume fractions. However, we suggest similarly quasi-nematic structures may be observed in systems where the nunchuck opening angle is confined to a particular value, particularly if this is below the mean angle in Figure \ref{fig:nun_fr_angledist}.
+
+
+
+
 
 \subsection{Fixed Angle}
 
 describe quasi-nematic phase seen in both cases
 include picture of herringbone-like structure with fixed angle
-include angle distribution for fixed rigidity
+then go onto orientational order param
 
 \subsection{Orientational Order Parameter}
 The suggestion of novel phases in these systems first requires alternative methods to characterise the order of the system; this are typically motivated by the class of symmetry expected here. Given that our system appears to display a degree of orientational order, a length-dependant orientational order parameter is introduced to verify this order is indeed long-ranged (and not simply due to short range steric effects). This also allows the identification of any periodic aspects to the system, as the bend in the nunchucks might be expected to result in the formation of a twisted nematic phase; these would be observed as oscillatory components in the order parameter.

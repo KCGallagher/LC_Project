@@ -6,8 +6,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 50  # only samples one in X files (must be integer) #30
-plotting_freq = 1  # only plots on in X of the sampled distributions
+sampling_freq = 1  # only samples one in X files (must be integer) #30
+plotting_freq = 40  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -180,6 +180,10 @@ for i, time in enumerate(time_range):  # interate over dump files
     angle_data = angle_dist(rod_positions)
     angle_mean_values[i] = np.mean(angle_data)  # evaluate order param at time t
 
+    angle_data = np.where(
+        angle_data < 0.8, angle_data, np.nan
+    )  # remove spurious high values
+
     tot_plot_num = len(time_range) // plotting_freq
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i % plotting_freq == 0 and time != 0:
@@ -187,7 +191,7 @@ for i, time in enumerate(time_range):  # interate over dump files
         sns.kdeplot(
             angle_data,
             color=colors[i // plotting_freq - 1],
-            bw_adjust=0.5,  # adjusts smoothing (default is 1)
+            bw_adjust=0.1,  # adjusts smoothing (default is 1)
             # gridsize=50,
             alpha=1,  # adjusts transparency
         )
@@ -198,10 +202,11 @@ sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
-plt.title("Evolution of angle distribution")
-plt.xlabel(r"Mean Angle ($cos(\theta)$)")
+# plt.title("Evolution of angle distribution")
+plt.xlim([-1, 1])
+plt.xlabel(r"Nunchuck Angle ($cos(\theta)$)")
 plt.ylabel("Normalised Frequency")
-plt.savefig("angle_dist.png")
+plt.savefig("nun_fr_angledist.png")
 plt.show()
 
 plt.plot(time_range, angle_mean_values)

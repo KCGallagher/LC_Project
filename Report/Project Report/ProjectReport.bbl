@@ -1831,6 +1831,71 @@
       \verb https://doi.org/10.1103/physrevlett.28.1694
       \endverb
     \endentry
+    \entry{OxDNA}{article}{}
+      \name{author}{6}{}{%
+        {{hash=e80e3f3aba1b0dd7ee8d63ea91807b90}{%
+           family={Šulc},
+           familyi={Š\bibinitperiod},
+           given={Petr},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f5a852fbe9799861303ce27884b45c7c}{%
+           family={Romano},
+           familyi={R\bibinitperiod},
+           given={Flavio},
+           giveni={F\bibinitperiod}}}%
+        {{hash=6bd52b9cc3592d2b27196dfa3ebf91c9}{%
+           family={Ouldridge},
+           familyi={O\bibinitperiod},
+           given={Thomas\bibnamedelima E.},
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=02acb598f72a3f262c333317eb3bf70c}{%
+           family={Rovigatti},
+           familyi={R\bibinitperiod},
+           given={Lorenzo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=b128f53bd83346da70d3577f66114663}{%
+           family={Doye},
+           familyi={D\bibinitperiod},
+           given={Jonathan\bibnamedelimb P.\bibnamedelimi K.},
+           giveni={J\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=7fd638c5931b932d7cb4ad138e974a72}{%
+           family={Louis},
+           familyi={L\bibinitperiod},
+           given={Ard\bibnamedelima A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {AIP}%
+      }
+      \strng{namehash}{585d02e3d90dc4376364d8e3ffd2b375}
+      \strng{fullhash}{bb709284fe244a5fd7d566619d581060}
+      \strng{bibnamehash}{bb709284fe244a5fd7d566619d581060}
+      \strng{authorbibnamehash}{bb709284fe244a5fd7d566619d581060}
+      \strng{authornamehash}{585d02e3d90dc4376364d8e3ffd2b375}
+      \strng{authorfullhash}{bb709284fe244a5fd7d566619d581060}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{135101}
+      \field{journaltitle}{The Journal of Chemical Physics}
+      \field{number}{13}
+      \field{title}{Sequence-dependent thermodynamics of a coarse-grained {DNA} model}
+      \field{volume}{137}
+      \field{year}{2012}
+      \field{pages}{135101}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1063/1.4754132
+      \endverb
+      \verb{urlraw}
+      \verb http://link.aip.org/link/?JCP/137/135101/1
+      \endverb
+      \verb{url}
+      \verb http://link.aip.org/link/?JCP/137/135101/1
+      \endverb
+      \keyw{biology computing; DNA; melting point; molecular biophysics; molecular configurations; thermodynamics}
+    \endentry
     \entry{Doi1988}{book}{}
       \name{author}{2}{}{%
         {{hash=41738b8af396858bb4a342832d263a78}{%
@@ -2184,8 +2249,8 @@
       \strng{authorbibnamehash}{4813823a3de5d33965ac6fa74ffb92db}
       \strng{authornamehash}{4813823a3de5d33965ac6fa74ffb92db}
       \strng{authorfullhash}{4813823a3de5d33965ac6fa74ffb92db}
-      \field{sortinit}{3}
-      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{sortinit}{4}
+      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{isbn}{9780429962233}
