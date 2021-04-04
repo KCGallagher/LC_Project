@@ -89,6 +89,8 @@ total_loop_var = 0
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
 
+colors = plt.cm.viridis(np.linspace(0, 1, int((len(start_lines) + 3) / 2)))
+
 for i in range(1, len(start_lines), 2):
     # taking every other i to only get equillibrium values; each N has a thermalisation and an equillibrium run
     j = int(
@@ -120,6 +122,7 @@ for i in range(1, len(start_lines), 2):
         # data["Press"],
         uniform_filter1d(data["Press"], size=int(5e2)),  # rolling average
         label=r"$\phi = $" + "{:.2f}".format(vol_frac_value),
+        color=colors[j],
     )
 
 

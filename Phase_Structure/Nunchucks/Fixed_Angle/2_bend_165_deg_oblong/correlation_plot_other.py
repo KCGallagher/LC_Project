@@ -9,7 +9,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
 
 DIRECTOR_METHOD = "molecule"
 # Options are molecule/arm/bisector/normal
@@ -284,7 +284,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
-    colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
+    colors = plt.cm.viridis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
     plt.plot(
@@ -293,13 +293,13 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     print("T = " + str(time) + "/" + str(run_time))
 
-sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
+sm = plt.cm.ScalarMappable(cmap=cm.viridis, norm=plt.Normalize(vmin=0, vmax=run_time))
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
-plt.title("Pairwise Angular Correlation Function")
+# plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + ".png"
+image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "2.eps"
 plt.savefig(image_name)
 plt.show()
