@@ -6,8 +6,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 5  # only samples one in X files (must be integer) #30
-plotting_freq = 5  # only plots on in X of the sampled distributions
+sampling_freq = 1  # only samples one in X files (must be integer) #30
+plotting_freq = 25  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -215,7 +215,7 @@ fig, ax1 = plt.subplots()
 color = "tab:red"
 ax1.set_xlabel("Time (arbitrary units)")
 ax1.set_ylabel("CoM density variation", color=color)
-ax1.plot(CoM_mean_times, uniform_filter1d(CoM_mean_values, size=int(10)), color=color)
+ax1.plot(CoM_mean_times, CoM_mean_values, color=color)
 ax1.tick_params(axis="y", labelcolor=color)
 
 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
@@ -224,7 +224,7 @@ color = "tab:blue"
 ax2.set_ylabel(
     "Volume Fraction", color=color
 )  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.plot(time_range, vol_frac(volume_values, mol_length=15, N=N_molecules), color=color)
 ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of CoM Density")
@@ -257,10 +257,12 @@ color = "tab:blue"
 ax2.set_ylabel(
     "Volume Fraction", color=color
 )  # we already handled the x-label with ax1
-ax2.plot(time_range, vol_frac(volume_values), color=color)
+ax2.plot(time_range, vol_frac(volume_values, mol_length=15, N=N_molecules), color=color)
 ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
 plt.savefig("s_order_and_volfrac2.png")
 plt.show()
+
+print(vol_frac(volume_values, mol_length=15, N=N_molecules))

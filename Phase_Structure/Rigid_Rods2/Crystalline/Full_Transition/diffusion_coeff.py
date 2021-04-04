@@ -227,7 +227,6 @@ for i, time in enumerate(time_range):  # interate over dump files
         if indices[1] == 0:  # start of sampling period
             initial_sample = com_positions
             sampled_vol_values[indices[0]] = box_volume
-            print(box_volume)
 
             extra_displacement = np.zeros_like(com_positions)  # reset for each sample
 
@@ -242,7 +241,6 @@ for i, time in enumerate(time_range):  # interate over dump files
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
-            print(vol_frac(box_volume, mol_length, N_molecules))
 
             run_num += 1
             equilibrium_flag = False
@@ -255,31 +253,28 @@ for i, time in enumerate(time_range):  # interate over dump files
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
 
-plot_list = range(0, run_num_tot, 1)  # runs to plot
+plot_list = range(0, run_num_tot, 1)  # runs to plot (inc step if too many runs)
 
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
-print(sampled_vol_frac)
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
 for plot_index, data_index in enumerate(plot_list):
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
-    rms_disp_values[data_index, 0, 0] = rms_disp_values[data_index, 1, 0]  # remove nan
-    if np.isnan(rms_disp_values[data_index, -1, 0]):  # remove nan at end of array
-        rms_disp_values[data_index, -1, :] = rms_disp_values[data_index, -2, :]
-
+    # print(rms_disp_values[data_index, :, 0])
+    rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
     slope, intercept, r_value, p_value, std_err = linregress(
         np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
     )  # consider x axis for purpose of this
-    plot_best_fit = True
+    plot_best_fit = False
 
     print(
-        "For vol frac = " + "{:.4f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.4f}".format(slope)
+        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
+        "{:.2f}".format(slope)
     )  # can add this onto graph with plt.annotate if desired
 
     for j in range(dimension_num):
@@ -290,7 +285,7 @@ for plot_index, data_index in enumerate(plot_list):
         else:
             axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
 
-    if plot_best_fit == True:
+    if plot_best_fit:
         axs[plot_index].plot(
             eq_time_values,
             (eq_time_values ** slope) * (10 ** intercept),
@@ -298,21 +293,22 @@ for plot_index, data_index in enumerate(plot_list):
             linestyle="dashed",
         )
 
-axs[int(len(plot_list) / 2)].set_xlabel(
-    "Time (Arbitrary Units)"
-)  # use median of plot_list
-axs[0].set_ylabel("RMS displacement")
+axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
+axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise2.png")
+plt.savefig("rms_displacement_runwise_bf.png")
 plt.show()
 
+markers = ["x", "1", "+"]
 for i in range(dimension_num):
     plt.plot(
-        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
+        sampled_vol_frac, sampled_D_values[:, i], markers[i], label=axis_labels[i],
     )
-plt.ylabel("Diffusion Coefficient")
-plt.xlabel("Volume Fraction")
+plt.ylabel(r"Diffusion Coefficient ($D_{i}$)")
+plt.xlabel(r"Volume Fraction ($\phi$)")
 plt.legend()
 plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
+
+print(sampled_vol_frac)
 
