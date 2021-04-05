@@ -26,34 +26,46 @@
 %\usepackage[backend=biber,doi=false]{biblatex}
 \addbibresource{reportreferences.bib}
 %\AtBeginBibliography{\small}
+
+\usepackage{atbegshi}% http://ctan.org/pkg/atbegshi
+\AtBeginDocument{\AtBeginShipoutNext{\AtBeginShipoutDiscard}} %gets rid of spurious first page
 %----------------------------------------------------------------------------------------
 \begin{document}
 	
 %Your project should contain the following statement on the first page of the project: Except where specific reference is made to the work of others, this work is original and has not been already submitted either wholly or in part to satisfy any degree requirement at this or any other university.	A link to your on-line notebook should also be added to the first page of your report before uploading the project.
 
-\maketitle % Print the title
 
-\thispagestyle{firstpage} % Apply the page style for the first page (no headers and footers)
+\input{titlepage}
+
+% \thispagestyle{empty} % use if starting numbering after contents page
+
+\pagenumbering{arabic} %starts page numbering
+\tableofcontents %contents page
+\newpage
+
 
 %	ABSTRACT
 
-\lettrineabstract{The specificity of DNA base-pair interactions gives considerable functional control in the design of anisotropic nano-particles, enabling the formation of liquid crystal phases. This project aims to study the liquid phase behaviour of such non-conventional liquid crystal molecules, with a particular focus on the novel `nunchuck' structure - two rigid rods connected via a flexible linker. The Eiser Group have previously considered intra-molecular interaction potentials at the single-nucleotide level for a single DNA nanoparticle, and I am now implementing these potentials in larger, more coarse-grained models of multiple nanoparticles, through open-source software LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator). Such systems are expected to form smectic (layered) phases at high volume fractions. THIS WILL BE EDITED AT THE END}
+%\lettrineabstract{The specificity of DNA base-pair interactions gives considerable functional control in the design of anisotropic nano-particles, enabling the formation of liquid crystal phases. This project aims to study the liquid phase behaviour of such non-conventional liquid crystal molecules, with a particular focus on the novel `nunchuck' structure - two rigid rods connected via a flexible linker. The Eiser Group have previously considered intra-molecular interaction potentials at the single-nucleotide level for a single DNA nanoparticle, and I am now implementing these potentials in larger, more coarse-grained models of multiple nanoparticles, through open-source software LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator). Such systems are expected to form smectic (layered) phases at high volume fractions. THIS WILL BE EDITED AT THE END}
 
 %TELL A STORY THROUGHOUT! - MAKE THE ARC CLEAR
 
 \section{Introduction}
-What are we studying? (brief) - introduce nunchuck particles (but not implementation)
-Why are we interested? Applications of this! 
--Highlight motivations both in applications but also expanding knowledge of understudied area
-% intro to entropically driven transitions
 
-Outline of report
+Since Kirkwood's prediction of an entropically driven ordering transition in the freezing of hard spheres \cite{Kirkwood1954}, entropically driven phase transitions have been the subject of much attention \cite{Kerr1993,Frenkel1999}. Their relevance to colloidal systems is often underestimated, but gives rise to a range of diverse phase behaviour \cite{Adams1998, Anderson2002, Forsyth1978}. In particular, there is a wealth of (primarily experimental) studies of `bent-core' liquid crystals - rigid rods with a central bend \cite{Takezoe2006, Etxebarria2008, Yang2018}.
 
-\section{Background}
+These molecules have primarily been used for their polarity however; here we consider a bent-core system with no polarity and truly entropically driven phase transitions. We conduct molecular dynamics simulations on a course-grained model to study such transitions in a system of ‘nunchucks’, molecules consisting of two rigid rods of double stranded (ds-) DNA, connected via a flexible linker of single stranded (ss-) DNA. This linker allows the configuration to vary from fully stretched to folded. 
+
+DNA is chosen due to its notable ability to be tuned/manufactured accurately and reproducibly on the nanoscale. The techniques in phase simulation developed here are relevant to more complex DNA structures, such as in the development of liquid crystal behaviour in DNA origami \cite{Cha2015,Wang2018}, or in entropy driven nano-structure self-assembly \cite{Barry2010, Lin2000}.
+
+In Section \ref{sec:Background} we outline the theory behind liquid crystals and phase transitions, before describing the previous experimental and simulation work in this area. Section \ref{sec:Methods} details the computational approach taken, in both simulation and analysis, as well as outlining the coarse-grained model used. We then benchmark the techniques used against known results for a system of rigid rods in Section \ref{sec:RigidRodSims}, outlining simulations from both dilute and crystalline initial configurations (with subsequent contraction or expansion respectively). These approaches are then applied to the nunchuck system in Section \ref{sec:Nunchuck_Sim}, with two separate coarse-grained representations of the central bend in the nunchuck molecules (fixed angle or fixed bond rigidity). Finally, we also consider a novel approach to phase characterisation though dynamic properties in Section \ref{sec:Dynamics}, using the anisotropy of the coordinate diffusion coefficients to identify the onset of order in dynamic simulations.
+
+
+\section{Background} \label{sec:Background}
 \subsection{Liquid Crystals}
 %Include known phases etc - de gennes textbook gives useful milestone references 
 
-First identified as an intermediary phase between solids and liquids in 1888 by Friedrich Reinitzer \cite{Reinitzer1888}, the fundamental classes of liquid crystals were characterised in the following decades by Georges Friedel (among others) \cite{Friedel1922}. Research into the applications of liquid crystals only became widespread in the 1960s however, initiated by the seminal research of George William Gray \cite{Gray1962}, and culminating Heilmeier's development of the first liquid crystal display \cite{Heilmeier1969, Heilmeier1968}. Later, in 1991, Pierre-Gilles de Gennes  received the Nobel Prize in physics ``\textit{for discovering that methods developed for studying order phenomena in simple systems can be generalized to more complex forms of matter, in particular to liquid crystals and polymers}'' \cite{deGennes1992}.
+First identified as an intermediary phase between solids and liquids in 1888 by Friedrich Reinitzer \cite{Reinitzer1888}, the fundamental classes of liquid crystals were characterised in the following decades by Georges Friedel (among others) \cite{Friedel1922}. Research into the applications of liquid crystals only became widespread in the 1960s however, initiated by the seminal research of George William Gray \cite{Gray1962}, and culminating Heilmeier's development of the first liquid crystal display \cite{Heilmeier1969, Heilmeier1968}. Later, in 1991, Pierre-Gilles de Gennes  received the Nobel Prize in physics ``\textit{for discovering that methods developed for studying order phenomena in simple systems can be generalized to more complex forms of matter, in particular to liquid crystals and polymers}'' \cite{DeGennes1992}.
 
 In the most general sense, liquid crystals are states of matter displaying properties between those of conventional liquids and solid crystals. For this reason, they are also known as mesomorphic phases, with individual molecules being referred to as mesogens, and these terms will be used interchangeably through this report. While solid crystals display long range periodic order in three dimensions (and isotropic liquids in none), liquid crystals have a degree of long range order in some (but not all) spatial dimensions. There are three fundamental classes \cite{DeGennes1993}, visualised in Figure \ref{fig:lcphasescropped}.
 
@@ -102,7 +114,7 @@ The degree of order in a liquid crystal phase is characterised by an order param
 S_{n} = \left\langle P_{2}(\cos(\theta)) \right\rangle = \left\langle \frac{3}{2}\cos^{2}(\theta) - \frac{1}{2} \right\rangle 
 \end{equation}
 
-where $P_{2}$ simply denotes the second Legendre polynomial \cite{deGennes1993}. While $\langle \cos^{2}(\theta) \rangle$ would function alone as the order parameter, this has the useful property of giving unity for a perfectly aligned system, and zero for a completely random system. Further motivation for this choice is provided in Appendix \ref{sec:OrderParamTheory}.
+where $P_{2}$ simply denotes the second Legendre polynomial \cite{DeGennes1993}. While $\langle \cos^{2}(\theta) \rangle$ would function alone as the order parameter, this has the useful property of giving unity for a perfectly aligned system, and zero for a completely random system. Further motivation for this choice is provided in Appendix \ref{sec:OrderParamTheory}.
 
 %add description of pair-wise orientational order coeff
 
@@ -134,7 +146,7 @@ Such models have been applied specifically to DNA nunchucks by Salamonczyk et al
 
 My work is based on a coarse-grained model developed by Xing et al. \cite{Xing2019} to consider Y-shaped nanoparticles constructed from DNA, and utilises LAMMPS \cite{LAMMPS} software to model dense systems of these nunchuck nano-particles. This approach applies the increased resolution of the single nucleotide OxDNA model to larger systems of many such molecules, to provide a better predictor of this system's experimental phase behaviour.
 
-\section{Methods}
+\section{Methods} \label{sec:Methods}
 As introduced in Section \ref{sec:PrevWork}, all molecular dynamics simulations were completed in LAMMPS. LAMMPS (Large-scale Atomic/Molecular Massively Parallel Simulator) is a medium coarse-grained, classical molecular dynamics code developed to replicate  solid-state materials and soft matter mesoscopic systems \cite{Plimpton1995, LAMMPS}.
 
 
@@ -265,7 +277,7 @@ The higher volume fractions accessed at the start of the simulation also give ri
 %Later suggested that this transition is only continuous at large aspect ratios, and first order for ratios much smaller than are used here.
 %Dogic suggests continuous for rigid particles, but first order if flexible, Doane uses hydrocarbon chains to come to the same conclusions
 
-\section{Nunchuck Simulations}
+\section{Nunchuck Simulations} \label{sec:Nunchuck_Sim}
 Further simulations applied the same approaches to the nunchuck molecules introduced in Section \ref{sec:SimMolecules}. These could be configured in two ways; either with a fixed angle between the two rigid arms, or a fixed rigidity (which determines the angular potential between the two arms, and hence the distribution of angles observed). Previous work by Jiaming Yu using OxDNA \cite{OxDNA} has suggested that the fixed rigidity model provides an accurate coarse-grained model of the nunchucks; however the fixed angle approach is also used for simplicity, and because it appears more amenable to ordered phase formation.
 
 describe the challenges in phase identification here, with references if possible
@@ -366,10 +378,10 @@ To determine order over longer length scales, without increasing the volume of t
 This method is however fundamentally limited by the use of a single vector along the molecular axis to define the orientation of the molecule; two vectors (such as along each arm) are required to uniquely specify the orientation of a single molecule. Using the molecule axis alone only accounts for quasi-nematic order; any biaxial or herringbone substructure must be accounted for differently. We therefore also consider orientational correlation functions for the vectors along the bisector of each molecule, and normal to the plane of the nunchuck. It is worth nothing that the second Legendre polynomial is still used when taking the normal vector, however the first Legendre polynomial is used for the bisector. This is to identify whether the direction of the bisector alternates sign, a variation which is ignored by the second order polynomial, as would be expected for a herringbone structure. However, no statistically significant periodic components in the correlation function were observed over the length scale of the simulation region; further research may be required here with larger sample sized (and correspondingly larger simulation regions).
 
 
-LOOK INTO BIAXIAL PHASE FURTHER
+LOOK INTO BIAXIAL\ SPLAY BEND NEMATIC PHASE FURTHER
 \textbf{studies suggest an angle of 120 deg - try this for crystalline phase (with long eq at the start??)}
 
-\section{Dynamic Properties}
+\section{Dynamic Properties} \label{sec:Dynamics}
 While the phase behaviour of rigid rods is well studied, much less is known about the dynamical properties. This in, in part, due to the traditional popularity of Monte Carlo simulation approaches, which cannot predict dynamic properties. Despite this, it has enjoyed a more recent popularity in both computational and experimental studies \cite{GayBalmaz2013, Zhao2013, Rey2013}. Here, we undertake a brief study into the dynamical properties of this nunchuck system, and demonstrate the application of dynamical properties to static phase identification. In particular, we focus upon the diffusion coefficient $D$ defined by the evolution of the mean square displacement (MSD) of time $t$ in $N$ dimensions:
 
 \begin{equation} \label{eq:msd_eq} 
@@ -393,12 +405,13 @@ Molecular dynamics simulations of a dilute system of nunchucks enable the calcul
 For rigid rods with an aspect ratio of 10, this gives a value of $\phi_{d} = 0.015$. We find an average power of $ \alpha = 0.97 \pm 0.03 $ for the nunchuck molecules, and $ \alpha = 1.00 \pm 0.04 $ for the rigid rods, as expected for diffusive behaviour. 
 
 As the volume fraction is increased, we observe a tendency towards subdiffusive behaviour, with a reduction in the value of $\alpha$. This is given by the gradient when the root mean squared (RMS) displacement is plotted against time in logarithmic space, as depicted in Figure \ref{fig:nun_diff_rmsplots}. The diffusion along the $y$ axis is particularly restricted in the smectic phase (approximately $\phi = 0.4$), but recovers completely at lower volume fractions. Particle motion in the $x$ and $z$ axis is approximately diffusive throughout (ie $\alpha = 1$), but the lower intercept at higher volume fractions corresponds to a reduced diffusion coefficient.
+%add consideration of nematic phase?? 
 
 
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=\linewidth]{Figures/nun_diff_rmsplots}
-	\caption{Root mean squared (RMS) displacement against time for a range of volume fractions $\phi$. Note the increase in diffusivity in the dilute (lower $\phi$) cases, and most importantly the anisotropic dynamic behaviour; the diffusivity along the $y$ axis is lowered at high volume fractions, where it results from restricted motion between smectic layers in the nunchucks system. In contrast, there is no appreciable difference between the $x$ and $z$ directions in the smectic or nematic phases, and they have correspondingly equal diffusion coefficients.}
+	\caption{Root mean squared (RMS) displacement against time for a range of volume fractions $\phi$. Note the increase in diffusivity in the dilute (lower $\phi$) cases, given by the increased intercept. This also displays anisotropic dynamic behaviour; the diffusivity along the $y$ axis is lowered at high volume fractions, where it results from restricted motion between smectic layers in the nunchucks system. In contrast, there is no appreciable difference between the $x$ and $z$ directions in the smectic or nematic phases, and they have correspondingly equal diffusion coefficients.}
 	\label{fig:nun_diff_rmsplots}
 \end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Angle\Crystalline\Full Transition2
 
@@ -415,8 +428,19 @@ Phase formation may also be observed through deviations in these coordinate-spec
 %Go on to david's theories for dilute and semi-dilute systems? \textit{also review onsager definitions here?}
 
 \section{Conclusion}
-Summarise key results from above, and emphasise their importance 
-Also give limitations of results obtained, and suggest direction for further work (for each section?)
+%Summarise key results from above, and emphasise their importance 
+%Also give limitations of results obtained, and suggest direction for further work (for each section?)
+
+We considered the phase behaviour of DNA nunchuck molecules, consisting of two sections of ds-DNA connected by a short section of ss-DNA. We introduced a coarse-grained model of DNA nunchuck particles, formed of two rigid rods connected by a (semi-) flexible linker, with soft-core purely repulsive potential interactions. We also introduced a simpler `rigid rod' model, without the flexible linker, to verify the phase identification techniques used here.
+
+Simulations of rigid rods demonstrated the existence of a first-order isotropic\textendash nematic phase transition, and verified Onsager's across a range of aspect ratios. Within this, we confined the critical volume fraction for rods of aspect ratio $D/L = 10$ to the range $0.39<\phi<0.44$, in good agreement with the theoretical value of $\phi = 0.4$. We also considered simulations sampling decreasing volume fractions from an initial crystalline phase, which confirmed the value of this critical volume fraction, verifying the transition occurred at true equilibrium by eliminating the possibility of phase hysteresis here. We also identified the formation of a smectic phase here, however further categorisation of the transitions associated with this phase is left for a separate work.
+
+Application of the same techniques to the nunchucks system gave incontrovertible evidence for the formation of an ordered, quasi-nematic phase in this system, in both the fixed rigidity and fixed angle configurations. The fixed rigidity configuration, a better representation of the true system, demonstrated clear evidence for an entropically-driven phase transition, through the reduction in configurational entropy associated with the formation of a preferred angle. However, further analysis of this system suggested that any periodic order (associated with a novel phase) occurred on a length scale greater than could be simulated here, due to the associated computational costs.
+
+While this is recommended for future work, we instead focus here on the fixed angle configuration, with the aim that restricting the maximum opening angle also reduced the length scale of any periodic order present. We observed the formation of a quasi-nematic phase, and introduced the orientational correlation function in order to identify any periodic order in the `herringbone-like' structure observed. While this confirmed the presence of long-range order, we were unable to observe any periodicity here; we suspect that larger statistics and a longer length scale may be required for this due to the inherent stochastic nature of molecule orientation. \textit{Some final simulations may help suggest the precise future direction of work here}
+
+We also demonstrate that the measurement of dynamic properties provide a little-studied alternative method to identify phase transitions and characteristic symmetries of such systems, in comparison with phases previously identified in both the rigid rods and nunchucks systems previously considered. We consider in particular the formation of anisotropic phases through the variation in coordinate diffusion coefficients, such as in the smectic phase where diffusion between the ordered layers is significantly slower than within them. Further research is necessary to extend this beyond the simple Cartesian approach taken here, to allow the identification of novel phases where the global director or symmetry class is not known.
+
 
 \section*{Acknowledgements}
 I wish to thank my project supervisor (Prof Erika Eiser) and my day-to-day supervisor (Mr Jiaming Yu) for their continual teaching, and Prof Daan Frenkel for the kind insights he offered. Particularly I am grateful for initial code provided by Jiaming to run single-stage, rigid-rod simulations, and the method of calculating the orientational correlation function, detailed in Appendix \ref{sec:PairWise_Theory}, which Daan introduced me to.
@@ -539,8 +563,8 @@ where we have defined
 
 This removes the requirement to calculate $P_{l}$ for every pair of molecules, in favour of simply summing the spherical harmonics terms corresponding to a given shell around $i$, then multiply spherical harmonics components. It should also be noted that (\ref{eq:pairwise_finalres}) is invariant under changes in the coordinate frame; in our computations all orientations were expressed in the lab frame for each (rather than aligning the coordinate frame with the global director).
 
-\section{Mean Square Displacement} \label{sec:Diffusion_Theory}
-
+\section{Mean Squared Displacement} \label{sec:Diffusion_Theory}
+This section will include a derivation of this relation using the characteristic function the generate the relevant cumulants; building on content covered in stat mech within Tripos.
 \section{Code?}
 
 \end{appendices}

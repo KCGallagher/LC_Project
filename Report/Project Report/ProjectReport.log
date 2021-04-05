@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  4 APR 2021 18:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  4 APR 2021 23:51
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1196,8 +1196,12 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@cols=\count436
 \TX@ftn=\toks38
 )
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/generic/atbegshi\atbegshi
+.sty"
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
 LaTeX Font Info:    Trying to load font information for T1+XCharter-TLF on inpu
-t line 30.
+t line 33.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\t1xcharter
 -tlf.fd"
@@ -1205,49 +1209,49 @@ File: T1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for T1/XCharter-
 TLF.
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 30.
+(Font)              scaled to size 10.95pt on input line 33.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
  (ProjectReport.aux)
 \openout1 = `ProjectReport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 33.
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 3
-0.
+3.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/cyrillic\t2acmr.fd"
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 30.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 33.
 LaTeX Font Info:    Trying to load font information for LY1+ptm on input line 3
-0.
+3.
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ly1\ly1ptm.fd"
 File: ly1ptm.fd 2001/02/01 font definitions for LY1/ptm using Berry names.
 )
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Info: Redefining \microtypecontext on input line 30.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Info: Redefining \microtypecontext on input line 33.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 30.
+LaTeX Info: Redefining \showhyphens on input line 33.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1282,7 +1286,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 30.
+(lastpage)             ! on input line 33.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/translator\translat
 or-basic-dictionary-English.dict"
@@ -1348,7 +1352,7 @@ g"
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 61.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 53.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1357,7 +1361,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 g"
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 61.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 53.
 
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1367,10 +1371,11 @@ g"
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 8.0pt on input line 61.
+(Font)              scaled to size 8.0pt on input line 53.
 )
-Package biblatex Info: Reference section=0 on input line 30.
-Package biblatex Info: Reference segment=0 on input line 30.
+Package biblatex Info: Reference section=0 on input line 33.
+Package biblatex Info: Reference segment=0 on input line 33.
+\AtBeginShipoutBox=\box61
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
@@ -1379,8 +1384,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Trying to load font information for OT1+phv on input line 3
-4.
+ (titlepage.tex
+Package atbegshi Info: Shipout page discarded.
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 6
+.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ot1phv.fd"
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
@@ -1389,46 +1396,48 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `phv' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
-Overfull \hbox (17.0pt too wide) in paragraph at lines 34--34
-[][]
- []
-
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 34.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 34.
-
-Overfull \hbox (17.0pt too wide) in paragraph at lines 34--34
-[][]
- []
-
+(Font)              scaled to size 9.0pt on input line 6.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 40.
+(Font)              scaled to size 10.95pt on input line 9.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 32.60931pt on input line 40.
+(Font)              scaled to size 32.60931pt on input line 9.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 47.95464pt on input line 40.
+(Font)              scaled to size 47.95464pt on input line 9.
 Package lettrine.sty Info: Targeted height = 32.60931pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 32.60916pt (\color {NavyBlue}{T});
 
-(lettrine.sty)             reported on input line 40.
+(lettrine.sty)             reported on input line 9.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 40.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 44.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 44.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 53.
+(Font)              scaled to size 10.95pt on input line 9.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 56.
-[1
+(Font)              scaled to size 10.95pt on input line 13.
 
-{C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+[2{C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}])
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 14.4pt on input line 43.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 14.4pt on input line 43.
+
+(ProjectReport.toc)
+\tf@toc=\write4
+\openout4 = `ProjectReport.toc'.
+
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+Make it at least 13.59999pt.
+We now make it that large for the rest of the document.
+This may cause the page layout to be inconsistent, however.
+
+[1]
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 12.0pt on input line 65.
 LaTeX Font Info:    Trying to load font information for TS1+XCharter-TLF on inp
-ut line 61.
+ut line 73.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\ts1xcharte
 r-tlf.fd"
@@ -1436,7 +1445,7 @@ File: TS1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for TS1/XCharte
 r-TLF.
 )
 LaTeX Font Info:    Font shape `TS1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 61.
+(Font)              scaled to size 10.95pt on input line 73.
 Package microtype Info: Character `textlbrackdbl ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1446,49 +1455,46 @@ Package microtype Info: Character `textrbrackdbl ' is missing
 Package microtype Info: Character `texttildelow ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
-<Figures/lc_phases_cropped.jpg, id=10, 259.7203pt x 92.59593pt>
+<Figures/lc_phases_cropped.jpg, id=13, 259.7203pt x 92.59593pt>
 File: Figures/lc_phases_cropped.jpg Graphic file (type jpg)
 <use Figures/lc_phases_cropped.jpg>
-Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 70.
+Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 82.
 (pdftex.def)             Requested size: 338.58632pt x 120.71376pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 71.
+(Font)              scaled to size 10.0pt on input line 83.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 71.
+(Font)              scaled to size 10.0pt on input line 83.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 71.
+(Font)              scaled to size 10.0pt on input line 83.
 
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
-Make it at least 13.59999pt.
-We now make it that large for the rest of the document.
-This may cause the page layout to be inconsistent, however.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[2 <./Figures/lc_phases_cropped.jpg>]
+[2] [3 <./Figures/lc_phases_cropped.jpg>]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 99.
- [3]
-<Figures/nunchucks_artist.png, id=26, 603.25375pt x 551.05875pt>
+(Font)              scaled to size 6.0pt on input line 111.
+ [4]
+<Figures/nunchucks_artist.png, id=32, 603.25375pt x 551.05875pt>
 File: Figures/nunchucks_artist.png Graphic file (type png)
 <use Figures/nunchucks_artist.png>
-Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 152.
+Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 164.
 (pdftex.def)             Requested size: 193.47578pt x 176.72919pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 153.
+(Font)              scaled to size 9.0pt on input line 165.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 153.
-<Figures/nunchuck_profile_coloured.png, id=27, 238.491pt x 194.52675pt>
+(Font)              scaled to size 9.0pt on input line 165.
+<Figures/nunchuck_profile_coloured.png, id=33, 238.491pt x 194.52675pt>
 File: Figures/nunchuck_profile_coloured.png Graphic file (type png)
 <use Figures/nunchuck_profile_coloured.png>
 Package pdftex.def Info: Figures/nunchuck_profile_coloured.png  used on input l
-ine 159.
+ine 171.
 (pdftex.def)             Requested size: 193.47578pt x 157.81215pt.
- [4]
+ [5]
 Package textcomp Info: Symbol \textmu not provided by
 (textcomp)             font family XCharter-TLF in TS1 encoding.
-(textcomp)             Default family used instead on input line 174.
- [5 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
- [6]
+(textcomp)             Default family used instead on input line 186.
+ [6 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
+ [7]
 Package epstopdf Info: Source file: <Figures/rigidrod_nemorderparam.eps>
 (epstopdf)                    date: 2021-04-01 10:58:08
 (epstopdf)                    size: 63101 bytes
@@ -1498,22 +1504,21 @@ ed-to.pdf>
 (epstopdf)                    size: 25767 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_nemorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_nemorderparam.eps>
-(epstopdf)             \includegraphics on input line 227.
+(epstopdf)             \includegraphics on input line 239.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_nemorderparam-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/rigidrod_nemorderparam-eps-converted-to.pdf, id=41, 462.72874pt x 347.
+<Figures/rigidrod_nemorderparam-eps-converted-to.pdf, id=48, 462.72874pt x 347.
 2975pt>
 File: Figures/rigidrod_nemorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_nemorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_nemorderparam-eps-converted-to.pdf  u
-sed on input line 227.
+sed on input line 239.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
-[7 <./Figures/rigidrod_nemorderparam-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    date: 2021-04-03 12:51:49
 (epstopdf)                    size: 682716 bytes
@@ -1523,21 +1528,25 @@ Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    size: 162031 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_pressureev
 o-eps-converted-to.pdf Figures/rigidrod_pressureevo.eps>
-(epstopdf)             \includegraphics on input line 236.
+(epstopdf)             \includegraphics on input line 248.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_pressureevo-eps-converted
 -to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> all
 owed
-<Figures/rigidrod_pressureevo-eps-converted-to.pdf, id=89, 462.72874pt x 347.29
+<Figures/rigidrod_pressureevo-eps-converted-to.pdf, id=49, 462.72874pt x 347.29
 75pt>
 File: Figures/rigidrod_pressureevo-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Figures/rigidrod_pressureevo-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_pressureevo-eps-converted-to.pdf  use
-d on input line 236.
+d on input line 248.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8 <./Figures/rigidrod_nemorderparam-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/rigidrod_cryorderparam.eps>
 (epstopdf)                    date: 2021-04-01 14:50:12
 (epstopdf)                    size: 73775 bytes
@@ -1547,35 +1556,34 @@ ed-to.pdf>
 (epstopdf)                    size: 29320 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_cryorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_cryorderparam.eps>
-(epstopdf)             \includegraphics on input line 255.
+(epstopdf)             \includegraphics on input line 267.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_cryorderparam-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/rigidrod_cryorderparam-eps-converted-to.pdf, id=90, 462.72874pt x 347.
+<Figures/rigidrod_cryorderparam-eps-converted-to.pdf, id=96, 462.72874pt x 347.
 2975pt>
 File: Figures/rigidrod_cryorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_cryorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_cryorderparam-eps-converted-to.pdf  u
-sed on input line 255.
+sed on input line 267.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[8 <./Figures/rigidrod_pressureevo-eps-converted-to.pdf>] [9 <./Figures/rigidro
-d_cryorderparam-eps-converted-to.pdf>]
-<Figures/nun_fr_side.png, id=181, 385.44pt x 289.08pt>
+[9 <./Figures/rigidrod_pressureevo-eps-converted-to.pdf>]
+<Figures/nun_fr_side.png, id=138, 385.44pt x 289.08pt>
 File: Figures/nun_fr_side.png Graphic file (type png)
 <use Figures/nun_fr_side.png>
-Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 287.
+Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 299.
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
-<Figures/nun_fr_perspective.png, id=182, 385.44pt x 289.08pt>
+<Figures/nun_fr_perspective.png, id=139, 385.44pt x 289.08pt>
 File: Figures/nun_fr_perspective.png Graphic file (type png)
 <use Figures/nun_fr_perspective.png>
-Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 293
+Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 305
 .
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
 Package epstopdf Info: Source file: <Figures/nun_fr_angledist.eps>
@@ -1587,34 +1595,37 @@ pdf>
 (epstopdf)                    size: 37974 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_fr_angledist-ep
 s-converted-to.pdf Figures/nun_fr_angledist.eps>
-(epstopdf)             \includegraphics on input line 303.
+(epstopdf)             \includegraphics on input line 315.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_fr_angledist-eps-converted-to.
 pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 
-<Figures/nun_fr_angledist-eps-converted-to.pdf, id=183, 462.72874pt x 347.2975p
+<Figures/nun_fr_angledist-eps-converted-to.pdf, id=140, 462.72874pt x 347.2975p
 t>
 File: Figures/nun_fr_angledist-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_fr_angledist-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_fr_angledist-eps-converted-to.pdf  used on
- input line 303.
+ input line 315.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
-[10 <./Figures/nun_fr_side.png> <./Figures/nun_fr_perspective.png> <./Figures/n
-un_fr_angledist-eps-converted-to.pdf>]
-<Figures/nun_fa_side.png, id=243, 385.44pt x 289.08pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[10 <./Figures/rigidrod_cryorderparam-eps-converted-to.pdf>]
+<Figures/nun_fa_side.png, id=190, 385.44pt x 289.08pt>
 File: Figures/nun_fa_side.png Graphic file (type png)
 <use Figures/nun_fa_side.png>
-Package pdftex.def Info: Figures/nun_fa_side.png  used on input line 320.
+Package pdftex.def Info: Figures/nun_fa_side.png  used on input line 332.
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
-<Figures/nun_fa_perspective.png, id=244, 385.44pt x 289.08pt>
+<Figures/nun_fa_perspective.png, id=191, 385.44pt x 289.08pt>
 File: Figures/nun_fa_perspective.png Graphic file (type png)
 <use Figures/nun_fa_perspective.png>
-Package pdftex.def Info: Figures/nun_fa_perspective.png  used on input line 326
+Package pdftex.def Info: Figures/nun_fa_perspective.png  used on input line 338
 .
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
- [11 <./Figures/nun_fa_side.png> <./Figures/nun_fa_perspective.png>]
+ [11 <./Figures/nun_fr_side.png> <./Figures/nun_fr_perspective.png> <./Figures/
+nun_fr_angledist-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/num_fa_correlation_mol.eps>
 (epstopdf)                    date: 2021-04-03 18:37:26
 (epstopdf)                    size: 70360 bytes
@@ -1624,22 +1635,26 @@ ed-to.pdf>
 (epstopdf)                    size: 16756 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/num_fa_correlation_
 mol-eps-converted-to.pdf Figures/num_fa_correlation_mol.eps>
-(epstopdf)             \includegraphics on input line 360.
+(epstopdf)             \includegraphics on input line 372.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/num_fa_correlation_mol-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=250, 462.72874pt x 347
+<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=251, 462.72874pt x 347
 .2975pt>
 File: Figures/num_fa_correlation_mol-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/num_fa_correlation_mol-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/num_fa_correlation_mol-eps-converted-to.pdf  u
-sed on input line 360.
+sed on input line 372.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
-[12 <./Figures/num_fa_correlation_mol-eps-converted-to.pdf>]
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[12 <./Figures/nun_fa_side.png> <./Figures/nun_fa_perspective.png>] [13 <./Figu
+res/num_fa_correlation_mol-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    date: 2021-04-04 18:53:16
 (epstopdf)                    size: 86816 bytes
@@ -1649,18 +1664,18 @@ Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    size: 23246 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_rmsplots-e
 ps-converted-to.pdf Figures/nun_diff_rmsplots.eps>
-(epstopdf)             \includegraphics on input line 400.
+(epstopdf)             \includegraphics on input line 413.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_rmsplots-eps-converted-to
 .pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowe
 d
-<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=288, 722.7pt x 361.35pt>
+<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=295, 722.7pt x 361.35pt>
 File: Figures/nun_diff_rmsplots-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_rmsplots-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_rmsplots-eps-converted-to.pdf  used o
-n input line 400.
+n input line 413.
 (pdftex.def)             Requested size: 483.69687pt x 241.84961pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1674,51 +1689,47 @@ df>
 (epstopdf)                    size: 16758 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_Dcoeff-eps
 -converted-to.pdf Figures/nun_diff_Dcoeff.eps>
-(epstopdf)             \includegraphics on input line 409.
+(epstopdf)             \includegraphics on input line 422.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_Dcoeff-eps-converted-to.p
 df): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=289, 462.72874pt x 347.2975pt
+<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=296, 462.72874pt x 347.2975pt
 >
 File: Figures/nun_diff_Dcoeff-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_Dcoeff-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_Dcoeff-eps-converted-to.pdf  used on 
-input line 409.
+input line 422.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13]
-Overfull \vbox (17.3725pt too high) has occurred while \output is active []
-
-
-[14 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf> <./Figures/nun_diff_Dcoe
-ff-eps-converted-to.pdf>] [15] [16]
+[14] [15 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf> <./Figures/nun_diff
+_Dcoeff-eps-converted-to.pdf>] [16] [17] [18]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [17]
-Overfull \hbox (12.1842pt too wide) in paragraph at lines 427--427
+ [19] [20]
+Overfull \hbox (16.6322pt too wide) in paragraph at lines 450--450
 []\T1/XCharter-TLF/m/n/10.95 (-20) J. W. Doane, R. S. Parker, B. Cvikl, D. L. J
 ohn-son, and D. L. Fishel,   Pos-si-ble second-order nematicsmectic-
  []
 
-[18] [19] [20] [21] 
+[21] [22] [23] 
 AED: lastpage setting LastPage
-[22] (ProjectReport.aux)
+[24] (ProjectReport.aux)
 Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 \openout1 = `ProjectReport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 21113 strings out of 481565
- 408758 string characters out of 2914627
- 1062778 words of memory out of 3000000
- 35723 multiletter control sequences out of 15000+200000
- 709405 words of font info for 274 fonts, out of 3000000 for 9000
+ 21238 strings out of 481565
+ 411891 string characters out of 2914627
+ 1065598 words of memory out of 3000000
+ 35830 multiletter control sequences out of 15000+200000
+ 710502 words of font info for 280 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,12n,77p,1242b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
@@ -1747,9 +1758,9 @@ a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/
 KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/
 Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.p
 fb>
-Output written on ProjectReport.pdf (22 pages, 2313419 bytes).
+Output written on ProjectReport.pdf (25 pages, 2324401 bytes).
 PDF statistics:
- 503 PDF objects out of 1000 (max. 8388607)
+ 513 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  54855 words of extra memory for PDF output out of 61914 (max. 10000000)
 
