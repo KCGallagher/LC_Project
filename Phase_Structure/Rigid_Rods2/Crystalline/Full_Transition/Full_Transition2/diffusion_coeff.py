@@ -253,7 +253,8 @@ for i, time in enumerate(time_range):  # interate over dump files
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
 
-plot_list = range(0, run_num_tot, 1)  # runs to plot (inc step if too many runs)
+plot_list = range(1, run_num_tot, 2)  # runs to plot (inc step if too many runs)
+plot_list = [0] + list(plot_list)
 
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
@@ -276,14 +277,19 @@ for plot_index, data_index in enumerate(plot_list):
         "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
         "{:.2f}".format(slope)
     )  # can add this onto graph with plt.annotate if desired
-
+    linestyle = ["dotted", "solid", "dashed"]
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(
-                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+                eq_range,
+                rms_disp_values[data_index, :, j],
+                linestyle=linestyle[j],
+                label=axis_labels[j],
             )
         else:
-            axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
+            axs[plot_index].loglog(
+                eq_range, rms_disp_values[data_index, :, j], linestyle=linestyle[j]
+            )
 
     if plot_best_fit:
         axs[plot_index].plot(
@@ -296,7 +302,7 @@ for plot_index, data_index in enumerate(plot_list):
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf.png")
+plt.savefig("rms_displacement_runwise_bf2.eps")
 plt.show()
 
 markers = ["x", "1", "+"]
@@ -307,7 +313,7 @@ for i in range(dimension_num):
 plt.ylabel(r"Diffusion Coefficient ($D_{i}$)")
 plt.xlabel(r"Volume Fraction ($\phi$)")
 plt.legend()
-plt.savefig("order_vs_diffusion_with_bc.png")
+plt.savefig("order_vs_diffusion_with_bc2.png")
 plt.show()
 
 print(sampled_vol_frac)

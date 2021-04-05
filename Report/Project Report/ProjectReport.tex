@@ -212,7 +212,7 @@ U_{ij} = 4\epsilon \left[ \left( \frac{\sigma}{r_{ij}} \right) ^{12} - \left( \f
 Here $\sigma$ and $\epsilon$ are the relevant length and energy scales of the system, formally corresponding to the particle separation at which the $U_{ij} = 0$, and the depth of the potential well. It is worth noting that the effects of this truncation and shift on the overall thermodynamic quantities are well documented \cite{Stephan2020, Shaul2010}, and changes in lyotropic properties are negligible in 3D bulk liquids with a conserved particle number \cite{Smit1991}. This purely repulsive potential is also a good representation of the physical DNA system considered here, for appropriate salt concentration in the solvent \cite{Strey1997, Strey1998}.
 
  
-\subsection{Analysis}
+\subsection{Analysis Methods}
 The visualisation freeware Ovito \cite{Ovito} has been employed to animate the molecule motion over the simulation period, and was used to generate all molecular images presented here. Thermodynamic variables, such as internal energy and pressure, were extracted to track the system's progress towards equilibrium, and verify its stability.
 
 The volume fraction and nematic order parameter were computed for comparison with Onsager's theorem, as detailed in Section \ref{sec:OnsagerTheory}. Calculation of the order parameter is complicated by the absence of an imposed director (ie if no electric field is applied), and we use the approach taken by Eppenga and Frenkel \cite{Eppenga1984} which is reproduced in Appendix \ref{sec:OrderParamCalc}. %or dussi 2018 or many others
@@ -404,18 +404,18 @@ Molecular dynamics simulations of a dilute system of nunchucks enable the calcul
 
 For rigid rods with an aspect ratio of 10, this gives a value of $\phi_{d} = 0.015$. We find an average power of $ \alpha = 0.97 \pm 0.03 $ for the nunchuck molecules, and $ \alpha = 1.00 \pm 0.04 $ for the rigid rods, as expected for diffusive behaviour. 
 
-As the volume fraction is increased, we observe a tendency towards subdiffusive behaviour, with a reduction in the value of $\alpha$. This is given by the gradient when the root mean squared (RMS) displacement is plotted against time in logarithmic space, as depicted in Figure \ref{fig:nun_diff_rmsplots}. The diffusion along the $y$ axis is particularly restricted in the smectic phase (approximately $\phi = 0.4$), but recovers completely at lower volume fractions. Particle motion in the $x$ and $z$ axis is approximately diffusive throughout (ie $\alpha = 1$), but the lower intercept at higher volume fractions corresponds to a reduced diffusion coefficient.
-%add consideration of nematic phase?? 
+As the volume fraction is increased, we observe a tendency towards subdiffusive behaviour, with a reduction in the value of $\alpha$. This is given by the gradient when the root mean squared (RMS) displacement is plotted against time in logarithmic space, as best depicted in Figure \ref{fig:nun_diff_rmsplots} for the rigid rods system. Phase transitions for this system have previously been identified in the regions $0.58<\phi<0.62$ for the smectic\textendash nematic transition, and $0.38<\phi<0.43$ for the nematic\textendash isotropic transition.
 
+At the highest volume fractions ($\phi \geq 0.53$), the diffusion along the $y$ axis is significantly reduced, due to the restricted motion between layers in the smectic phase. Below this, a nematic phase is observed, with increased diffusivity along the molecule director (the $y$-axis); corresponding to an increased intercept in logarithmic space. At the lowest volume fractions ($\phi \leq 0.32$), there is no preferred direction in the system and diffusion is completely isotropic. Particle motion in the $x$ and $z$ axis is approximately diffusive throughout (ie $\alpha = 1$), but the lower intercept at higher volume fractions corresponds to a reduced diffusion coefficient. 
 
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=\linewidth]{Figures/nun_diff_rmsplots}
-	\caption{Root mean squared (RMS) displacement against time for a range of volume fractions $\phi$. Note the increase in diffusivity in the dilute (lower $\phi$) cases, given by the increased intercept. This also displays anisotropic dynamic behaviour; the diffusivity along the $y$ axis is lowered at high volume fractions, where it results from restricted motion between smectic layers in the nunchucks system. In contrast, there is no appreciable difference between the $x$ and $z$ directions in the smectic or nematic phases, and they have correspondingly equal diffusion coefficients.}
+	\caption{Root mean squared (RMS) displacement against time in a system of 1000 rigid rods, for a range of volume fractions $\phi$. The leftmost pair of plots correspond to the smectic phase, with restricted motion between $x-z$ layers along the $y$-axis. The centre pair give the nematic phase, with preferential displacement along the y axis. Finally, the rightmost pair give the isotropic phase, with no preferential direction and isotropic diffusion. Note that there are no significant differences between the $x$ and $z$ directions any phase, as these directions are equivalent in the phase structure.}
 	\label{fig:nun_diff_rmsplots}
 \end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Angle\Crystalline\Full Transition2
 
-Phase formation may also be observed through deviations in these coordinate-specific diffusion coefficients, measuring the average particle displacement along a given coordinates axes. Here the Cartesian axes may be used, as simulations are configured in a crystalline phase with molecules orientated along the $y$ axis, and smectic layers forming in the $x-z$ plane. As depicted in Figure \ref{fig:nun_diff_Dcoeff}, isotropic diffusion is observed at low volume fractions, but the $y$-coordinate diffusion coefficient is severely reduced before this, giving a strong indication to the onset of formation of the smectic phase below $\phi = 0.45$. This is in agreement with the prediction of $ 0.40<\phi^{*}<0.44$ obtained from the smectic order parameter. There is also some indication of the crystalline phase at the highest volume fractions, with diffusion now equally limited in all directions, but this evidence is not conclusive.
+Phase formation may also be observed through deviations in these coordinate-specific diffusion coefficients, measuring the average particle displacement along a given coordinates axes. Here the Cartesian axes may be used, as simulations are configured in a crystalline phase with molecules orientated along the $y$ axis, and smectic layers forming in the $x-z$ plane. Applying this to the nunchucks system, isotropic diffusion is observed at low volume fractions in Figure \ref{fig:nun_diff_Dcoeff}, but the $y$-coordinate diffusion coefficient is severely reduced before this. This strongly indicates the onset of formation of the smectic phase below $\phi = 0.45$, in agreement with the prediction of $ 0.40<\phi^{*}<0.44$ obtained from the smectic order parameter. There is also some indication of the crystalline phase at the highest volume fractions, with diffusion now equally limited in all directions, but this evidence is not conclusive.
 
 \begin{figure} [h!]
 	\centering
@@ -564,7 +564,106 @@ where we have defined
 This removes the requirement to calculate $P_{l}$ for every pair of molecules, in favour of simply summing the spherical harmonics terms corresponding to a given shell around $i$, then multiply spherical harmonics components. It should also be noted that (\ref{eq:pairwise_finalres}) is invariant under changes in the coordinate frame; in our computations all orientations were expressed in the lab frame for each (rather than aligning the coordinate frame with the global director).
 
 \section{Mean Squared Displacement} \label{sec:Diffusion_Theory}
-This section will include a derivation of this relation using the characteristic function the generate the relevant cumulants; building on content covered in stat mech within Tripos.
+Here, we provide a derivation of the diffusion relation (\ref{eq:msd_eq}), taking a popular approach through the derivation of the moment generating function \cite{Mazo2008, Gardiner2009}. The diffusive motion of a particle is a stochastic process, which may be described by a probability density function (PDF) that satisfies the diffusion equation:
+
+\begin{equation} \label{eq:diff_eq}
+\frac{\partial p(x,t \mid x_{0})}{\partial t} = D\frac{\partial^{2} p(x,t \mid x_{0})}{\partial x^{2}}
+\end{equation}
+
+where $x(t)$ is the position of the particle at some time $t$, and $x_{0}$ is the initial position of the particle. For simplicity we will use a one dimensional space here, but the argument is easily extended to higher dimensions. 
+
+This is trivially obeyed by the Green's function $G(x,t)$, where this is defined to be the time evolution of density $G(x,0)=\delta(x)$ (taking $x_{0} = 0$ for simplicity). We must therefore first obtain $G(x,t)$ for which we will use Fourier transform methods based on the approach by Sethna \cite{Sethna2006}. In general, we may decompose our solution into a family of plane wave solutions of the form $\tilde{p}_{k}(t)e^{ikx}$. Substituting this into (\ref{eq:diff_eq}), we obtain
+
+\begin{equation}
+\frac{\partial p}{\partial t} = \frac{d\tilde{p}_{k}}{dt}e^{ikx} =  D\frac{\partial^{2}p}{\partial x^{2}} = -Dk^{2}\tilde{p}_{k}(t)e^{ikx}
+\end{equation}
+
+from which we may extract a differential equation in $\tilde{p}_{k}(t)$, with the simple solution:
+
+\begin{equation} \label{eq:Fourier_wave}
+\tilde{p}_{k}(t) = \tilde{p}_{k}(0)e^{-Dk^{2}t}
+\end{equation}
+
+The Fourier transform of $G(x,t)$ at $t=0$ is given by:
+
+\begin{equation}
+\tilde{G}_{k}(0) = \int G(x,0)e^{-ikx}dx = \int \delta(x)e^{-ikx}dx = 1
+\end{equation}
+
+and so the time dependant Fourier transform is given by $\tilde{G}_{k}(t) = e^{-Dk^{2}t}$ according to (\ref{eq:Fourier_wave}). This gives a the real-space $G(x,t)$ as:
+
+\begin{equation}
+G(x,t) = \frac{1}{2\pi} \int e^{ikx} \tilde{G}_{k}(0)e^{-Dk^{2}t}dk = \frac{1}{2\pi} \int e^{ikx} e^{-Dt^{k}t}dk
+\end{equation}
+
+This is simply the inverse Fourier transform of a Gaussian, and so evaluates to:
+
+\begin{equation}
+G(x,t) = \frac{1}{\sqrt{4\pi Dt}}e^{-x^{2}/4Dt}
+\end{equation}
+
+Redefining the spatial coordinate to account for the initial conditions, the probablility density function is given by:
+
+\begin{equation}
+P(x,t) = \frac{1}{\sqrt{4\pi Dt}}e^{-(x-x_{0})^{2}/4Dt}
+\end{equation}
+
+Using this function, the average of an arbitrary function $A$ at time $t$ is given by:
+
+\begin{equation}
+\langle A(t) \rangle = \int_{-\infty}^{\infty} A(x,t)P(x,t) dx
+\end{equation}
+
+This must be evaluated for the mean squared displacement (MSD):
+
+\begin{equation} \label{eq:MSD_theory} 
+\langle (x(t) - x_{0})^{2} \rangle = \langle x^2 \rangle + x_{0}^{2} -2x_{0}\langle x \rangle 
+\end{equation}
+
+ 
+While it is possible to evaluate $\langle x \rangle$ and $\langle x^2 \rangle$ explicitly, it is perhaps more elegant to find the moment generating function, which describes the $k$-th moment of the PDF. We first introduce the characteristic function:
+
+\begin{equation} \label{eq:characteristic_func}
+\phi_{x}(k) = \langle e^{ikx} \rangle = \int e^{ikx} P(x,t \mid x_{0}) dx = \sum_{n=0}^{\infty} \frac{(ik)^{n}}{n!}\langle x^{n} \rangle
+\end{equation}
+
+where $\langle x^{n} \rangle$ are the moments of $P(x)$. We may separately define the cumulants $C_{n}$ by writing $\phi_{x}(k)$ in the form (the motivation for which will shortly be apparent):
+
+\begin{equation}
+\phi_{x}(k) =  \exp \left[\sum_{n=0}^{\infty} \frac{(ik)^{n}}{n!} C_{n}  \right]
+\end{equation}
+
+Comparing coefficients with (\ref{eq:characteristic_func}), we may identify the cumulants explicitly as:
+
+\begin{equation}
+C_{n} = \frac{d^{n}}{d(ik)^{n}} \ln \left(\phi_{x}(k) \right) \biggr|_{k=0} 
+\end{equation}
+
+As (\ref{eq:characteristic_func}) may be evaluated by completing the square to give the form:
+
+\begin{equation}
+\phi_{x}(k) = e^{ikx_{0} - k^{2}Dt}
+\end{equation}
+
+we find by simple substitution that the first two cumulants are given by:
+
+\begin{equation}
+C_{1} = x_{0}, \qquad C_{2} = 2Dt
+\end{equation}
+
+Note that this value for $C_{1}$ is expected, as it corresponds to the mean of the Gaussian distribution. Substitution of these values into (\ref{eq:MSD_theory}) renders the desired result:
+
+\begin{equation}
+\langle (x(t) - x_{0})^{2} \rangle = 2Dt
+\end{equation}
+
+
+
+
+
+
+
+
 \section{Code?}
 
 \end{appendices}

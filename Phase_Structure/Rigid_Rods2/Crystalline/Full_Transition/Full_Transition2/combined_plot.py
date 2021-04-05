@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
-from phase_plot import vol_frac
+from phase_plot_future import vol_frac
 
 file_root = "output_T_0.5_time_"  # two underscores to match typo in previous code
 sampling_freq = 1  # only samples one in X files (must be integer)

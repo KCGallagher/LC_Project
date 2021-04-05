@@ -5205,6 +5205,96 @@
       \verb https://doi.org/10.1063/1.468318
       \endverb
     \endentry
+    \entry{Mazo2008}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b6c35ef00446b3b0517324929b0f8a93}{%
+           family={Mazo},
+           familyi={M\bibinitperiod},
+           given={Robert\bibnamedelima M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{b6c35ef00446b3b0517324929b0f8a93}
+      \strng{fullhash}{b6c35ef00446b3b0517324929b0f8a93}
+      \strng{bibnamehash}{b6c35ef00446b3b0517324929b0f8a93}
+      \strng{authorbibnamehash}{b6c35ef00446b3b0517324929b0f8a93}
+      \strng{authornamehash}{b6c35ef00446b3b0517324929b0f8a93}
+      \strng{authorfullhash}{b6c35ef00446b3b0517324929b0f8a93}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{Brownian Motion}
+      \field{year}{2008}
+      \verb{doi}
+      \verb 10.1093/acprof:oso/9780199556441.001.0001
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1093/acprof:oso/9780199556441.001.0001
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1093/acprof:oso/9780199556441.001.0001
+      \endverb
+    \endentry
+    \entry{Gardiner2009}{book}{}
+      \name{author}{1}{}{%
+        {{hash=75c694bd409e025e7e08c106891ff87c}{%
+           family={Gardiner},
+           familyi={G\bibinitperiod},
+           given={C.\bibnamedelimi W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{75c694bd409e025e7e08c106891ff87c}
+      \strng{fullhash}{75c694bd409e025e7e08c106891ff87c}
+      \strng{bibnamehash}{75c694bd409e025e7e08c106891ff87c}
+      \strng{authorbibnamehash}{75c694bd409e025e7e08c106891ff87c}
+      \strng{authornamehash}{75c694bd409e025e7e08c106891ff87c}
+      \strng{authorfullhash}{75c694bd409e025e7e08c106891ff87c}
+      \field{sortinit}{8}
+      \field{sortinithash}{1b24cab5087933ef0826a7cd3b99e994}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-3-540-70712-7}
+      \field{title}{Stochastic methods : a handbook for the natural and social sciences}
+      \field{year}{2009}
+    \endentry
+    \entry{Sethna2006}{book}{}
+      \name{author}{1}{}{%
+        {{hash=42cf951a0b2ffff8463fae236aba5d23}{%
+           family={Sethna},
+           familyi={S\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Oxford New York}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{42cf951a0b2ffff8463fae236aba5d23}
+      \strng{fullhash}{42cf951a0b2ffff8463fae236aba5d23}
+      \strng{bibnamehash}{42cf951a0b2ffff8463fae236aba5d23}
+      \strng{authorbibnamehash}{42cf951a0b2ffff8463fae236aba5d23}
+      \strng{authornamehash}{42cf951a0b2ffff8463fae236aba5d23}
+      \strng{authorfullhash}{42cf951a0b2ffff8463fae236aba5d23}
+      \field{sortinit}{9}
+      \field{sortinithash}{54047ffb55bdefa0694bbd554c1b11a0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-0198566779}
+      \field{title}{Statistical mechanics : entropy, order parameters, and complexity}
+      \field{year}{2006}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

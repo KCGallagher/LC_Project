@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  4 APR 2021 23:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  5 APR 2021 12:56
 entering extended mode
 **./ProjectReport.tex
 (ProjectReport.tex
@@ -1656,12 +1656,12 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [12 <./Figures/nun_fa_side.png> <./Figures/nun_fa_perspective.png>] [13 <./Figu
 res/num_fa_correlation_mol-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
-(epstopdf)                    date: 2021-04-04 18:53:16
-(epstopdf)                    size: 86816 bytes
+(epstopdf)                    date: 2021-04-05 12:49:09
+(epstopdf)                    size: 98613 bytes
 (epstopdf)             Output file: <Figures/nun_diff_rmsplots-eps-converted-to
 .pdf>
-(epstopdf)                    date: 2021-04-04 18:59:25
-(epstopdf)                    size: 23246 bytes
+(epstopdf)                    date: 2021-04-05 12:56:54
+(epstopdf)                    size: 26356 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_rmsplots-e
 ps-converted-to.pdf Figures/nun_diff_rmsplots.eps>
 (epstopdf)             \includegraphics on input line 413.
@@ -1717,18 +1717,18 @@ Overfull \hbox (16.6322pt too wide) in paragraph at lines 450--450
 ohn-son, and D. L. Fishel,   Pos-si-ble second-order nematicsmectic-
  []
 
-[21] [22] [23] 
+[21] [22] [23] [24] [25] 
 AED: lastpage setting LastPage
-[24] (ProjectReport.aux)
+[26] (ProjectReport.aux)
 Package logreq Info: Writing requests to 'ProjectReport.run.xml'.
 \openout1 = `ProjectReport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 21238 strings out of 481565
- 411891 string characters out of 2914627
- 1065598 words of memory out of 3000000
- 35830 multiletter control sequences out of 15000+200000
+ 21248 strings out of 481565
+ 412214 string characters out of 2914627
+ 1065788 words of memory out of 3000000
+ 35840 multiletter control sequences out of 15000+200000
  710502 words of font info for 280 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  47i,12n,77p,1242b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1746,21 +1746,23 @@ msfonts/cm/cmbsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/t
 ype1/public/amsfonts/cm/cmbx10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/KitG/AppData/Local/Pro
 grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/KitG/AppDa
-ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users
-/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pf
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Users
+/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pf
 b><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmmib10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/KitG/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/KitG/AppDat
-a/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/
-KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/
-Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.p
-fb>
-Output written on ProjectReport.pdf (25 pages, 2324401 bytes).
+cm/cmmi8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
+c/amsfonts/cm/cmmib10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/KitG/AppData/Local/Pro
+grams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/KitG/AppData
+/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Ki
+tG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+<C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmsy8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/urw/hel
+vetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/u
+rw/helvetic/uhvro8a.pfb>
+Output written on ProjectReport.pdf (27 pages, 2353988 bytes).
 PDF statistics:
- 513 PDF objects out of 1000 (max. 8388607)
+ 528 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  54855 words of extra memory for PDF output out of 61914 (max. 10000000)
 

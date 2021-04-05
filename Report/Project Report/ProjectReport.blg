@@ -1,19 +1,17 @@
 [0] Config.pm:304> INFO - This is Biber 2.14
-[0] Config.pm:307> INFO - Logfile is 'ProjectReport.blg'
-[183] biber-MSWIN64:322> INFO - === 
-[224] Biber.pm:415> INFO - Reading 'ProjectReport.bcf'
-[540] Biber.pm:943> INFO - Found 109 citekeys in bib section 0
-[578] Biber.pm:4256> INFO - Processing section 0
-[579] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
-[597] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
-[627] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
-[639] bibtex.pm:1653> INFO - LaTeX decoding ...
-[1167] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
-[1170] Utils.pm:304> WARN - Possible typo (case mismatch) between datasource keys: 'DeGennes1992' and 'deGennes1992' in file 'reportreferences.bib'
-[2435] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[2435] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[2436] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[2436] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[2647] bbl.pm:652> INFO - Writing 'ProjectReport.bbl' with encoding 'UTF-8'
-[2802] bbl.pm:755> INFO - Output to ProjectReport.bbl
-[2803] Biber.pm:128> INFO - WARNINGS: 1
+[1] Config.pm:307> INFO - Logfile is 'ProjectReport.blg'
+[138] biber-MSWIN64:322> INFO - === 
+[172] Biber.pm:415> INFO - Reading 'ProjectReport.bcf'
+[438] Biber.pm:943> INFO - Found 112 citekeys in bib section 0
+[471] Biber.pm:4256> INFO - Processing section 0
+[472] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
+[488] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
+[511] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
+[523] bibtex.pm:1653> INFO - LaTeX decoding ...
+[949] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
+[1914] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1915] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1915] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1915] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[2074] bbl.pm:652> INFO - Writing 'ProjectReport.bbl' with encoding 'UTF-8'
+[2189] bbl.pm:755> INFO - Output to ProjectReport.bbl
