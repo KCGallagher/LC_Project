@@ -3,6 +3,9 @@ Accounts for additional displacement when crossing the periodic boundary conditi
 
 A separate method to test theory by Erika's student David. Could have been included 
 in previous file but done quickly over Easter holidays!
+
+Sampled values are given by total motion over the simulation length
+Regression values (for D) are given by regression analysis over the entirity of the simulation
 """
 
 import numpy as np
