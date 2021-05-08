@@ -1,3 +1,5 @@
+#run with lmp_serial -pk omp 8 -sf omp -in in.run_loop
+
 #SETUP
 # Runs on the first loop only
 shell del *.dump     # delete all dump files before first run CAREFUL WITH THIS
@@ -5,13 +7,13 @@ shell del restart.time*     # delete all current restart files before first run
 shell lmp_serial -in in.run_setup     # first run of file, generate first restart file
 
 #VARIABLES
-variable N         equal  1000 #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
-variable len       equal  15  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable N         equal  1024  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
+variable len       equal  15
 variable T         equal  0.5 
 variable t_step    equal  0.005 #originally 0.005
-variable mix_steps index  50000 50000 50000 50000 50000 50000 50000 0 0
+variable mix_steps index  0 0 0 100000 0 100000 100000 100000 100000 
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  1500000 # steps to run simulation in order to reach steady state
+variable run_steps equal  2000000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 #1000 particles averages 35,000 steps per minute
 
@@ -29,12 +31,12 @@ thermo_modify norm no
 
 
 # DUMP OUTPUT 
-dump  1  all custom 25000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
+dump  1  all custom 50000 output_T_${T}_time_*.dump id mol type x y z vx vy vz
 # dumps all positions etc every N  steps
 dump_modify 1 sort id
 
 # FIX
-fix 2 all nph iso ${T} ${T} 100   #changed from T = 0.5 to match variable T
+fix 2 all nph iso 0.0001 0.0001 1000   #reduced target pressure here
 fix 3 all langevin ${T} ${T} 1 123456 #as above
 run ${mix_steps}
 
@@ -54,5 +56,3 @@ clear
 next mix_steps
 jump in.run_loop loop  #jumps back to loop label
 
-# shell py phase_plot.py #runs phase analysis
-# shell py director_plot.py #runs phase analysis
