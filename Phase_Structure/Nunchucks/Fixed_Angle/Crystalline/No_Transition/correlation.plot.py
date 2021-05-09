@@ -1,5 +1,3 @@
-"""Additional approaches to calcuating the pair-wise orientational order correlation function, using different director vectors"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -9,14 +7,9 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
+SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
-mol_length = 15
-
-DIRECTOR_METHOD = "normal"
-# Options are molecule/arm/bisector/normal
-
-# mol_length = 10  #uncomment on older datasets
+mol_length = 10
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -84,37 +77,6 @@ print(
 
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
-def find_director(data, method="molecule"):
-    """Obtains director from molecule positions, through a variety of methods
-    
-    First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
-    Third index gives the component of the position (x,y,z)
-
-    'molecule' calculates director between ends of the molecule; 
-    'arm' calculates director along first arm of molecule; 
-    'bisector' gives the director along the bisector of the join angle; 
-    'normal' gives the bisector out of the plane of the molecule
-    """
-
-    if method == "molecule":
-        return data[:, 2, :] - data[:, 0, :]
-
-    elif method == "arm":
-        return data[:, 1, :] - data[:, 0, :]
-
-    elif method == "bisector":
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        return data[:, 1, :] - midpoints
-
-    elif method == "normal":
-        arm1 = data[:, 1, :] - data[:, 0, :]
-        arm2 = data[:, 2, :] - data[:, 1, :]
-        return np.cross(arm1, arm2)
-
-    else:
-        raise ValueError("Unknown argument to find_director()")
 
 
 def find_angle(vec1, vec2):
@@ -127,66 +89,34 @@ def find_angle(vec1, vec2):
     return np.sum(vec1 * vec2)
 
 
-def find_separation(pos1, pos2, box_dim):
-    """Finds separation between two positions
-
-    This method finds the minimum separation, accounting for the periodic BC
-    pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
-    separation = pos1 - pos2
-    for i in range(len(pos1)):  # should be 3 dimensional
-        if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
-            # use distance to ghost instead
-            separation[i] = box_dim[i] - np.abs(pos1[i] - pos2[i])
-
-    return np.linalg.norm(separation)
-
-
-def eval_angle_array(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
-    Third index gives the component of the position (x,y,z)
-
-    Outputs N x N x 2 array, for pairwise values of separation and angle
-    Be aware this may generate very large arrays
-    """
-    angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
-    # dtype specified to reduce storgae required
-
-    director = find_director(
-        data, method=DIRECTOR_METHOD
-    )  # director vector for whole of molecule
-
-    for i in range(N_molecules - 1):
-        for j in range(i + 1, N_molecules):
-            # Only considering terms of symmetric matrix above diagonal
-            # Separation between centres of each molecule:
-            angle_array[i, j, 0] = find_separation(
-                data[i, 1, :], data[j, 1, :], box_dim
-            )
-            # Angle between arms of molecule:
-            angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
-    angle_array_masked = np.ma.masked_invalid(
-        angle_array[:, :, :]
-    )  # mask empty values below diagonal
-    return angle_array_masked
-
-
-def correlation_func(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
+def eval_angle_array(data):
+    """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
     Second index gives particle number within molecule (first/last)
     Third index gives the component of the position (x,y,z)
 
-    Returns array of correlation data at each radius"""
+    Outputs N x N x 2 array, for pairwise values of separation and angle
+    Be aware this may generate very large arrays
+    """
+    angle_array = np.zeros((N_molecules, N_molecules, 2), dtype=np.float32)
+    # dtype specified to reduce storgae required
 
-    angle_array = eval_angle_array(data, box_dim)
+    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
+
+    for i in range(N_molecules):
+        for j in range(N_molecules):
+            # Separation between centres of each molecule:
+            angle_array[i, j, 0] = np.linalg.norm(data[i, 1, :] - data[j, 1, :])
+            # Angle between arms of molecule:
+            angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
+
+    return angle_array
+
+
+def correlation_func(data):
+    angle_array = eval_angle_array(data)
     max_separation = np.max(angle_array[:, :, 0])
 
     bin_width = max_separation / SEPARATION_BIN_NUM
@@ -202,10 +132,9 @@ def correlation_func(data, box_dim):
             ),
             angle_array[:, :, 1],  # act on angle data
         )
-
         legendre_polynomials = np.polynomial.legendre.legval(
-            relevant_angles[:, :], [0, 1]
-        )  # evaluate 2nd order legendre polynomial (change here for first order)
+            relevant_angles[:, :], [0, 0, 1]
+        )
 
         correlation_data[n] = np.mean(legendre_polynomials)
 
@@ -224,7 +153,6 @@ for i, time in enumerate(time_range):  # interate over dump files
     extract_box_data = False  # start of file doesn't contain box dimension
 
     box_volume = 1
-    box_dimensions = []  # to store side lengths of box for period boundary adjustment
     rod_positions = np.zeros((N_molecules, 3, 3))
     """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
 
@@ -242,15 +170,14 @@ for i, time in enumerate(time_range):  # interate over dump files
         if extract_box_data and not extract_atom_data:
             # evaluate before particle values
             # each line gives box max and min in a single axis
-            box_limits = []
+            box_dimension = []
             for d in line.split():  # separate by whitespace
                 try:
-                    box_limits.append(float(d))
+                    box_dimension.append(float(d))
                 except ValueError:
                     pass  # any non-floats in this line are ignored
-            box_volume *= box_limits[1] - box_limits[0]
+            box_volume *= box_dimension[1] - box_dimension[0]
             # multiply box volume by length of this dimension of box
-            box_dimensions.append(box_limits[1] - box_limits[0])
 
         if extract_atom_data and not extract_box_data:
             # evaluate after box dimension collection
@@ -282,7 +209,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
     separation_bins, correlation_data = correlation_func(
-        rod_positions, box_dimensions
+        rod_positions
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
@@ -302,6 +229,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "1st_order.png"
-plt.savefig(image_name)
+plt.savefig("correlation_func.png")
 plt.show()

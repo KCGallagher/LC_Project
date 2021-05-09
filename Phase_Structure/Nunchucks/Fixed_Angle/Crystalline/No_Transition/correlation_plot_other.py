@@ -13,7 +13,7 @@ SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correl
 
 mol_length = 15
 
-DIRECTOR_METHOD = "normal"
+DIRECTOR_METHOD = "bisector"
 # Options are molecule/arm/bisector/normal
 
 # mol_length = 10  #uncomment on older datasets
