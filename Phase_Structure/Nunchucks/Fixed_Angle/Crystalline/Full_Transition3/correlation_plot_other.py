@@ -13,7 +13,7 @@ SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correl
 
 mol_length = 15
 
-DIRECTOR_METHOD = "molecule"
+DIRECTOR_METHOD = "bisector"
 # Options are molecule/arm/bisector/normal
 
 # mol_length = 10  #uncomment on older datasets
@@ -204,8 +204,8 @@ def correlation_func(data, box_dim):
         )
 
         legendre_polynomials = np.polynomial.legendre.legval(
-            relevant_angles[:, :], [0, 0, 1]
-        )  # evaluate 2nd order legendre polynomial
+            relevant_angles[:, :], [0, 1]
+        )  # evaluate 2nd order legendre polynomial (change here for first order)
 
         correlation_data[n] = np.mean(legendre_polynomials)
 
@@ -302,6 +302,6 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + ".png"
+image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "1st_order.png"
 plt.savefig(image_name)
 plt.show()

@@ -11,7 +11,7 @@ FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous co
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
 
-DIRECTOR_METHOD = "normal"
+DIRECTOR_METHOD = "arm"
 # Options are molecule/arm/bisector/normal
 
 # mol_length = 10  #uncomment on older datasets
