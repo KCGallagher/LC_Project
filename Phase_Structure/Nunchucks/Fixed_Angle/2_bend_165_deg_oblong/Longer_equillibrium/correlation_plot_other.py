@@ -11,7 +11,7 @@ FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous co
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
 
-DIRECTOR_METHOD = "molecule"
+DIRECTOR_METHOD = "normal"
 # Options are molecule/arm/bisector/normal
 
 # mol_length = 10  #uncomment on older datasets
@@ -300,6 +300,6 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 # plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "2.eps"
+image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "2.png"
 plt.savefig(image_name)
 plt.show()

@@ -48,7 +48,7 @@ fix 2 all nph iso 0.0001 0.0001 10   #reduced target pressure here
 fix 3 all langevin ${T} ${T} 1 123456 #as above
 
 # RUN
-run 0
+run 250
 
 # REFIX
 unfix 2
