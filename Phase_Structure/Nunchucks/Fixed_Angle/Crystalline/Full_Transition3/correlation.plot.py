@@ -7,7 +7,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+SEPARATION_BIN_NUM = 50  # number of bins for radius dependance pair-wise correlation
 
 mol_length = 10
 
@@ -229,5 +229,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func.png")
+plt.savefig("correlation_func_fine.png")
 plt.show()
