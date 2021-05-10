@@ -11,9 +11,9 @@ variable N         equal  1024  #MUST BE SAME AS SETUP FILE FOR PHASEPLOT
 variable len       equal  15
 variable T         equal  0.5 
 variable t_step    equal  0.005 #originally 0.005
-variable mix_steps index  0 
+variable mix_steps index  0 0 0 0 0 0 0 0 0
 variable mix_tau   equal  ${t_step}*${mix_steps} 
-variable run_steps equal  10000000 # steps to run simulation in order to reach steady state
+variable run_steps equal  2000000 # steps to run simulation in order to reach steady state
 variable run_tau   equal  ${t_step}*${run_steps} # this is the time in LJ units
 #1000 particles averages 35,000 steps per minute
 
