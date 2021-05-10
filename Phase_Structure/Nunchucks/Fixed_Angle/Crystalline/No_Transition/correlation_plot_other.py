@@ -204,7 +204,7 @@ def correlation_func(data, box_dim):
         )
 
         legendre_polynomials = np.polynomial.legendre.legval(
-            relevant_angles[:, :], [0, 1]
+            relevant_angles[:, :], [0, 0, 1]
         )  # evaluate 2nd order legendre polynomial (change here for first order)
 
         correlation_data[n] = np.mean(legendre_polynomials)
@@ -302,6 +302,6 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + "1st_order.png"
+image_name = "correlation_func_test" + str(DIRECTOR_METHOD) + ".png"
 plt.savefig(image_name)
 plt.show()

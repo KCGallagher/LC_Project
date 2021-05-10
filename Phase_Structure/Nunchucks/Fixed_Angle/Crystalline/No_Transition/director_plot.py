@@ -138,9 +138,9 @@ for i, time in enumerate(time_range):  # interate over dump files
                     pass  # any non-floats in this line are ignored
 
             # Save positional coordatinates of end particles
-            if int(particle_values[2]) == 1:  # first particle in molecule
+            if int(particle_values[2]) == 6:  # first particle in molecule
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in molecule
+            if int(particle_values[2]) == 9:  # last particle in molecule
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
@@ -156,7 +156,7 @@ plt.plot(
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-plt.savefig("order_plot.png")
+plt.savefig("order_plot2.png")
 plt.show()
 
 fig, ax1 = plt.subplots()
@@ -178,11 +178,11 @@ ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.savefig("order_and_volfrac.png")
+plt.savefig("order_and_volfrac2.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), order_param_values, "rx")
 plt.ylabel("Order Parameter")
 plt.xlabel("Volume Fraction")
-plt.savefig("order_vs_volfrac.png")
+plt.savefig("order_vs_volfrac2.png")
 plt.show()
