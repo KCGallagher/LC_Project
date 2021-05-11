@@ -68,6 +68,7 @@ for i, line in enumerate(log_file):
         # this comes up first in file so no searching variable here
 
 log_file.close()
+print(mix_steps_values)
 
 tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num_tot * equilibrium_time
