@@ -208,7 +208,7 @@ ax2.set_ylabel(
 ax2.plot(time_range, vol_frac(volume_values), color=color)
 ax2.tick_params(axis="y", labelcolor=color)
 
-plt.title("Evolution of Order Parameter")
+plt.title("Evolution of Biaxial Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
 plt.savefig("order_and_volfrac_bisector.png")
 plt.show()

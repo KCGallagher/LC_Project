@@ -1,5 +1,7 @@
 """Calculates the diffusion coefficient over each equillibration run. 
-Accounts for additional displacement when crossing the periodic boundary conditions"""
+Accounts for additional displacement when crossing the periodic boundary conditions
+
+This file is adapted for no contraction periods"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -68,7 +70,6 @@ for i, line in enumerate(log_file):
         # this comes up first in file so no searching variable here
 
 log_file.close()
-print(mix_steps_values)
 
 tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num_tot * equilibrium_time
@@ -81,14 +82,13 @@ print(
 
 # GENERATE LIST OF TIME STEPS TO SAMPLE
 
-sampling_times = np.zeros((len(mix_steps_values), 2))
+sampling_times = np.zeros(len(mix_steps_values) + 1)
 # Gives start and end times for each equillibrium run
 time_counter = 0
 for i in range(len(mix_steps_values)):
-    time_counter += mix_steps_values[i]
-    sampling_times[i, 0] = time_counter
     time_counter += equilibrium_time
-    sampling_times[i, 1] = time_counter
+    sampling_times[i + 1] = time_counter
+print(sampling_times)
 
 assert time_counter == run_time, "Unexpected result in sampling times"
 
@@ -214,40 +214,38 @@ for i, time in enumerate(time_range):  # interate over dump files
             com_positions, previous_positions, box_dimensions
         )
 
-    if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
-        rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
-            com_positions + extra_displacement,  # takes current values
-            initial_sample,  # reset for each eq run
-            use_vector=DIRECTIONAL_COEFF,
-        )
-
     if time in sampling_times:  # MEASURE SAMPLING POINTS
         print("T = " + str(time) + "/" + str(run_time))
-        where_output = np.where(sampling_times == time)
-        indices = (where_output[0][0], where_output[1][0])
-        if indices[1] == 0:  # start of sampling period
-            initial_sample = com_positions
-            sampled_vol_values[indices[0]] = box_volume
+        sample_index = np.where(sampling_times == time)
+        print(sample_index)
 
-            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
-
-            run_origin = i  # so ongoing measurement starts from zero each time
-            equilibrium_flag = True
-        else:  # end of sampling period
+        if time != 0:  # RUN ENDING ROUTINE FIRST
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
                 com_positions + extra_displacement,
                 initial_sample,
                 use_vector=DIRECTIONAL_COEFF,
             )  # initial sample taken from previous iteration in if clause
-            sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
+            sampled_D_values[sample_index, :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
-
             run_num += 1
-            equilibrium_flag = False
+
+        if time != run_time:  # RUN STARTING ROUTINE FOR SAMPLING
+            initial_sample = com_positions
+            sampled_vol_values[sample_index] = box_volume
+
+            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+
+            run_origin = i  # gives time index for the start of each run
+
+    # MEASURE ONGOING RMS DISPLACEMENT
+    rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
+        com_positions + extra_displacement,  # takes current values
+        initial_sample,  # reset for each eq run
+        use_vector=DIRECTIONAL_COEFF,
+    )
 
     previous_positions = com_positions
-    # print("T = " + str(time) + "/" + str(run_time))
 
 
 # print(sampled_D_values)
@@ -256,7 +254,9 @@ for i, time in enumerate(time_range):  # interate over dump files
 
 plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
 
+print("sampled_vol_values" + str(sampled_vol_values))
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
+print("sampled_vol_frac" + str(sampled_vol_frac))
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
 for plot_index, data_index in enumerate(plot_list):
@@ -268,15 +268,15 @@ for plot_index, data_index in enumerate(plot_list):
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope, intercept, r_value, p_value, std_err = linregress(
-        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
-    )  # consider x axis for purpose of this
+    # slope, intercept, r_value, p_value, std_err = linregress(
+    #     np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+    # )  # consider x axis for purpose of this
     plot_best_fit = False
 
-    print(
-        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.2f}".format(slope)
-    )  # can add this onto graph with plt.annotate if desired
+    # print(
+    #     "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
+    #     "{:.2f}".format(slope)
+    # )  # can add this onto graph with plt.annotate if desired
 
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
@@ -297,7 +297,7 @@ for plot_index, data_index in enumerate(plot_list):
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf2.eps")
+plt.savefig("rms_displacement_runwise_bf2.png")
 plt.show()
 
 markers = ["x", "1", "+"]
@@ -308,6 +308,6 @@ for i in range(dimension_num):
 plt.ylabel(r"Diffusion Coefficient ($D_{i}$)")
 plt.xlabel(r"Volume Fraction ($\phi$)")
 plt.legend()
-plt.savefig("order_vs_diffusion_with_bc.eps")
+plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
 

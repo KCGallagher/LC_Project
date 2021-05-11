@@ -164,7 +164,7 @@ fig, ax1 = plt.subplots()
 color = "tab:red"
 ax1.set_xlabel("Time (arbitrary units)")
 ax1.set_ylabel("Order Parameter", color=color)
-ax1.plot(time_range, uniform_filter1d(order_param_values, size=int(10)), color=color)
+ax1.plot(time_range, uniform_filter1d(order_param_values, size=int(3)), color=color)
 ax1.tick_params(axis="y", labelcolor=color)
 
 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
