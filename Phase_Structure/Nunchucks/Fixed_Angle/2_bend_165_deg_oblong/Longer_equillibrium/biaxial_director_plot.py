@@ -191,6 +191,8 @@ for i, time in enumerate(time_range):  # interate over dump files
 # plt.savefig("order_plot.png")
 # plt.show()
 
+order_param_values[0] = order_param_values[1]  # remove error at time 0
+
 fig, ax1 = plt.subplots()
 
 color = "tab:red"
