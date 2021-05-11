@@ -8,6 +8,8 @@ sampling_freq = 1  # only samples one in X files (must be integer)
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
+CRYSTALLINE_FLAG = False  # For when the system director is known
+
 # READ PARAMETER VALUES FROM LOG FILE
 
 file_name = "log.lammps"
@@ -70,11 +72,10 @@ print(
     + str((N_molecules, run_time, dump_interval))
 )
 
-
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
 
-def order_param(data):
+def order_param(data, summed_ave_director, summed_ave_bisector):
     """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -84,35 +85,54 @@ def order_param(data):
 
     Method for calculation of Order Param given by Eppenga (1984)
     """
-    method = "bisector"
+    directors = data[:, 2, :] - data[:, 0, :]
 
-    if method == "molecule":
-        directors = data[:, 2, :] - data[:, 0, :]
-
-    elif method == "arm":
-        directors = data[:, 1, :] - data[:, 0, :]
-
-    elif method == "bisector":
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        directors = data[:, 1, :] - midpoints
+    midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
+    bisectors = data[:, 1, :] - midpoints
 
     norm_directors = directors / np.linalg.norm(directors, axis=1).reshape(
         -1, 1
     )  # reshape allows broadcasting
-    M_matrix = np.zeros((3, 3))
-    for i, j in np.ndindex(M_matrix.shape):
-        M_matrix[i, j] = (
-            np.sum(norm_directors[:, i] * norm_directors[:, j]) / N_molecules
-        )
-    M_eigen = np.linalg.eigvals(M_matrix)
-    Q_eigen = (3 * M_eigen - 1) / 2
-    return max(Q_eigen)  # largest eigenvalue corresponds to traditional order parameter
+    norm_bisectors = bisectors / np.linalg.norm(bisectors, axis=1).reshape(
+        -1, 1
+    )  # reshape allows broadcasting
+
+    if CRYSTALLINE_FLAG:  # for known director - y axis in crystalline case
+        system_director = np.array(
+            [0.41404765, 0.03287738, 0.90585189]
+        )  # can be ave bisector, must be normalised
+        cosine_values = np.dot(norm_bisectors, system_director)
+
+        mean_director = np.mean(norm_directors, axis=0)
+        mean_bisector = np.mean(norm_bisectors, axis=0)
+
+        summed_ave_director += mean_director / np.linalg.norm(mean_director)
+        summed_ave_bisector += mean_bisector / np.linalg.norm(mean_bisector)
+
+        order_param = np.mean(3 * cosine_values ** 2 - 1) / 2
+        return order_param
+
+    else:  # for unknown director
+        M_matrix = np.zeros((3, 3))
+        for i, j in np.ndindex(M_matrix.shape):
+            M_matrix[i, j] = (
+                np.sum(norm_directors[:, i] * norm_directors[:, j]) / N_molecules
+            )
+        M_eigen = np.linalg.eigvals(M_matrix)
+        Q_eigen = (3 * M_eigen - 1) / 2
+        return max(
+            Q_eigen
+        )  # largest eigenvalue corresponds to traditional order parameter
 
 
 # READ MOLECULE POSITIONS
 
 order_param_values = np.zeros(len(time_range))
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
+
+summed_ave_director = np.zeros(3)
+summed_ave_bisector = np.zeros(3)
+
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(file_root + str(time) + ".dump", "r")
     extract_atom_data = False  # start of file doesn't contain particle values
@@ -166,8 +186,14 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
+    order_param_values[i] = order_param(
+        rod_positions, summed_ave_director, summed_ave_bisector
+    )  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
+
+if CRYSTALLINE_FLAG:
+    print("Average Director: " + str(summed_ave_director / len(time_range)))
+    print("Average Bisector: " + str(summed_ave_bisector / len(time_range)))
 
 
 # plt.plot(time_range, order_param_values)
@@ -199,6 +225,6 @@ ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-plt.savefig("order_and_volfrac_bisector.png")
+plt.savefig("order_and_volfrac_bisector_Qtensor.png")
 plt.show()
 
