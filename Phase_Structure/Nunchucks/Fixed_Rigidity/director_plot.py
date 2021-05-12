@@ -163,7 +163,7 @@ plt.plot(
 plt.xlabel("Time (arbitrary units)")
 plt.ylabel("Order Parameter")
 plt.title("Evolution of Order Parameter")
-# plt.savefig("order_plot.png")
+plt.savefig("order_plot.png")
 plt.show()
 
 fig, ax1 = plt.subplots()
@@ -185,7 +185,7 @@ ax2.tick_params(axis="y", labelcolor=color)
 
 plt.title("Evolution of Order Parameter")
 fig.tight_layout()  # otherwise the right y-label is slightly clipped
-# plt.savefig("order_and_volfrac.png")
+plt.savefig("order_and_volfrac.png")
 plt.show()
 
 plt.plot(vol_frac(volume_values), order_param_values, "rx")
