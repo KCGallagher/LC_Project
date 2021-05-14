@@ -186,3 +186,6 @@ plt.ylabel("Order Parameter")
 plt.xlabel("Volume Fraction")
 plt.savefig("order_vs_volfrac.png")
 plt.show()
+
+print(max(uniform_filter1d(order_param_values, size=int(10))))
+print(max(order_param_values))

@@ -5,12 +5,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from scipy.stats import linregress  # for linear regression
-from phase_plot import vol_frac
+from phase_plot_future import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 DIRECTIONAL_COEFF = True
 
-# mol_length = 10  #uncomment on older datasets
+mol_length = 10  # uncomment on older datasets
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -253,7 +253,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 # # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
 # print(sampled_vol_values)
 
-plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
+plot_list = range(0, run_num_tot, 2)  # runs to plot
 
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
@@ -263,50 +263,82 @@ for plot_index, data_index in enumerate(plot_list):
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
     # print(rms_disp_values[data_index, :, 0])
-    # rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
+    rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope, intercept, r_value, p_value, std_err = linregress(
+    slope_x, intercept_x, r_value_x, p_value_x, std_err_x = linregress(
         np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
     )  # consider x axis for purpose of this
-    plot_best_fit = False
+    slope_y, intercept_y, r_value_y, p_value_y, std_err_y = linregress(
+        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 1])
+    )  # consider x axis for purpose of this
+
+    plot_best_fit = True
 
     print(
-        "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.2f}".format(slope)
-    )  # can add this onto graph with plt.annotate if desired
+        "X: For vol frac = "
+        + "{:.2f}".format(sampled_vol_frac[data_index])
+        + ", x_slope = "
+        + "{:.2f}".format(slope_x)
+        + ", y_slope = "
+        + "{:.2f}".format(slope_y)
+        + ", intercept ratio = "
+        + "{:.2f}".format(10 ** intercept_x / 10 ** intercept_y)
+    )
 
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(
                 eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
             )
-        else:
+            if plot_best_fit == True and j == 2:  # only needs to be plotted once
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_x) * (10 ** intercept_x),
+                    label="Best fit (x)",
+                    linestyle="dashed",
+                )
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_y) * (10 ** intercept_y),
+                    label="Best fit (y)",
+                    linestyle="dashed",
+                )
+        else:  # no legend entries
             axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
 
-    if plot_best_fit:
-        axs[plot_index].plot(
-            eq_time_values,
-            (eq_time_values ** slope) * (10 ** intercept),
-            label="Best fit",
-            linestyle="dashed",
-        )
+            if plot_best_fit == True and j == 2:
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_x) * (10 ** intercept_x),
+                    linestyle="dashed",
+                )
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_y) * (10 ** intercept_y),
+                    linestyle="dashed",
+                )
 
-axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
-axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
+
+axs[int(len(plot_list) / 2)].set_xlabel(
+    "Time (Arbitrary Units)"
+)  # use median of plot_list
+axs[0].set_ylabel("RMS displacement")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf2.eps")
+plt.savefig("rms_displacement_runwise2.png")
 plt.show()
 
-markers = ["x", "1", "+"]
 for i in range(dimension_num):
     plt.plot(
-        sampled_vol_frac, sampled_D_values[:, i], markers[i], label=axis_labels[i],
+        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
     )
-plt.ylabel(r"Diffusion Coefficient ($D_{i}$)")
-plt.xlabel(r"Volume Fraction ($\phi$)")
+plt.ylabel("Diffusion Coefficient")
+plt.xlabel("Volume Fraction")
 plt.legend()
-plt.savefig("order_vs_diffusion_with_bc.eps")
+plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
+
+print("Volume fraction = " + str(sampled_vol_frac))
+print("D_x/D_y = " + str(sampled_D_values[:, 0] / sampled_D_values[:, 1]))
 

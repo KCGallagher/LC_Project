@@ -9,9 +9,9 @@ FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous co
 SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
-mol_length = 10
-
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
+
+mol_length = 10
 
 # READ PARAMETER VALUES FROM LOG FILE
 
