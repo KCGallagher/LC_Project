@@ -78,7 +78,7 @@ In the most general sense, liquid crystals are states of matter displaying prope
 %\footnotemark \ %removed from after molecules
 %\footnotetext{It should be noted that only achiral molecules may form nematic phases; chiral molecules form an equivalent cholesteric (or `twisted-nematic') phase. This is particularly relevant to the consideration of DNA; a chiral molecule.}
 
-\begin{figure} [h!]
+\begin{figure} [!ht]
 	\centering
 	\includegraphics[width=0.7\linewidth]{Figures/lc_phases_cropped}
 	\caption{Representation of the three liquid crystal phase classes, reproduced from Kato et al. \cite{Kato2007} with permission. Note the distinct layers in the smectic and columnar phases, and the different class of molecule in the columnar phase.}
@@ -273,13 +273,13 @@ Initially, the particle force centres are placed on a simple cubic lattice. Agai
 
 The isotropic phase formation was observed in the region $0.38 < \phi< 0.41$, in good agreement with the results of Section \ref{sec:RigidRodSims}, and confirming this is indeed an equilibrium phase transition. 
 
-The higher volume fractions accessed at the start of the simulation also give rise to another phase transition; forming this nematic phase from the initial ordered phase. While the system was configured in a crystalline phase, it quickly relaxes into an smectic-like phase with the one-dimensional long-range positional order. The subsequent smectic\textendash nematic transition is then observed in Figure \ref{fig:rr_crystalorder}, with a reduction in the smectic order parameter around $\phi  = 0.6$. This transition is clearly concentration-dependant (with discrete jumps in the order parameter when the volume fraction is reduced), however it occurs over a range of volume fractions and so is likely a continuous phase transition. While our evidence here is not conclusive, this is still a matter of active research and beyond the scope of this report. Theoretical \cite{Wen1987}, computational \cite{Frenkel1988, McGrother1996}, and experimental \cite{Dogic1997, Doane1972} evidence however suggests that this transition is expected to be continuous (or at most weakly first-order) for rigid rods of extended aspect ratios, and occur around this volume fraction. 
+The higher volume fractions accessed at the start of the simulation also give rise to another phase transition; forming this nematic phase from the initial ordered phase. While the system was configured in a crystalline phase, it quickly relaxes into an smectic-like phase with the one-dimensional long-range positional order. The subsequent smectic\textendash nematic transition is then observed with a reduction in the smectic order parameter around $\phi  = 0.6$, as shown in Figure \ref{fig:rr_crystalorder}. This transition is clearly concentration-dependant (with discrete jumps in the order parameter when the volume fraction is reduced), however it occurs over a range of volume fractions and so is likely a continuous phase transition. While our evidence here is not conclusive, this is still a matter of active research and beyond the scope of this report. Theoretical \cite{Wen1987}, computational \cite{Frenkel1988, McGrother1996}, and experimental \cite{Dogic1997, Doane1972} evidence however suggests that this transition is expected to be continuous (or at most weakly first-order) for rigid rods of extended aspect ratios, and occurs around this volume fraction. 
 %Frenkels results also find no dependance on aspect ratio (for crit volume frac)
 %Later suggested that this transition is only continuous at large aspect ratios, and first order for ratios much smaller than are used here.
 %Dogic suggests continuous for rigid particles, but first order if flexible, Doane uses hydrocarbon chains to come to the same conclusions
 
 \section{Nunchuck Simulations} \label{sec:Nunchuck_Sim}
-Further simulations applied the same approaches to the nunchuck molecules introduced in Section \ref{sec:SimMolecules}. These could be configured in two ways; either with a fixed angle between the two rigid arms, or a fixed rigidity (which determines the angular potential between the two arms, and hence the distribution of angles observed). Previous work by Jiaming Yu using OxDNA \cite{OxDNA} has suggested that the fixed rigidity model provides an accurate coarse-grained model of the nunchucks; however the fixed angle approach is also used for simplicity, and because it appears more amenable to ordered phase formation.
+Furthermore I applied the same simulation approaches to the nunchuck molecules introduced in Section \ref{sec:SimMolecules}. These could be configured in two ways; either with a fixed angle between the two rigid arms, or a fixed rigidity (which determines the angular potential between the two arms, and hence the distribution of angles observed). Previous work by Jiaming Yu using OxDNA \cite{OxDNA} has suggested that the fixed rigidity model provides an accurate coarse-grained model of the DNA-nunchucks; however the fixed angle approach is also used for simplicity, and because it appears more amenable to ordered phase formation.
 
 
 %different phases possible https://pubs.rsc.org/en/content/articlelanding/2011/SM/c1sm05751k#!divAbstract
@@ -290,7 +290,7 @@ Further simulations applied the same approaches to the nunchuck molecules introd
 %basic formation of nematic-like phase
 %change in angle distribution to generate order 
 
-Initially, nunchucks with complete bond flexibility are considered. Despite this, a nematic-like phase was observed at volume fractions $\phi > 0.4$, with a maximal order parameter of \num{0.6} comparable to those measured previously in rigid rod systems. Despite this, a uniform, system-wide director was not observed, with the preferential orientation varying across the simulation region in Figure \ref{fig:nun_fr_views}.
+Initially, nunchucks with complete bond flexibility are considered. Despite this, a nematic-like phase was observed at volume fractions $\phi > 0.4$, with a maximal order parameter of \num{0.6} comparable to those measured previously in rigid rod systems. Despite this, a uniform, system-wide director was not observed, with the preferential orientation varying across the simulation region shown in Figure \ref{fig:nun_fr_views}.
 
 
 \begin{figure}
@@ -322,7 +322,7 @@ Consideration of the distribution of nunchuck bond angles (i.e. the opening angl
 
 
 \subsection{Fixed Angle}
-We therefore consider systems where the nunchuck opening angle is confined to a particular value, as we suggest similarly quasi-nematic structures may be observed on shorter length scales,  particularly this opening angle is confined below the mean angle of Figure \ref{fig:nun_fr_angledist}.
+Therefore, I considered systems where the nunchuck opening angle is confined to a particular value. I suggest that, in comparison to the fixed rigidity case, quasi-nematic structures may be observed on shorter length scales, particularly when this opening angle is confined below the mean angle (see Figure \ref{fig:nun_fr_angledist}).
 We tested phase formation over a wide range of rigid rod lengths and opening angle values; broadly we found that larger opening angles favoured nematic-like phase formation (with a maximal order parameter of $S_{n} = 0.62$), but smaller angles did not form obvious alternate ordered phases. Two such quasi-nematic phases observed are depicted in Figure \ref{fig:nun_fa_views}.
 
 \begin{figure}
@@ -344,19 +344,19 @@ We tested phase formation over a wide range of rigid rod lengths and opening ang
 	\label{fig:nun_fa_views}
 \end{figure}
 
-Alongside the nematic tendency here for all molecules to have similar alignment along a constant global director, there appears to be more periodic ordering, such as the herringbone structure clearly visible in Figure \ref{fig:nun_fa_herringbone}, or the rotation of the system director across the sample in Figure \ref{fig:nun_fa_twist} (typical of a twisted nematic phase). These structures cannot be described by our current order parameter methods.
+Alongside the tendency here to form a nematic phase with all molecules having a similar alignment along a constant global director, there appears to be more periodic ordering, such as the herringbone structure clearly visible in Figure \ref{fig:nun_fa_herringbone}, or the rotation of the system director across the sample in Figure \ref{fig:nun_fa_twist} (typical of a twisted nematic phase). These structures cannot be described by our current order parameter methods.
 
 
 \subsection{Orientational Order Parameter} \label{sec:PairWise_Application}
-Alternative methods to characterise the order of the system are typically motivated by the class of symmetry expected. Given that our system appears to display a degree of orientational order, a length-dependant orientational order parameter is introduced to verify this order is truly long-ranged (and not simply due to short range steric effects). This also allows the identification of any periodic aspects to the system as oscillatory components in the order parameter.
+Alternative methods to characterise the order of the system are typically motivated by the class of symmetry expected. Given that our system appears to display a degree of orientational order, a length-dependant orientational order parameter is introduced to verify this order is truly long-ranged and not simply due to short range steric effects. This also allows the identification of any periodic aspects to the system as oscillatory components in the order parameter.
 
-We consider an $l$-th rank pair-wise correlation function, where $g_{l}(r)$ gives the correlation between the orientation of two particles separated by a distance $r$ :
+We consider an $l$-th rank pair-wise correlation function, where $g_{l}(r)$ gives the correlation between the orientation of two particles separated by a distance $r$
 
 \begin{equation} \label{eq:PairWise_eq}
 g_{l}(r) = \frac{\langle P_{l}(\boldsymbol{\hat{u}_{i}}\cdot \boldsymbol{\hat{u}_{j}}) \delta(r_{ij}-r)\rangle}{\langle  \delta(r_{ij}-r) \rangle}
 \end{equation}
 
-where $\boldsymbol{\hat{u}_{i}}$ is the director for molecule $i$, and $r_{ij}$ is the separation between a given pair of molecules $i,j$ \cite{Zannoni1979}. In the disordered phase, this decays to zero, while in the ordered phase it decays to the square of the orientational order parameter \cite{Frenkel1985b}:
+where $\boldsymbol{\hat{u}_{i}}$ is the director for molecule $i$, and $r_{ij}$ is the separation between a given pair of molecules $i$ and $j$ \cite{Zannoni1979}. In the disordered phase, this pair-correlation function decays to zero, while in the ordered phase it decays to the square of the orientational order parameter \cite{Frenkel1985b}:
 
 \begin{equation}
 \lim_{r \to \infty}g_{l}(r) = \left\langle P_{l} \right\rangle ^{2}
@@ -364,9 +364,9 @@ where $\boldsymbol{\hat{u}_{i}}$ is the director for molecule $i$, and $r_{ij}$ 
 
 Details of the simulation methods of $g_{l}(r)$ are given in Appendix \ref{sec:PairWise_Theory}. 
 
-This may be applied to the systems observed in Figure \ref{fig:nun_fa_views}, however this approach is limited by the length scale of the simulation region; the maximum separation between particles is half the size of the simulation region due to the periodic boundary conditions \cite{Frenkel1985c}.
+This may be applied to the systems shown in Figure \ref{fig:nun_fa_views}. However this approach is limited by the length scale of the simulation region; the maximum separation between particles is half the size of the simulation region due to the periodic boundary conditions \cite{Frenkel1985c}.
 
-To determine order over longer length scales, without increasing the volume of the system (due to the limited computational resources), we instead vary the aspect ratio of the system. By considering an elongated oblong simulation region, such as in Figure \ref{fig:nun_fa_twist}, we are able to sample correlations over longer distances (along the long axis of the box) for systems of the same particle number. Using this method, Figure \ref{fig:num_fa_correlation_mol}, gives conformation that the order observed in this fixed angle system is indeed long-range, with a non-decaying correlation at long length scales.
+To determine order over longer length scales, without increasing the volume of the system (due to the limited computational resources), we instead vary the aspect ratio of the system. By considering an elongated oblong simulation region, such as in Figure \ref{fig:nun_fa_twist}, we are able to sample correlations over longer distances (along the long axis of the box) for systems of the same particle number. Using this method, the curves in Figure \ref{fig:num_fa_correlation_mol} confirm that the order observed in this fixed angle system is indeed long-range, with a non-decaying correlation at long length scales.
 
 \begin{figure} [h!]
 	\centering
@@ -378,28 +378,28 @@ To determine order over longer length scales, without increasing the volume of t
 
 This method is limited by the use of a single vector along the molecular axis to define the orientation of the molecule; two vectors are required to uniquely specify the orientation of a single nunchuck molecule. Using the molecular axis alone only accounts for quasi-nematic order; and does not consider any biaxial or herringbone substructure. We therefore also consider additional orientational correlation functions for the bisector of each molecule, and normal vector to the plane of the nunchuck. The first Legendre polynomial is used for the bisector to detect changes in sign of the bisector direction, as would be expected in a herringbone structure.
 
-However, no statistically significant periodic components in the correlation function were observed over the length scale of the simulation region. A visual inspection of Figure \ref{fig:nun_fa_views} suggests that the simulation region is approximately a factor of two shorter than the full period of the repeating structure, and so further research on larger simulation regions is required to verify these phases.
+However, no statistically significant periodic components in the correlation function were observed over the length scale of the simulation region. A visual inspection of Figure \ref{fig:nun_fa_views} suggests that the length of the simulation region is approximately half the full period of the repeating structure, and so further research on larger simulation regions is required to verify these phases.
 
 
 %LOOK INTO BIAXIAL\ SPLAY BEND NEMATIC PHASE FURTHER
 
 
 \section{Dynamic Properties} \label{sec:Dynamics}
-While the phase behaviour of rigid rods is well studied, much less is known about the dynamical properties. This in, in part, due to the traditional popularity of Monte Carlo simulation approaches, which cannot predict dynamic properties. Despite this, it has enjoyed a more recent popularity in both computational and experimental studies \cite{GayBalmaz2013, Zhao2013, Rey2013}. Here, we undertake a brief study into the dynamical properties of this nunchuck system, and demonstrate the application of dynamical properties to static phase identification. In particular, we focus upon the diffusion coefficient $D$ defined by the evolution of the mean square displacement (MSD) of time $t$ in $N$ dimensions:
+While the phase behaviour of rigid rods is well studied, much less is known about the dynamical properties of the individual mesogens inside these quasi-ordered phases. This in, in part, due to the traditional popularity of MC approaches, which cannot predict dynamic properties. Despite this, dynamic studies have enjoyed a more recent popularity in both computational and experimental studies \cite{GayBalmaz2013, Zhao2013, Rey2013}. Here, we undertake a brief study into the dynamical properties of this nunchuck system, and demonstrate the application of dynamical properties to static phase identification. In particular, we focus upon the diffusion coefficient $D$ defined by the evolution of the mean square displacement (MSD) as a function of time $t$ in $n$ dimensions:
 
 \begin{equation} \label{eq:msd_eq} 
-\left\langle \left(x(t) - x_{0}\right)^{2} \right\rangle = 2NDt
+\left\langle \left(x(t) - x_{0}\right)^{2} \right\rangle = 2nDt
 \end{equation}
 
 A derivation of this result is given in Appendix \ref{sec:Diffusion_Theory}. It is also instructive to consider the `power-law' formation of this relation \cite{Ernst2013}: 
 
 \begin{equation}
-\left\langle \left(x(t) - x_{0}\right)^{2} \right\rangle = 2ND_{\alpha}t^{\alpha}
+\left\langle \left(x(t) - x_{0}\right)^{2} \right\rangle = 2nD_{\alpha}t^{\alpha}
 \end{equation}
 
 which reduces to the pure-diffusive case of (\ref{eq:msd_eq}) when $\alpha=1$. Otherwise the process is characterised as subdiffusive ($\alpha < 1$) or superdiffusive ($\alpha > 1$) \cite{Metzler2000}. 
 
-Displacement is only sampled over equilibration phases of our simulation, and the effect of the periodic boundary conditions is explicitly accounted for by offsetting additional displacement from boundary crossings. Linear regression analysis is used to predict the value of $\alpha$ for each run, over a variety of volume fractions in the dilute limit. This limit occurs when each particle may exist in a non-overlapping free volume of rotation (a sphere circumscribed around the molecule), at a maximal volume fraction of:
+Displacements were only sampled over equilibration phases of the simulation, and the effects of the periodic boundary conditions were explicitly accounted for by offsetting additional displacements from boundary crossings. Linear regression analysis was used to predict the value of $\alpha$ for each run, over a variety of volume fractions in the dilute limit. This limit occurs when each particle may exist in a non-overlapping free volume of rotation (a sphere circumscribed around the molecule), at a maximal volume fraction of:
 
 \begin{equation}
 \phi_{dilute} = \frac{\pi(D/2)^{2}L}{\frac{4}{3}(L/2)^{3}} = \frac{3}{2} \left( \frac{D}{L}\right)^{2} 
@@ -418,7 +418,7 @@ At the highest volume fractions ($\phi \geq 0.62$), the diffusion along the $y$ 
 	\label{fig:nun_diff_rmsplots}
 \end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Angle\Crystalline\Full Transition2
 
-Phase formation may also be observed through deviations in these coordinate-specific diffusion coefficients. Applying this to the nunchucks system, isotropic diffusion is observed at low volume fractions in Figure \ref{fig:nun_diff_Dcoeff}. However, the $y$-coordinate diffusion coefficient is severely reduced beyond this, with an maximal isotropy coefficient of $D_{y}/D_{x} = 0.19$ at $\phi = 0.58$. This strongly indicates the onset of formation of the smectic phase below $\phi = 0.45$, in agreement with the prediction of $ 0.40<\phi^{*}<0.44$ obtained from the smectic order parameter. There is also some indication of the crystalline phase at the highest volume fractions, with diffusion equally limited in all directions, but this evidence is not conclusive.
+Phase formation may also be observed through deviations in these coordinate-specific diffusion coefficients. Applying this to the nunchucks system, isotropic diffusion is observed at low volume fractions in Figure \ref{fig:nun_diff_Dcoeff}. However, the $y$-coordinate diffusion coefficient is severely reduced beyond this, with an maximal anisotropy of $D_{y}/D_{x} = 0.19$ at $\phi = 0.58$. This strongly indicates the onset of formation of the smectic phase below $\phi = 0.45$, in agreement with the prediction of $ 0.40<\phi^{*}<0.44$ obtained from the smectic order parameter. There is also some indication of the crystalline phase at the highest volume fractions, with diffusion equally limited in all directions, but this evidence is not conclusive.
 
 \begin{figure} [h!]
 	\centering
@@ -436,11 +436,11 @@ We considered the phase behaviour of DNA nunchuck molecules, consisting of two s
 
 Simulations of rigid rods demonstrated the existence of a first-order isotropic\textendash nematic phase transition, and verified Onsager's across a range of aspect ratios. Within this, we confined the critical volume fraction for rods of aspect ratio $D/L = 10$ to the range $0.39<\phi<0.44$, in good agreement with the theoretical value of $\phi = 0.4$. We considered simulations sampling decreasing volume fractions from an initial crystalline phase, which confirmed the value of this critical volume fraction, verifying the transition occurred at true equilibrium by eliminating the possibility of phase hysteresis here. We also identified the formation of a smectic phase here, however further categorisation of the transitions associated with this phase is left for a separate work.
 
-Application of the same techniques to the nunchucks system gave incontrovertible evidence for the formation of an ordered, quasi-nematic phase in this system, in both the fixed rigidity and fixed angle configurations. The fixed rigidity configuration, a better representation of the true system, demonstrated clear evidence for an entropy\textendash driven phase transition, through the reduction in configurational entropy associated with the formation of a preferred angle. However, further analysis of this system suggested that any periodic order (associated with a novel phase) occurred on a length scale greater than could be simulated here, due to the associated computational costs.
+Application of the same techniques to the nunchucks system gave incontrovertible evidence for the formation of an ordered, quasi-nematic phase in this system, in both the fixed rigidity ($S_{n} = 0.58$) and fixed angle ($S_{n} = 0.62$) configurations. The fixed rigidity configuration, a better representation of the true system, demonstrated clear evidence for an entropy\textendash driven phase transition, through the reduction in configurational entropy associated with the formation of a preferred angle. However, further analysis of this system suggested that any periodic order (associated with a novel phase) occurred on a length scale greater than could be simulated here, due to the associated computational costs.
 
-While this is recommended for future work, we instead focus here on the fixed angle configuration, with the aim that restricting the maximum opening angle will also reduce the length scale of any periodic order present. We observed the formation of a quasi-nematic phase, and introduced the orientational correlation function in order to identify any periodic order in the `herringbone-like' and `twisted-nematic' structures observed. While this confirmed the presence of long-range order, we were unable to observe any periodicity here; we suggest that simulations of larger systems will be required due to the expected length scale of such periodic features.
+In the fixed angle case, we subsequently introduced the orientational correlation function in order to identify any periodic order in the `herringbone-like' and `twisted-nematic' quasi-nematic phases observed. While this confirmed the presence of long-range order, we were unable to observe any periodicity here; we suggest that simulations of larger systems will be required due to the expected length scale of such periodic features.
 
-Finally, we demonstrate that the measurement of dynamic properties provide a little-studied alternative method to identify phase transitions and characteristic symmetries of such systems, in comparison with phases previously identified in both the rigid rods and nunchucks systems previously considered. We consider in particular the formation of anisotropic phases through the variation in coordinate diffusion coefficients, such as in the smectic phase where diffusion between the ordered layers is significantly slower than within them. Further research is necessary to extend this beyond the simple Cartesian approach taken here, to allow the identification of novel phases where the global director or symmetry class is not known. Recent results on directional diffusion within the nunchucks system also suggest the formation of a novel biaxial phase, and we are preparing a separate publication on this.
+Finally, we demonstrate that the measurement of dynamic properties provide a little-studied alternative method to identify phase transitions and characteristic symmetries of such systems, in comparison with phases previously identified in both the rigid rods and nunchucks systems previously considered. We consider in particular the formation of anisotropic phases through the variation in coordinate diffusion coefficients, such as the smectic phase where the diffusion coefficient within the ordered layers is up to a factor of $5.15$ greater than between them. Further research is necessary to extend this beyond the simple Cartesian approach taken here, to allow the identification of novel phases where the global director or symmetry class is not known. Recent results on directional diffusion within the nunchucks system also suggest the formation of a novel biaxial phase, and we are preparing a separate publication on this.
 
 
 \section*{Acknowledgements}

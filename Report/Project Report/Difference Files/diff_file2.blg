@@ -1,0 +1,17 @@
+[0] Config.pm:304> INFO - This is Biber 2.14
+[0] Config.pm:307> INFO - Logfile is 'diff_file2.blg'
+[133] biber-MSWIN64:322> INFO - === 
+[183] Biber.pm:415> INFO - Reading 'diff_file2.bcf'
+[430] Biber.pm:943> INFO - Found 112 citekeys in bib section 0
+[479] Biber.pm:4256> INFO - Processing section 0
+[481] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
+[510] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
+[544] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
+[554] bibtex.pm:1653> INFO - LaTeX decoding ...
+[966] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
+[1916] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1916] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1917] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1917] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[2089] bbl.pm:652> INFO - Writing 'diff_file2.bbl' with encoding 'UTF-8'
+[2202] bbl.pm:755> INFO - Output to diff_file2.bbl

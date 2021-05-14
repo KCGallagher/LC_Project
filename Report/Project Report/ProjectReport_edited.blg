@@ -1,17 +1,17 @@
 [0] Config.pm:304> INFO - This is Biber 2.14
 [1] Config.pm:307> INFO - Logfile is 'ProjectReport_edited.blg'
-[135] biber-MSWIN64:322> INFO - === 
-[175] Biber.pm:415> INFO - Reading 'ProjectReport_edited.bcf'
-[432] Biber.pm:943> INFO - Found 112 citekeys in bib section 0
-[463] Biber.pm:4256> INFO - Processing section 0
-[464] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
-[479] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
-[502] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
-[512] bibtex.pm:1653> INFO - LaTeX decoding ...
-[945] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
-[1898] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1899] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1899] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[1899] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
-[2056] bbl.pm:652> INFO - Writing 'ProjectReport_edited.bbl' with encoding 'UTF-8'
-[2171] bbl.pm:755> INFO - Output to ProjectReport_edited.bbl
+[136] biber-MSWIN64:322> INFO - === 
+[167] Biber.pm:415> INFO - Reading 'ProjectReport_edited.bcf'
+[409] Biber.pm:943> INFO - Found 112 citekeys in bib section 0
+[442] Biber.pm:4256> INFO - Processing section 0
+[443] Utils.pm:75> INFO - Globbing data source 'reportreferences.bib'
+[459] Utils.pm:91> INFO - Globbed data source 'reportreferences.bib' to reportreferences.bib
+[482] Biber.pm:4455> INFO - Looking for bibtex format file 'reportreferences.bib' for section 0
+[494] bibtex.pm:1653> INFO - LaTeX decoding ...
+[885] bibtex.pm:1471> INFO - Found BibTeX data source 'reportreferences.bib'
+[1776] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1777] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1777] Biber.pm:4084> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1777] Biber.pm:4090> INFO - No sort tailoring available for locale 'en-US'
+[1926] bbl.pm:652> INFO - Writing 'ProjectReport_edited.bbl' with encoding 'UTF-8'
+[2041] bbl.pm:755> INFO - Output to ProjectReport_edited.bbl
