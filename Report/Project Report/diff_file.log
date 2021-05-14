@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  12 MAY 2021 11:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  13 MAY 2021 15:11
 entering extended mode
 **./diff_file.tex
 (diff_file.tex
@@ -1214,7 +1214,7 @@ Package: ulem 2019/11/18
 \ULdepth=\dimen273
 )
 LaTeX Font Info:    Trying to load font information for T1+XCharter-TLF on inpu
-t line 64.
+t line 65.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\t1xcharter
 -tlf.fd"
@@ -1222,41 +1222,51 @@ File: T1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for T1/XCharter-
 TLF.
 )
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 64.
+(Font)              scaled to size 10.95pt on input line 65.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
- (diff_file.aux)
+ (diff_file.aux
+! Undefined control sequence.
+l.111 \ab
+         
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+)
 \openout1 = `diff_file.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 64.
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 64.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 65.
 LaTeX Font Info:    Trying to load font information for T2A+cmr on input line 6
-4.
-
-("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/cyrillic\t2acmr.fd"
+5.
+ ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/cyrillic\t2acmr.fd
+"
 File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
 )
-LaTeX Font Info:    ... okay on input line 64.
-LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 64.
+LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 65.
 LaTeX Font Info:    Trying to load font information for LY1+ptm on input line 6
-4.
+5.
  ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/ly1\ly1ptm.fd"
 File: ly1ptm.fd 2001/02/01 font definitions for LY1/ptm using Berry names.
 )
-LaTeX Font Info:    ... okay on input line 64.
+LaTeX Font Info:    ... okay on input line 65.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pd
 f.mkii"
@@ -1291,14 +1301,14 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 504.
 )
-LaTeX Info: Redefining \microtypecontext on input line 64.
+LaTeX Info: Redefining \microtypecontext on input line 65.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `basictext'.
-LaTeX Info: Redefining \showhyphens on input line 64.
+LaTeX Info: Redefining \showhyphens on input line 65.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1312,7 +1322,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 64.
+(lastpage)             ! on input line 65.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/translator\translat
 or-basic-dictionary-English.dict"
@@ -1399,8 +1409,8 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
 (Font)              scaled to size 8.0pt on input line 53.
 )
-Package biblatex Info: Reference section=0 on input line 64.
-Package biblatex Info: Reference segment=0 on input line 64.
+Package biblatex Info: Reference section=0 on input line 65.
+Package biblatex Info: Reference segment=0 on input line 65.
 \AtBeginShipoutBox=\box64
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmss' (encoding: OT1).
@@ -1440,13 +1450,13 @@ Package lettrine.sty Info: Targeted height = 32.60931pt
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
 (Font)              scaled to size 10.95pt on input line 9.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 13.
+(Font)              scaled to size 10.95pt on input line 20.
 
 [2{C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}])
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 74.
+(Font)              scaled to size 14.4pt on input line 75.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 74.
+(Font)              scaled to size 14.4pt on input line 75.
 
 (diff_file.toc)
 \tf@toc=\write4
@@ -1459,16 +1469,35 @@ Make it at least 13.59999pt.
 We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
 
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 9.0pt on input line 76.
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 76.
+
 [1]
-Overfull \hbox (262.18716pt too wide) in paragraph at lines 90--91
+Overfull \hbox (262.18716pt too wide) in paragraph at lines 91--92
 []\T1/XCharter-TLF/m/n/10.95 (-20) DNA is cho-sen due to its []|   []   |   [] 
   |   []   |   []   |   []   |   []   |   []   [][]|   []
  []
 
+
+LaTeX Warning: Reference `sec:Methods' on page 2 undefined on input line 93.
+
+
+LaTeX Warning: Reference `sec:RigidRodSims' on page 2 undefined on input line 9
+3.
+
+
+LaTeX Warning: Reference `sec:Nunchuck_Sim' on page 2 undefined on input line 9
+3.
+
+
+LaTeX Warning: Reference `sec:Dynamics' on page 2 undefined on input line 93.
+
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 96.
+(Font)              scaled to size 12.0pt on input line 97.
 LaTeX Font Info:    Trying to load font information for TS1+XCharter-TLF on inp
-ut line 104.
+ut line 105.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\ts1xcharte
 r-tlf.fd"
@@ -1476,7 +1505,7 @@ File: TS1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for TS1/XCharte
 r-TLF.
 )
 LaTeX Font Info:    Font shape `TS1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 104.
+(Font)              scaled to size 10.95pt on input line 105.
 Package microtype Info: Character `textlbrackdbl ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1486,86 +1515,149 @@ Package microtype Info: Character `textrbrackdbl ' is missing
 Package microtype Info: Character `texttildelow ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
- [2]
+
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 108.
+
+[2]
 <Figures/lc_phases_cropped.jpg, id=18, 259.7203pt x 92.59593pt>
 File: Figures/lc_phases_cropped.jpg Graphic file (type jpg)
 <use Figures/lc_phases_cropped.jpg>
-Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 113.
+Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 114.
 
 (pdftex.def)             Requested size: 338.58632pt x 120.71376pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 114.
+(Font)              scaled to size 10.0pt on input line 115.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 114.
+(Font)              scaled to size 10.0pt on input line 115.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 114.
+(Font)              scaled to size 10.0pt on input line 115.
 
-Overfull \hbox (2103.75163pt too wide) in paragraph at lines 123--128
+Overfull \hbox (2103.75163pt too wide) in paragraph at lines 124--129
 |   []   |   []   [][]|   []   |   []   |   []
  []
 
+
+LaTeX Warning: Reference `sec:OnsagerAppendix' on page 3 undefined on input lin
+e 136.
+
+
+LaTeX Warning: Reference `sec:OnsagerAppendix' on page 3 undefined on input lin
+e 136.
+
+
+LaTeX Warning: Reference `sec:OnsagerAppendix' on page 3 undefined on input lin
+e 136.
+
+
+LaTeX Warning: Reference `sec:OnsagerAppendix' on page 3 undefined on input lin
+e 136.
+
+
+LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 137.
+
 [3 <./Figures/lc_phases_cropped.jpg>]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 146.
+(Font)              scaled to size 6.0pt on input line 147.
 
-Overfull \hbox (53.39357pt too wide) in paragraph at lines 146--149
+Overfull \hbox (53.39357pt too wide) in paragraph at lines 147--150
 |   []   |   []   |   []   [][]|   []   |   []
  []
 
 
-Overfull \hbox (206.40521pt too wide) in paragraph at lines 154--155
+LaTeX Warning: Reference `sec:OrderParamTheory' on page 4 undefined on input li
+ne 155.
+
+
+Overfull \hbox (206.40521pt too wide) in paragraph at lines 155--156
 [][]|   []
  []
 
+
+LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 179.
+
 [4]
-Overfull \hbox (18.76456pt too wide) in paragraph at lines 187--192
+Overfull \hbox (18.76456pt too wide) in paragraph at lines 188--193
 |   []   [][]|   []   |   []   |   []
  []
 
 
-Overfull \hbox (556.33087pt too wide) in paragraph at lines 194--195
+LaTeX Warning: Reference `sec:PrevWork' on page 5 undefined on input line 195.
+
+
+Overfull \hbox (556.33087pt too wide) in paragraph at lines 195--196
 |   []   |   []   |   []   [][]|   []
  []
+
+
+LaTeX Warning: Reference `fig:nunchuck_analogy' on page 5 undefined on input li
+ne 202.
+
+
+LaTeX Warning: Reference `pair_potential' on page 5 undefined on input line 202
+.
+
+
+LaTeX Warning: Reference `fig:nunchuck_implementation' on page 5 undefined on i
+nput line 204.
 
 <Figures/nunchucks_artist.png, id=33, 603.25375pt x 551.05875pt>
 File: Figures/nunchucks_artist.png Graphic file (type png)
 <use Figures/nunchucks_artist.png>
-Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 209.
+Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 210.
 (pdftex.def)             Requested size: 193.47578pt x 176.72919pt.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 210.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 210.
+(Font)              scaled to size 9.0pt on input line 211.
 <Figures/nunchuck_profile_coloured.png, id=34, 446.1468pt x 364.2408pt>
 File: Figures/nunchuck_profile_coloured.png Graphic file (type png)
 <use Figures/nunchuck_profile_coloured.png>
 Package pdftex.def Info: Figures/nunchuck_profile_coloured.png  used on input l
-ine 216.
+ine 217.
 (pdftex.def)             Requested size: 193.47578pt x 157.95438pt.
+
+LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 229.
+
 [5]
 Package textcomp Info: Symbol \textmu not provided by
 (textcomp)             font family XCharter-TLF in TS1 encoding.
-(textcomp)             Default family used instead on input line 231.
- [6 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
+(textcomp)             Default family used instead on input line 232.
 
-Overfull \hbox (91.02864pt too wide) in paragraph at lines 242--243
+
+LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 242.
+
+[6 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.png>]
+Overfull \hbox (91.02864pt too wide) in paragraph at lines 243--244
 [] []|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   | 
   []   |   [][][]|   [][]\T1/XCharter-TLF/m/n/10.95 (-20) .
  []
 
 
-Overfull \hbox (124.36768pt too wide) in paragraph at lines 262--263
+LaTeX Warning: Reference `lj_cut' on page 7 undefined on input line 253.
+
+
+Overfull \hbox (124.36768pt too wide) in paragraph at lines 263--264
 |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
   |   []   |   []   |   []   [][]|   []
  []
 
+
+LaTeX Warning: Reference `sec:OrderParamCalc' on page 7 undefined on input line
+ 265.
+
+
+LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 266.
+
 [7]
-Overfull \hbox (1224.39603pt too wide) in paragraph at lines 283--285
+Overfull \hbox (1224.39603pt too wide) in paragraph at lines 284--286
 |   []   |   []   |   []   |   []   |   []   [][]|   []
  []
 
 
-Overfull \hbox (1453.15616pt too wide) in paragraph at lines 288--291
+LaTeX Warning: Reference `fig:rr_nemorderparam' on page 8 undefined on input li
+ne 291.
+
+
+Overfull \hbox (1453.15616pt too wide) in paragraph at lines 289--292
 |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   [] 
   |   []   |   []   |   []   [][]|   []
  []
@@ -1579,7 +1671,7 @@ ed-to.pdf>
 (epstopdf)                    size: 25767 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_nemorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_nemorderparam.eps>
-(epstopdf)             \includegraphics on input line 294.
+(epstopdf)             \includegraphics on input line 295.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1592,10 +1684,10 @@ File: Figures/rigidrod_nemorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_nemorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_nemorderparam-eps-converted-to.pdf  u
-sed on input line 294.
+sed on input line 295.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
-Overfull \hbox (2057.92027pt too wide) in paragraph at lines 295--295
+Overfull \hbox (2057.92027pt too wide) in paragraph at lines 296--296
 |   [][][]|   [][]\T1/XCharter-TLF/m/it/10 (-20) .[]|   []
  []
 
@@ -1603,14 +1695,18 @@ Overfull \hbox (2057.92027pt too wide) in paragraph at lines 295--295
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (122.77124pt too wide) in paragraph at lines 299--300
+LaTeX Warning: Reference `fig:rr_pressureevo' on page 8 undefined on input line
+ 300.
+
+
+Overfull \hbox (122.77124pt too wide) in paragraph at lines 300--301
 []\T1/XCharter-TLF/m/n/10.95 (-20) This anal-y-sis []|   []   |   []   |   []  
  |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   [][]| 
   []
  []
 
 
-Overfull \hbox (140.41681pt too wide) in paragraph at lines 299--300
+Overfull \hbox (140.41681pt too wide) in paragraph at lines 300--301
 |   []   |   [][][]|   [][]\T1/XCharter-TLF/m/n/10.95 (-20) .
  []
 
@@ -1623,7 +1719,7 @@ Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    size: 162031 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_pressureev
 o-eps-converted-to.pdf Figures/rigidrod_pressureevo.eps>
-(epstopdf)             \includegraphics on input line 303.
+(epstopdf)             \includegraphics on input line 304.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1636,26 +1732,30 @@ File: Figures/rigidrod_pressureevo-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Figures/rigidrod_pressureevo-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_pressureevo-eps-converted-to.pdf  use
-d on input line 303.
+d on input line 304.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Overfull \hbox (84.84435pt too wide) in paragraph at lines 316--317
+Overfull \hbox (84.84435pt too wide) in paragraph at lines 317--318
 \T1/XCharter-TLF/m/n/10.95 (-20) dered state, in hope of ob-serv-ing the same p
 hase be-haviour[]|   []   |   [][][]|   [][].
  []
 
 
-Overfull \hbox (12.50229pt too wide) in paragraph at lines 318--319
+LaTeX Warning: Reference `sec:RigidRodSims' on page 8 undefined on input line 3
+19.
+
+
+Overfull \hbox (12.50229pt too wide) in paragraph at lines 319--320
 []\T1/XCharter-TLF/m/n/10.95 (-20) Initially, the par-ti-cle force cen-tres are
  []|   []   |   []   |   []   |   []   |   []   |   []   |   []   |   []   |   
 []
  []
 
 
-Overfull \hbox (393.0572pt too wide) in paragraph at lines 318--319
+Overfull \hbox (393.0572pt too wide) in paragraph at lines 319--320
 |   []   |   []   |   []   |   []   [][]|   []
  []
 
@@ -1668,7 +1768,7 @@ ed-to.pdf>
 (epstopdf)                    size: 29320 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_cryorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_cryorderparam.eps>
-(epstopdf)             \includegraphics on input line 322.
+(epstopdf)             \includegraphics on input line 323.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1681,24 +1781,49 @@ File: Figures/rigidrod_cryorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_cryorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_cryorderparam-eps-converted-to.pdf  u
-sed on input line 322.
+sed on input line 323.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
+
+LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 326.
+
 [8]
 
 LaTeX Warning: Text page 9 contains only floats.
 
+
+LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 326.
+
 [9 <./Figures/rigidrod_nemorderparam-eps-converted-to.pdf> <./Figures/rigidrod_
-pressureevo-eps-converted-to.pdf>] [10 <./Figures/rigidrod_cryorderparam-eps-co
-nverted-to.pdf>]
+pressureevo-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `sec:RigidRodSims' on page 10 undefined on input line 
+329.
+
+
+LaTeX Warning: Reference `fig:rr_crystalorder' on page 10 undefined on input li
+ne 331.
+
+
+LaTeX Warning: Reference `sec:SimMolecules' on page 10 undefined on input line 
+337.
+
+
+LaTeX Warning: Reference `fig:nun_fr_views' on page 10 undefined on input line 
+349.
+
+
+LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 350.
+
+[10 <./Figures/rigidrod_cryorderparam-eps-converted-to.pdf>]
 <Figures/nun_fr_side.png, id=188, 385.44pt x 289.08pt>
 File: Figures/nun_fr_side.png Graphic file (type png)
 <use Figures/nun_fr_side.png>
-Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 354.
+Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 355.
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
 <Figures/nun_fr_perspective.png, id=189, 385.44pt x 289.08pt>
 File: Figures/nun_fr_perspective.png Graphic file (type png)
 <use Figures/nun_fr_perspective.png>
-Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 360
+Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 361
 .
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
 Package epstopdf Info: Source file: <Figures/nun_fr_angledist.eps>
@@ -1710,7 +1835,7 @@ pdf>
 (epstopdf)                    size: 37974 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_fr_angledist-ep
 s-converted-to.pdf Figures/nun_fr_angledist.eps>
-(epstopdf)             \includegraphics on input line 370.
+(epstopdf)             \includegraphics on input line 371.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1722,22 +1847,65 @@ t>
 File: Figures/nun_fr_angledist-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_fr_angledist-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_fr_angledist-eps-converted-to.pdf  used on
- input line 370.
+ input line 371.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
+
+LaTeX Warning: Reference `fig:nun_fr_angledist' on page 11 undefined on input l
+ine 376.
+
+
+LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 377.
+
 [11 <./Figures/nun_fr_side.png> <./Figures/nun_fr_perspective.png> <./Figures/n
 un_fr_angledist-eps-converted-to.pdf>]
-<Figures/nun_fa_side.png, id=250, 385.44pt x 289.08pt>
-File: Figures/nun_fa_side.png Graphic file (type png)
-<use Figures/nun_fa_side.png>
-Package pdftex.def Info: Figures/nun_fa_side.png  used on input line 387.
-(pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
-<Figures/nun_fa_perspective.png, id=251, 385.44pt x 289.08pt>
+
+LaTeX Warning: Reference `fig:nun_fr_angledist' on page 12 undefined on input l
+ine 381.
+
+
+LaTeX Warning: Reference `fig:nun_fa_views' on page 12 undefined on input line 
+382.
+
+
+! LaTeX Error: File `Figures/nun_fa_side' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.388 ...[width=.9\linewidth]{Figures/nun_fa_side}
+                                                  
+I could not locate the file with any of these extensions:
+.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<Figures/nun_fa_perspective.png, id=250, 385.44pt x 289.08pt>
 File: Figures/nun_fa_perspective.png Graphic file (type png)
 <use Figures/nun_fa_perspective.png>
-Package pdftex.def Info: Figures/nun_fa_perspective.png  used on input line 393
+Package pdftex.def Info: Figures/nun_fa_perspective.png  used on input line 394
 .
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
- [12 <./Figures/nun_fa_side.png> <./Figures/nun_fa_perspective.png>]
+
+LaTeX Warning: Reference `fig:nun_fa_side' on page 12 undefined on input line 4
+02.
+
+
+LaTeX Warning: Reference `LastPage' on page 12 undefined on input line 415.
+
+[12 <./Figures/nun_fa_perspective.png>]
+
+LaTeX Warning: Reference `sec:PairWise_Theory' on page 13 undefined on input li
+ne 420.
+
+
+LaTeX Warning: Reference `fig:nun_fa_views' on page 13 undefined on input line 
+422.
+
+
+LaTeX Warning: Reference `fig:num_fa_correlation_mol' on page 13 undefined on i
+nput line 424.
+
 Package epstopdf Info: Source file: <Figures/num_fa_correlation_mol.eps>
 (epstopdf)                    date: 2021-04-03 18:37:26
 (epstopdf)                    size: 70360 bytes
@@ -1747,22 +1915,36 @@ ed-to.pdf>
 (epstopdf)                    size: 16756 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/num_fa_correlation_
 mol-eps-converted-to.pdf Figures/num_fa_correlation_mol.eps>
-(epstopdf)             \includegraphics on input line 427.
+(epstopdf)             \includegraphics on input line 428.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/num_fa_correlation_mol-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=258, 462.72874pt x 347
+<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=256, 462.72874pt x 347
 .2975pt>
 File: Figures/num_fa_correlation_mol-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/num_fa_correlation_mol-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/num_fa_correlation_mol-eps-converted-to.pdf  u
-sed on input line 427.
+sed on input line 428.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
+
+LaTeX Warning: Reference `LastPage' on page 13 undefined on input line 435.
+
 [13 <./Figures/num_fa_correlation_mol-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `sec:Diffusion_Theory' on page 14 undefined on input l
+ine 447.
+
+
+LaTeX Warning: Reference `eq:msd_eq' on page 14 undefined on input line 453.
+
+
+LaTeX Warning: Reference `fig:nun_diff_rmsplots' on page 14 undefined on input 
+line 463.
+
 Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    date: 2021-04-05 12:49:09
 (epstopdf)                    size: 98613 bytes
@@ -1772,21 +1954,28 @@ Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    size: 26356 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_rmsplots-e
 ps-converted-to.pdf Figures/nun_diff_rmsplots.eps>
-(epstopdf)             \includegraphics on input line 468.
+(epstopdf)             \includegraphics on input line 469.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_rmsplots-eps-converted-to
 .pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowe
 d
-<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=296, 722.7pt x 361.35pt>
+<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=294, 722.7pt x 361.35pt>
 File: Figures/nun_diff_rmsplots-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_rmsplots-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_rmsplots-eps-converted-to.pdf  used o
-n input line 468.
+n input line 469.
 (pdftex.def)             Requested size: 483.69687pt x 241.84961pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:nun_diff_Dcoeff' on page 14 undefined on input li
+ne 474.
+
+
+LaTeX Warning: Reference `LastPage' on page 14 undefined on input line 475.
 
 [14]
 Package epstopdf Info: Source file: <Figures/nun_diff_Dcoeff.eps>
@@ -1798,49 +1987,158 @@ df>
 (epstopdf)                    size: 16758 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_Dcoeff-eps
 -converted-to.pdf Figures/nun_diff_Dcoeff.eps>
-(epstopdf)             \includegraphics on input line 478.
+(epstopdf)             \includegraphics on input line 479.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_Dcoeff-eps-converted-to.p
 df): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=300, 462.72874pt x 347.2975pt
+<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=298, 462.72874pt x 347.2975pt
 >
 File: Figures/nun_diff_Dcoeff-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_Dcoeff-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_Dcoeff-eps-converted-to.pdf  used on 
-input line 478.
+input line 479.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[15 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf>] [16 <./Figures/nun_diff
-_Dcoeff-eps-converted-to.pdf>] [17] [18]
+
+LaTeX Warning: Reference `LastPage' on page 15 undefined on input line 496.
+
+[15 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `sec:PairWise_Theory' on page 16 undefined on input li
+ne 503.
+
+
+LaTeX Warning: Reference `LastPage' on page 16 undefined on input line 506.
+
+[16 <./Figures/nun_diff_Dcoeff-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `LastPage' on page 17 undefined on input line 506.
+
+[17]
+
+LaTeX Warning: Reference `LastPage' on page 18 undefined on input line 506.
+
+[18]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [19] [20]
-Overfull \hbox (16.6322pt too wide) in paragraph at lines 506--506
+
+
+LaTeX Warning: Reference `LastPage' on page 19 undefined on input line 506.
+
+[19]
+
+LaTeX Warning: Reference `LastPage' on page 20 undefined on input line 506.
+
+[20]
+Overfull \hbox (16.6322pt too wide) in paragraph at lines 507--507
 []\T1/XCharter-TLF/m/n/10.95 (-20) J. W. Doane, R. S. Parker, B. Cvikl, D. L. J
 ohn-son, and D. L. Fishel,   Pos-si-ble second-order nematicsmectic-
  []
 
-[21] [22] [23] [24] [25] 
+
+LaTeX Warning: Reference `LastPage' on page 21 undefined on input line 506.
+
+[21]
+
+LaTeX Warning: Reference `eq:OnsagerFreeEnergy' on page 22 undefined on input l
+ine 538.
+
+
+LaTeX Warning: Reference `LastPage' on page 22 undefined on input line 539.
+
+[22]
+
+LaTeX Warning: Reference `sec:OrderParamTheory' on page 23 undefined on input l
+ine 559.
+
+
+LaTeX Warning: Reference `eq:FrenkelNemOrder' on page 23 undefined on input lin
+e 567.
+
+
+LaTeX Warning: Reference `LastPage' on page 23 undefined on input line 571.
+
+[23]
+
+LaTeX Warning: Reference `sec:PairWise_Application' on page 24 undefined on inp
+ut line 585.
+
+
+LaTeX Warning: Reference `eq:PairWise_eq' on page 24 undefined on input line 58
+5.
+
+
+LaTeX Warning: Reference `LastPage' on page 24 undefined on input line 617.
+
+[24]
+
+LaTeX Warning: Reference `eq:pairwise_finalres' on page 25 undefined on input l
+ine 621.
+
+
+LaTeX Warning: Reference `eq:msd_eq' on page 25 undefined on input line 624.
+
+
+LaTeX Warning: Reference `eq:diff_eq' on page 25 undefined on input line 632.
+
+
+LaTeX Warning: Reference `eq:Fourier_wave' on page 25 undefined on input line 6
+50.
+
+
+LaTeX Warning: Reference `LastPage' on page 25 undefined on input line 666.
+
+[25]
+
+LaTeX Warning: Reference `eq:characteristic_func' on page 26 undefined on input
+ line 693.
+
+
+LaTeX Warning: Reference `eq:characteristic_func' on page 26 undefined on input
+ line 699.
+
+
+LaTeX Warning: Reference `eq:MSD_theory' on page 26 undefined on input line 711
+.
+
+
+Package lastpage Warning: Rerun to get the references right on input line 723.
+
+
 AED: lastpage setting LastPage
+
+LaTeX Warning: Reference `LastPage' on page 26 undefined on input line 723.
+
 [26] (diff_file.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                diff_file
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'diff_file.run.xml'.
 \openout1 = `diff_file.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 21398 strings out of 481565
- 414439 string characters out of 2914627
- 1103815 words of memory out of 3000000
- 35989 multiletter control sequences out of 15000+200000
+ 21406 strings out of 481565
+ 414606 string characters out of 2914627
+ 1099695 words of memory out of 3000000
+ 35997 multiletter control sequences out of 15000+200000
  708683 words of font info for 271 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,12n,77p,1598b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,12n,77p,1598b,1708s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
 ctt1000.pk> <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
 /dpi657\tcrm1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/
@@ -1870,9 +2168,9 @@ tG/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
 amsfonts/latxfont/lasy6.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 
 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on diff_file.pdf (27 pages, 2496645 bytes).
+Output written on diff_file.pdf (27 pages, 2198098 bytes).
 PDF statistics:
- 532 PDF objects out of 1000 (max. 8388607)
+ 530 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 54855 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 54850 words of extra memory for PDF output out of 61914 (max. 10000000)
 

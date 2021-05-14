@@ -17,7 +17,7 @@
 \contentsline {subsection}{\numberline {5.1}Fixed Rigidity}{10}%
 \contentsline {subsection}{\numberline {5.2}Fixed Angle}{11}%
 \contentsline {subsection}{\numberline {5.3}Orientational Order Parameter}{11}%
-\contentsline {section}{\numberline {6}Dynamic Properties}{13}%
+\contentsline {section}{\numberline {6}Dynamic Properties}{12}%
 \contentsline {section}{\numberline {7}Conclusion}{15}%
 \contentsline {section}{\numberline {A}Onsager Theory}{21}%
 \contentsline {section}{\numberline {B}Nematic Order Parameter}{22}%

@@ -70,11 +70,12 @@ First identified as an intermediary phase between solids and liquids in 1888 by 
 In the most general sense, liquid crystals are states of matter displaying properties between those of conventional liquids and solid crystals. For this reason, they are also known as mesomorphic phases, with individual molecules being referred to as mesogens, and these terms will be used interchangeably through this report. While solid crystals display long range periodic order in three dimensions (and isotropic liquids in none), liquid crystals have a degree of long range order in some (but not all) spatial dimensions. There are three fundamental classes \cite{DeGennes1993}, visualised in Figure \ref{fig:lcphasescropped}.
 
 \begin{itemize}
-	\item \textbf{Nematic:} No positional order, but orientational order as molecules\footnotemark \ tend to point in the same direction.
+	\item \textbf{Nematic:} No positional order, but orientational order as molecules tend to point in the same direction.
 	\item \textbf{Smectic:} One dimensional positional order, so has the appearance of 2D liquid layers separated by a well defined spacing.
 	\item \textbf{Columnar:} Two dimensional positional order, so has the appearance of an 2D array of liquid tubes.
 \end{itemize}
 
+%\footnotemark \ %removed from after molecules
 %\footnotetext{It should be noted that only achiral molecules may form nematic phases; chiral molecules form an equivalent cholesteric (or `twisted-nematic') phase. This is particularly relevant to the consideration of DNA; a chiral molecule.}
 
 \begin{figure} [h!]
@@ -289,7 +290,8 @@ Further simulations applied the same approaches to the nunchuck molecules introd
 %basic formation of nematic-like phase
 %change in angle distribution to generate order 
 
-Initially, the fixed rigidity case is considered, with a rigidity parameter of \num{0.1}, giving complete bond flexibility. Despite this, a nematic-like phase was formed at volume fractions $\phi > 0.4$, although with a maximal order parameter of \num{0.25} significantly below that observed previously in nematic phases, indicating that this was not truly nematic. This quasi-ordered phase can be observed in Figure \ref{fig:nun_fr_views}, where clear short range orientational order is visible, but the preferential orientation varies across the simulation region.
+Initially, nunchucks with complete bond flexibility are considered. Despite this, a nematic-like phase was observed at volume fractions $\phi > 0.4$, with a maximal order parameter of \num{0.6} comparable to those measured previously in rigid rod systems. Despite this, a uniform, system-wide director was not observed, with the preferential orientation varying across the simulation region in Figure \ref{fig:nun_fr_views}.
+
 
 \begin{figure}
 	\centering
@@ -316,8 +318,7 @@ Initially, the fixed rigidity case is considered, with a rigidity parameter of \
 	\label{fig:nun_fr_angledist}
 \end{figure}  %C:\Users\KitG\Documents\LC_Project\Phase_Structure\Nunchucks\Fixed_Rigidity 
 
-Consideration of the distribution of nunchuck bond angles (i.e. the opening angle between the two rigid arms) gives further evidence for some ordered phase formation, with a clear preferential angle forming in Figure \ref{fig:nun_fr_angledist}. We suggest that the length scale over which this director varies is greater than the size of the simulation region, preventing use of the orientational correlation function described in Section \ref{sec:PairWise_Application} as well. Unfortunately the computational resources required to simulate larger systems was beyond the scope of this project, due to the scaling of the number of particles required to achieve the same volume fractions. 
-
+Consideration of the distribution of nunchuck bond angles (i.e. the opening angle between the two rigid arms) confirmed the formation of an ordered phase, with a clear preferential angle forming in Figure \ref{fig:nun_fr_angledist}. However, it is clear that any periodic variation of the director occurs on a length scale greater than the size of the simulation region, preventing further characterisation of this phase. Unfortunately the computational resources required to simulate larger systems were beyond the scope of this project, due to the scaling of particle number over volume required to achieve the same density. 
 
 
 \subsection{Fixed Angle}
@@ -377,7 +378,7 @@ To determine order over longer length scales, without increasing the volume of t
 
 This method is limited by the use of a single vector along the molecular axis to define the orientation of the molecule; two vectors are required to uniquely specify the orientation of a single nunchuck molecule. Using the molecular axis alone only accounts for quasi-nematic order; and does not consider any biaxial or herringbone substructure. We therefore also consider additional orientational correlation functions for the bisector of each molecule, and normal vector to the plane of the nunchuck. The first Legendre polynomial is used for the bisector to detect changes in sign of the bisector direction, as would be expected in a herringbone structure.
 
-However, no statistically significant periodic components in the correlation function were observed over the length scale of the simulation region. We believe this is because the simulation region is smaller than the full period of this repeating structure (in both the herringbone and twisted nematic structures of Figure \ref{fig:nun_fa_views}), and so further research is be required here to consider larger simulation regions.
+However, no statistically significant periodic components in the correlation function were observed over the length scale of the simulation region. A visual inspection of Figure \ref{fig:nun_fa_views} suggests that the simulation region is approximately a factor of two shorter than the full period of the repeating structure, and so further research on larger simulation regions is required to verify these phases.
 
 
 %LOOK INTO BIAXIAL\ SPLAY BEND NEMATIC PHASE FURTHER
@@ -437,9 +438,9 @@ Simulations of rigid rods demonstrated the existence of a first-order isotropic\
 
 Application of the same techniques to the nunchucks system gave incontrovertible evidence for the formation of an ordered, quasi-nematic phase in this system, in both the fixed rigidity and fixed angle configurations. The fixed rigidity configuration, a better representation of the true system, demonstrated clear evidence for an entropy\textendash driven phase transition, through the reduction in configurational entropy associated with the formation of a preferred angle. However, further analysis of this system suggested that any periodic order (associated with a novel phase) occurred on a length scale greater than could be simulated here, due to the associated computational costs.
 
-While this is recommended for future work, we instead focus here on the fixed angle configuration, with the aim that restricting the maximum opening angle also reduced the length scale of any periodic order present. We observed the formation of a quasi-nematic phase, and introduced the orientational correlation function in order to identify any periodic order in the `herringbone-like' structure observed. While this confirmed the presence of long-range order, we were unable to observe any periodicity here; we suspect that larger statistics and a longer length scale may be required for this due to the inherent stochastic nature of molecule orientation. \textit{Some final simulations may help suggest the precise future direction of work here}
+While this is recommended for future work, we instead focus here on the fixed angle configuration, with the aim that restricting the maximum opening angle will also reduce the length scale of any periodic order present. We observed the formation of a quasi-nematic phase, and introduced the orientational correlation function in order to identify any periodic order in the `herringbone-like' and `twisted-nematic' structures observed. While this confirmed the presence of long-range order, we were unable to observe any periodicity here; we suggest that simulations of larger systems will be required due to the expected length scale of such periodic features.
 
-We also demonstrate that the measurement of dynamic properties provide a little-studied alternative method to identify phase transitions and characteristic symmetries of such systems, in comparison with phases previously identified in both the rigid rods and nunchucks systems previously considered. We consider in particular the formation of anisotropic phases through the variation in coordinate diffusion coefficients, such as in the smectic phase where diffusion between the ordered layers is significantly slower than within them. Further research is necessary to extend this beyond the simple Cartesian approach taken here, to allow the identification of novel phases where the global director or symmetry class is not known.
+Finally, we demonstrate that the measurement of dynamic properties provide a little-studied alternative method to identify phase transitions and characteristic symmetries of such systems, in comparison with phases previously identified in both the rigid rods and nunchucks systems previously considered. We consider in particular the formation of anisotropic phases through the variation in coordinate diffusion coefficients, such as in the smectic phase where diffusion between the ordered layers is significantly slower than within them. Further research is necessary to extend this beyond the simple Cartesian approach taken here, to allow the identification of novel phases where the global director or symmetry class is not known. Recent results on directional diffusion within the nunchucks system also suggest the formation of a novel biaxial phase, and we are preparing a separate publication on this.
 
 
 \section*{Acknowledgements}
