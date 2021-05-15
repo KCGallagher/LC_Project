@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\input{structure.tex} % Specifies the document structure and loads requires packages
+
+\title{Supplementary Material - Code}
+\author{Candidate 8277T}
+
+
+
+\date{\today} 
+
+\begin{document}
+	
+\maketitle % Print the title
+
+\tableofcontents %contents page
+\newpage
+
+\section{Introduction}
+Here, we include the primary simulation and analysis routines used in this research. All molecular dynamics simulation work was conducted within LAMMPS, and the input scripts for this are detailed in Section \ref{LAMMPS}; these may be ran in series or in parallel. These scripts require an input file, detailing the initial positions of all molecules. The generation of this file has been automated by a python script, listed in Section \ref{nunchucks.py}. 
+
+Analysis files are then detailed in Sections \ref{Order_param}-\ref{Further_Analysis}. All scripts in these Sections are in python 3.7, and were written from scratch by the candidate. All primary analysis methods are included in this section, as well as a selection of the primary plotting methods used.
+
+\section{Molecular Dynamics} \label{LAMMPS}
+The simulation routines are all contained within `\textit{in\_run.loop}', which contains the primary molecular dynamics routines and specifies the data output. The first action of this script, however, is to call `\textit{in\_run.setup}', which configures the simulation region and defines particle properties. 
+
+The restart file generated from this script is then read by `\textit{in\_run.loop}'. The main body of this script has two sections; a `mixing' section where the simulation region is extended/contracted to adjust the volume fraction, followed by an `equilibration' section where the system evolves at a constant volume fraction and equilibrium properties are measured. The main body of the system is then iterated over, to sample as many different volume fractions as desired.
+
+\subsection{\textit{in.run\_setup}}
+\lstinputlisting{Code/in.run_setup} \mbox{}\\ 
+%gives newline, mbox tricks the 'no newline to end' error
+
+\subsection{\textit{in.run\_loop}}
+\lstinputlisting{Code/in.run_loop} \mbox{}\\
+
+\section{Initialisation} \label{nunchucks.py}
+Here, we generate an input file detailing the initial positions of all nunchucks. I am grateful to Iria Pantazi for an initial version of this script, and the version presented below is based on that work. I have modified and extended the capabilities of that code, particularly to generate input files for an arbitrary dilute system (with user-defined particle numbers and particle lengths).
+
+I further modified this script to produce a crystalline configuration in a simple cubic lattice with a predefined spacing between molecules. This was used access high volume fraction regions in simulations, and then sample decreasing volume fractions. While the functions from the original script remained unchanged (although many were not needed in this file), I made substantial changes to the main body of the script, which is replicated in Section \ref{crystal_config}.
+
+\subsection{\textit{nunchucks.py}}
+\lstinputlisting{Code/nunchuck.py} \mbox{}\\
+
+
+\subsection{\textit{nunchucks\_crystalline.py}} \label{crystal_config}
+\lstinputlisting[linerange={3-11, 166-231}]{Code/nunchuck_crystalline.py} \mbox{}\\
+
+\section{Order Parameter Calculation} \label{Order_param}
+There are three main files here. The first is `\textit{phase\_plot.py}', which plots the thermodynamic data output during the equilibration periods; significant deviations here typically indicate the occurrence of a phase transition during that equilibration stage. This file also defines a function to determine the volume fraction of the system, which is used throughout our other functions.
+
+Two separate files then determine the nematic and smectic order parameters,using the computational methods outlined within the main report. Much of the data extraction code in `\textit{smectic\_plot.py}' is identical to that of `\textit{nematic\_plot.py}', and so not replicated for brevity.
+
+\subsection{\textit{phase\_plot.py}}
+\lstinputlisting{Code/phase_plot.py} \mbox{}\\
+
+\subsection{\textit{director\_plot.py}}
+\lstinputlisting{Code/director_plot.py} \mbox{}\\
+
+\subsection{\textit{smectic\_plot.py}}
+\lstinputlisting[linerange={1-28, 87-114, 156 - 204}]{Code/smectic_plot.py} \mbox{}\\
+
+\section{Further Static Analysis} \label{Further_Analysis}
+In this section I outline the additional analysis methods used further to the traditional order parameters presented in Section \ref{Order_param}. This methods were primarily introduced to account for the additional degrees of freedom when considering the anisotropic nunchuck molecules. Initially we consider the distribution of opening angles in a sample of nunchuck molecules with fixed rigidity, and this distribution is visualised in the `\textit{angle\_plot.py}' script.
+
+I present code for the pair-wise orientational correlation function, using the spherical harmonic calculation approach introduced by Daan Frenkel. Further correlation functions, using a more traditional `brute-force' approach, are also applied to the bisector and normal vectors for the anisotropic molecules in `\textit{correlation\_plot\_alternative.py}'. 
+
+\subsection{\textit{angle\_plot.py}}
+\lstinputlisting{Code/angle_plot.py} \mbox{}\\
+
+\subsection{\textit{correlation\_plot.py}}
+\lstinputlisting{Code/correlation_plot_fast.py} \mbox{}\\
+
+\subsection{\textit{correlation\_plot\_alternative.py}}
+\lstinputlisting{Code/correlation_plot_other.py} \mbox{}\\
+
+
+\section{Dynamic Analysis}
+Finally, our analysis is extended to the dynamic behaviour of the system. The total root mean squared (rms) displacement is plotted in `\textit{diffusion\_plot.py}', as well as a predictor of the diffusion coefficients. This is then extended in `\textit{diffusion\_coeff.py}', where plots of coordinate displacement in logarithmic space allow for phase identification. Directional diffusion coefficients are calculated, as well as the degree of sub-diffusion quantified.
+
+\subsection{\textit{diffusion\_plot.py}}
+\lstinputlisting{Code/diffusion_plot.py} \mbox{}\\
+
+\subsection{\textit{diffusion\_coeff.py}}
+\lstinputlisting{Code/diffusion_coeff.py} \mbox{}\\
+
+\end{document}

@@ -1,9 +1,9 @@
 #! /usr/bin/python
 
 """ Written by: Iria Pantazi 
-    Updated to account for variable particle mol_length
+    Updated by candidate to account for variable particle mol_length
 
-    Accepts argumemnt for mode (-g) and then three integers for molecule number, molecule length, box size
+    Accepts argument for mode (-g) and values for molecule number, length, box size
     Ie it can be run from shell via the command 'py nunchuck.py -g 2 10 20
 """
 
@@ -53,6 +53,7 @@ def scale_vector(j):
 
 
 def within_box(ghost, box_lim):
+    """Returns boolean to determine whether candidate particle lies within box"""
     flag = True
     toBreak = False
     for i in range(0, mol_length, mol_length - 1):  # check only the edge beads
@@ -120,6 +121,7 @@ def gen_ghost(box_limit, dist):
 
 
 def plot_all(accepted, n_mol, box_lim):
+    """General plotting function for plotting mode"""
     import matplotlib.pyplot as plt
 
     # import itertools
@@ -166,6 +168,7 @@ def plot_all(accepted, n_mol, box_lim):
 
 
 def print_formatted_file(acc, n_molecules, box_limit, mass):
+    """Generates the input file for MD simulations"""
     from shutil import copyfile
 
     with open("input_data.file", "w") as g:

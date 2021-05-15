@@ -164,6 +164,7 @@ def print_formatted_file(acc, n_molecules, mass):
 
 # -----------------------------------------------------------
 
+# ... Unchanged preamble, plot_all() and print_formatted_file() functions ...
 
 if args.generate:  # ie argument -g
 

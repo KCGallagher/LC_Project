@@ -8,6 +8,7 @@ SAMPLING_FREQ = 10  # only samples one in X files (must be integer)
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex
 
+
 # READ PARAMETER VALUES FROM LOG FILE
 
 FILE_NAME = "log.lammps"
@@ -106,7 +107,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     box_volume = 1
     rod_positions = np.zeros((N_molecules, 2, 3))
-    """Indices are Molecule Number/ First (0) or Last (1) atom,/ Positional coord index"""
+    """Indices are Molecule Number/ First (0) or Last (1) atom/ Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -144,24 +145,13 @@ for i, time in enumerate(time_range):  # interate over dump files
             # Save positional coordatinates of end particles
             if int(particle_values[2]) == 1:  # first particle in molecule
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in molecule
+            if int(particle_values[2]) == mol_length:  # last particle in molecule
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
     order_param_values[i] = order_param(rod_positions)  # evaluate order param at time t
     print("T = " + str(time) + "/" + str(run_time))
-
-
-plt.plot(time_range, order_param_values)
-plt.plot(
-    time_range, uniform_filter1d(order_param_values, size=int(10)), linestyle="--",
-)
-plt.xlabel("Time (arbitrary units)")
-plt.ylabel("Order Parameter")
-plt.title("Evolution of Order Parameter")
-plt.savefig("order_plot.png")
-plt.show()
 
 fig, ax1 = plt.subplots()
 
@@ -185,11 +175,3 @@ fig.tight_layout()  # otherwise the right y-label is slightly clipped
 plt.savefig("order_and_volfrac.png")
 plt.show()
 
-plt.plot(vol_frac(volume_values), order_param_values, "rx")
-plt.ylabel("Order Parameter")
-plt.xlabel("Volume Fraction")
-plt.savefig("order_vs_volfrac.png")
-plt.show()
-
-print(max(uniform_filter1d(order_param_values, size=int(10))))
-print(max(order_param_values))

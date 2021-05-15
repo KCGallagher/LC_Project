@@ -61,11 +61,12 @@ if __name__ == "__main__":
 
     if not 2 * len(loop_var_values) == len(start_lines):
         print(
-            "Warning: Number of loop variable values does not match the number of equillibrium runs. "
-            + "Check whether you are reading in the correct loop variable in line 16"
+            "Warning: Number of loop variable values does not match"
+            + " the number of equillibrium runs. Check whether"
+            + " you are reading in the correct loop variable in line 17"
         )
-        # print("Number of loop variable values: " + str(len(loop_var_values)))
-        # print("Number of eq runs: " + str(len(start_lines)))
+        print("Number of loop variable values: " + str(len(loop_var_values)))
+        print("Number of equillibrium runs: " + str(len(start_lines)))
 
     last_line = i  # last line number in file
     tot_blank_lines = blank_lines_count  # total blank lines in file
@@ -75,8 +76,9 @@ if __name__ == "__main__":
     end_lines_adj = [
         e_i + b_i for e_i, b_i in zip(end_lines, blank_lines_left)
     ]  # sum two lists
-    """skip_footer doesn't count blank lines, but the iteraction above does. Therefore, we add in the number of 
-    blank lines below this end line, to give an adjusted end line that accounts for these extra blank lines"""
+    """skip_footer doesn't count blank lines, but the iteraction above does.
+    Therefore, we add in the number of  blank lines below this end line, to 
+    give an adjusted end line that accounts for these extra blank lines"""
 
     data_file.close()
 
@@ -87,7 +89,9 @@ if __name__ == "__main__":
 
     total_loop_var = 0
     for i in range(1, len(start_lines), 2):
-        # taking every other i to only get equillibrium values; each N has a thermalisation and an equillibrium run
+        # taking every other i to only get equillibrium values
+        # (each N has a thermalisation and an equillibrium run)
+
         j = int(
             (i - 1) / 2
         )  # giving range from 0 upwards in integer steps to compare to N_list
@@ -125,27 +129,5 @@ if __name__ == "__main__":
     plt.title("Evolution of Thermodynamic Variables at different " + LOOP_VAR_NAME)
     plt.legend()
     plt.savefig("pressureplot_frac.png")
-    plt.show()
-
-    plt.plot(
-        vol_frac_data,  # loop_var_values,
-        final_values[2, :] / np.amax(final_values[2, :]),
-        label="Normalised Internal energy",
-        linestyle="",
-        marker="o",
-    )
-    plt.plot(
-        vol_frac_data,  # loop_var_values,
-        final_values[1, :] / np.amax(final_values[1, :]),
-        label="Normalised Pressure",
-        linestyle="",
-        marker="x",
-    )
-
-    plt.xlabel("Volume Fraction")
-    plt.ylabel("Normalised Thermodynamic Variable")
-    plt.legend()
-    plt.title("Phase Plot for " + str(int(N)) + " Rigid Rods")
-    plt.savefig("phaseplot_frac.png")
     plt.show()
 

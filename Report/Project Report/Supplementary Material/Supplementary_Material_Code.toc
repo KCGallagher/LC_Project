@@ -1,0 +1,19 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Introduction}{2}%
+\contentsline {section}{\numberline {2}Molecular Dynamics}{2}%
+\contentsline {subsection}{\numberline {2.1}\textit {in.run\_setup}}{2}%
+\contentsline {subsection}{\numberline {2.2}\textit {in.run\_loop}}{3}%
+\contentsline {section}{\numberline {3}Initialisation}{4}%
+\contentsline {subsection}{\numberline {3.1}\textit {nunchucks.py}}{4}%
+\contentsline {subsection}{\numberline {3.2}\textit {nunchucks\_crystalline.py}}{10}%
+\contentsline {section}{\numberline {4}Order Parameter Calculation}{11}%
+\contentsline {subsection}{\numberline {4.1}\textit {phase\_plot.py}}{12}%
+\contentsline {subsection}{\numberline {4.2}\textit {director\_plot.py}}{14}%
+\contentsline {subsection}{\numberline {4.3}\textit {smectic\_plot.py}}{17}%
+\contentsline {section}{\numberline {5}Further Static Analysis}{19}%
+\contentsline {subsection}{\numberline {5.1}\textit {angle\_plot.py}}{19}%
+\contentsline {subsection}{\numberline {5.2}\textit {correlation\_plot.py}}{21}%
+\contentsline {subsection}{\numberline {5.3}\textit {correlation\_plot\_alternative.py}}{24}%
+\contentsline {section}{\numberline {6}Dynamic Analysis}{28}%
+\contentsline {subsection}{\numberline {6.1}\textit {diffusion\_plot.py}}{28}%
+\contentsline {subsection}{\numberline {6.2}\textit {diffusion\_coeff.py}}{31}%

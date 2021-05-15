@@ -1,5 +1,5 @@
-"""Additional approaches to calcuating the pair-wise 
-orientational order correlation function, using different director vectors"""
+"""Additional approaches to calcuating the pair-wise orientational order 
+correlation function, using different director vectors"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,9 +17,10 @@ mol_length = 15
 DIRECTOR_METHOD = "molecule"
 # Options are molecule/arm/bisector/normal
 
+
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
-# ... Same data extraction procedure as nematic_order.py ...
+# ... Same data extraction procedure as phase_plot.py ...
 
 
 def find_director(data, method="molecule"):
@@ -70,7 +71,7 @@ def find_separation(pos1, pos2, box_dim):
 
     This method finds the minimum separation, accounting for the periodic BC
     pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dime of the simulation region"""
+    box_dim is a vector (of equal length) giving the dim of the simulation region"""
     separation = pos1 - pos2
     for i in range(len(pos1)):  # should be 3 dimensional
         if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
@@ -166,7 +167,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     rod_positions = np.zeros((N_molecules, 3, 3))
     """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
 
-    # ... same position extraction procedure as correlation_plot.py
+    # ... Same position extraction procedure as correlation_plot.py
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
