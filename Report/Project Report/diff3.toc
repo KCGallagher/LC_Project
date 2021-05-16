@@ -1,0 +1,27 @@
+\contentsline {section}{\numberline {1}Introduction}{2}%
+\contentsline {section}{\numberline {2}Background}{2}%
+\contentsline {subsection}{\numberline {2.1}Liquid Crystals}{2}%
+\contentsline {subsection}{\numberline {2.2}Onsager Theory}{3}%
+\contentsline {subsection}{\numberline {2.3}Order Parameter}{4}%
+\contentsline {subsection}{\numberline {2.4}DNA as a Liquid Crystal}{4}%
+\contentsline {subsection}{\numberline {2.5}Previous Simulation Work}{5}%
+\contentsline {section}{\numberline {3}Methods}{5}%
+\contentsline {subsection}{\numberline {3.1}Simulation Molecules}{5}%
+\contentsline {subsection}{\numberline {3.2}Simulation Structure}{6}%
+\contentsline {subsection}{\numberline {3.3}Intermolecular Potential}{7}%
+\contentsline {subsection}{\numberline {3.4}Analysis Methods}{8}%
+\contentsline {section}{\numberline {4}Rigid Rod Simulations}{8}%
+\contentsline {subsection}{\numberline {4.1}{\color {red}\sout {Shrinking the Simulation Box}}{\color {blue}\uwave {\leavevmode {\color {forestgreen}Schrinking the Simulation Box}}}}{8}%
+\contentsline {subsection}{\numberline {4.2}Expanding Simulations}{8}%
+\contentsline {section}{\numberline {5}Nunchuck Simulations}{10}%
+\contentsline {subsection}{\numberline {5.1}Fixed Rigidity}{11}%
+\contentsline {subsection}{\numberline {5.2}Fixed Angle}{11}%
+\contentsline {subsection}{\numberline {5.3}Orientational Order Parameter}{12}%
+\contentsline {section}{\numberline {6}Dynamic Properties}{14}%
+\contentsline {section}{\numberline {7}Conclusion}{15}%
+\contentsline {section}{\numberline {A}Onsager Theory}{17}%
+\contentsline {section}{\numberline {B}Nematic Order Parameter}{18}%
+\contentsline {subsection}{\numberline {B.1}Theoretical Outline}{18}%
+\contentsline {subsection}{\numberline {B.2}Calculation}{18}%
+\contentsline {subsection}{\numberline {B.3}Position Dependant Order Parameter}{19}%
+\contentsline {section}{\numberline {C}Mean Squared Displacement}{20}%
