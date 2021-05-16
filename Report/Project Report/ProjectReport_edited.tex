@@ -115,7 +115,7 @@ The degree of order in a liquid crystal phase is characterised by an order param
 S_{n} = \left\langle P_{2}(\cos(\theta)) \right\rangle = \left\langle \frac{3}{2}\cos^{2}(\theta) - \frac{1}{2} \right\rangle 
 \end{equation}
 
-where $P_{2}$ denotes the second Legendre polynomial \cite{DeGennes1993}. While $\langle \cos^{2}(\theta) \rangle$ would function alone as the order parameter, this confines $S_{n}$ to values between unity for a perfectly aligned system, and zero for a completely random system. Further information is given in Appendix \ref{sec:OrderParamTheory}.
+where $P_{2}$ denotes the second Legendre polynomial \cite{DeGennes1993}. While $\langle \cos^{2}(\theta) \rangle$ would function alone as the order parameter, this confines $S_{n}$ to values between unity for a perfectly aligned system, and zero for a completely random system. Further information on the motivation behind this choice, and how it is implemented in our simulation, is given in Appendix \ref{sec:NematicOrderAppendix}.
 
 %add description of pair-wise orientational order coeff
 
@@ -482,7 +482,7 @@ To derive (\ref{eq:OnsagerFreeEnergy}) that we have assumed it is valid to ignor
 
 Despite its importance in simulation, it is also acknowledged that this is a typically poor model experimentally; primarily because physical systems either have much lower aspect ratios or are not truly rigid \cite{Odijk1985}. In this case, the long-range Maier\textendash Snape theory \cite{Maier1959} is typically used, with the additional benefit that this also accounts for attractive inter-molecular forces. This produces significantly more accurate estimates of the critical volume fraction and the order parameter at the isotropic\textendash nematic transition \cite{Zannoni1979b}.
 
-\section{Nematic Order Parameter} 
+\section{Nematic Order Parameter} \label{sec:NematicOrderAppendix}
 \subsection{Theoretical Outline}\label{sec:OrderParamTheory}
 Here I endeavour to outline the motivation for the nematic order parameter used throughout this report, based on the work of Eppenga and Frenkel \cite{Eppenga1984, Frenkel1982}. The nematic phase may be differentiated from the isotropic phase by the formation of cylindrical symmetry, as opposed to the spherical symmetry of the isotropic phase. The deviation from spherical symmetry may be quantified through a set of order parameters \cite{Zannoni1979}. When considering the axially symmetric nematic phase, independent of $\phi$, the distribution function $f(\theta, \phi)$ may be generally expressed in the basis of all even Legendre polynomials $P_{2l}$:
 
