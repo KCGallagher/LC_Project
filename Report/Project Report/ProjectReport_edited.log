@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  16 MAY 2021 19:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  17 MAY 2021 11:07
 entering extended mode
 **./ProjectReport_edited.tex
 (ProjectReport_edited.tex
@@ -35,6 +35,10 @@ File: switch.def 2020/02/03 3.39 Babel switching mechanism
 File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
  babel
 )
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/babel-english\UKeng
+lish.ldf"
+Language: UKenglish 2017/06/06 v3.3r English support from the babel system
+
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/babel-english\engli
 sh.ldf"
 Language: english 2017/06/06 v3.3r English support from the babel system
@@ -55,7 +59,7 @@ Package babel Info: \l@australian = using hyphenrules for ukenglish
 (babel)             (\language72) on input line 105.
 Package babel Info: \l@newzealand = using hyphenrules for ukenglish
 (babel)             (\language72) on input line 108.
-))
+)))
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/microtype\microtype
 .sty"
 Package: microtype 2019/11/18 v2.7d Micro-typographical refinements (RS)
@@ -801,6 +805,32 @@ s
 \f@nch@O@olf=\skip70
 \f@nch@O@orf=\skip71
 )
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/isodate\isodate.sty
+"
+Package: isodate 2010/01/03 v2.30 Print dates with different formats (HH)
+ ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+) ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/substr\substr.sty
+"
+Package: substr 2009/10/20 v1.2 Handle substrings
+\c@su@anzahl=\count294
+)
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/isodate\english.idf
+"
+File: english.idf 2010/01/03 v2.30 Language definitions for isodate package (HH
+)
+
+Define commands for English date format
+)
+\c@iso@tmpmonth=\count295
+\c@iso@yeartwo=\count296
+\c@iso@slash=\count297
+\c@iso@minus=\count298
+\c@iso@dot=\count299
+\c@iso@@slash=\count300
+\c@iso@@minus=\count301
+\c@iso@@dot=\count302
+)
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/titling\titling.sty
 "
 Package: titling 2009/09/04 v2.1d maketitle typesetting
@@ -816,18 +846,18 @@ File: lettrine.sty 2019-04-06 v2.22 (Daniel Flipo)
 "
 Package: minifp 2013/12/30 v0.96. Macros for real number operations and a stack
 -based programing language.
-\MFP@loopctr=\count294
+\MFP@loopctr=\count303
 )
-\c@DefaultLines=\count295
-\c@DefaultDepth=\count296
+\c@DefaultLines=\count304
+\c@DefaultDepth=\count305
 \DefaultFindent=\dimen191
 \DefaultNindent=\dimen192
 \DefaultSlope=\dimen193
 \DiscardVskip=\dimen194
 \L@lbox=\box58
 \L@tbox=\box59
-\c@L@lines=\count297
-\c@L@depth=\count298
+\c@L@lines=\count306
+\c@L@depth=\count307
 \L@Pindent=\dimen195
 \L@Findent=\dimen196
 \L@Nindent=\dimen197
@@ -860,8 +890,8 @@ LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
 "
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xstring\xstring.t
 ex"
-\integerpart=\count299
-\decimalpart=\count300
+\integerpart=\count308
+\decimalpart=\count309
 )
 Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 )
@@ -896,57 +926,55 @@ Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
 ))
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.sty"
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count301
+\lrq@indent=\count310
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.def"
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-)) ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.sty"
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-) ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
+)) ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\c@tabx@nest=\count302
-\c@listtotal=\count303
-\c@listcount=\count304
-\c@liststart=\count305
-\c@liststop=\count306
-\c@citecount=\count307
-\c@citetotal=\count308
-\c@multicitecount=\count309
-\c@multicitetotal=\count310
-\c@instcount=\count311
-\c@maxnames=\count312
-\c@minnames=\count313
-\c@maxitems=\count314
-\c@minitems=\count315
-\c@citecounter=\count316
-\c@maxcitecounter=\count317
-\c@savedcitecounter=\count318
-\c@uniquelist=\count319
-\c@uniquename=\count320
-\c@refsection=\count321
-\c@refsegment=\count322
-\c@maxextratitle=\count323
-\c@maxextratitleyear=\count324
-\c@maxextraname=\count325
-\c@maxextradate=\count326
-\c@maxextraalpha=\count327
-\c@abbrvpenalty=\count328
-\c@highnamepenalty=\count329
-\c@lownamepenalty=\count330
-\c@maxparens=\count331
-\c@parenlevel=\count332
-\blx@tempcnta=\count333
-\blx@tempcntb=\count334
-\blx@tempcntc=\count335
-\blx@maxsection=\count336
-\blx@maxsegment@0=\count337
-\blx@notetype=\count338
-\blx@parenlevel@text=\count339
-\blx@parenlevel@foot=\count340
-\blx@sectionciteorder@0=\count341
-\blx@entrysetcounter=\count342
+\c@tabx@nest=\count311
+\c@listtotal=\count312
+\c@listcount=\count313
+\c@liststart=\count314
+\c@liststop=\count315
+\c@citecount=\count316
+\c@citetotal=\count317
+\c@multicitecount=\count318
+\c@multicitetotal=\count319
+\c@instcount=\count320
+\c@maxnames=\count321
+\c@minnames=\count322
+\c@maxitems=\count323
+\c@minitems=\count324
+\c@citecounter=\count325
+\c@maxcitecounter=\count326
+\c@savedcitecounter=\count327
+\c@uniquelist=\count328
+\c@uniquename=\count329
+\c@refsection=\count330
+\c@refsegment=\count331
+\c@maxextratitle=\count332
+\c@maxextratitleyear=\count333
+\c@maxextraname=\count334
+\c@maxextradate=\count335
+\c@maxextraalpha=\count336
+\c@abbrvpenalty=\count337
+\c@highnamepenalty=\count338
+\c@lownamepenalty=\count339
+\c@maxparens=\count340
+\c@parenlevel=\count341
+\blx@tempcnta=\count342
+\blx@tempcntb=\count343
+\blx@tempcntc=\count344
+\blx@maxsection=\count345
+\blx@maxsegment@0=\count346
+\blx@notetype=\count347
+\blx@parenlevel@text=\count348
+\blx@parenlevel@foot=\count349
+\blx@sectionciteorder@0=\count350
+\blx@entrysetcounter=\count351
 \labelnumberwidth=\skip75
 \labelalphawidth=\skip76
 \biblabelsep=\skip77
@@ -958,9 +986,9 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 \blx@bcfin=\read4
 \blx@bcfout=\write3
 \blx@langwohyphens=\language78
-\c@mincomprange=\count343
-\c@maxcomprange=\count344
-\c@mincompwidth=\count345
+\c@mincomprange=\count352
+\c@maxcomprange=\count353
+\c@mincompwidth=\count354
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -977,74 +1005,74 @@ File: phys.dbx 2019/12/03 v1.1b biblatex database model extension
 )
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count346
-\c@savedafterword=\count347
-\c@annotator=\count348
-\c@savedannotator=\count349
-\c@author=\count350
-\c@savedauthor=\count351
-\c@bookauthor=\count352
-\c@savedbookauthor=\count353
-\c@commentator=\count354
-\c@savedcommentator=\count355
-\c@editor=\count356
-\c@savededitor=\count357
-\c@editora=\count358
-\c@savededitora=\count359
-\c@editorb=\count360
-\c@savededitorb=\count361
-\c@editorc=\count362
-\c@savededitorc=\count363
-\c@foreword=\count364
-\c@savedforeword=\count365
-\c@holder=\count366
-\c@savedholder=\count367
-\c@introduction=\count368
-\c@savedintroduction=\count369
-\c@namea=\count370
-\c@savednamea=\count371
-\c@nameb=\count372
-\c@savednameb=\count373
-\c@namec=\count374
-\c@savednamec=\count375
-\c@translator=\count376
-\c@savedtranslator=\count377
-\c@shortauthor=\count378
-\c@savedshortauthor=\count379
-\c@shorteditor=\count380
-\c@savedshorteditor=\count381
-\c@labelname=\count382
-\c@savedlabelname=\count383
-\c@institution=\count384
-\c@savedinstitution=\count385
-\c@lista=\count386
-\c@savedlista=\count387
-\c@listb=\count388
-\c@savedlistb=\count389
-\c@listc=\count390
-\c@savedlistc=\count391
-\c@listd=\count392
-\c@savedlistd=\count393
-\c@liste=\count394
-\c@savedliste=\count395
-\c@listf=\count396
-\c@savedlistf=\count397
-\c@location=\count398
-\c@savedlocation=\count399
-\c@organization=\count400
-\c@savedorganization=\count401
-\c@origlocation=\count402
-\c@savedoriglocation=\count403
-\c@origpublisher=\count404
-\c@savedorigpublisher=\count405
-\c@publisher=\count406
-\c@savedpublisher=\count407
-\c@language=\count408
-\c@savedlanguage=\count409
-\c@origlanguage=\count410
-\c@savedoriglanguage=\count411
-\c@pageref=\count412
-\c@savedpageref=\count413
+\c@afterword=\count355
+\c@savedafterword=\count356
+\c@annotator=\count357
+\c@savedannotator=\count358
+\c@author=\count359
+\c@savedauthor=\count360
+\c@bookauthor=\count361
+\c@savedbookauthor=\count362
+\c@commentator=\count363
+\c@savedcommentator=\count364
+\c@editor=\count365
+\c@savededitor=\count366
+\c@editora=\count367
+\c@savededitora=\count368
+\c@editorb=\count369
+\c@savededitorb=\count370
+\c@editorc=\count371
+\c@savededitorc=\count372
+\c@foreword=\count373
+\c@savedforeword=\count374
+\c@holder=\count375
+\c@savedholder=\count376
+\c@introduction=\count377
+\c@savedintroduction=\count378
+\c@namea=\count379
+\c@savednamea=\count380
+\c@nameb=\count381
+\c@savednameb=\count382
+\c@namec=\count383
+\c@savednamec=\count384
+\c@translator=\count385
+\c@savedtranslator=\count386
+\c@shortauthor=\count387
+\c@savedshortauthor=\count388
+\c@shorteditor=\count389
+\c@savedshorteditor=\count390
+\c@labelname=\count391
+\c@savedlabelname=\count392
+\c@institution=\count393
+\c@savedinstitution=\count394
+\c@lista=\count395
+\c@savedlista=\count396
+\c@listb=\count397
+\c@savedlistb=\count398
+\c@listc=\count399
+\c@savedlistc=\count400
+\c@listd=\count401
+\c@savedlistd=\count402
+\c@liste=\count403
+\c@savedliste=\count404
+\c@listf=\count405
+\c@savedlistf=\count406
+\c@location=\count407
+\c@savedlocation=\count408
+\c@organization=\count409
+\c@savedorganization=\count410
+\c@origlocation=\count411
+\c@savedoriglocation=\count412
+\c@origpublisher=\count413
+\c@savedorigpublisher=\count414
+\c@publisher=\count415
+\c@savedpublisher=\count416
+\c@language=\count417
+\c@savedlanguage=\count418
+\c@origlanguage=\count419
+\c@savedoriglanguage=\count420
+\c@pageref=\count421
+\c@savedpageref=\count422
 \shorthandwidth=\skip83
 \shortjournalwidth=\skip84
 \shortserieswidth=\skip85
@@ -1072,19 +1100,19 @@ Package biblatex Info: ... file 'biblatex.def' found.
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex.d
 ef"
 File: biblatex.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
-\c@textcitecount=\count414
-\c@textcitetotal=\count415
-\c@textcitemaxnames=\count416
-\c@biburlbigbreakpenalty=\count417
-\c@biburlbreakpenalty=\count418
-\c@biburlnumpenalty=\count419
-\c@biburlucpenalty=\count420
-\c@biburllcpenalty=\count421
+\c@textcitecount=\count423
+\c@textcitetotal=\count424
+\c@textcitemaxnames=\count425
+\c@biburlbigbreakpenalty=\count426
+\c@biburlbreakpenalty=\count427
+\c@biburlnumpenalty=\count428
+\c@biburlucpenalty=\count429
+\c@biburllcpenalty=\count430
 \biburlbigskip=\muskip18
 \biburlnumskip=\muskip19
 \biburlucskip=\muskip20
 \biburllcskip=\muskip21
-\c@smartand=\count422
+\c@smartand=\count431
 )
 Package biblatex Info: Trying to load natbib compatibility...
 Package biblatex Info: ... file 'blx-natbib.def' found.
@@ -1119,8 +1147,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\standa
 rd.bbx"
 File: standard.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count423
-\c@bbx:relatedtotal=\count424
+\c@bbx:relatedcount=\count432
+\c@bbx:relatedtotal=\count433
 ))))
 Package biblatex Info: Trying to load citation style 'phys'...
 Package biblatex Info: ... file 'phys.cbx' found.
@@ -1134,8 +1162,8 @@ Package biblatex Info: ... file 'numeric-comp.cbx' found.
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/cbx\numeri
 c-comp.cbx"
 File: numeric-comp.cbx 2019/12/01 v3.14 biblatex citation style (PK/MW)
-\c@cbx@tempcnta=\count425
-\c@cbx@tempcntb=\count426
+\c@cbx@tempcnta=\count434
+\c@cbx@tempcntb=\count435
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
@@ -1158,12 +1186,12 @@ File: biblatex.cfg
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/csquotes\csquotes.s
 ty"
 Package: csquotes 2019-12-06 v5.2j context-sensitive quotations (JAW)
-\csq@reset=\count427
-\csq@gtype=\count428
-\csq@glevel=\count429
-\csq@qlevel=\count430
-\csq@maxlvl=\count431
-\csq@tshold=\count432
+\csq@reset=\count436
+\csq@gtype=\count437
+\csq@glevel=\count438
+\csq@qlevel=\count439
+\csq@maxlvl=\count440
+\csq@tshold=\count441
 \csq@ltx@everypar=\toks37
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/csquotes\csquotes.d
@@ -1182,9 +1210,9 @@ Package csquotes Info: Enabling multilingual quotes.
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/appendix\appendix.s
 ty"
 Package: appendix 2020/02/08 v1.2c extra appendix facilities
-\c@@pps=\count433
-\c@@ppsavesec=\count434
-\c@@ppsaveapp=\count435
+\c@@pps=\count442
+\c@@ppsavesec=\count443
+\c@@ppsaveapp=\count444
 ))
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\tabularx.sty"
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
@@ -1193,7 +1221,7 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@old@col=\dimen268
 \TX@target=\dimen269
 \TX@delta=\dimen270
-\TX@cols=\count436
+\TX@cols=\count445
 \TX@ftn=\toks38
 )
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/generic/atbegshi\atbegshi
@@ -1264,16 +1292,16 @@ File: mt-bch.cfg 2007/03/03 v1.5 microtype config. file: Bitstream Charter (RS)
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-pd
 f.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count437
+\scratchcounter=\count446
 \scratchdimen=\dimen271
 \scratchbox=\box60
-\nofMPsegments=\count438
-\nofMParguments=\count439
+\nofMPsegments=\count447
+\nofMParguments=\count448
 \everyMPshowfont=\toks39
-\MPscratchCnt=\count440
+\MPscratchCnt=\count449
 \MPscratchDim=\dimen272
-\MPnumerator=\count441
-\makeMPintoPDFobject=\count442
+\MPnumerator=\count450
+\makeMPintoPDFobject=\count451
 \everyMPtoPDFconversion=\toks40
 )
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\epstop
@@ -1330,15 +1358,35 @@ File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\c@mv@tabular=\count443
-\c@mv@boldtabular=\count444
+\c@mv@tabular=\count452
+\c@mv@boldtabular=\count453
+isodate: babel.sty has been loaded
+Package biblatex Info: Trying to load language 'UKenglish'...
+Package biblatex Info: ... file 'UKenglish.lbx' found.
+
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\UKengl
+ish.lbx"
+File: UKenglish.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+Package biblatex Info: Trying to load language 'british'...
+Package biblatex Info: ... file 'british.lbx' found.
+
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\britis
+h.lbx"
+File: british.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'british'...
+Package biblatex Info: ... file 'british.lbx' found.
+
+("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\britis
+h.lbx"
+File: british.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\englis
 h.lbx"
 File: english.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
-)
+)))
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
@@ -1385,47 +1433,56 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  (titlepage.tex
-Package atbegshi Info: Shipout page discarded.
 LaTeX Font Info:    Trying to load font information for OT1+phv on input line 6
 .
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ot1phv.fd"
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10.95> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 6.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `phv' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 6.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 9.0pt on input line 6.
+Package atbegshi Info: Shipout page discarded.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 7.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/sc' will be
-(Font)              scaled to size 10.95pt on input line 9.
+(Font)              scaled to size 10.95pt on input line 11.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 32.60931pt on input line 9.
+(Font)              scaled to size 32.60931pt on input line 11.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 47.95464pt on input line 9.
+(Font)              scaled to size 47.95464pt on input line 11.
 Package lettrine.sty Info: Targeted height = 32.60931pt
 (lettrine.sty)             (no accent, loversize=0),
 (lettrine.sty)             Lettrine height = 32.60916pt (\color {NavyBlue}{T});
 
-(lettrine.sty)             reported on input line 9.
+(lettrine.sty)             reported on input line 11.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 9.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.95pt on input line 20.
-
-[2{C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}])
+(Font)              scaled to size 10.95pt on input line 11.
+<Figures/nun_fa_twist.png, id=1, 360.74776pt x 131.2905pt>
+File: Figures/nun_fa_twist.png Graphic file (type png)
+<use Figures/nun_fa_twist.png>
+Package pdftex.def Info: Figures/nun_fa_twist.png  used on input line 24.
+(pdftex.def)             Requested size: 435.32422pt x 158.44327pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 14.4pt on input line 43.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 43.
+(Font)              scaled to size 10.0pt on input line 25.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.0pt on input line 25.
 
-(ProjectReport_edited.toc)
+[2{C:/Users/KitG/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./Figures/
+nun_fa_twist.png>])
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 14.4pt on input line 42.
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
+(Font)              scaled to size 14.4pt on input line 42.
+ (ProjectReport_edited.toc)
 \tf@toc=\write4
 \openout4 = `ProjectReport_edited.toc'.
 
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
+(Font)              scaled to size 10.95pt on input line 43.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1433,11 +1490,15 @@ Make it at least 13.59999pt.
 We now make it that large for the rest of the document.
 This may cause the page layout to be inconsistent, however.
 
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 9.0pt on input line 43.
 [1]
+LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
+(Font)              scaled to size 12.0pt on input line 64.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 65.
+(Font)              scaled to size 12.0pt on input line 64.
 LaTeX Font Info:    Trying to load font information for TS1+XCharter-TLF on inp
-ut line 73.
+ut line 72.
 
 ("C:\Users\KitG\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xcharter\ts1xcharte
 r-tlf.fd"
@@ -1445,7 +1506,7 @@ File: TS1XCharter-TLF.fd 2017/06/25 (autoinst) Font definitions for TS1/XCharte
 r-TLF.
 )
 LaTeX Font Info:    Font shape `TS1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 73.
+(Font)              scaled to size 10.95pt on input line 72.
 Package microtype Info: Character `textlbrackdbl ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1455,39 +1516,35 @@ Package microtype Info: Character `textrbrackdbl ' is missing
 Package microtype Info: Character `texttildelow ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
-<Figures/lc_phases_cropped.jpg, id=13, 259.7203pt x 92.59593pt>
-File: Figures/lc_phases_cropped.jpg Graphic file (type jpg)
-<use Figures/lc_phases_cropped.jpg>
-Package pdftex.def Info: Figures/lc_phases_cropped.jpg  used on input line 83.
-(pdftex.def)             Requested size: 338.58632pt x 120.71376pt.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 84.
+<Figures/lc_phases_self1.png, id=16, 1909.1325pt x 754.82pt>
+File: Figures/lc_phases_self1.png Graphic file (type png)
+<use Figures/lc_phases_self1.png>
+Package pdftex.def Info: Figures/lc_phases_self1.png  used on input line 82.
+(pdftex.def)             Requested size: 435.32422pt x 172.10767pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 84.
-LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 10.0pt on input line 84.
- [2]
+(Font)              scaled to size 10.0pt on input line 83.
+ [2] [3 <./Figures/lc_phases_self1.png>]
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 6.0pt on input line 112.
- [3 <./Figures/lc_phases_cropped.jpg>] [4]
-<Figures/nunchucks_artist.png, id=32, 603.25375pt x 551.05875pt>
+(Font)              scaled to size 6.0pt on input line 111.
+ [4]
+<Figures/nunchucks_artist.png, id=37, 603.25375pt x 551.05875pt>
 File: Figures/nunchucks_artist.png Graphic file (type png)
 <use Figures/nunchucks_artist.png>
-Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 156.
+Package pdftex.def Info: Figures/nunchucks_artist.png  used on input line 155.
 (pdftex.def)             Requested size: 193.47578pt x 176.72919pt.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/n' will be
-(Font)              scaled to size 9.0pt on input line 157.
+(Font)              scaled to size 9.0pt on input line 156.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/it' will be
-(Font)              scaled to size 9.0pt on input line 157.
-<Figures/nunchuck_profile_coloured.png, id=33, 446.1468pt x 364.2408pt>
+(Font)              scaled to size 9.0pt on input line 156.
+<Figures/nunchuck_profile_coloured.png, id=38, 446.1468pt x 364.2408pt>
 File: Figures/nunchuck_profile_coloured.png Graphic file (type png)
 <use Figures/nunchuck_profile_coloured.png>
 Package pdftex.def Info: Figures/nunchuck_profile_coloured.png  used on input l
-ine 163.
+ine 162.
 (pdftex.def)             Requested size: 193.47578pt x 157.95438pt.
 Package textcomp Info: Symbol \textmu not provided by
 (textcomp)             font family XCharter-TLF in TS1 encoding.
-(textcomp)             Default family used instead on input line 178.
+(textcomp)             Default family used instead on input line 177.
  [5] [6 <./Figures/nunchucks_artist.png> <./Figures/nunchuck_profile_coloured.p
 ng>] [7]
 Package epstopdf Info: Source file: <Figures/rigidrod_nemorderparam.eps>
@@ -1499,20 +1556,20 @@ ed-to.pdf>
 (epstopdf)                    size: 25767 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_nemorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_nemorderparam.eps>
-(epstopdf)             \includegraphics on input line 227.
+(epstopdf)             \includegraphics on input line 226.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_nemorderparam-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/rigidrod_nemorderparam-eps-converted-to.pdf, id=48, 462.72874pt x 347.
+<Figures/rigidrod_nemorderparam-eps-converted-to.pdf, id=52, 462.72874pt x 347.
 2975pt>
 File: Figures/rigidrod_nemorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_nemorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_nemorderparam-eps-converted-to.pdf  u
-sed on input line 227.
+sed on input line 226.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    date: 2021-04-03 12:51:49
@@ -1523,20 +1580,20 @@ Package epstopdf Info: Source file: <Figures/rigidrod_pressureevo.eps>
 (epstopdf)                    size: 162031 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_pressureev
 o-eps-converted-to.pdf Figures/rigidrod_pressureevo.eps>
-(epstopdf)             \includegraphics on input line 236.
+(epstopdf)             \includegraphics on input line 235.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_pressureevo-eps-converted
 -to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> all
 owed
-<Figures/rigidrod_pressureevo-eps-converted-to.pdf, id=49, 462.72874pt x 347.29
+<Figures/rigidrod_pressureevo-eps-converted-to.pdf, id=53, 462.72874pt x 347.29
 75pt>
 File: Figures/rigidrod_pressureevo-eps-converted-to.pdf Graphic file (type pdf)
 
 <use Figures/rigidrod_pressureevo-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_pressureevo-eps-converted-to.pdf  use
-d on input line 236.
+d on input line 235.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1551,32 +1608,34 @@ ed-to.pdf>
 (epstopdf)                    size: 29320 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/rigidrod_cryorderpa
 ram-eps-converted-to.pdf Figures/rigidrod_cryorderparam.eps>
-(epstopdf)             \includegraphics on input line 250.
+(epstopdf)             \includegraphics on input line 249.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/rigidrod_cryorderparam-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/rigidrod_cryorderparam-eps-converted-to.pdf, id=96, 462.72874pt x 347.
+<Figures/rigidrod_cryorderparam-eps-converted-to.pdf, id=99, 462.72874pt x 347.
 2975pt>
 File: Figures/rigidrod_cryorderparam-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/rigidrod_cryorderparam-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/rigidrod_cryorderparam-eps-converted-to.pdf  u
-sed on input line 250.
+sed on input line 249.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
-[9 <./Figures/rigidrod_pressureevo-eps-converted-to.pdf> <./Figures/rigidrod_cr
-yorderparam-eps-converted-to.pdf>]
-<Figures/nun_fr_side.png, id=184, 385.44pt x 289.08pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[9 <./Figures/rigidrod_pressureevo-eps-converted-to.pdf>]
+<Figures/nun_fr_side.png, id=141, 385.44pt x 289.08pt>
 File: Figures/nun_fr_side.png Graphic file (type png)
 <use Figures/nun_fr_side.png>
-Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 279.
+Package pdftex.def Info: Figures/nun_fr_side.png  used on input line 278.
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
-<Figures/nun_fr_perspective.png, id=185, 385.44pt x 289.08pt>
+<Figures/nun_fr_perspective.png, id=142, 385.44pt x 289.08pt>
 File: Figures/nun_fr_perspective.png Graphic file (type png)
 <use Figures/nun_fr_perspective.png>
-Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 285
+Package pdftex.def Info: Figures/nun_fr_perspective.png  used on input line 284
 .
 (pdftex.def)             Requested size: 217.66211pt x 163.24669pt.
 Package epstopdf Info: Source file: <Figures/nun_fr_angledist.eps>
@@ -1588,37 +1647,35 @@ pdf>
 (epstopdf)                    size: 37974 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_fr_angledist-ep
 s-converted-to.pdf Figures/nun_fr_angledist.eps>
-(epstopdf)             \includegraphics on input line 295.
+(epstopdf)             \includegraphics on input line 294.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_fr_angledist-eps-converted-to.
 pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 
-<Figures/nun_fr_angledist-eps-converted-to.pdf, id=186, 462.72874pt x 347.2975p
+<Figures/nun_fr_angledist-eps-converted-to.pdf, id=143, 462.72874pt x 347.2975p
 t>
 File: Figures/nun_fr_angledist-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_fr_angledist-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_fr_angledist-eps-converted-to.pdf  used on
- input line 295.
+ input line 294.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[10 <./Figures/nun_fr_side.png> <./Figures/nun_fr_perspective.png>]
-<Figures/nun_fa_herringbone.png, id=192, 372.79276pt x 211.992pt>
+<Figures/nun_fa_herringbone.png, id=144, 372.79276pt x 211.992pt>
 File: Figures/nun_fa_herringbone.png Graphic file (type png)
 <use Figures/nun_fa_herringbone.png>
-Package pdftex.def Info: Figures/nun_fa_herringbone.png  used on input line 312
+Package pdftex.def Info: Figures/nun_fa_herringbone.png  used on input line 311
 .
 (pdftex.def)             Requested size: 174.12701pt x 99.02164pt.
-<Figures/nun_fa_twist.png, id=193, 360.74776pt x 131.2905pt>
 File: Figures/nun_fa_twist.png Graphic file (type png)
 <use Figures/nun_fa_twist.png>
-Package pdftex.def Info: Figures/nun_fa_twist.png  used on input line 318.
+Package pdftex.def Info: Figures/nun_fa_twist.png  used on input line 317.
 (pdftex.def)             Requested size: 261.19719pt x 95.06596pt.
 LaTeX Font Info:    Font shape `TS1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 10.0pt on input line 322.
+(Font)              scaled to size 10.0pt on input line 321.
 Package microtype Info: Character `textlbrackdbl ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
@@ -1629,12 +1686,14 @@ Package microtype Info: Character `texttildelow ' is missing
 (microtype)             in font `TS1/XCharter-TLF/m/n/10'.
 (microtype)             Ignoring protrusion settings for this character.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 7.0pt on input line 322.
+(Font)              scaled to size 7.0pt on input line 321.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/m/n' will be
-(Font)              scaled to size 5.0pt on input line 322.
+(Font)              scaled to size 5.0pt on input line 321.
 LaTeX Font Info:    Font shape `T1/XCharter-TLF/b/it' will be
-(Font)              scaled to size 10.0pt on input line 322.
- [11 <./Figures/nun_fr_angledist-eps-converted-to.pdf>]
+(Font)              scaled to size 10.0pt on input line 321.
+[10 <./Figures/rigidrod_cryorderparam-eps-converted-to.pdf>] [11 <./Figures/nun
+_fr_side.png> <./Figures/nun_fr_perspective.png> <./Figures/nun_fr_angledist-ep
+s-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/num_fa_correlation_mol.eps>
 (epstopdf)                    date: 2021-04-03 18:37:26
 (epstopdf)                    size: 70360 bytes
@@ -1644,26 +1703,26 @@ ed-to.pdf>
 (epstopdf)                    size: 16756 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/num_fa_correlation_
 mol-eps-converted-to.pdf Figures/num_fa_correlation_mol.eps>
-(epstopdf)             \includegraphics on input line 350.
+(epstopdf)             \includegraphics on input line 349.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/num_fa_correlation_mol-eps-convert
 ed-to.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> a
 llowed
-<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=251, 462.72874pt x 347
+<Figures/num_fa_correlation_mol-eps-converted-to.pdf, id=253, 462.72874pt x 347
 .2975pt>
 File: Figures/num_fa_correlation_mol-eps-converted-to.pdf Graphic file (type pd
 f)
 <use Figures/num_fa_correlation_mol-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/num_fa_correlation_mol-eps-converted-to.pdf  u
-sed on input line 350.
+sed on input line 349.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[12 <./Figures/nun_fa_herringbone.png> <./Figures/nun_fa_twist.png>] [13 <./Fig
-ures/num_fa_correlation_mol-eps-converted-to.pdf>]
+[12 <./Figures/nun_fa_herringbone.png>] [13 <./Figures/num_fa_correlation_mol-e
+ps-converted-to.pdf>]
 Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    date: 2021-04-05 12:49:09
 (epstopdf)                    size: 98613 bytes
@@ -1673,18 +1732,18 @@ Package epstopdf Info: Source file: <Figures/nun_diff_rmsplots.eps>
 (epstopdf)                    size: 26356 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_rmsplots-e
 ps-converted-to.pdf Figures/nun_diff_rmsplots.eps>
-(epstopdf)             \includegraphics on input line 391.
+(epstopdf)             \includegraphics on input line 390.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_rmsplots-eps-converted-to
 .pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowe
 d
-<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=296, 722.7pt x 361.35pt>
+<Figures/nun_diff_rmsplots-eps-converted-to.pdf, id=297, 722.7pt x 361.35pt>
 File: Figures/nun_diff_rmsplots-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_rmsplots-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_rmsplots-eps-converted-to.pdf  used o
-n input line 391.
+n input line 390.
 (pdftex.def)             Requested size: 483.69687pt x 241.84961pt.
 Package epstopdf Info: Source file: <Figures/nun_diff_Dcoeff.eps>
 (epstopdf)                    date: 2021-04-04 18:45:33
@@ -1695,29 +1754,35 @@ df>
 (epstopdf)                    size: 16758 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_Dcoeff-eps
 -converted-to.pdf Figures/nun_diff_Dcoeff.eps>
-(epstopdf)             \includegraphics on input line 400.
+(epstopdf)             \includegraphics on input line 399.
 Package epstopdf Info: Output file is already uptodate.
 
 
 pdfTeX warning: pdflatex.exe (file ./Figures/nun_diff_Dcoeff-eps-converted-to.p
 df): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=297, 462.72874pt x 347.2975pt
+<Figures/nun_diff_Dcoeff-eps-converted-to.pdf, id=298, 462.72874pt x 347.2975pt
 >
 File: Figures/nun_diff_Dcoeff-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_Dcoeff-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_Dcoeff-eps-converted-to.pdf  used on 
-input line 400.
+input line 399.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 [14 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf>] [15 <./Figures/nun_diff
-_Dcoeff-eps-converted-to.pdf>] [16] [17] [18]
+_Dcoeff-eps-converted-to.pdf>] [16]
+Overfull \hbox (9.32146pt too wide) in paragraph at lines 425--425
+[]\T1/XCharter-TLF/m/n/10.95 (-20) H. Zi-m-mer-mann, R. Poupko, Z. Luz and J. B
+il-lard, `  Pyr-amidic meso-phases', Zeits-chrift für Naturforschung
+ []
+
+[17] [18]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `cmtt' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [19]
-Overfull \hbox (16.6322pt too wide) in paragraph at lines 426--426
+Overfull \hbox (11.4783pt too wide) in paragraph at lines 425--425
 []\T1/XCharter-TLF/m/n/10.95 (-20) J. W. Doane, R. S. Parker, B. Cvikl, D. L. J
-ohn-son, and D. L. Fishel,   Pos-si-ble second-order nematicsmectic-
+ohn-son and D. L. Fishel, `  Pos-sible second-order nematicsmectic-
  []
 
 [20] [21] [22] [23] [24] 
@@ -1728,13 +1793,13 @@ Package logreq Info: Writing requests to 'ProjectReport_edited.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 21263 strings out of 481565
- 412735 string characters out of 2914627
- 1065835 words of memory out of 3000000
- 35855 multiletter control sequences out of 15000+200000
- 730243 words of font info for 286 fonts, out of 3000000 for 9000
+ 21541 strings out of 481565
+ 417648 string characters out of 2914627
+ 1085248 words of memory out of 3000000
+ 36109 multiletter control sequences out of 15000+200000
+ 734684 words of font info for 296 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 47i,12n,77p,1289b,1707s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 53i,12n,79p,1289b,2292s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi657\e
 ctt1000.pk>{C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/xch
 arter/xch_uy5hgr.enc} <C:\Users\KitG\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/j
@@ -1764,9 +1829,9 @@ msfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/cm/cmsy8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport_edited.pdf (26 pages, 2529389 bytes).
+Output written on ProjectReport_edited.pdf (26 pages, 2701662 bytes).
 PDF statistics:
- 529 PDF objects out of 1000 (max. 8388607)
+ 530 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  57927 words of extra memory for PDF output out of 61914 (max. 10000000)
 

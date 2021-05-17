@@ -43,8 +43,6 @@
 \abx@aux@segm{0}{0}{DeGennes1993}
 \abx@aux@cite{Kato2007}
 \abx@aux@segm{0}{0}{Kato2007}
-\abx@aux@cite{Kato2007}
-\abx@aux@segm{0}{0}{Kato2007}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{2}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{2}\protected@file@percent }
 \newlabel{sec:Background}{{2}{2}}
@@ -75,7 +73,7 @@
 \abx@aux@segm{0}{0}{Oldenbourg1988}
 \abx@aux@cite{Fraden1993}
 \abx@aux@segm{0}{0}{Fraden1993}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Representation of the three liquid crystal phase classes, reproduced from Kato et al. \cite {Kato2007} with permission. Note the distinct layers in the smectic and columnar phases, and the different class of molecule in the columnar phase.\relax }}{3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Representation of the nematic and smectic phases for rod-like mesogens, in comparison to an isotropic liquid and a crystalline solid. Note that phases are ordered from left to right in terms of increasing volume fraction. Orientational order develops in the nematic phase, while positional order develops in the smectic phase, and is extended to all axes in the crystalline phase. Here, $\boldsymbol  {\hat  {n}}$ denotes the system director, and $\boldsymbol  {\hat  {n}}_{i}$ the director of an individual molecule. \relax }}{3}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:lcphasescropped}{{1}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Onsager Theory}{3}\protected@file@percent }
@@ -125,8 +123,6 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Order Parameter}{4}\protected@file@percent }
 \newlabel{eq:order_param}{{1}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4}DNA as a Liquid Crystal}{4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Previous Simulation Work}{4}\protected@file@percent }
-\newlabel{sec:PrevWork}{{2.5}{4}}
 \abx@aux@cite{Salamonczyk2016}
 \abx@aux@segm{0}{0}{Salamonczyk2016}
 \abx@aux@cite{OxDNA}
@@ -153,6 +149,8 @@
 \abx@aux@segm{0}{0}{Pan2010}
 \abx@aux@cite{Wang2002}
 \abx@aux@segm{0}{0}{Wang2002}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Previous Simulation Work}{5}\protected@file@percent }
+\newlabel{sec:PrevWork}{{2.5}{5}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Methods}{5}\protected@file@percent }
 \newlabel{sec:Methods}{{3}{5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Simulation Molecules}{5}\protected@file@percent }
@@ -167,8 +165,6 @@
 \abx@aux@segm{0}{0}{Hoover1985}
 \abx@aux@cite{Shinoda2004}
 \abx@aux@segm{0}{0}{Shinoda2004}
-\abx@aux@cite{Schneider1978}
-\abx@aux@segm{0}{0}{Schneider1978}
 \newlabel{fig:nunchuck_analogy}{{2a}{6}}
 \newlabel{sub@fig:nunchuck_analogy}{{a}{6}}
 \newlabel{fig:nunchuck_implementation}{{2b}{6}}
@@ -176,6 +172,8 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Depiction of the analogy between the DNA mesogen and the nunchucks. Note the appearance of the flexible ss-DNA linker between the rigid ds-DNA rods, and the implementation within LAMMPS on the right. The central red sphere, representing the ss-DNA, is given modified bond properties to replicate the nunchuck's flexibility. Figure (a) created by Jiaming Yu (Eiser Group, Cambridge).\relax }}{6}\protected@file@percent }
 \newlabel{fig:nunchucks_visual}{{2}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Simulation Structure}{6}\protected@file@percent }
+\abx@aux@cite{Schneider1978}
+\abx@aux@segm{0}{0}{Schneider1978}
 \abx@aux@cite{Jones1924a}
 \abx@aux@segm{0}{0}{Jones1924a}
 \abx@aux@cite{Jones1924b}
@@ -214,14 +212,10 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Analysis Methods}{7}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}Rigid Rod Simulations}{7}\protected@file@percent }
 \newlabel{sec:RigidRodSims}{{4}{7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Shrinking the Simulation Box}{7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Shrinking the Simulation Box}{8}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The evolution of the volume fraction and the nematic order parameter over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10. The jump in $S_n$ (red line) occurs at about $\phi \sim 0.4$. Note that the contraction steps, where the volume fraction is increased, are not of equal durations, and so do not correspond to equal changes in the system volume; rather they are chosen to highlight the phase transition. The contraction period is much shorter than the equilibration time, but the changes in volume fraction are not instantaneous, despite their appearance here.\relax }}{8}\protected@file@percent }
 \newlabel{fig:rr_nemorderparam}{{3}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Expanding Simulations}{8}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The evolution of pressure on subsequent microcanonical ensembles (between which volume is decreased), when simulating 1000 rigid rods of aspect ratio 16. Note the extended decay in pressure for $\phi = 0.27$, while the isotropic\textendash nematic phase transition occurs; all other stages remain at equilibrium throughout.\relax }}{9}\protected@file@percent }
-\newlabel{fig:rr_pressureevo}{{4}{9}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The evolution of the volume fraction against both the nematic ($S_{n}$) and smectic ($S_{s}$) order parameters over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10 initiated in a crystalline phase. A continuous smectic\textendash nematic phase transition is observed (in green) at high volume fractions, followed by a discrete nematic\textendash isotropic transition (in blue), occurring when $\phi $ is decreased below $0.4$. Note that there are multiple steps in the smectic order parameter, indicating this transition occurs over a range of volume fractions.\relax }}{9}\protected@file@percent }
-\newlabel{fig:rr_crystalorder}{{5}{9}}
 \abx@aux@cite{Wen1987}
 \abx@aux@segm{0}{0}{Wen1987}
 \abx@aux@cite{Frenkel1988}
@@ -234,18 +228,22 @@
 \abx@aux@segm{0}{0}{Doane1972}
 \abx@aux@cite{OxDNA}
 \abx@aux@segm{0}{0}{OxDNA}
-\newlabel{fig:nun_fr_side}{{6a}{10}}
-\newlabel{sub@fig:nun_fr_side}{{a}{10}}
-\newlabel{fig:nun_fr_perspective}{{6b}{10}}
-\newlabel{sub@fig:nun_fr_perspective}{{b}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The quasi-ordered phase formed by \num {1000} fully flexible nunchucks. Note the local regions of aligned rods, suggesting a nematic-like phase, but also the variation of the director across the sample. The length scale of any periodicity in this variation is larger than the simulation box itself.\relax }}{10}\protected@file@percent }
-\newlabel{fig:nun_fr_views}{{6}{10}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Nunchuck Simulations}{10}\protected@file@percent }
-\newlabel{sec:Nunchuck_Sim}{{5}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The evolution of pressure on subsequent microcanonical ensembles (between which volume is decreased), when simulating 1000 rigid rods of aspect ratio 16. Note the extended decay in pressure for $\phi = 0.27$, while the isotropic\textendash nematic phase transition occurs; all other stages remain at equilibrium throughout.\relax }}{9}\protected@file@percent }
+\newlabel{fig:rr_pressureevo}{{4}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Nunchuck Simulations}{9}\protected@file@percent }
+\newlabel{sec:Nunchuck_Sim}{{5}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces The evolution of the volume fraction against both the nematic ($S_{n}$) and smectic ($S_{s}$) order parameters over the timescale of the simulation, for a system of 1000 rigid rods with aspect ratio 10 initiated in a crystalline phase. A continuous smectic\textendash nematic phase transition is observed (in green) at high volume fractions, followed by a discrete nematic\textendash isotropic transition (in blue), occurring when $\phi $ is decreased below $0.4$. Note that there are multiple steps in the smectic order parameter, indicating this transition occurs over a range of volume fractions.\relax }}{10}\protected@file@percent }
+\newlabel{fig:rr_crystalorder}{{5}{10}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Fixed Rigidity}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Fixed Angle}{10}\protected@file@percent }
+\newlabel{fig:nun_fr_side}{{6a}{11}}
+\newlabel{sub@fig:nun_fr_side}{{a}{11}}
+\newlabel{fig:nun_fr_perspective}{{6b}{11}}
+\newlabel{sub@fig:nun_fr_perspective}{{b}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The quasi-ordered phase formed by \num {1000} fully flexible nunchucks. Note the local regions of aligned rods, suggesting a nematic-like phase, but also the variation of the director across the sample. The length scale of any periodicity in this variation is larger than the simulation box itself.\relax }}{11}\protected@file@percent }
+\newlabel{fig:nun_fr_views}{{6}{11}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces A kernel density estimate plot of the distribution of nunchuck opening angle over time, as the volume fraction is reduced, for completely flexible nunchucks. Plotted for a system of \num {1000} particles, with the distribution sampled every \num {1e6} time steps. Note the formation of a preferential angle at late times, corresponding to the formation of an ordered phase at high volume fractions.\relax }}{11}\protected@file@percent }
 \newlabel{fig:nun_fr_angledist}{{7}{11}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Fixed Angle}{11}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Orientational Order Parameter}{11}\protected@file@percent }
 \newlabel{sec:PairWise_Application}{{5.3}{11}}
 \abx@aux@cite{Zannoni1979}

@@ -62,7 +62,9 @@
       <file>numeric-comp.cbx</file>
       <file>phys.cbx</file>
       <file>biblatex.cfg</file>
+      <file>british.lbx</file>
       <file>english.lbx</file>
+      <file>UKenglish.lbx</file>
     </requires>
   </internal>
   <external package="biblatex" priority="5" active="0">

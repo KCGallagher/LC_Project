@@ -20,7 +20,7 @@
 %\author{\newauthor{John Marston} \newinstitution{Universidad Nacional Autónoma de México, Mexico City, Mexico}}
 
 \date{\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
-\usepackage[english]{babel}
+\usepackage[UKenglish]{babel}
 \usepackage{tabularx}
 %\renewcommand{\thefootnote}{\roman{footnote}}  %use roman lettering for footnotes instead
 %\usepackage[backend=biber,doi=false]{biblatex}
@@ -33,7 +33,6 @@
 \begin{document}
 	
 %Your project should contain the following statement on the first page of the project: Except where specific reference is made to the work of others, this work is original and has not been already submitted either wholly or in part to satisfy any degree requirement at this or any other university.	A link to your on-line notebook should also be added to the first page of your report before uploading the project.
-
 
 \input{titlepage}
 
@@ -67,7 +66,7 @@ In Section \ref{sec:Background}, I outline the thermodynamic theory behind liqui
 
 First identified as an intermediary phase between solids and liquids in 1888 by Friedrich Reinitzer \cite{Reinitzer1888}, the fundamental classes of liquid crystals were characterised in subsequent decades by Georges Friedel (among others) \cite{Friedel1922}. Research into the applications of liquid crystals only became widespread in the 1960s however, initiated by the seminal research of George William Gray \cite{Gray1962}, and culminating in Heilmeier's development of the first liquid crystal display \cite{Heilmeier1969, Heilmeier1968}. Later, in 1991, Pierre-Gilles de Gennes  received the Nobel Prize in physics ``\textit{for discovering that methods developed for studying order phenomena in simple systems can be generalized to more complex forms of matter, in particular to liquid crystals and polymers}'' \cite{DeGennes1992}.
 
-In the most general sense, liquid crystals are states of matter displaying properties between those of conventional liquids and solid crystals. For this reason, they are also known as mesomorphic phases, with individual molecules referred to as mesogens, and these terms will be used interchangeably through this report. While solid crystals display long range periodic order in three dimensions (and isotropic liquids in none), liquid crystals have a degree of long range order in some (but not all) spatial dimensions. Three fundamental classes of liquid crystal have been identified \cite{DeGennes1993}, visualised in Figure \ref{fig:lcphasescropped}.
+In the most general sense, liquid crystals are states of matter displaying properties between those of conventional liquids and solid crystals. For this reason, they are also known as mesomorphic phases, with individual molecules referred to as mesogens, and these terms will be used interchangeably through this report. While solid crystals display long range periodic order in three dimensions (and isotropic liquids in none), liquid crystals have a degree of long range order in some (but not all) spatial dimensions. Three fundamental classes of liquid crystal have been identified \cite{DeGennes1993}:
 
 \begin{itemize}
 	\item \textbf{Nematic:} No positional order, but orientational order as molecules tend to point in the same direction.
@@ -80,15 +79,15 @@ In the most general sense, liquid crystals are states of matter displaying prope
 
 \begin{figure} [!ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{Figures/lc_phases_cropped}
-	\caption{Representation of the three liquid crystal phase classes, reproduced from Kato et al. \cite{Kato2007} with permission. Note the distinct layers in the smectic and columnar phases, and the different class of molecule in the columnar phase.}
+	\includegraphics[width=0.9\linewidth]{Figures/lc_phases_self1.png}
+	\caption{Representation of the nematic and smectic phases for rod-like mesogens, in comparison to an isotropic liquid and a crystalline solid. Note that phases are ordered from left to right in terms of increasing volume fraction. Orientational order develops in the nematic phase, while positional order develops in the smectic phase, and is extended to all axes in the crystalline phase. Here, $\boldsymbol{\hat{n}}$ denotes the system director, and $\boldsymbol{\hat{n}}_{i}$ the director of an individual molecule. }
 	\label{fig:lcphasescropped}
 \end{figure}
 
 
-It should be noted that the higher-order phases (smectic and columnar) also display orientational order throughout the body. This characteristic is fundamental to the formation of liquid crystals, and almost all mesogenic molecules are, therefore, anisotropic. We will see later that the degree of anisotropy affects the stability of different phases. 
+It should be noted that the higher-order phases (smectic and columnar) also display orientational order throughout the body. This characteristic is fundamental to the formation of liquid crystals, and almost all mesogenic molecules are, therefore, anisotropic \cite{Kato2007}. We will see later that the degree of anisotropy affects the stability of different phases. 
 
-As can be seen in Figure \ref{fig:lcphasescropped}, this anisotropy can take different forms. `Rod-like' molecules (where anisotropy takes the form of one elongated axis) are the oldest, and most common, form of liquid crystal. They favour the formation of nematic and smectic phases, and are the focus of this report. Disk shaped (discotic) molecules, discovered by Chandrasekhar in 1977 \cite{Chandrasekhar1977}, have one compressed axis, and favour the formation of other nematic or columnar phases. In 1987, Lam predicted the existence of a sub-class of `bowlic' molecules that break the up-down symmetry of discotic molecules \cite{LinLei1988}, and these were subsequently found experimentally \cite{Zimmermann1985, Malthete1985}.
+This anisotropy can take different forms. `Rod-like' molecules (where anisotropy takes the form of one elongated axis) are the oldest, and most common, form of liquid crystal. They favour the formation of nematic and smectic phases, as visualised in Figure \ref{fig:lcphasescropped}, and are the focus of this report. Disk shaped (discotic) molecules, discovered by Chandrasekhar in 1977 \cite{Chandrasekhar1977}, have one compressed axis, and favour the formation of other nematic or columnar phases. In 1987, Lam predicted the existence of a sub-class of `bowlic' molecules that break the up-down symmetry of discotic molecules \cite{LinLei1988}, and these were subsequently found experimentally \cite{Zimmermann1985, Malthete1985}.
 
 Liquid crystals can also be categorised by the driving force behind their transition. Samples containing only one type of smaller molecule undergo thermally-driven phase transitions are called thermotropic liquid crystals. In contrast, larger molecules or colloids dispersed in a continuous solvent are classed as lyotropic; their phase transitions are driven by concentration \cite{DeGennes1993}. Here, I focus on lyotropic, entropy-driven phase transitions, where the mesogen (here DNA-nanocolloid) interactions are purely repulsive. This study represents a benchmark for designer-made, DNA-based systems.
 

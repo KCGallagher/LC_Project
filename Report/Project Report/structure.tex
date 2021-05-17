@@ -19,7 +19,7 @@
 %	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
 %----------------------------------------------------------------------------------------
 
-\usepackage[english]{babel} % English language hyphenation
+\usepackage[UKenglish]{babel} % English language hyphenation
 
 \usepackage{microtype} % Better typography
 
@@ -107,10 +107,15 @@
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
+\usepackage[UKenglish]{isodate}% http://ctan.org/pkg/isodate
+\cleanlookdateon % Remove ordinal day reference
+
 
 \newcommand{\authorstyle}[1]{{\large\usefont{OT1}{phv}{b}{n}\color{NavyBlue}#1}} % Authors style (Helvetica)
 
-\newcommand{\institution}[1]{{\footnotesize\usefont{OT1}{phv}{m}{sl}\color{Black}#1}} % Institutions style (Helvetica)
+%\newcommand{\institution}[1]{{\footnotesize\usefont{OT1}{phv}{m}{sl}\color{Black}#1}} % Institutions style (Helvetica)
+
+\newcommand{\institution}[1]{{\usefont{OT1}{phv}{m}{sl}\color{Black}#1}} % Institutions style (Helvetica)
 
 \usepackage{titling} % Allows custom title configuration
 
