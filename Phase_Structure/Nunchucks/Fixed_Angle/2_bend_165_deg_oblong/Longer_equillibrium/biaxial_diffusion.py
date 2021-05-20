@@ -1,7 +1,7 @@
 """Calculates the diffusion coefficient over each equillibration run. 
 Accounts for additional displacement when crossing the periodic boundary conditions
 
-This file is adapted for no contraction periods, and biaxial phase structure"""
+This file is adapted for biaxial phase structure"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -81,12 +81,14 @@ print(
 
 # GENERATE LIST OF TIME STEPS TO SAMPLE
 
-sampling_times = np.zeros(len(mix_steps_values) + 1)
+sampling_times = np.zeros((len(mix_steps_values), 2))
 # Gives start and end times for each equillibrium run
 time_counter = 0
 for i in range(len(mix_steps_values)):
+    time_counter += mix_steps_values[i]
+    sampling_times[i, 0] = time_counter
     time_counter += equilibrium_time
-    sampling_times[i + 1] = time_counter
+    sampling_times[i, 1] = time_counter
 print("Sampling Times: " + str(sampling_times))
 
 assert time_counter == run_time, "Unexpected result in sampling times"
@@ -160,7 +162,7 @@ def nematic_director(data, method="director"):
     for i, j in np.ndindex(M_matrix.shape):
         M_matrix[i, j] = np.sum(norm_vectors[:, i] * norm_vectors[:, j]) / N_molecules
     M_eigen_val, M_eigen_vec = np.linalg.eig(M_matrix)
-    print(str(method) + str(np.linalg.eig(M_matrix)))
+    # print(str(method) + str(np.linalg.eig(M_matrix)))
     director_index = np.argmax(M_eigen_val)  # does this work for bisector too?
     return M_eigen_vec[director_index, :]
 
@@ -285,18 +287,33 @@ for i, time in enumerate(time_range):  # interate over dump files
             com_positions, previous_positions, box_dimensions
         )
 
+    if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
+        rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
+            com_positions + extra_displacement,  # takes current values
+            initial_sample,  # reset for each eq run
+            use_vector=DIRECTIONAL_COEFF,
+        )
+
     if time in sampling_times:  # MEASURE SAMPLING POINTS
         print("T = " + str(time) + "/" + str(run_time))
-        sample_index = np.where(sampling_times == time)
 
-        if time != 0:  # RUN ENDING ROUTINE FIRST
-            if True:  # USE_SYS_BASIS:
+        where_output = np.where(sampling_times == time)
+        indices = (where_output[0][0], where_output[1][0])
+        if indices[1] == 0:  # start of sampling period
+            initial_sample = com_positions
+            sampled_vol_values[indices[0]] = box_volume
+
+            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+
+            run_origin = i  # so ongoing measurement starts from zero each time
+            equilibrium_flag = True
+        else:  # end of sampling period
+            if USE_SYS_BASIS:
                 # evaluate system basis at end of each sample
-                # print(int(sample_index[0]))
-                director_vectors[sample_index[0] - 1] = nematic_director(
+                director_vectors[indices[0]] = basic_director(
                     rod_positions, method="director"
                 )
-                bisector_vectors[sample_index[0] - 1] = nematic_director(
+                bisector_vectors[indices[0]] = basic_director(
                     rod_positions, method="bisector"
                 )
 
@@ -306,24 +323,11 @@ for i, time in enumerate(time_range):  # interate over dump files
                 initial_sample,
                 use_vector=DIRECTIONAL_COEFF,
             )  # initial sample taken from previous iteration in if clause
-            sampled_D_values[sample_index, :] = sampled_rms / (6 * equilibrium_time)
+            sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
+
             run_num += 1
-
-        if time != run_time:  # RUN STARTING ROUTINE FOR SAMPLING
-            initial_sample = com_positions
-            sampled_vol_values[sample_index] = box_volume
-
-            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
-
-            run_origin = i  # gives time index for the start of each run
-
-    # MEASURE ONGOING RMS DISPLACEMENT
-    rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
-        com_positions + extra_displacement,  # takes current values
-        initial_sample,  # reset for each eq run
-        use_vector=DIRECTIONAL_COEFF,
-    )
+            equilibrium_flag = False
 
     previous_positions = com_positions
 
@@ -333,8 +337,8 @@ if not DIRECTIONAL_COEFF:
 
 if DIRECTIONAL_COEFF:  # Only relevant in vector implementation
     if USE_SYS_BASIS:
-        print(director_vectors)
-        print(bisector_vectors)
+        # print(director_vectors)
+        # print(bisector_vectors)
         normal_vectors = np.cross(director_vectors, bisector_vectors)
         vec_basis = np.transpose(
             np.dstack((director_vectors, bisector_vectors, normal_vectors))
@@ -400,7 +404,7 @@ for plot_index, data_index in enumerate(plot_list):
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf_cf.png")
+# plt.savefig("rms_displacement_runwise_bf_cf.png")
 plt.show()
 
 print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
