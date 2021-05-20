@@ -1,16 +1,17 @@
 """Calculates the diffusion coefficient over each equillibration run. 
-Accounts for additional displacement when crossing the periodic boundary conditions"""
+Accounts for additional displacement when crossing the periodic boundary conditions
+
+This file is adapted for no contraction periods, and biaxial phase structure"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from scipy.stats import linregress  # for linear regression
-from phase_plot_future import vol_frac
+from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-DIRECTIONAL_COEFF = True
-
-mol_length = 10  # uncomment on older datasets
+DIRECTIONAL_COEFF = True  # Must be true for system basis = True
+USE_SYS_BASIS = True
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -80,14 +81,13 @@ print(
 
 # GENERATE LIST OF TIME STEPS TO SAMPLE
 
-sampling_times = np.zeros((len(mix_steps_values), 2))
+sampling_times = np.zeros(len(mix_steps_values) + 1)
 # Gives start and end times for each equillibrium run
 time_counter = 0
 for i in range(len(mix_steps_values)):
-    time_counter += mix_steps_values[i]
-    sampling_times[i, 0] = time_counter
     time_counter += equilibrium_time
-    sampling_times[i, 1] = time_counter
+    sampling_times[i + 1] = time_counter
+print("Sampling Times: " + str(sampling_times))
 
 assert time_counter == run_time, "Unexpected result in sampling times"
 
@@ -132,6 +132,68 @@ def rms_displacement(pos_t, pos_0, use_vector=False):
         return np.mean(rms_value)
 
 
+def nematic_director(data, method="director"):
+    """Input data in array of size Molecule Number x 3 x 3
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Second index gives particle number within molecule (first/middle/last)
+    Third index gives the component of the position (x,y,z)
+
+    Method specifies whether nematic order parameter (based on molecule director)
+    or biaxial order parameter (based on molecule bisector) is used.
+
+    Method for calculation of Order Param given by Eppenga (1984)
+    """
+    if method == "director":  # nematic order parameter
+        vectors = data[:, 2, :] - data[:, 0, :]  # director vector for each molecule
+    elif method == "bisector":  # biaxial order parameter
+        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
+        vectors = data[:, 1, :] - midpoints  # bisector vector
+    else:
+        print("Warning, unknown method type for nematic_director()")
+
+    norm_vectors = vectors / np.linalg.norm(vectors, axis=1).reshape(
+        -1, 1
+    )  # reshape allows broadcasting
+    M_matrix = np.zeros((3, 3))
+    for i, j in np.ndindex(M_matrix.shape):
+        M_matrix[i, j] = np.sum(norm_vectors[:, i] * norm_vectors[:, j]) / N_molecules
+    M_eigen_val, M_eigen_vec = np.linalg.eig(M_matrix)
+    director_index = np.argmax(M_eigen_val)  # does this work for bisector too?
+    return M_eigen_vec[director_index, :]
+
+
+def basic_director(data, method="director"):
+    """Input data in array of size Molecule Number x 3 x 3
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number
+    Second index gives particle number within molecule (first/last)
+    Third index gives the component of the position (x,y,z)
+
+    Method specifies whether nematic order parameter (based on molecule director)
+    or biaxial order parameter (based on molecule bisector) is used.
+
+    Method for calculation purely based on the average direction of each vector
+    """
+
+    if method == "director":  # nematic order parameter
+        vectors = data[:, 2, :] - data[:, 0, :]  # director vector for each molecule
+    elif method == "bisector":  # biaxial order parameter
+        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
+        vectors = data[:, 1, :] - midpoints  # bisector vector
+    else:
+        print("Warning, unknown method type for nematic_director()")
+
+    norm_vectors = vectors / np.linalg.norm(vectors, axis=1).reshape(
+        -1, 1
+    )  # reshape allows broadcasting
+
+    mean_vector = np.mean(norm_vectors, axis=0)
+    return mean_vector / np.linalg.norm(mean_vector)
+
+
 # READ MOLECULE POSITIONS
 
 if DIRECTIONAL_COEFF:
@@ -156,6 +218,10 @@ equilibrium_flag = False  # denotes whether system is currently in an equillibri
 extra_displacement = np.zeros((N_molecules, 3))
 # additional values to account for crossing the boundaries of the box
 
+director_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
+bisector_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
+normal_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
+
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(FILE_ROOT + str(time) + ".dump", "r")
     extract_atom_data = False  # start of file doesn't contain particle values
@@ -164,7 +230,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     box_volume = 1
     box_dimensions = []  # to store side lengths of box for period boundary adjustment
     rod_positions = np.zeros((N_molecules, 3, 3))
-    """Indices are Molecule Number; First (0), Centre (1) or Last (2) atom,Positional coord index"""
+    """Indices are Molecule Number;  Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -202,11 +268,11 @@ for i, time in enumerate(time_range):  # interate over dump files
 
             # Save positional coordatinates of end particles - CLOSE
             centre = (mol_length + 1) / 2
-            if int(particle_values[2]) == 1:  # first particle in molecule
+            if int(particle_values[2]) == int(centre - 1):
                 rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
             if int(particle_values[2]) == int(centre):  # central particle
                 rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            if int(particle_values[2]) == 10:  # last particle in molecule
+            if int(particle_values[2]) == int(centre + 1):
                 rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
 
     com_positions = rod_positions[:, 1, :]
@@ -218,47 +284,72 @@ for i, time in enumerate(time_range):  # interate over dump files
             com_positions, previous_positions, box_dimensions
         )
 
-    if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
-        rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
-            com_positions + extra_displacement,  # takes current values
-            initial_sample,  # reset for each eq run
-            use_vector=DIRECTIONAL_COEFF,
-        )
-
     if time in sampling_times:  # MEASURE SAMPLING POINTS
         print("T = " + str(time) + "/" + str(run_time))
-        where_output = np.where(sampling_times == time)
-        indices = (where_output[0][0], where_output[1][0])
-        if indices[1] == 0:  # start of sampling period
-            initial_sample = com_positions
-            sampled_vol_values[indices[0]] = box_volume
+        sample_index = np.where(sampling_times == time)
 
-            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+        if time != 0:  # RUN ENDING ROUTINE FIRST
+            if True:  # USE_SYS_BASIS:
+                # evaluate system basis at end of each sample
+                # print(int(sample_index[0]))
+                director_vectors[sample_index[0] - 1] = basic_director(
+                    rod_positions, method="director"
+                )
+                bisector_vectors[sample_index[0] - 1] = basic_director(
+                    rod_positions, method="bisector"
+                )
 
-            run_origin = i  # so ongoing measurement starts from zero each time
-            equilibrium_flag = True
-        else:  # end of sampling period
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
                 com_positions + extra_displacement,
                 initial_sample,
                 use_vector=DIRECTIONAL_COEFF,
             )  # initial sample taken from previous iteration in if clause
-            sampled_D_values[indices[0], :] = sampled_rms / (6 * equilibrium_time)
+            sampled_D_values[sample_index, :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
-
             run_num += 1
-            equilibrium_flag = False
+
+        if time != run_time:  # RUN STARTING ROUTINE FOR SAMPLING
+            initial_sample = com_positions
+            sampled_vol_values[sample_index] = box_volume
+
+            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+
+            run_origin = i  # gives time index for the start of each run
+
+    # MEASURE ONGOING RMS DISPLACEMENT
+    rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
+        com_positions + extra_displacement,  # takes current values
+        initial_sample,  # reset for each eq run
+        use_vector=DIRECTIONAL_COEFF,
+    )
 
     previous_positions = com_positions
 
+#  FIND RELEVANT COMPONENTS OF DIFFUSION
+if not DIRECTIONAL_COEFF:
+    assert not USE_SYS_BASIS, "Cannot use system basis in scalar implementation"
 
-# print(sampled_D_values)
-# # NaN values correspond to a misalignment with dump frequency and the ends of each equillibration run
-# print(sampled_vol_values)
+if DIRECTIONAL_COEFF:  # Only relevant in vector implementation
+    if USE_SYS_BASIS:
+        print(director_vectors)
+        print(bisector_vectors)
+        normal_vectors = np.cross(director_vectors, bisector_vectors)
+        vec_basis = np.transpose(
+            np.dstack((director_vectors, bisector_vectors, normal_vectors))
+        )  # gives 3*3*sample_num array of basis vectors. These are transposed before use
+        axis_labels = ["Director", "Bisector", "Normal"]
+    else:
+        vec_identity = np.identity(3)
+        vec_basis = np.repeat(
+            vec_identity[:, :, np.newaxis], len(mix_steps_values), axis=2
+        )
+        # repeat for each timestep
+        axis_labels = ["x", "y", "z"]
 
-plot_list = range(0, run_num_tot, 1)  # runs to plot
 
+# GENERATE DIFFUSION PLOTS
+plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
@@ -267,84 +358,51 @@ for plot_index, data_index in enumerate(plot_list):
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
     # print(rms_disp_values[data_index, :, 0])
-    rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
+    # rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope_x, intercept_x, r_value_x, p_value_x, std_err_x = linregress(
+    slope, intercept, r_value, p_value, std_err = linregress(
         np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
     )  # consider x axis for purpose of this
-    slope_y, intercept_y, r_value_y, p_value_y, std_err_y = linregress(
-        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 1])
-    )  # consider x axis for purpose of this
+    plot_best_fit = False
 
-    plot_best_fit = True
+    # print(
+    #     "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
+    #     "{:.2f}".format(slope)
+    # )  # can add this onto graph with plt.annotate if desired
+    plot_data = np.zeros_like(rms_disp_values[data_index, :, :])
+    for i in range(len(eq_range)):
+        plot_data[i, :] = np.dot(
+            np.transpose(vec_basis[:, :, plot_index]), rms_disp_values[data_index, i, :]
+        )
+        # print("New Line")
+        # print("VB" + str(vec_basis[:, :, plot_index]))
+        # print("RMS" + str(rms_disp_values[data_index, i, :]))
+        # print("PD" + str(plot_data[i, :]))
 
-    print(
-        "X: For vol frac = "
-        + "{:.4f}".format(sampled_vol_frac[data_index])
-        + ", x_slope = "
-        + "{:.4f}".format(slope_x)
-        + ", y_slope = "
-        + "{:.4f}".format(slope_y)
-        + ", y_error = "
-        + "{:.4f}".format(std_err_y)
-        + ", intercept ratio = "
-        + "{:.4f}".format(10 ** intercept_x / 10 ** intercept_y)
-    )
-
+    # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
-            axs[plot_index].loglog(
-                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
-            )
-            if plot_best_fit == True and j == 2:  # only needs to be plotted once
-                axs[plot_index].plot(
-                    eq_time_values,
-                    (eq_time_values ** slope_x) * (10 ** intercept_x),
-                    label="Best fit (x)",
-                    linestyle="dashed",
-                )
-                axs[plot_index].plot(
-                    eq_time_values,
-                    (eq_time_values ** slope_y) * (10 ** intercept_y),
-                    label="Best fit (y)",
-                    linestyle="dashed",
-                )
-        else:  # no legend entries
-            axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
+            axs[plot_index].loglog(eq_range, plot_data[:, j], label=axis_labels[j])
+        else:
+            axs[plot_index].loglog(eq_range, plot_data[:, j])
 
-            if plot_best_fit == True and j == 2:
-                axs[plot_index].plot(
-                    eq_time_values,
-                    (eq_time_values ** slope_x) * (10 ** intercept_x),
-                    linestyle="dashed",
-                )
-                axs[plot_index].plot(
-                    eq_time_values,
-                    (eq_time_values ** slope_y) * (10 ** intercept_y),
-                    linestyle="dashed",
-                )
+    if plot_best_fit:
+        axs[plot_index].plot(
+            eq_time_values,
+            (eq_time_values ** slope) * (10 ** intercept),
+            label="Best fit",
+            linestyle="dashed",
+        )
 
-
-axs[int(len(plot_list) / 2)].set_xlabel(
-    "Time (Arbitrary Units)"
-)  # use median of plot_list
-axs[0].set_ylabel("RMS displacement")
+axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
+axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-# plt.savefig("rms_displacement_runwise2.png")
+plt.savefig("rms_displacement_runwise_bf_cf.png")
 plt.show()
 
-for i in range(dimension_num):
-    plt.plot(
-        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
-    )
-plt.ylabel("Diffusion Coefficient")
-plt.xlabel("Volume Fraction")
-plt.legend()
-# plt.savefig("order_vs_diffusion_with_bc.png")
-plt.show()
-
-print("Volume fraction = " + str(sampled_vol_frac))
-print("D_x/D_y = " + str(sampled_D_values[:, 0] / sampled_D_values[:, 1]))
+print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
+print("Mean Bisector: " + str(np.mean(bisector_vectors, axis=0)))
+print("Mean Normal : " + str(np.mean(normal_vectors, axis=0)))
 
