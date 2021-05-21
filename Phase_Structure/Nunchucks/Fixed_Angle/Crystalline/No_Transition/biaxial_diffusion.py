@@ -293,10 +293,10 @@ for i, time in enumerate(time_range):  # interate over dump files
             if True:  # USE_SYS_BASIS:
                 # evaluate system basis at end of each sample
                 # print(int(sample_index[0]))
-                director_vectors[sample_index[0] - 1] = nematic_director(
+                director_vectors[sample_index[0] - 1] = basic_director(
                     rod_positions, method="director"
                 )
-                bisector_vectors[sample_index[0] - 1] = nematic_director(
+                bisector_vectors[sample_index[0] - 1] = basic_director(
                     rod_positions, method="bisector"
                 )
 
@@ -373,9 +373,10 @@ for plot_index, data_index in enumerate(plot_list):
     #     "{:.2f}".format(slope)
     # )  # can add this onto graph with plt.annotate if desired
     plot_data = np.zeros_like(rms_disp_values[data_index, :, :])
+    print(vec_basis[:, :, plot_index])
     for i in range(len(eq_range)):
         plot_data[i, :] = np.dot(
-            np.transpose(vec_basis[:, :, plot_index]), rms_disp_values[data_index, i, :]
+            vec_basis[:, :, plot_index], rms_disp_values[data_index, i, :]
         )
         # print("New Line")
         # print("VB" + str(vec_basis[:, :, plot_index]))

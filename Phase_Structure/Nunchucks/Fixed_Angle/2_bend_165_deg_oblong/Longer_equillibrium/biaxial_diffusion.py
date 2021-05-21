@@ -310,10 +310,10 @@ for i, time in enumerate(time_range):  # interate over dump files
         else:  # end of sampling period
             if USE_SYS_BASIS:
                 # evaluate system basis at end of each sample
-                director_vectors[indices[0]] = basic_director(
+                director_vectors[indices[0]] = nematic_director(
                     rod_positions, method="director"
                 )
-                bisector_vectors[indices[0]] = basic_director(
+                bisector_vectors[indices[0]] = nematic_director(
                     rod_positions, method="bisector"
                 )
 
@@ -337,8 +337,8 @@ if not DIRECTIONAL_COEFF:
 
 if DIRECTIONAL_COEFF:  # Only relevant in vector implementation
     if USE_SYS_BASIS:
-        # print(director_vectors)
-        # print(bisector_vectors)
+        print(director_vectors)
+        print(bisector_vectors)
         normal_vectors = np.cross(director_vectors, bisector_vectors)
         vec_basis = np.transpose(
             np.dstack((director_vectors, bisector_vectors, normal_vectors))
@@ -367,9 +367,9 @@ for plot_index, data_index in enumerate(plot_list):
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope, intercept, r_value, p_value, std_err = linregress(
-        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
-    )  # consider x axis for purpose of this
+    # slope, intercept, r_value, p_value, std_err = linregress(
+    #     np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+    # )  # consider x axis for purpose of this
     plot_best_fit = False
 
     # print(
@@ -379,7 +379,7 @@ for plot_index, data_index in enumerate(plot_list):
     plot_data = np.zeros_like(rms_disp_values[data_index, :, :])
     for i in range(len(eq_range)):
         plot_data[i, :] = np.dot(
-            np.transpose(vec_basis[:, :, plot_index]), rms_disp_values[data_index, i, :]
+            vec_basis[:, :, plot_index], rms_disp_values[data_index, i, :]
         )
         # print("New Line")
         # print("VB" + str(vec_basis[:, :, plot_index]))
@@ -392,6 +392,7 @@ for plot_index, data_index in enumerate(plot_list):
             axs[plot_index].loglog(eq_range, plot_data[:, j], label=axis_labels[j])
         else:
             axs[plot_index].loglog(eq_range, plot_data[:, j])
+        axs[plot_index].set_ylim(bottom=0.01, top=100)
 
     if plot_best_fit:
         axs[plot_index].plot(

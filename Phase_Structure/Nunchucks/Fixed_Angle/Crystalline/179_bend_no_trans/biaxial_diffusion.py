@@ -332,8 +332,8 @@ if not DIRECTIONAL_COEFF:
 
 if DIRECTIONAL_COEFF:  # Only relevant in vector implementation
     if USE_SYS_BASIS:
-        print(director_vectors)
-        print(bisector_vectors)
+        # print(director_vectors)
+        # print(bisector_vectors)
         normal_vectors = np.cross(director_vectors, bisector_vectors)
         vec_basis = np.transpose(
             np.dstack((director_vectors, bisector_vectors, normal_vectors))
@@ -372,9 +372,10 @@ for plot_index, data_index in enumerate(plot_list):
     #     "{:.2f}".format(slope)
     # )  # can add this onto graph with plt.annotate if desired
     plot_data = np.zeros_like(rms_disp_values[data_index, :, :])
+    print(vec_basis[:, :, plot_index])
     for i in range(len(eq_range)):
         plot_data[i, :] = np.dot(
-            np.transpose(vec_basis[:, :, plot_index]), rms_disp_values[data_index, i, :]
+            vec_basis[:, :, plot_index], rms_disp_values[data_index, i, :]
         )
         # print("New Line")
         # print("VB" + str(vec_basis[:, :, plot_index]))
