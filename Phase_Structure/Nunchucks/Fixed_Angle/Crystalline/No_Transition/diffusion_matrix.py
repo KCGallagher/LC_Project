@@ -1,4 +1,4 @@
-"""Calculates the diffusion coefficient over each equillibration run. 
+"""Calculates the diffusion matrix over each equillibration run. 
 Accounts for additional displacement when crossing the periodic boundary conditions
 
 This file is adapted for no contraction periods, and biaxial phase structure"""
@@ -10,7 +10,6 @@ from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-DIRECTIONAL_COEFF = True  # Must be true for system basis = True
 USE_SYS_BASIS = False
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -115,21 +114,17 @@ def periodic_bc_displacement(current_pos, previous_pos, box_dim, tolerance=0.5):
     return output_displacement
 
 
-def rms_displacement(pos_t, pos_0, use_vector=False):
+def rms_displacement(pos_t, pos_0):
     """Input data in array of size Molecule Number x 3, and list of box_dim
 
     Input data will be com_positions array which stores input data   
     First index gives molecule number
     Second index gives the component of the position (x,y,z)
 
-    If use_vector is false (default), returns rms displacement from initial displacement
-    If use_vector is true, returns average displacement in each coordinate axis"""
-    if use_vector:
-        rms_vector = np.abs((pos_t - pos_0))
-        return np.mean(rms_vector, axis=0)
-    else:
-        rms_value = np.linalg.norm((pos_t - pos_0))
-        return np.mean(rms_value)
+    Returns average displacement in each coordinate axis"""
+
+    rms_vector = np.abs((pos_t - pos_0))
+    return np.mean(rms_vector, axis=0)
 
 
 def nematic_director(data, method="director"):
@@ -197,22 +192,17 @@ def basic_director(data, method="director"):
 
 # READ MOLECULE POSITIONS
 
-if DIRECTIONAL_COEFF:
-    dimension_num = 3
-    axis_labels = ["x", "y", "z"]
-else:
-    dimension_num = 1
-    axis_labels = ["RMS"]
+axis_labels = ["x", "y", "z"]
 
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
 # for ongoing measurements:
-rms_disp_values = np.full((run_num_tot, len(eq_range), dimension_num), np.nan)
+rms_disp_values = np.full((run_num_tot, len(eq_range), 3, 3), np.nan)
 time_origin = 0
 run_num = 0
 
 # for sampled measurements:
-sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
+sampled_D_values = np.full((len(mix_steps_values), 3, 3), np.nan)
 sampled_vol_values = np.full(len(mix_steps_values), np.nan)
 equilibrium_flag = False  # denotes whether system is currently in an equillibrium run
 
@@ -302,9 +292,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
-                com_positions + extra_displacement,
-                initial_sample,
-                use_vector=DIRECTIONAL_COEFF,
+                com_positions + extra_displacement, initial_sample,
             )  # initial sample taken from previous iteration in if clause
             sampled_D_values[sample_index, :] = sampled_rms / (6 * equilibrium_time)
             # D value for i-th equillibration period
@@ -319,34 +307,32 @@ for i, time in enumerate(time_range):  # interate over dump files
             run_origin = i  # gives time index for the start of each run
 
     # MEASURE ONGOING RMS DISPLACEMENT
-    rms_disp_values[run_num, i - run_origin, :] = rms_displacement(
+    position_vector = rms_displacement(
         com_positions + extra_displacement,  # takes current values
         initial_sample,  # reset for each eq run
-        use_vector=DIRECTIONAL_COEFF,
+    )
+    rms_disp_values[run_num, i - run_origin, :, :] = np.outer(
+        position_vector, position_vector
     )
 
     previous_positions = com_positions
 
 #  FIND RELEVANT COMPONENTS OF DIFFUSION
-if not DIRECTIONAL_COEFF:
-    assert not USE_SYS_BASIS, "Cannot use system basis in scalar implementation"
 
-if DIRECTIONAL_COEFF:  # Only relevant in vector implementation
-    if USE_SYS_BASIS:
-        print(director_vectors)
-        print(bisector_vectors)
-        normal_vectors = np.cross(director_vectors, bisector_vectors)
-        vec_basis = np.transpose(
-            np.dstack((director_vectors, bisector_vectors, normal_vectors))
-        )  # gives 3*3*sample_num array of basis vectors. These are transposed before use
-        axis_labels = ["Director", "Bisector", "Normal"]
-    else:
-        vec_identity = np.identity(3)
-        vec_basis = np.repeat(
-            vec_identity[:, :, np.newaxis], len(mix_steps_values), axis=2
-        )
-        # repeat for each timestep
-        axis_labels = ["x", "y", "z"]
+
+if USE_SYS_BASIS:
+    print(director_vectors)
+    print(bisector_vectors)
+    normal_vectors = np.cross(director_vectors, bisector_vectors)
+    vec_basis = np.transpose(
+        np.dstack((director_vectors, bisector_vectors, normal_vectors))
+    )  # gives 3*3*sample_num array of basis vectors. These are transposed before use
+    axis_labels = ["Director", "Bisector", "Normal"]
+else:
+    vec_identity = np.identity(3)
+    vec_basis = np.repeat(vec_identity[:, :, np.newaxis], len(mix_steps_values), axis=2)
+    # repeat for each timestep
+    axis_labels = ["x", "y", "z"]
 
 
 # GENERATE DIFFUSION PLOTS
@@ -363,28 +349,28 @@ for plot_index, data_index in enumerate(plot_list):
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope, intercept, r_value, p_value, std_err = linregress(
-        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
-    )  # consider x axis for purpose of this
+    # slope, intercept, r_value, p_value, std_err = linregress(
+    #     np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
+    # )  # consider x axis for purpose of this
     plot_best_fit = False
 
     # print(
     #     "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
     #     "{:.2f}".format(slope)
     # )  # can add this onto graph with plt.annotate if desired
-    plot_data = np.zeros_like(rms_disp_values[data_index, :, :])
+    plot_data = np.zeros_like(rms_disp_values[data_index, :, :, 0])
+    # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
+
     print(vec_basis[:, :, plot_index])
+
     for i in range(len(eq_range)):
-        plot_data[i, :] = np.dot(
-            vec_basis[:, :, plot_index], rms_disp_values[data_index, i, :]
-        )
-        # print("New Line")
-        # print("VB" + str(vec_basis[:, :, plot_index]))
-        # print("RMS" + str(rms_disp_values[data_index, i, :]))
-        # print("PD" + str(plot_data[i, :]))
+        for j in range(3):
+            plot_data[i, j] = rms_disp_values[
+                data_index, i, j, j
+            ]  # pick out diagonal terms
 
     # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
-    for j in range(dimension_num):
+    for j in range(3):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(eq_range, plot_data[:, j], label=axis_labels[j])
         else:
