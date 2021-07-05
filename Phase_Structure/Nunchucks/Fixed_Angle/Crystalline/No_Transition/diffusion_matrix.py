@@ -23,6 +23,15 @@ PLOT_BEST_FIT = True
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
+
+def label_maker(label, plot_index):
+    """For plotting - returns label if plot_index == 0, null otherwise"""
+    if plot_index == 0:  # for legend
+        return label
+    else:
+        return None
+
+
 # READ PARAMETER VALUES FROM LOG FILE
 
 file_name = "log.lammps"
@@ -255,13 +264,6 @@ for i, time in enumerate(time_range):  # interate over dump files
 
 
 # GENERATE DIFFUSION PLOTS
-def label_maker(label, plot_index):
-    """Returns label if plot_index == 0, null otherwise"""
-    if plot_index == 0:  # for legend
-        return label
-    else:
-        return None
-
 
 plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
@@ -271,7 +273,6 @@ for plot_index, data_index in enumerate(plot_list):
 
     #   DATA EXTRACTION
     eq_time_values = np.array(eq_range)
-    # eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
     rms_disp_proj = np.zeros_like(rms_disp_values[data_index, :, :, 0])
     # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
@@ -281,12 +282,20 @@ for plot_index, data_index in enumerate(plot_list):
     # penultimate array used as final array is nans
     eigen_val, vec_basis = np.linalg.eig(final_displacement)
 
+    # # Alternative method based on average
+    # vec_basis_list = np.zeros((len(eq_range) - 2, 3, 3))
+    # for i in range(1, len(eq_range) - 2):
+    #     print(i)
+    #     eigen_val, vec_basis_list[i, :, :] = np.linalg.eig(
+    #         rms_disp_values[data_index, i, :, :]
+    #     )
+    # vec_basis = np.mean(vec_basis_list, axis=0)
+
     axis_labels = ["Ax 1", "Ax 2", "Ax 3"]  # until they have been identified
     # axis_labels = ["Director", "Bisector", "Normal"]  # once they have been identified
 
-    if (
-        USE_CARTESIAN_BASIS
-    ):  # Non-diagonalised case used for testing - override prev basis
+    if USE_CARTESIAN_BASIS:
+        # Non-diagonalised case used for testing - override prev basis
         vec_basis = np.identity(3)
         axis_labels = ["x", "y", "z"]
 
@@ -307,12 +316,8 @@ for plot_index, data_index in enumerate(plot_list):
     plot_data = np.abs(rms_disp_proj[1:-1, :])
     # remove end values as nan at end and zero at start, so log10 gives errors here
 
-    # print(plot_times)
-    # print(plot_data)
-
-    # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
     colours = ["r", "g", "b"]
-    colours_fit = ["m", "y", "c"]
+    colours_fit = ["m", "y", "c"]  # for plotting best fit lines
     for j in range(3):
         axs[plot_index].loglog(
             plot_times,
