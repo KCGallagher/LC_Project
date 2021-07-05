@@ -1,6 +1,13 @@
 """Calculates the diffusion matrix over each equillibration run. 
-Accounts for additional displacement when crossing the periodic boundary conditions
+This is then diagonalised to determine the principle axes of the system.
 
+However, to ensure uniform measurement/comparison during a simulation, these
+are only compiuted for the total displacement over the lifetime of the simulation.
+These axes are then used as a basis, which converts cartesian displacements to 
+the displacements in the basis of the system. This ensures the basis is constant
+for each sample.
+
+Accounts for additional displacement when crossing the periodic boundary conditions
 This file is adapted for no contraction periods, and biaxial phase structure"""
 
 import numpy as np
@@ -10,7 +17,9 @@ from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
+USE_CARTESIAN_BASIS = False
 PLOT_BEST_FIT = True
+
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -259,38 +268,70 @@ sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
 for plot_index, data_index in enumerate(plot_list):
+
+    #   DATA EXTRACTION
+    eq_time_values = np.array(eq_range)
+    # eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
+
+    rms_disp_proj = np.zeros_like(rms_disp_values[data_index, :, :, 0])
+    # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
+
+    #   MATRIX DIAGONALISATION
+    final_displacement = rms_disp_values[data_index, -2, :, :]
+    # penultimate array used as final array is nans
+    eigen_val, vec_basis = np.linalg.eig(final_displacement)
+
+    axis_labels = ["Ax 1", "Ax 2", "Ax 3"]  # until they have been identified
+    # axis_labels = ["Director", "Bisector", "Normal"]  # once they have been identified
+
+    if (
+        USE_CARTESIAN_BASIS
+    ):  # Non-diagonalised case used for testing - override prev basis
+        vec_basis = np.identity(3)
+        axis_labels = ["x", "y", "z"]
+
+    print(vec_basis)
+
+    for i in range(len(eq_range)):
+        rms_disp_proj[i, :] = np.matmul(
+            vec_basis, np.diagonal(rms_disp_values[data_index, i, :, :])
+        )
+
+    #   PLOTTING
+
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
 
-    eq_time_values = np.array(eq_range)
-    eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
+    plot_times = eq_time_values[1:-1]
+    plot_data = np.abs(rms_disp_proj[1:-1, :])
+    # remove end values as nan at end and zero at start, so log10 gives errors here
 
-    plot_data = np.zeros_like(rms_disp_values[data_index, :, :, 0])
-    # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
-
-    for i in range(len(eq_range)):
-        for j in range(3):
-            plot_data[i, j] = rms_disp_values[
-                data_index, i, j, j
-            ]  # pick out diagonal terms
+    # print(plot_times)
+    # print(plot_data)
 
     # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
+    colours = ["r", "g", "b"]
+    colours_fit = ["m", "y", "c"]
     for j in range(3):
         axs[plot_index].loglog(
-            eq_range, plot_data[:, j], label=label_maker(axis_labels[j], plot_index)
+            plot_times,
+            plot_data[:, j],
+            label=label_maker(axis_labels[j], plot_index),
+            color=colours[j],
         )
 
         if PLOT_BEST_FIT:
             slope, intercept, r_value, p_value, std_err = linregress(
-                np.log10(eq_time_values[1:-1]), np.log10(plot_data[1:-1, j])
-            )  # remove first and last values in array as nan at end and zero at start
+                np.log10(plot_times), np.log10(plot_data[:, j])
+            )
             label = str(axis_labels[j]) + " (Fit)"
             axs[plot_index].plot(
-                eq_time_values,
-                (eq_time_values ** slope) * (10 ** intercept),
+                plot_times,
+                (plot_times ** slope) * (10 ** intercept),
                 label=label_maker(label, plot_index),
                 linestyle="dashed",
+                color=colours_fit[j],
             )
 
             print(
@@ -302,15 +343,14 @@ for plot_index, data_index in enumerate(plot_list):
                 + str(axis_labels[j])
             )  # can add this onto graph with plt.annotate if desired
 
+# gca = "get current axis"
+ax = plt.gca()
+# ax.get_ylim() returns a tuple of (lower ylim, upper ylim)
+ax.set_ylim((0.01, None))
+
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf_cf.png")
+plt.savefig("rms_displacement_runwise_matrix.png")
 plt.show()
-
-# print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
-# print("Mean Bisector: " + str(np.mean(bisector_vectors, axis=0)))
-# print(
-#     "Mean Normal : " + str(np.mean(normal_vectors, axis=0))
-# )  # NaN if USE_SYS_BASIS = False
 
