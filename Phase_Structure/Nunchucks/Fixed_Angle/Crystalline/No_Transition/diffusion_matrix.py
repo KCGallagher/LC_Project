@@ -10,7 +10,7 @@ from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-USE_SYS_BASIS = False
+PLOT_BEST_FIT = True
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -127,69 +127,6 @@ def rms_displacement(pos_t, pos_0):
     return np.mean(rms_vector, axis=0)
 
 
-def nematic_director(data, method="director"):
-    """Input data in array of size Molecule Number x 3 x 3
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule (first/middle/last)
-    Third index gives the component of the position (x,y,z)
-
-    Method specifies whether nematic order parameter (based on molecule director)
-    or biaxial order parameter (based on molecule bisector) is used.
-
-    Method for calculation of Order Param given by Eppenga (1984)
-    """
-    if method == "director":  # nematic order parameter
-        vectors = data[:, 2, :] - data[:, 0, :]  # director vector for each molecule
-    elif method == "bisector":  # biaxial order parameter
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        vectors = data[:, 1, :] - midpoints  # bisector vector
-    else:
-        print("Warning, unknown method type for nematic_director()")
-
-    norm_vectors = vectors / np.linalg.norm(vectors, axis=1).reshape(
-        -1, 1
-    )  # reshape allows broadcasting
-    M_matrix = np.zeros((3, 3))
-    for i, j in np.ndindex(M_matrix.shape):
-        M_matrix[i, j] = np.sum(norm_vectors[:, i] * norm_vectors[:, j]) / N_molecules
-    M_eigen_val, M_eigen_vec = np.linalg.eig(M_matrix)
-    print(str(method) + str(np.linalg.eig(M_matrix)))
-    director_index = np.argmax(M_eigen_val)  # does this work for bisector too?
-    return M_eigen_vec[director_index, :]
-
-
-def basic_director(data, method="director"):
-    """Input data in array of size Molecule Number x 3 x 3
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule (first/last)
-    Third index gives the component of the position (x,y,z)
-
-    Method specifies whether nematic order parameter (based on molecule director)
-    or biaxial order parameter (based on molecule bisector) is used.
-
-    Method for calculation purely based on the average direction of each vector
-    """
-
-    if method == "director":  # nematic order parameter
-        vectors = data[:, 2, :] - data[:, 0, :]  # director vector for each molecule
-    elif method == "bisector":  # biaxial order parameter
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        vectors = data[:, 1, :] - midpoints  # bisector vector
-    else:
-        print("Warning, unknown method type for nematic_director()")
-
-    norm_vectors = vectors / np.linalg.norm(vectors, axis=1).reshape(
-        -1, 1
-    )  # reshape allows broadcasting
-
-    mean_vector = np.mean(norm_vectors, axis=0)
-    return mean_vector / np.linalg.norm(mean_vector)
-
-
 # READ MOLECULE POSITIONS
 
 axis_labels = ["x", "y", "z"]
@@ -280,16 +217,6 @@ for i, time in enumerate(time_range):  # interate over dump files
         sample_index = np.where(sampling_times == time)
 
         if time != 0:  # RUN ENDING ROUTINE FIRST
-            if True:  # USE_SYS_BASIS:
-                # evaluate system basis at end of each sample
-                # print(int(sample_index[0]))
-                director_vectors[sample_index[0] - 1] = basic_director(
-                    rod_positions, method="director"
-                )
-                bisector_vectors[sample_index[0] - 1] = basic_director(
-                    rod_positions, method="bisector"
-                )
-
             # print(extra_displacement) # useful to check you aren't getting silly values/multiple crossings
             sampled_rms = rms_displacement(
                 com_positions + extra_displacement, initial_sample,
@@ -317,25 +244,16 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     previous_positions = com_positions
 
-#  FIND RELEVANT COMPONENTS OF DIFFUSION
-
-
-if USE_SYS_BASIS:
-    print(director_vectors)
-    print(bisector_vectors)
-    normal_vectors = np.cross(director_vectors, bisector_vectors)
-    vec_basis = np.transpose(
-        np.dstack((director_vectors, bisector_vectors, normal_vectors))
-    )  # gives 3*3*sample_num array of basis vectors. These are transposed before use
-    axis_labels = ["Director", "Bisector", "Normal"]
-else:
-    vec_identity = np.identity(3)
-    vec_basis = np.repeat(vec_identity[:, :, np.newaxis], len(mix_steps_values), axis=2)
-    # repeat for each timestep
-    axis_labels = ["x", "y", "z"]
-
 
 # GENERATE DIFFUSION PLOTS
+def label_maker(label, plot_index):
+    """Returns label if plot_index == 0, null otherwise"""
+    if plot_index == 0:  # for legend
+        return label
+    else:
+        return None
+
+
 plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
@@ -344,24 +262,12 @@ for plot_index, data_index in enumerate(plot_list):
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
-    # print(rms_disp_values[data_index, :, 0])
-    # rms_disp_values[data_index, 0, :] = rms_disp_values[data_index, 1, :]  # remove nan
+
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    # slope, intercept, r_value, p_value, std_err = linregress(
-    #     np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
-    # )  # consider x axis for purpose of this
-    plot_best_fit = False
-
-    # print(
-    #     "For vol frac = " + "{:.2f}".format(sampled_vol_frac[data_index]) + ", slope = "
-    #     "{:.2f}".format(slope)
-    # )  # can add this onto graph with plt.annotate if desired
     plot_data = np.zeros_like(rms_disp_values[data_index, :, :, 0])
     # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
-
-    print(vec_basis[:, :, plot_index])
 
     for i in range(len(eq_range)):
         for j in range(3):
@@ -371,18 +277,30 @@ for plot_index, data_index in enumerate(plot_list):
 
     # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
     for j in range(3):
-        if plot_index == 0:  # for legend
-            axs[plot_index].loglog(eq_range, plot_data[:, j], label=axis_labels[j])
-        else:
-            axs[plot_index].loglog(eq_range, plot_data[:, j])
-
-    if plot_best_fit:
-        axs[plot_index].plot(
-            eq_time_values,
-            (eq_time_values ** slope) * (10 ** intercept),
-            label="Best fit",
-            linestyle="dashed",
+        axs[plot_index].loglog(
+            eq_range, plot_data[:, j], label=label_maker(axis_labels[j], plot_index)
         )
+
+        if PLOT_BEST_FIT:
+            slope, intercept, r_value, p_value, std_err = linregress(
+                np.log10(eq_time_values[1:-1]), np.log10(plot_data[1:-1, j])
+            )  # remove first and last values in array as nan at end and zero at start
+            label = str(axis_labels[j]) + " (Fit)"
+            axs[plot_index].plot(
+                eq_time_values,
+                (eq_time_values ** slope) * (10 ** intercept),
+                label=label_maker(label, plot_index),
+                linestyle="dashed",
+            )
+
+            print(
+                "For vol frac = "
+                + "{:.2f}".format(sampled_vol_frac[data_index])
+                + ", slope = "
+                + "{:.2f}".format(slope)
+                + " for axis "
+                + str(axis_labels[j])
+            )  # can add this onto graph with plt.annotate if desired
 
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
@@ -390,7 +308,9 @@ fig.legend(loc="center right")
 plt.savefig("rms_displacement_runwise_bf_cf.png")
 plt.show()
 
-print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
-print("Mean Bisector: " + str(np.mean(bisector_vectors, axis=0)))
-print("Mean Normal : " + str(np.mean(normal_vectors, axis=0)))
+# print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
+# print("Mean Bisector: " + str(np.mean(bisector_vectors, axis=0)))
+# print(
+#     "Mean Normal : " + str(np.mean(normal_vectors, axis=0))
+# )  # NaN if USE_SYS_BASIS = False
 
