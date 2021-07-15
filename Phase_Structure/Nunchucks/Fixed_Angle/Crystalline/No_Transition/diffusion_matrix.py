@@ -16,9 +16,16 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from scipy.stats import linregress  # for linear regression
 from phase_plot import vol_frac
 
-FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
+FILE_ROOT = (
+    "output_T_0.5_time_"  # two underscores if needed to match typo in previous code
+)
+
 USE_CARTESIAN_BASIS = False
-PLOT_BEST_FIT = True
+USE_MANUAL_BASIS = False  # Primarily for testing, can set basis manually
+USE_AVERAGE_BASIS = False
+# Avarage vectors used for system basis, otherwise final disp used
+
+PLOT_BEST_FIT = False
 
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -279,17 +286,19 @@ for plot_index, data_index in enumerate(plot_list):
 
     #   MATRIX DIAGONALISATION
     final_displacement = rms_disp_values[data_index, -2, :, :]
+    print(final_displacement)
     # penultimate array used as final array is nans
     eigen_val, vec_basis = np.linalg.eig(final_displacement)
 
     # # Alternative method based on average
-    # vec_basis_list = np.zeros((len(eq_range) - 2, 3, 3))
-    # for i in range(1, len(eq_range) - 2):
-    #     print(i)
-    #     eigen_val, vec_basis_list[i, :, :] = np.linalg.eig(
-    #         rms_disp_values[data_index, i, :, :]
-    #     )
-    # vec_basis = np.mean(vec_basis_list, axis=0)
+    if USE_AVERAGE_BASIS:
+        vec_basis_list = np.zeros((len(eq_range) - 2, 3, 3))
+        for i in range(1, len(eq_range) - 2):
+            eigen_val, vec_basis_list[i, :, :] = np.linalg.eig(
+                rms_disp_values[data_index, i, :, :]
+            )
+        vec_basis = np.mean(vec_basis_list, axis=0)
+        vec_basis = vec_basis / np.linalg.norm(vec_basis, axis=0)
 
     axis_labels = ["Ax 1", "Ax 2", "Ax 3"]  # until they have been identified
     # axis_labels = ["Director", "Bisector", "Normal"]  # once they have been identified
@@ -298,6 +307,11 @@ for plot_index, data_index in enumerate(plot_list):
         # Non-diagonalised case used for testing - override prev basis
         vec_basis = np.identity(3)
         axis_labels = ["x", "y", "z"]
+
+    if USE_MANUAL_BASIS:
+        # SET BASIS MANUALLY
+        vec_basis = np.array([[0, 1, 0], [0.4, 0, 0.9], [0.9, 0, 0.4]])
+        axis_labels = ["Director", "Bisector", "Normal"]
 
     print(vec_basis)
 
@@ -356,6 +370,6 @@ ax.set_ylim((0.01, None))
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_matrix.png")
+plt.savefig("rms_displacement_runwise_matrix_sys2.png")
 plt.show()
 

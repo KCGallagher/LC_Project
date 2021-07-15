@@ -11,7 +11,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 DIRECTIONAL_COEFF = True  # Must be true for system basis = True
-USE_SYS_BASIS = False
+USE_SYS_BASIS = True
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -326,6 +326,8 @@ for i, time in enumerate(time_range):  # interate over dump files
     )
 
     previous_positions = com_positions
+
+print(rms_disp_values[:, -2, :])  # to track overall displacement
 
 #  FIND RELEVANT COMPONENTS OF DIFFUSION
 if not DIRECTIONAL_COEFF:
