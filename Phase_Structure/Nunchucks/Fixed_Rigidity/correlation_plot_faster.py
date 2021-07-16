@@ -1,18 +1,26 @@
 """Optimised method to calculate the pair-wise orientational order correlation function.
 As detailed by Daan Frenkel, uses spherical harmonics so avoid costly angle calculations (which are O(N^2))
+These are optimised by avoiding explicit calculation of theta and phi (only requiring cos(theta) and sin(phi))
+    Doesn't give the right values for spherical harmonics, but not corrected as the time saved from avoiding
+    evaluation of the arccos is less than the cost of my non-optimised sph_harm function (and associated Legendre polynomials)
 Uses the end-to-end molecule vector as the director"""
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import seaborn as sns
+import scipy  # for use in testing mode
 from scipy.ndimage import uniform_filter1d  # for rolling average
-from scipy.special import sph_harm
+from scipy.special import lpmn  # associated legendre polynomial, for sph_harm
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
 SEPARATION_BIN_NUM = 5  # number of bins for radius dependance pair-wise correlation
+
+TESTING_MODE = (
+    False  # Prints our spherical harmonic value, and the build on function one
+)
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -86,15 +94,43 @@ print(
 
 def find_angles(vec_array):
     """Finds spherical angles of cartesian position. Returns theta and phi in N x 2 array
+    Theta is the polar coordinate and phi is the azimuthal coordinate
     
     vec_array should be of size N x 3, for N angles (ie N particles)
     Choice of (normalised) base vector is arbitrary in order param formulation"""
 
     assert vec_array.shape[1] == 3, "Vectors should be three dimensional"
     radius = np.linalg.norm(vec_array, axis=1)
-    theta = np.arccos(vec_array[:, 2] / radius)
-    phi = np.arctan2(vec_array[:, 1], vec_array[:, 0])
-    return theta, phi
+    cos_theta = vec_array[:, 2] / radius
+    sin_phi = vec_array[:, 1] / np.linalg.norm(vec_array[:, 0:2], axis=1)
+    # y / magnitude(x and y)
+    return cos_theta, sin_phi
+
+
+def sph_harm(cos_theta, sin_phi, l, m):
+    """Returns real part of spherical harmonic, given cos_theta, sin_phi, l, m """
+
+    assert (
+        float(l).is_integer() and float(m).is_integer()
+    ), "Require integer l,m for spherical harmonic"
+
+    prefactor_sqrd = ((2 * l + 1) / (4 * np.pi)) * (
+        np.math.factorial(l - m) / np.math.factorial(l + m)
+    )
+    assoc_legendre = lpmn(m, l, cos_theta)[0]
+    # lpmn returns polynomials and derivatives, we only need former so index 0
+
+    sph_harm = np.sqrt(prefactor_sqrd) * assoc_legendre[m, l] * sin_phi
+    return sph_harm
+
+
+def spherical_harmonic_sum(cos_theta_array, sin_phi_array, l, m):
+    """ Returns sum  of spherical harmonics of order l,m"""
+    # angles_sum = np.sum(sph_harm(m, l, theta_array, phi_array).real)
+    # print(cos_theta_array)
+    v_sph_harm = np.vectorize(sph_harm)
+    angles_sum = np.sum(v_sph_harm(cos_theta_array, sin_phi_array, l, m))
+    return angles_sum
 
 
 def find_separations(pos_array, base_pos, box_dim):
@@ -116,12 +152,6 @@ def find_separations(pos_array, base_pos, box_dim):
     return np.linalg.norm(separation_data, axis=1)
 
 
-def spherical_harmonic_sum(theta_array, phi_array, l, m):
-    """ Returns sum  of spherical harmonics of order l,m"""
-    angles_sum = np.sum(sph_harm(m, l, theta_array, phi_array).real)
-    return angles_sum
-
-
 def correlation_func(data, box_dim, bin_num, order):
     """Input data in array of size Molecule Number x 3 x 3
 
@@ -137,7 +167,7 @@ def correlation_func(data, box_dim, bin_num, order):
     Returns array of correlation data at each radius"""
 
     directors = data[:, 2, :] - data[:, 0, :]
-    theta_array, phi_array = find_angles(directors)
+    c_theta_array, s_phi_array = find_angles(directors)
 
     max_separation = np.linalg.norm(box_dim) / 2
 
@@ -158,14 +188,24 @@ def correlation_func(data, box_dim, bin_num, order):
                     (separation_array < radius),
                     (separation_array > (radius + bin_width)),
                 ),
-                theta_array,
+                c_theta_array,
             )
             relevant_phi = np.ma.masked_where(
-                np.ma.getmask(relevant_theta), phi_array
+                np.ma.getmask(relevant_theta), s_phi_array
             )  # applies the mask of theta on phi
 
             for m in range(-order, order + 1):  # from -l to l
-                harmonic_at_i = sph_harm(m, order, theta_array[i], phi_array[i]).real
+                harmonic_at_i = sph_harm(c_theta_array[i], s_phi_array[i], order, m)
+                if TESTING_MODE:  # to compare to expected value
+                    print(
+                        scipy.special.sph_harm(
+                            m,
+                            order,
+                            np.arccos(c_theta_array[i]),
+                            np.arcsin(s_phi_array[i]),
+                        ).real,
+                        harmonic_at_i,
+                    )
                 harmonics_sum = spherical_harmonic_sum(
                     relevant_theta, relevant_phi, order, m
                 )
@@ -270,5 +310,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_fast_lowres.png")
+plt.savefig("correlation_func_faster_lowres.png")
 plt.show()
