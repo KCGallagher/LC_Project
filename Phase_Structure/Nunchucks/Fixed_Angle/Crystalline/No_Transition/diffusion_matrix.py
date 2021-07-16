@@ -298,7 +298,6 @@ for plot_index, data_index in enumerate(plot_list):
                 rms_disp_values[data_index, i, :, :]
             )
         vec_basis = np.mean(vec_basis_list, axis=0)
-        vec_basis = vec_basis / np.linalg.norm(vec_basis, axis=0)
 
     axis_labels = ["Ax 1", "Ax 2", "Ax 3"]  # until they have been identified
     # axis_labels = ["Director", "Bisector", "Normal"]  # once they have been identified
@@ -313,6 +312,7 @@ for plot_index, data_index in enumerate(plot_list):
         vec_basis = np.array([[0, 1, 0], [0.4, 0, 0.9], [0.9, 0, 0.4]])
         axis_labels = ["Director", "Bisector", "Normal"]
 
+    vec_basis = vec_basis / np.linalg.norm(vec_basis, axis=1)[:, np.newaxis]
     print(vec_basis)
 
     for i in range(len(eq_range)):
