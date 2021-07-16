@@ -89,7 +89,7 @@ for i in range(len(mix_steps_values)):
     sampling_times[i + 1] = time_counter
 print("Sampling Times: " + str(sampling_times))
 
-assert time_counter == run_time, "Unexpected result in sampling times"
+# assert time_counter == run_time, "Unexpected result in sampling times"
 
 # CALCULATE THE RMS DISPLACEMENT
 def periodic_bc_displacement(current_pos, previous_pos, box_dim, tolerance=0.5):
@@ -403,7 +403,7 @@ for plot_index, data_index in enumerate(plot_list):
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf_cf.png")
+plt.savefig("rms_displacement_runwise_sys.png")
 plt.show()
 
 print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
