@@ -1,5 +1,5 @@
 """Traditional method to calculate the number density over the radius (ie distance from centre)
-Used as a test case for the correlation plot fourier transform methods"""
+Slightly meaningless physically, but used as a test case for the correlation plot fourier transform methods"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,8 +9,8 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 5  # number of bins for radius dependance pair-wise correlation
+SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
+RADIUS_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -82,98 +82,36 @@ print(
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
 
 
-def find_angle(vec1, vec2):
-    """Finds angle between two vectors"""
-    assert len(vec1) == len(vec2), "Vectors should be the same dimension"
-
-    vec1 = vec1 / np.linalg.norm(vec1)  # normalise vectors
-    vec2 = vec2 / np.linalg.norm(vec2)
-
-    return np.sum(vec1 * vec2)
-
-
-def find_separation(pos1, pos2, box_dim):
-    """Finds separation between two positions
-
-    This method finds the minimum separation, accounting for the periodic BC
-    pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
-    separation = pos1 - pos2
-    for i in range(len(pos1)):  # should be 3 dimensional
-        if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
-            # use distance to ghost instead
-            separation[i] = box_dim[i] - np.abs(pos1[i] - pos2[i])
-
-    return np.linalg.norm(separation)
-
-
-def eval_angle_array(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
+def density_func(data):
+    """Input data in array of size Molecule Number x 3, and list of box_dim
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule (first/last)
-    Third index gives the component of the position (x,y,z)
+    Second index gives the component of the position (x,y,z)
 
-    Outputs N x N x 2 array, for pairwise values of separation and angle
-    Be aware this may generate very large arrays
-    """
-    angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
-    # dtype specified to reduce storgae required
+    Returns array of density data for each radius bin"""
 
-    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
+    radius_values = np.linalg.norm(data, axis=1)
+    max_radius = np.max(radius_values)
 
-    for i in range(N_molecules - 1):
-        for j in range(i + 1, N_molecules):
-            # Only considering terms of symmetric matrix above diagonal
-            # Separation between centres of each molecule:
-            angle_array[i, j, 0] = find_separation(
-                data[i, 1, :], data[j, 1, :], box_dim
-            )
-            # Angle between arms of molecule:
-            angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
-    angle_array_masked = np.ma.masked_invalid(
-        angle_array[:, :, :]
-    )  # mask empty values below diagonal
-    return angle_array_masked
+    bin_width = max_radius / RADIUS_BIN_NUM
+    radius_bins = np.linspace(0, max_radius, RADIUS_BIN_NUM, endpoint=False)
+    density_data = np.zeros_like(radius_bins)
 
-
-def correlation_func(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule (first/last)
-    Third index gives the component of the position (x,y,z)
-
-    Returns array of correlation data at each radius"""
-
-    angle_array = eval_angle_array(data, box_dim)
-    max_separation = np.max(angle_array[:, :, 0])
-
-    bin_width = max_separation / SEPARATION_BIN_NUM
-    separation_bins = np.linspace(0, max_separation, SEPARATION_BIN_NUM, endpoint=False)
-    correlation_data = np.zeros_like(separation_bins)
-
-    for n, radius in enumerate(separation_bins):
+    for n, radius in enumerate(radius_bins):
         # mask data outside the relevant radius range
-        relevant_angles = np.ma.masked_where(
+        relevant_radii = np.ma.masked_where(
             np.logical_or(
-                (angle_array[:, :, 0] < radius),
-                (angle_array[:, :, 0] > (radius + bin_width)),
+                (radius_values < radius), (radius_values > (radius + bin_width)),
             ),
-            angle_array[:, :, 1],  # act on angle data
+            radius_values,  # act on angle data
         )
 
-        legendre_polynomials = np.polynomial.legendre.legval(
-            relevant_angles[:, :], [0, 0, 1]
-        )  # evaluate 2nd order legendre polynomial
+        density_data[n] = relevant_radii.count()
 
-        correlation_data[n] = np.mean(legendre_polynomials)
+        print("    radius = " + str(int(radius)) + "/" + str(int(max_radius)))
 
-        print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
-
-    return separation_bins, correlation_data
+    return radius_bins, density_data
 
 
 # READ MOLECULE POSITIONS
@@ -187,8 +125,8 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     box_volume = 1
     box_dimensions = []  # to store side lengths of box for period boundary adjustment
-    rod_positions = np.zeros((N_molecules, 3, 3))
-    """Indices are Molecule Number; Atom number 1st/mid/last ; Positional coord index"""
+    rod_positions = np.zeros((N_molecules, 3))
+    """Indices are Molecule Number; Positional coord index"""
 
     for line in data_file:
         if "ITEM: BOX" in line:  # to start reading volume data
@@ -224,27 +162,15 @@ for i, time in enumerate(time_range):  # interate over dump files
                 except ValueError:
                     pass  # any non-floats in this line are ignored
 
-            # # Save positional coordatinates of end particles - REGULAR
-            # if int(particle_values[2]) == 1:  # first particle
-            #     rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            # if int(particle_values[2]) == int((mol_length + 1) / 2):  # central particle
-            #     rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            # if int(particle_values[2]) == mol_length:  # last particle
-            #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
-
-            # Save positional coordatinates of end particles - CLOSE
+            # Save positional coordatinates of CoM of molecule:
             centre = (mol_length + 1) / 2
-            if int(particle_values[2]) == int(centre - 1):
-                rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
             if int(particle_values[2]) == int(centre):  # central particle
-                rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            if int(particle_values[2]) == int(centre + 1):
-                rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+                rod_positions[int(particle_values[1]) - 1, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    separation_bins, correlation_data = correlation_func(
-        rod_positions, box_dimensions
+    radius_bins, density_data = density_func(
+        rod_positions
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
@@ -252,7 +178,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     if i == 0:
         continue  # don't plot this case
     plt.plot(
-        separation_bins, correlation_data, color=colors[i],
+        radius_bins, density_data, color=colors[i],
     )
 
     print("T = " + str(time) + "/" + str(run_time))
@@ -261,8 +187,8 @@ sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
-plt.title("Pairwise Angular Correlation Function")
+plt.title("Number Density over Contraction")
 plt.xlabel("Particle Separation")
-plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_lowres.png")
+plt.ylabel("Number Density")
+plt.savefig("density_func_slow.png")
 plt.show()
