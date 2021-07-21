@@ -9,12 +9,12 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 100  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 5  # number of bins for radius dependance pair-wise correlation
+SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
+SEPARATION_BIN_NUM = 50  # number of bins for radius dependance pair-wise correlation
 
 CLOSE_PARTICLE_COORDS = True
 # Uses director based on atoms adjacent to central particles, not end atoms in molecule
-ONE_DIMENSIONAL_CORRELATIONS = False
+ONE_DIMENSIONAL_CORRELATIONS = True
 CORRELATION_AXIS = [0, 1, 0]  # project correlation onto this axis
 
 # mol_length = 10  #uncomment on older datasets
@@ -284,5 +284,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-# plt.savefig("correlation_func_lowres.png")
+plt.savefig("correlation_func_yaxis_fine.png")
 plt.show()
