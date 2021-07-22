@@ -1,0 +1,27 @@
+Report folder contains my full report (including all auxillary files) as well as files for my intermediary report and project plan. 
+  It is particularly worth noting that the report .tex file has the path for all figures used in the report as well.
+  It also has my project presentation (and script), as well as misc graphs and my labbook files.
+
+Test_cases folder contains basic code to run simulations on 2D and 3D ideal gases, as well as simple rigid rods. 
+  It also contains test code from Jiaming Yu (Eiser Group, Cambridge) and LAMMPS used for benchmarking, and familiarisation with the LAMMPS software.
+
+
+Phase_Structure contains all the code I wrote during this project. It is split into simulations for rigid rods, and simulations for nunchucks. 
+  Two folders of rigid rod simulations are included for completeness, however the relevant code is all inside Rigid_Rods2.
+    Rigid_Rods contains an earlier, loop free implementation of the code, described in more detail in the labbook.
+
+Many analysis and running scripts are common between different directories, with only the running/system parameters varying. 
+  I will provide a separate zip file of all the relevant scripts (commented etc) for prosperity at the end of the project. 
+    
+All directories contain in.run_setup and in.run_loop which run the simulation in LAMMPS, an input.file which contains the initial positions of the particles,
+  an output file log.lammps with all thermodynamic data from the simulations, and possible output.dump files with particle positions at regular timesteps. 
+     All python analysis files have self explanatory titles and docstrings to describe their function.
+
+
+
+
+
+
+
+
+
