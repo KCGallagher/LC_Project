@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  17 MAY 2021 11:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  27 JUL 2021 14:33
 entering extended mode
 **./ProjectReport_edited.tex
 (ProjectReport_edited.tex
@@ -1795,7 +1795,7 @@ Package logreq Info: Writing requests to 'ProjectReport_edited.run.xml'.
 Here is how much of TeX's memory you used:
  21541 strings out of 481565
  417648 string characters out of 2914627
- 1085248 words of memory out of 3000000
+ 1085249 words of memory out of 3000000
  36109 multiletter control sequences out of 15000+200000
  734684 words of font info for 296 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1829,7 +1829,7 @@ msfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/cm/cmsy8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport_edited.pdf (26 pages, 2701693 bytes).
+Output written on ProjectReport_edited.pdf (26 pages, 2701737 bytes).
 PDF statistics:
  530 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
