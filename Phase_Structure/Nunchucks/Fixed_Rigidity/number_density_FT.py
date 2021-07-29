@@ -10,7 +10,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-POSITION_BIN_NUM = 10  # number of bins for position dependance pair-wise correlation
+POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
 # For fourier transform, this is optimised if a power of 2
 
 # mol_length = 10  #uncomment on older datasets
@@ -81,7 +81,8 @@ print(
 
 
 def fourier_transform(data, k_vector, cell_num):
-    """Commutes the FT of a 1D array"""
+    """Computes the FT of a 1D array
+    Manual implementation for testing - fft algorithm much faster"""
     ft_data = np.zeros_like(data, dtype=np.complex)
     assert len(data) == cell_num, "Expected M points in data array"
 
@@ -108,6 +109,7 @@ def autocorrelation_func(pos_data, box_dim, cell_num, delta_m_list):
 
     density_data = np.zeros((cell_num, cell_num, cell_num))
 
+    # GENERATE NUMBER DENSITY ARRAY
     for pos in position_values:
         m_vector = pos // cell_dim  # integer steps from corner (origin) of region
         # This also acts as index for relevant cell in p(m)
@@ -128,7 +130,7 @@ def autocorrelation_func(pos_data, box_dim, cell_num, delta_m_list):
                     m_vector = pos // cell_dim  # redo previous calculations
                     density_data[tuple(m_vector.astype(int))] += 1
             if not problem_identified:
-                raise
+                raise  # I.e. error was not due to this suspected floating point issue
 
     correlation_data = np.zeros_like(delta_m_list, dtype=np.complex)
     for i, delta_m in enumerate(delta_m_list):
@@ -139,13 +141,17 @@ def autocorrelation_func(pos_data, box_dim, cell_num, delta_m_list):
             # this gives vector to centre of cell, not corner, and avoids /0 in next line
             k_vector = (2 * np.pi / cell_num) * np.reciprocal(centred_index)
 
-            ft_density = fourier_transform(density_data, k_vector, cell_num)
-            ave_density = np.mean(np.square(np.abs(ft_density)))  # , axis=(0, 1, 2))
+            # ft_density = fourier_transform(density_data, k_vector, cell_num)
+            ft_density = np.fft.fft(density_data)
+
+            ave_density = np.mean(np.square(np.abs(ft_density)))
             correlation_data[i] += ave_density * np.exp(
                 -2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num
             )
 
-    return np.real(correlation_data) / cell_num ** 3
+    return (
+        np.real(correlation_data) / cell_num ** 3
+    )  # IS IT CORRECT TO TAKE REAL PART HERE?
 
 
 # READ MOLECULE POSITIONS
@@ -216,7 +222,6 @@ for i, time in enumerate(time_range):  # interate over dump files
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
-    # print(delta_m_list * y_step, correlation_data)
     plt.plot(
         delta_m_list * y_step, correlation_data, color=colors[i],
     )
