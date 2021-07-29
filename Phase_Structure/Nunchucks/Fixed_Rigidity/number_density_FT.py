@@ -1,5 +1,5 @@
-"""Fourier transform method to calculate the number density over the radius (ie distance from centre)
-Slightly meaningless physically, but used as a test case for the correlation plot fourier transform methods"""
+"""Fourier transform method to calculate the autocorrelation of number density over the particle separation (y component only here)
+Primarily used as a test case for the correlation plot fourier transform methods, but also relevant to smectic phase"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,7 +10,8 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-RADIUS_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+POSITION_BIN_NUM = 10  # number of bins for position dependance pair-wise correlation
+# For fourier transform, this is optimised if a power of 2
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -79,39 +80,72 @@ print(
 )
 
 
-# time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
+def fourier_transform(data, k_vector, cell_num):
+    """Commutes the FT of a 1D array"""
+    ft_data = np.zeros_like(data, dtype=np.complex)
+    assert len(data) == cell_num, "Expected M points in data array"
+
+    for index, density in np.ndenumerate(data):
+        ft_data[index] += density * np.exp(
+            2j * np.pi * np.dot(k_vector, index) / cell_num
+        )
+        # need to sum over all vectors m, not scalars (k_value should also be a vector - this is a 3D FT)
+    return ft_data
 
 
-def density_func(data):
-    """Input data in array of size Molecule Number x 3, and list of box_dim
+def autocorrelation_func(pos_data, box_dim, cell_num, delta_m_list):
+    """Input data in array of size Molecule Number x 2, a list of box_dim,
+    number of cells for discrete FT, and list of delta_m values to evaluate function at
 
     Input data will be rod_positions array which stores input data   
-    First index gives molecule number
     Second index gives the component of the position (x,y,z)
 
-    Returns array of density data for each radius bin"""
+    Returns value of autocorrelation func at each delta_m"""
 
-    radius_values = np.linalg.norm(data, axis=1)
-    max_radius = np.max(radius_values)
+    position_values = pos_data + box_dim / 2
+    # change origin of cell to corner so no negative values
+    cell_dim = box_dim / POSITION_BIN_NUM
 
-    bin_width = max_radius / RADIUS_BIN_NUM
-    radius_bins = np.linspace(0, max_radius, RADIUS_BIN_NUM, endpoint=False)
-    density_data = np.zeros_like(radius_bins)
+    density_data = np.zeros((cell_num, cell_num, cell_num))
 
-    for n, radius in enumerate(radius_bins):
-        # mask data outside the relevant radius range
-        relevant_radii = np.ma.masked_where(
-            np.logical_or(
-                (radius_values < radius), (radius_values > (radius + bin_width)),
-            ),
-            radius_values,  # act on angle data
-        )
+    for pos in position_values:
+        m_vector = pos // cell_dim  # integer steps from corner (origin) of region
+        # This also acts as index for relevant cell in p(m)
+        # print(pos, box_dim)
+        try:
+            density_data[tuple(m_vector.astype(int))] += 1
+        except IndexError:
+            problem_identified = False
+            for i in range(3):
+                if box_dim[i] < pos[i]:  # Particle outside box - floating point error?
+                    problem_identified = True
+                    print(
+                        f"  Warning: Particle detected {(pos[i] - box_dim[i]):.{4}}"
+                        + " outside box (possible floating point error) - reflected in boundary"
+                    )
 
-        density_data[n] = relevant_radii.count()
+                    pos[i] = (2 * box_dim[i]) - pos[i]  # reflect inside box
+                    m_vector = pos // cell_dim  # redo previous calculations
+                    density_data[tuple(m_vector.astype(int))] += 1
+            if not problem_identified:
+                raise
 
-        print("    radius = " + str(int(radius)) + "/" + str(int(max_radius)))
+    correlation_data = np.zeros_like(delta_m_list, dtype=np.complex)
+    for i, delta_m in enumerate(delta_m_list):
+        delta_m_vector = np.array([0, delta_m, 0])
 
-    return radius_bins, density_data
+        for index, density in np.ndenumerate(density_data):
+            centred_index = index + np.ones_like(index) / 2
+            # this gives vector to centre of cell, not corner, and avoids /0 in next line
+            k_vector = (2 * np.pi / cell_num) * np.reciprocal(centred_index)
+
+            ft_density = fourier_transform(density_data, k_vector, cell_num)
+            ave_density = np.mean(np.square(np.abs(ft_density)))  # , axis=(0, 1, 2))
+            correlation_data[i] += ave_density * np.exp(
+                -2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num
+            )
+
+    return np.real(correlation_data) / cell_num ** 3
 
 
 # READ MOLECULE POSITIONS
@@ -169,16 +203,22 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    radius_bins, density_data = density_func(
-        rod_positions
-    )  # evaluate order param at time t
+
+    delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
+    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
+    y_step = box_dimensions[1] / POSITION_BIN_NUM
+
+    correlation_data = autocorrelation_func(
+        rod_positions, np.array(box_dimensions), POSITION_BIN_NUM, delta_m_list
+    )
 
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
+    # print(delta_m_list * y_step, correlation_data)
     plt.plot(
-        radius_bins, density_data, color=colors[i],
+        delta_m_list * y_step, correlation_data, color=colors[i],
     )
 
     print("T = " + str(time) + "/" + str(run_time))
@@ -190,5 +230,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Number Density over Contraction")
 plt.xlabel("Particle Separation")
 plt.ylabel("Number Density")
-plt.savefig("density_func_slow.png")
+plt.savefig("density_func_FT.png")
 plt.show()
