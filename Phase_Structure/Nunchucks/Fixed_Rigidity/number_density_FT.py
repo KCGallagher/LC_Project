@@ -1,5 +1,6 @@
 """Fourier transform method to calculate the autocorrelation of number density over the particle separation (y component only here)
-Primarily used as a test case for the correlation plot fourier transform methods, but also relevant to smectic phase"""
+Primarily used as a test case for the correlation plot fourier transform methods, but also relevant to smectic phase
+There may be normalisation issues with this, as p(m) is not normalised, but this is not relevant for our work"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,6 +13,8 @@ FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous co
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
 # For fourier transform, this is optimised if a power of 2
+
+MANUAL_FT = False
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -136,13 +139,16 @@ def autocorrelation_func(pos_data, box_dim, cell_num, delta_m_list):
     for i, delta_m in enumerate(delta_m_list):
         delta_m_vector = np.array([0, delta_m, 0])
 
+        if not MANUAL_FT:  # use built in function
+            ft_density = np.fft.fft(density_data)  # Replaces sum method
+
         for index, density in np.ndenumerate(density_data):
             centred_index = index + np.ones_like(index) / 2
             # this gives vector to centre of cell, not corner, and avoids /0 in next line
             k_vector = (2 * np.pi / cell_num) * np.reciprocal(centred_index)
 
-            # ft_density = fourier_transform(density_data, k_vector, cell_num)
-            ft_density = np.fft.fft(density_data)
+            if MANUAL_FT:
+                ft_density = fourier_transform(density_data, k_vector, cell_num)
 
             ave_density = np.mean(np.square(np.abs(ft_density)))
             correlation_data[i] += ave_density * np.exp(
@@ -235,5 +241,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Number Density over Contraction")
 plt.xlabel("Particle Separation")
 plt.ylabel("Number Density")
-plt.savefig("density_func_FT.png")
+# plt.savefig("density_func_FT.png")
 plt.show()

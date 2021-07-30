@@ -3,6 +3,10 @@ As detailed by Daan Frenkel, uses spherical harmonics so avoid costly angle calc
 as well as fourier transform methods. 
 Uses the end-to-end molecule vector as the director."""
 
+"""Fourier transform method to calculate the autocorrelation of number density over the particle separation (y component only here)
+Primarily used as a test case for the correlation plot fourier transform methods, but also relevant to smectic phase
+There may be normalisation issues with this, as p(m) is not normalised, but this is not relevant for our work"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -13,7 +17,10 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
+POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
+# For fourier transform, this is optimised if a power of 2
+
+MANUAL_FT = False
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -82,9 +89,6 @@ print(
 )
 
 
-# time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
-
-
 def find_angles(vec_array):
     """Finds spherical angles of cartesian position. Returns theta and phi in N x 2 array
     
@@ -98,32 +102,74 @@ def find_angles(vec_array):
     return theta, phi
 
 
-def find_separations(pos_array, base_pos, box_dim):
-    """Finds separation of positions in array from a base position
+def fourier_transform(data, k_vector, cell_num):
+    """Computes the FT of a 1D array
+    Manual implementation for testing - fft algorithm much faster with same ouput"""
+    ft_data = np.zeros_like(data, dtype=np.complex)
+    assert len(data) == cell_num, "Expected M points in data array"
 
-    This method finds the minimum separation, accounting for the periodic BC
-    pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
-
-    separation_data = pos_array - base_pos
-    for n in range(pos_array.shape[0]):
-        for i in range(3):  # for 3 dimensional vector
-            if np.abs(pos_array[n, i] - base_pos[i]) > box_dim[i] / 2:
-                # use distance to ghost instead
-                separation_data[n, i] = box_dim[i] - np.abs(
-                    pos_array[n, i] - base_pos[i]
-                )
-
-    return np.linalg.norm(separation_data, axis=1)
+    for index, density in np.ndenumerate(data):
+        ft_data[index] += density * np.exp(
+            2j * np.pi * np.dot(k_vector, index) / cell_num
+        )
+        # need to sum over all vectors m, not scalars (k_value should also be a vector - this is a 3D FT)
+    return ft_data
 
 
-def spherical_harmonic_sum(theta_array, phi_array, l, m):
-    """ Returns sum  of spherical harmonics of order l,m"""
-    angles_sum = np.sum(sph_harm(m, l, theta_array, phi_array).real)
-    return angles_sum
+def angle_density(data, box_dim, cell_num, order, sub_order, print_warning=False):
+    """Input data in array of size Molecule Number x 3 x 3
+
+    Input data will be rod_positions array which stores input data   
+    First index gives molecule number (up to size N_molecules)
+    Second index gives particle number within molecule (first/last)
+    Third index gives the component of the position (x,y,z)
+
+    Also input  'box_dim' - list of simulation box dimensions
+                'cell_num' - number of cells for discrete FT
+                'order' - order of correlation function to compute (l)
+                'suborder' - degree of harmonic (typically m, where m = -l, ..., l)
+                'print_warning' - boolean whether to print warning about spurious positions
+
+    Returns array of angle density func for each value of vector m (each cell)"""
+
+    directors = data[:, 2, :] - data[:, 0, :]
+    theta_array, phi_array = find_angles(directors)
+
+    position_values = data[:, 1, :] + box_dim / 2
+    # change origin of cell to corner so no negative values
+    cell_dim = box_dim / cell_num
+
+    density_data = np.zeros((cell_num, cell_num, cell_num), dtype=np.complex)
+
+    # GENERATE NUMBER DENSITY ARRAY
+    for i, pos in enumerate(position_values):
+        m_vector = pos // cell_dim  # integer steps from corner (origin) of region
+        # This also acts as index for relevant cell in p(m)
+        harmonic_at_i = sph_harm(sub_order, order, theta_array[i], phi_array[i]).real
+
+        try:
+            density_data[tuple(m_vector.astype(int))] += harmonic_at_i
+        except IndexError:
+            problem_identified = False
+            for i in range(3):
+                if box_dim[i] < pos[i]:  # Particle outside box - floating point error?
+                    problem_identified = True
+                    if print_warning:
+                        print(
+                            f"  Warning: Particle detected {(pos[i] - box_dim[i]):.{4}}"
+                            + " outside box (possible floating point error) - reflected in boundary"
+                        )
+
+                    pos[i] = (2 * box_dim[i]) - pos[i]  # reflect inside box
+                    m_vector = pos // cell_dim  # redo previous calculations
+                    density_data[tuple(m_vector.astype(int))] += harmonic_at_i
+            if not problem_identified:
+                raise  # I.e. error was not due to this suspected floating point issue
+
+    return density_data
 
 
-def correlation_func(data, box_dim, bin_num, order):
+def correlation_func(data, box_dim, cell_num, delta_m_list, order):
     """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -133,54 +179,50 @@ def correlation_func(data, box_dim, bin_num, order):
 
     Also input  'order' - order of correlation function to compute
                 'box_dim' - list of simulation box dimensions
-                'bin_num' - integer value for number of radius bins to evaluate
+                'cell_num' - number of cells for discrete FT
+                'delta_m_list' - list of delta_m values to evaluate function at
 
-    Returns array of correlation data at each radius"""
+    Returns value of angle correlation func at each delta_m"""
 
-    directors = data[:, 2, :] - data[:, 0, :]
-    theta_array, phi_array = find_angles(directors)
+    correlation_data = np.zeros_like(delta_m_list, dtype=np.complex)
 
-    max_separation = np.linalg.norm(box_dim) / 2
+    for i, delta_m in enumerate(delta_m_list):
+        delta_m_vector = np.array([0, delta_m, 0])
 
-    bin_width = max_separation / bin_num
-    separation_bins = np.linspace(0, max_separation, bin_num, endpoint=False)
-    correlation_data = np.zeros_like(separation_bins)
+        outer_sum_tot = 0
+        for sub_order in range(-order, order + 1):  # m = -l, -l+1, ..., l-1, l
+            if i == 0 and sub_order == -order:  # Only prints warning on first occurance
+                print_warning = True
+            else:
+                print_warning = False
 
-    for n, radius in enumerate(separation_bins):
-        order_param_sum = 0
-        sample_size = 0
-
-        for i in range(N_molecules):
-            running_tot = 0
-
-            separation_array = find_separations(data[:, 2, :], data[i, 2, :], box_dim)
-            relevant_theta = np.ma.masked_where(
-                np.logical_or(
-                    (separation_array < radius),
-                    (separation_array > (radius + bin_width)),
-                ),
-                theta_array,
+            density_data = angle_density(
+                data, box_dim, cell_num, order, sub_order, print_warning
             )
-            relevant_phi = np.ma.masked_where(
-                np.ma.getmask(relevant_theta), phi_array
-            )  # applies the mask of theta on phi
 
-            for m in range(-order, order + 1):  # from -l to l
-                harmonic_at_i = sph_harm(m, order, theta_array[i], phi_array[i]).real
-                harmonics_sum = spherical_harmonic_sum(
-                    relevant_theta, relevant_phi, order, m
+            if not MANUAL_FT:  # use built in function
+                ft_density = np.fft.fft(density_data)  # Replaces sum method
+
+            for index, density in np.ndenumerate(density_data):  # sum over k
+                inner_sum_tot = 0
+                centred_index = index + np.ones_like(index) / 2
+                # this gives vector to centre of cell, not corner, and avoids /0 in next line
+                k_vector = (2 * np.pi / cell_num) * np.reciprocal(centred_index)
+
+                if MANUAL_FT:
+                    ft_density = fourier_transform(density_data, k_vector, cell_num)
+
+                ave_density = np.mean(ft_density * np.conj(ft_density))
+
+                inner_sum_tot += ave_density * np.exp(
+                    -2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num
                 )
-                # remove i=j term from sum, then multiply by harmonic for molecule i
-                running_tot += (harmonics_sum - harmonic_at_i) * harmonic_at_i
 
-            order_param_sum += (4 * np.pi / (2 * order + 1)) * running_tot
-            sample_size += relevant_theta.count()  # number of pairs sampled
+            outer_sum_tot += (inner_sum_tot) / (cell_num ** 3)
 
-        correlation_data[n] = order_param_sum / sample_size
+        correlation_data[i] = ((4 * np.pi) / (2 * order - 1)) * outer_sum_tot
 
-        print("    radius = " + str(int(radius)) + "/" + str(int(max_separation)))
-    print(correlation_data)
-    return separation_bins, correlation_data
+    return np.real(correlation_data)  # IS IT CORRECT/NECESSARY TO TAKE REAL PART HERE?
 
 
 # READ MOLECULE POSITIONS
@@ -231,14 +273,6 @@ for i, time in enumerate(time_range):  # interate over dump files
                 except ValueError:
                     pass  # any non-floats in this line are ignored
 
-            # # Save positional coordatinates of end particles - REGULAR
-            # if int(particle_values[2]) == 1:  # first particle
-            #     rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            # if int(particle_values[2]) == int((mol_length + 1) / 2):  # central particle
-            #     rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            # if int(particle_values[2]) == mol_length:  # last particle
-            #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
-
             # Save positional coordatinates of end particles - CLOSE
             centre = (mol_length + 1) / 2
             if int(particle_values[2]) == int(centre - 1):
@@ -250,16 +284,21 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
-    separation_bins, correlation_data = correlation_func(
-        rod_positions, box_dimensions, SEPARATION_BIN_NUM, order=2
-    )  # evaluate order param at time t
+
+    delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
+    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
+    y_step = box_dimensions[1] / POSITION_BIN_NUM
+
+    correlation_data = correlation_func(
+        rod_positions, np.array(box_dimensions), POSITION_BIN_NUM, delta_m_list, order=2
+    )
 
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
     plt.plot(
-        separation_bins, correlation_data, color=colors[i],
+        delta_m_list * y_step, correlation_data, color=colors[i],
     )
 
     print("T = " + str(time) + "/" + str(run_time))
@@ -271,5 +310,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT.png")
+# plt.savefig("correlation_func_FT.png")
 plt.show()
