@@ -258,8 +258,15 @@ for i, time in enumerate(time_range):  # interate over dump files
 # print(sampled_vol_values)
 
 plot_list = range(0, run_num_tot, 1)  # runs to plot
+plot_list = [0, 1, 3, 5, 7, 9]
 
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
+
+plot_best_fit = False
+if plot_best_fit:
+    linestyle_list = ["solid", "solid", "solid", "dashed", "dashed", "dashed"]
+else:
+    linestyle_list = ["dotted", "solid", "dashed"]
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
 for plot_index, data_index in enumerate(plot_list):
@@ -278,8 +285,6 @@ for plot_index, data_index in enumerate(plot_list):
         np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 1])
     )  # consider x axis for purpose of this
 
-    plot_best_fit = True
-
     print(
         "X: For vol frac = "
         + "{:.4f}".format(sampled_vol_frac[data_index])
@@ -296,7 +301,10 @@ for plot_index, data_index in enumerate(plot_list):
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(
-                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+                eq_range[1:],
+                rms_disp_values[data_index, 1:, j],
+                label=axis_labels[j],
+                linestyle=linestyle_list[j],
             )
             if plot_best_fit == True and j == 2:  # only needs to be plotted once
                 axs[plot_index].plot(
@@ -312,7 +320,11 @@ for plot_index, data_index in enumerate(plot_list):
                     linestyle="dashed",
                 )
         else:  # no legend entries
-            axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
+            axs[plot_index].loglog(
+                eq_range[1:],
+                rms_disp_values[data_index, 1:, j],
+                linestyle=linestyle_list[j],
+            )
 
             if plot_best_fit == True and j == 2:
                 axs[plot_index].plot(
@@ -332,7 +344,7 @@ axs[int(len(plot_list) / 2)].set_xlabel(
 )  # use median of plot_list
 axs[0].set_ylabel("RMS displacement")
 fig.legend(loc="center right")
-# plt.savefig("rms_displacement_runwise2.png")
+plt.savefig("rms_displacement_runwise2.svg")
 plt.show()
 
 for i in range(dimension_num):
@@ -342,7 +354,7 @@ for i in range(dimension_num):
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
-# plt.savefig("order_vs_diffusion_with_bc.png")
+plt.savefig("order_vs_diffusion_with_bc2.png")
 plt.show()
 
 print("Volume fraction = " + str(sampled_vol_frac))
