@@ -10,8 +10,9 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
+SAMPLING_FREQ = 20  # only samples one in X files (must be integer) (20)
+POSITION_BIN_NUM = 16  # number of bins for pair-wise correlation (16)
+
 # For fourier transform, this is optimised if a power of 2
 
 MANUAL_FT = False
@@ -216,8 +217,9 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
-    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
+    # delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
+    delta_m_list = np.linspace(0, POSITION_BIN_NUM, endpoint=False)
+    # USE DISPLACEMENTS ALONG Y AXIS ONLY FOR THIS
     y_step = box_dimensions[1] / POSITION_BIN_NUM
 
     correlation_data = autocorrelation_func(
@@ -241,5 +243,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Number Density over Contraction")
 plt.xlabel("Particle Separation")
 plt.ylabel("Number Density")
-# plt.savefig("density_func_FT.png")
+# plt.savefig("density_func_FT2.png")
 plt.show()

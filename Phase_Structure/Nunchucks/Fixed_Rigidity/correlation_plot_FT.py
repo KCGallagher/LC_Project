@@ -20,7 +20,7 @@ SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
 # For fourier transform, this is optimised if a power of 2
 
-MANUAL_FT = False
+MANUAL_FT = True
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -285,7 +285,8 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
+    # delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
+    delta_m_list = np.linspace(0, POSITION_BIN_NUM, endpoint=False)
     # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
     y_step = box_dimensions[1] / POSITION_BIN_NUM
 
@@ -310,5 +311,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-# plt.savefig("correlation_func_FT.png")
+plt.savefig("correlation_func_FT3_man.png")
 plt.show()
