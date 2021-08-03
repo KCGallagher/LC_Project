@@ -1,11 +1,9 @@
-"""Optimised method to calculate the pair-wise orientational order correlation function.
-As detailed by Daan Frenkel, uses spherical harmonics so avoid costly angle calculations (which are O(N^2))
-as well as fourier transform methods. 
-Uses the end-to-end molecule vector as the director."""
-
-"""Fourier transform method to calculate the autocorrelation of number density over the particle separation (y component only here)
-Primarily used as a test case for the correlation plot fourier transform methods, but also relevant to smectic phase
+"""Fourier transformmethod to calculate the pair-wise orientational order correlation function over the 
+particle separation (y component only here). As detailed by Daan Frenkel, uses spherical harmonics so 
+avoid costly angle calculations (which are O(N^2)) as well as fourier transform methods. 
+    Uses the end-to-end molecule vector as the director.
 There may be normalisation issues with this, as p(m) is not normalised, but this is not relevant for our work"""
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,10 +15,8 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
-# For fourier transform, this is optimised if a power of 2
-
-MANUAL_FT = True
+POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
+# For fast fourier transform (not implemented here), this is optimised if a power of 2
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -102,75 +98,75 @@ def find_angles(vec_array):
     return theta, phi
 
 
-def fourier_transform(data, k_vector, cell_num):
-    """Computes the FT of a 1D array
-    Manual implementation for testing - fft algorithm much faster with same ouput"""
-    ft_data = np.zeros_like(data, dtype=np.complex)
-    assert len(data) == cell_num, "Expected M points in data array"
+def fourier_transform(m_vector_array, sph_harm_array, k_vector, cell_num):
+    """Computes the discrete FT of angle density
 
-    for index, density in np.ndenumerate(data):
-        ft_data[index] += density * np.exp(
-            2j * np.pi * np.dot(k_vector, index) / cell_num
+    Input an Nx1 array of m_vectors, and an Nx1 array of spherical harmonics, for N molecules
+    Also input the wavevector to calculate the FT at."""
+
+    ft_result = 0  # Use for running total
+
+    for i in range(len(sph_harm_array)):  # sum over all molecules in sample
+        ft_result += sph_harm_array[i] * np.exp(
+            2j * np.pi * np.dot(k_vector, m_vector_array[i, :])
         )
-        # need to sum over all vectors m, not scalars (k_value should also be a vector - this is a 3D FT)
-    return ft_data
+    return ft_result
 
 
-def angle_density(data, box_dim, cell_num, order, sub_order, print_warning=False):
-    """Input data in array of size Molecule Number x 3 x 3
-
-    Input data will be rod_positions array which stores input data   
+def compute_spherical_harmonics(
+    data, box_dim, cell_num, order, sub_order, detect_errors=True, print_warning=False
+):
+    """Computes spherical harmonic of molecule orientation, and m vector, for each molecule
+    
+    Input data will be rod_positions array of size Molecule Number x 3 x 3
     First index gives molecule number (up to size N_molecules)
-    Second index gives particle number within molecule (first/last)
+    Second index gives particle number within molecule (first/centre/last)
     Third index gives the component of the position (x,y,z)
 
     Also input  'box_dim' - list of simulation box dimensions
                 'cell_num' - number of cells for discrete FT
                 'order' - order of correlation function to compute (l)
                 'suborder' - degree of harmonic (typically m, where m = -l, ..., l)
+                'detect_erros' - boolean whether to reflect spurious position data back into cell
                 'print_warning' - boolean whether to print warning about spurious positions
 
-    Returns array of angle density func for each value of vector m (each cell)"""
+    Returns two Nx1 arrays of m vectors and spherical harmonics respectively for each of N molecules"""
 
     directors = data[:, 2, :] - data[:, 0, :]
     theta_array, phi_array = find_angles(directors)
+    sph_harm_array = np.full_like(directors[:, 0], np.nan)  # Nx1 array
+    m_vector_array = np.full_like(directors, np.nan)  # Nx3 array
 
     position_values = data[:, 1, :] + box_dim / 2
     # change origin of cell to corner so no negative values
     cell_dim = box_dim / cell_num
 
-    density_data = np.zeros((cell_num, cell_num, cell_num), dtype=np.complex)
-
     # GENERATE NUMBER DENSITY ARRAY
-    for i, pos in enumerate(position_values):
-        m_vector = pos // cell_dim  # integer steps from corner (origin) of region
-        # This also acts as index for relevant cell in p(m)
-        harmonic_at_i = sph_harm(sub_order, order, theta_array[i], phi_array[i]).real
+    for n, pos in enumerate(position_values):
+        m_vector_array[n, :] = (
+            pos // cell_dim
+        )  # integer steps from corner (origin) of region
+        sph_harm_array[n] = sph_harm(
+            sub_order, order, theta_array[n], phi_array[n]
+        ).real
 
-        try:
-            density_data[tuple(m_vector.astype(int))] += harmonic_at_i
-        except IndexError:
-            problem_identified = False
-            for i in range(3):
-                if box_dim[i] < pos[i]:  # Particle outside box - floating point error?
-                    problem_identified = True
+        if detect_errors:
+            for j in range(3):
+                if box_dim[j] < pos[j]:  # Particle outside box - floating point error?
                     if print_warning:
                         print(
-                            f"  Warning: Particle detected {(pos[i] - box_dim[i]):.{4}}"
+                            f"  Warning: Particle detected {(pos[j] - box_dim[j]):.{4}}"
                             + " outside box (possible floating point error) - reflected in boundary"
                         )
 
-                    pos[i] = (2 * box_dim[i]) - pos[i]  # reflect inside box
-                    m_vector = pos // cell_dim  # redo previous calculations
-                    density_data[tuple(m_vector.astype(int))] += harmonic_at_i
-            if not problem_identified:
-                raise  # I.e. error was not due to this suspected floating point issue
-
-    return density_data
+                    pos[j] = (2 * box_dim[j]) - pos[j]  # reflect inside box
+                    m_vector_array[n, :] = pos // cell_dim  # redo previous calculations
+    # print(m_vector_array, sph_harm_array)
+    return m_vector_array, sph_harm_array
 
 
-def correlation_func(data, box_dim, cell_num, delta_m_list, order):
-    """Input data in array of size Molecule Number x 3 x 3
+def correlation_func(pos_data, box_dim, cell_num, delta_m_list, order):
+    """Input position data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number (up to size N_molecules)
@@ -182,7 +178,7 @@ def correlation_func(data, box_dim, cell_num, delta_m_list, order):
                 'cell_num' - number of cells for discrete FT
                 'delta_m_list' - list of delta_m values to evaluate function at
 
-    Returns value of angle correlation func at each delta_m"""
+    Returns list of angle correlation func values at each delta_m"""
 
     correlation_data = np.zeros_like(delta_m_list, dtype=np.complex)
 
@@ -192,35 +188,44 @@ def correlation_func(data, box_dim, cell_num, delta_m_list, order):
         outer_sum_tot = 0
         for sub_order in range(-order, order + 1):  # m = -l, -l+1, ..., l-1, l
             if i == 0 and sub_order == -order:  # Only prints warning on first occurance
-                print_warning = True
+                print_warning_bool = True
             else:
-                print_warning = False
+                print_warning_bool = False
 
-            density_data = angle_density(
-                data, box_dim, cell_num, order, sub_order, print_warning
+            m_vector_array, sph_harm_array = compute_spherical_harmonics(
+                pos_data,
+                box_dim,
+                cell_num,
+                order,
+                sub_order,
+                detect_errors=True,
+                print_warning=print_warning_bool,
             )
 
-            if not MANUAL_FT:  # use built in function
-                ft_density = np.fft.fft(density_data)  # Replaces sum method
-
-            for index, density in np.ndenumerate(density_data):  # sum over k
+            for delta_m_value in delta_m_list:
+                # sum over k wavevectors, given by inverse of delta_m values
                 inner_sum_tot = 0
-                centred_index = index + np.ones_like(index) / 2
+
+                centred_m_value = delta_m_value + 1 / 2
                 # this gives vector to centre of cell, not corner, and avoids /0 in next line
-                k_vector = (2 * np.pi / cell_num) * np.reciprocal(centred_index)
+                k_value = (2 * np.pi / cell_num) * np.reciprocal(centred_m_value)
+                k_vector = np.array([0, k_value, 0])  # again aligned along y axes
 
-                if MANUAL_FT:
-                    ft_density = fourier_transform(density_data, k_vector, cell_num)
+                ft_density = fourier_transform(
+                    m_vector_array, sph_harm_array, k_vector, cell_num
+                )
 
-                ave_density = np.mean(ft_density * np.conj(ft_density))
+                rms_density = ft_density * np.conj(ft_density)
+                # do I need to average here?
 
-                inner_sum_tot += ave_density * np.exp(
+                inner_sum_tot += rms_density * np.exp(
                     -2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num
                 )
+                # print(ft_density)
 
             outer_sum_tot += (inner_sum_tot) / (cell_num ** 3)
 
-        correlation_data[i] = ((4 * np.pi) / (2 * order - 1)) * outer_sum_tot
+        correlation_data[i] = ((4 * np.pi) / (2 * order + 1)) * outer_sum_tot
 
     return np.real(correlation_data)  # IS IT CORRECT/NECESSARY TO TAKE REAL PART HERE?
 
@@ -311,5 +316,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT3_man.png")
+plt.savefig("correlation_func_FT_new.png")
 plt.show()
