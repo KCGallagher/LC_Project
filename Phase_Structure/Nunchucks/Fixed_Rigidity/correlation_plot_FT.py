@@ -15,7 +15,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
+POSITION_BIN_NUM = 8  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
 
 # mol_length = 10  #uncomment on older datasets
@@ -108,7 +108,7 @@ def fourier_transform(m_vector_array, sph_harm_array, k_vector, cell_num):
 
     for i in range(len(sph_harm_array)):  # sum over all molecules in sample
         ft_result += sph_harm_array[i] * np.exp(
-            2j * np.pi * np.dot(k_vector, m_vector_array[i, :])
+            2j * np.pi * np.dot(k_vector, m_vector_array[i, :])  # / cell_num
         )
     return ft_result
 
@@ -316,5 +316,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT_new.png")
+plt.savefig("correlation_func_FT_new2.png")
 plt.show()
