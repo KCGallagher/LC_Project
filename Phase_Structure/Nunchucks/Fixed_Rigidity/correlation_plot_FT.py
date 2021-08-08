@@ -1,7 +1,7 @@
 """Fourier transformmethod to calculate the pair-wise orientational order correlation function over the 
 particle separation (y component only here). As detailed by Daan Frenkel, uses spherical harmonics so 
 avoid costly angle calculations (which are O(N^2)) as well as fourier transform methods. 
-    Uses the end-to-end molecule vector as the director.
+    Uses the end-to-end molecule vector as the director, and also includes channels approach.
 There may be normalisation issues with this, as p(m) is not normalised, but this is not relevant for our work"""
 
 
@@ -15,8 +15,11 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-POSITION_BIN_NUM = 8  # number of bins for position dependance pair-wise correlation
+
+POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
+CHANNEL_NUM = 16  # N number of channels in each direction of the x-z plane (N^2 total)
+# this should be order O(N^2/3), while POSITION_BIN_NUM should be 10 to 100 * O(N^1/3)
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -98,23 +101,44 @@ def find_angles(vec_array):
     return theta, phi
 
 
-def fourier_transform(m_vector_array, sph_harm_array, k_vector, cell_num):
-    """Computes the discrete FT of angle density
+def rms_fourier_transform(
+    m_vector_array, column_indices, sph_harm_array, k_vector, cell_num, channel_num
+):
+    """Computes the rms of the discrete FT of angle density, averaging over N^2 channels
 
-    Input an Nx1 array of m_vectors, and an Nx1 array of spherical harmonics, for N molecules
-    Also input the wavevector to calculate the FT at."""
+    Input Nx1 arrays of m_vectors, the channel indices, and the spherical harmonics, per molecule for N molecules
+    Also input - the wavevector to calculate the FT at.
+               - the number of channels (to average over)
+               - number of cells (ie fourier components)"""
 
-    ft_result = 0  # Use for running total
+    ft_result = np.zeros(
+        (channel_num, channel_num), dtype=np.complex
+    )  # Use for running total
 
     for i in range(len(sph_harm_array)):  # sum over all molecules in sample
-        ft_result += sph_harm_array[i] * np.exp(
-            2j * np.pi * np.dot(k_vector, m_vector_array[i, :])  # / cell_num
+        # Add to running total in that channel
+        ft_result[column_indices[0, i], column_indices[1, i]] += sph_harm_array[
+            i
+        ] * np.exp(
+            2j
+            * np.pi
+            * np.dot(k_vector, m_vector_array[i, :])  # / cell_num  # CHECK THIS
         )
-    return ft_result
+        # replace m_vector_array[i, :] with [0, m_vector_array[i, 1], 0] for 1D version (y component only)
+
+    rms_result = np.mean(ft_result * np.conj(ft_result))
+    return rms_result
 
 
 def compute_spherical_harmonics(
-    data, box_dim, cell_num, order, sub_order, detect_errors=True, print_warning=False
+    data,
+    box_dim,
+    cell_num,
+    order=0,
+    sub_order=0,
+    detect_errors=True,
+    print_warning=False,
+    m_vectors_only=False,
 ):
     """Computes spherical harmonic of molecule orientation, and m vector, for each molecule
     
@@ -129,6 +153,7 @@ def compute_spherical_harmonics(
                 'suborder' - degree of harmonic (typically m, where m = -l, ..., l)
                 'detect_erros' - boolean whether to reflect spurious position data back into cell
                 'print_warning' - boolean whether to print warning about spurious positions
+                'm_vectors_only' - Allows computation of m_vectors only - used if channel_num != cell_num
 
     Returns two Nx1 arrays of m vectors and spherical harmonics respectively for each of N molecules"""
 
@@ -146,9 +171,10 @@ def compute_spherical_harmonics(
         m_vector_array[n, :] = (
             pos // cell_dim
         )  # integer steps from corner (origin) of region
-        sph_harm_array[n] = sph_harm(
-            sub_order, order, theta_array[n], phi_array[n]
-        ).real
+        if not m_vectors_only:
+            sph_harm_array[n] = sph_harm(
+                sub_order, order, theta_array[n], phi_array[n]
+            ).real
 
         if detect_errors:
             for j in range(3):
@@ -162,10 +188,13 @@ def compute_spherical_harmonics(
                     pos[j] = (2 * box_dim[j]) - pos[j]  # reflect inside box
                     m_vector_array[n, :] = pos // cell_dim  # redo previous calculations
     # print(m_vector_array, sph_harm_array)
-    return m_vector_array, sph_harm_array
+    if m_vectors_only:
+        return m_vector_array
+    else:
+        return m_vector_array, sph_harm_array
 
 
-def correlation_func(pos_data, box_dim, cell_num, delta_m_list, order):
+def correlation_func(pos_data, box_dim, cell_num, channel_num, delta_m_list, order):
     """Input position data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
@@ -200,7 +229,28 @@ def correlation_func(pos_data, box_dim, cell_num, delta_m_list, order):
                 sub_order,
                 detect_errors=True,
                 print_warning=print_warning_bool,
+                m_vectors_only=False,
             )
+
+            if cell_num == channel_num:
+                # Can use m_vector indices to allocate particles in channels
+                column_indices = np.array([m_vector_array[:, 0], m_vector_array[:, 2]])
+            else:
+                # Recompute the m_vectors to find channe; indices for each particle
+                channel_indices = compute_spherical_harmonics(
+                    pos_data,
+                    box_dim,
+                    channel_num,
+                    order,
+                    sub_order,
+                    detect_errors=True,
+                    print_warning=print_warning_bool,
+                    m_vectors_only=True,
+                )
+                column_indices = np.array(
+                    [channel_indices[:, 0], channel_indices[:, 2]]
+                )
+            column_indices = column_indices.astype(int)  # required for use in indexing
 
             for delta_m_value in delta_m_list:
                 # sum over k wavevectors, given by inverse of delta_m values
@@ -211,23 +261,25 @@ def correlation_func(pos_data, box_dim, cell_num, delta_m_list, order):
                 k_value = (2 * np.pi / cell_num) * np.reciprocal(centred_m_value)
                 k_vector = np.array([0, k_value, 0])  # again aligned along y axes
 
-                ft_density = fourier_transform(
-                    m_vector_array, sph_harm_array, k_vector, cell_num
+                rms_ft_density = rms_fourier_transform(
+                    m_vector_array,
+                    column_indices,
+                    sph_harm_array,
+                    k_vector,
+                    cell_num,
+                    channel_num,
                 )
 
-                rms_density = ft_density * np.conj(ft_density)
-                # do I need to average here?
-
-                inner_sum_tot += rms_density * np.exp(
+                inner_sum_tot += rms_ft_density * np.exp(
                     -2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num
                 )
                 # print(ft_density)
 
-            outer_sum_tot += (inner_sum_tot) / (cell_num ** 3)
+            outer_sum_tot += (inner_sum_tot) / (cell_num)  # only power of -1 as 1D FT
 
         correlation_data[i] = ((4 * np.pi) / (2 * order + 1)) * outer_sum_tot
 
-    return np.real(correlation_data)  # IS IT CORRECT/NECESSARY TO TAKE REAL PART HERE?
+    return np.real(correlation_data)
 
 
 # READ MOLECULE POSITIONS
@@ -296,13 +348,18 @@ for i, time in enumerate(time_range):  # interate over dump files
     y_step = box_dimensions[1] / POSITION_BIN_NUM
 
     correlation_data = correlation_func(
-        rod_positions, np.array(box_dimensions), POSITION_BIN_NUM, delta_m_list, order=2
+        rod_positions,
+        np.array(box_dimensions),
+        POSITION_BIN_NUM,
+        CHANNEL_NUM,
+        delta_m_list,
+        order=2,  # Second legendre polynomial for nematic order
     )
 
     tot_plot_num = len(time_range)
     colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
-    if i == 0:
-        continue  # don't plot this case
+    # if i == 0:
+    #     continue  # don't plot this case
     plt.plot(
         delta_m_list * y_step, correlation_data, color=colors[i],
     )
@@ -316,5 +373,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT_new2.png")
+plt.savefig("correlation_func_FT_channels_full2b.png")
 plt.show()
