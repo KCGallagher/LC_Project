@@ -120,9 +120,7 @@ def rms_fourier_transform(
         ft_result[column_indices[0, i], column_indices[1, i]] += sph_harm_array[
             i
         ] * np.exp(
-            2j
-            * np.pi
-            * np.dot(k_vector, m_vector_array[i, :])  # / cell_num  # CHECK THIS
+            2j * np.pi * np.dot(k_vector, m_vector_array[i, :]) / cell_num  # CHECK THIS
         )
         # replace m_vector_array[i, :] with [0, m_vector_array[i, 1], 0] for 1D version (y component only)
 
