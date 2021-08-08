@@ -14,11 +14,11 @@ from scipy.special import sph_harm
 from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
+SAMPLING_FREQ = 200  # only samples one in X files (must be integer)
 
-POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
+POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
-CHANNEL_NUM = 16  # N number of channels in each direction of the x-z plane (N^2 total)
+CHANNEL_NUM = 4  # N number of channels in each direction of the x-z plane (N^2 total)
 # this should be order O(N^2/3), while POSITION_BIN_NUM should be 10 to 100 * O(N^1/3)
 
 # mol_length = 10  #uncomment on older datasets
@@ -120,7 +120,9 @@ def rms_fourier_transform(
         ft_result[column_indices[0, i], column_indices[1, i]] += sph_harm_array[
             i
         ] * np.exp(
-            2j * np.pi * np.dot(k_vector, m_vector_array[i, :]) / cell_num  # CHECK THIS
+            2j
+            * np.pi
+            * np.dot(k_vector, m_vector_array[i, :])  # / cell_num  # CHECK THIS
         )
         # replace m_vector_array[i, :] with [0, m_vector_array[i, 1], 0] for 1D version (y component only)
 
@@ -371,5 +373,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT_channels_full2b.png")
+plt.savefig("correlation_func_FT_channels_short2.png")
 plt.show()
