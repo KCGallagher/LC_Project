@@ -19,9 +19,9 @@ import time
 start_time = time.time()
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 200  # only samples one in X files (must be integer)
+SAMPLING_FREQ = 50  # only samples one in X files (must be integer)
 
-POSITION_BIN_NUM = 64  # number of bins for position dependance pair-wise correlation
+POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
 CHANNEL_NUM = 4  # N number of channels in each direction of the x-z plane (N^2 total)
 # this should be order O(N^2/3), while POSITION_BIN_NUM should be 10 to 100 * O(N^1/3)

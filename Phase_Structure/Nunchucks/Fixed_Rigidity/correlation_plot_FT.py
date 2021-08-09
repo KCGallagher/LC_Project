@@ -20,9 +20,9 @@ start_time = time.time()
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 200  # only samples one in X files (must be integer)
 
-POSITION_BIN_NUM = 16  # number of bins for position dependance pair-wise correlation
+POSITION_BIN_NUM = 4  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
-CHANNEL_NUM = 16  # N number of channels in each direction of the x-z plane (N^2 total)
+CHANNEL_NUM = 4  # N number of channels in each direction of the x-z plane (N^2 total)
 # this should be order O(N^2/3), while POSITION_BIN_NUM should be 10 to 100 * O(N^1/3)
 
 # mol_length = 10  #uncomment on older datasets
@@ -381,5 +381,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_FT_channels_shortbc.png")
+# plt.savefig("correlation_func_FT_channels_shortbc.png")
 plt.show()

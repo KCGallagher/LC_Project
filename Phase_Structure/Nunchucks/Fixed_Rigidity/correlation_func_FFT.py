@@ -11,7 +11,7 @@ import matplotlib.cm as cm
 import seaborn as sns
 from scipy.ndimage import uniform_filter1d  # for rolling average
 from scipy.special import sph_harm
-from scipy.fft import fft
+from scipy.fft import fft, fftfreq, fftshift, ifft
 from phase_plot import vol_frac
 
 import time
@@ -19,7 +19,7 @@ import time
 start_time = time.time()
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
-SAMPLING_FREQ = 200  # only samples one in X files (must be integer)
+SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
 
 POSITION_BIN_NUM = 64  # number of bins for position dependance pair-wise correlation
 # For fast fourier transform (not implemented here), this is optimised if a power of 2
@@ -92,7 +92,7 @@ print(
 
 
 def find_angles(vec_array):
-    """Finds spherical angles of cartesian position. Returns theta and phi in N x 2 array
+    """Finds spherical angles of cartesian position. Returns theta and phi in two N x 1 arrays
     
     vec_array should be of size N x 3, for N angles (ie N particles)
     Choice of (normalised) base vector is arbitrary in order param formulation"""
@@ -106,11 +106,11 @@ def find_angles(vec_array):
 
 def rms_fourier_transform(sph_harm_array):
     """Computes the rms of the discrete FT of angle density
-    Input Nx1 array of spherical harmonics, per molecule for N molecules"""
+    Input Nx1 array of spherical harmonics, per molecule for N molecules
+    Returns array of fourier transform values at each of N frequencies"""
 
     ft_result = fft(sph_harm_array)
-
-    rms_result = np.mean(ft_result * np.conj(ft_result))
+    rms_result = np.multiply(ft_result, np.conj(ft_result))
     return rms_result
 
 
@@ -156,44 +156,66 @@ def correlation_func(pos_data, box_dim, cell_num, delta_m_list, order):
     directors = pos_data[:, 2, :] - pos_data[:, 0, :]
     theta_array, phi_array = find_angles(directors)
 
+    cell_dim = box_dim / cell_num
+
     # Calculate spherical harmonics, m vectors and channel indices immediately for all suborders to save time later
     sph_harm_array = np.full(
         (len(theta_array), (2 * order + 1)), np.nan
     )  # Nx5 array for order = 2
+    rms_ft_density_array = np.full_like(sph_harm_array, np.nan, dtype=np.complex)
+
     for sub_order in range(-order, order + 1):  # m = -l, -l+1, ..., l-1, l
         sub_order_index = sub_order + order  # from 0 to 2l inclusive
         sph_harm_array[:, sub_order_index] = np.squeeze(
             compute_spherical_harmonics(theta_array, phi_array, order, sub_order,)
         )
+        rms_ft_density_array[:, sub_order_index] = rms_fourier_transform(
+            sph_harm_array[:, sub_order_index]
+        )
+    rms_ft_density_sums = np.sum(rms_ft_density_array, axis=1)  # sum over suborders
+
+    freq_components = fftfreq(sph_harm_array[:, sub_order + order].size, cell_dim[1])
+    end_index = len(freq_components)
+    pos_freq_components = freq_components[
+        1 : int((end_index / 2) - 1)
+    ]  # positive, non-zero freq components only
 
     for i, delta_m in enumerate(delta_m_list):
         delta_m_vector = np.array([0, delta_m, 0])
         outer_sum_tot = 0
 
-        for delta_m_value in delta_m_list:
+        for f_index, freq in enumerate(pos_freq_components):
             # sum over k wavevectors, given by inverse of delta_m values
-            inner_sum_tot = 0
+            k_vector = np.array([0, freq, 0])  # again aligned along y axes
 
-            centred_m_value = delta_m_value + 1 / 2
-            # this gives vector to centre of cell, not corner, and avoids /0 in next line
-            k_value = (2 * np.pi / cell_num) * np.reciprocal(centred_m_value)
-            k_vector = np.array([0, k_value, 0])  # again aligned along y axes
-
-            for sub_order in range(-order, order + 1):  # m = -l, -l+1, ..., l-1, l
-
-                rms_ft_density = rms_fourier_transform(
-                    sph_harm_array[:, sub_order + order]
-                )
-                inner_sum_tot += rms_ft_density
+            rms_ft_density = rms_ft_density_sums[f_index]
 
             outer_sum_tot += (
                 ((4 * np.pi) / (2 * order + 1))
-                * (inner_sum_tot)
-                * np.exp(-2j * np.pi * np.dot(k_vector, delta_m_vector) / cell_num)
+                * (rms_ft_density)
+                * np.exp(
+                    -2j
+                    * np.pi
+                    * np.dot(
+                        k_vector, delta_m_vector
+                    )  # trivial as both aligned along y axis
+                    # / cell_num
+                )
             )
 
-        correlation_data[i] = outer_sum_tot  # / (cell_num)  # only power of -1 as 1D FT
-    return np.real(correlation_data)
+        correlation_data[i] = (
+            outer_sum_tot / f_index
+        )  # i.e. divide by total number of freq comp.
+
+    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
+    distance_list = delta_m_list * cell_dim[1]
+
+    if False:  # for automatic ifft
+        distance_list = np.linspace(
+            0, box_dimensions[1], 1000, endpoint=False
+        )  # plotting testing
+        correlation_data = ((4 * np.pi) / (2 * order + 1)) * ifft(rms_ft_density_sums)
+    return distance_list, np.real(correlation_data)  # / cell_num
 
 
 # READ MOLECULE POSITIONS
@@ -259,10 +281,8 @@ for i, file_time in enumerate(time_range):  # interate over dump files
 
     # delta_m_list = np.linspace(0, box_dimensions[1], POSITION_BIN_NUM, endpoint=False)
     delta_m_list = np.linspace(0, POSITION_BIN_NUM, endpoint=False)
-    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
-    y_step = box_dimensions[1] / POSITION_BIN_NUM
 
-    correlation_data = correlation_func(
+    plotting_distance_list, correlation_data = correlation_func(
         rod_positions,
         np.array(box_dimensions),
         POSITION_BIN_NUM,
@@ -275,14 +295,14 @@ for i, file_time in enumerate(time_range):  # interate over dump files
     if i == 0:
         continue  # don't plot this case
     plt.plot(
-        delta_m_list * y_step, correlation_data, color=colors[i],
+        plotting_distance_list, correlation_data, color=colors[i],
     )
     if max(correlation_data) > max_value:
         max_value = max(correlation_data)
     print("T = " + str(file_time) + "/" + str(run_time))
 
 end_time = time.time()
-print("Total time: " + str(end_time - start_time) + " seconds")
+print("Total time: " + str(round(end_time - start_time, 2)) + " seconds")
 
 sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
 cbar = plt.colorbar(sm)
@@ -291,5 +311,5 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Max_Value = " + str(round(max_value, 2)))
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("test_image_fft_M" + str(POSITION_BIN_NUM) + "_N1c.png")
+plt.savefig("test_image_fft_M" + str(POSITION_BIN_NUM) + "_N1_long.png")
 plt.show()
