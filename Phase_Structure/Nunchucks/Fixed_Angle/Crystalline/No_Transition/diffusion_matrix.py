@@ -21,7 +21,7 @@ FILE_ROOT = (
 )
 
 USE_CARTESIAN_BASIS = False
-USE_MANUAL_BASIS = False  # Primarily for testing, can set basis manually
+USE_MANUAL_BASIS = True  # Primarily for testing, can set basis manually
 USE_AVERAGE_BASIS = False
 # Avarage vectors used for system basis, otherwise final disp used
 
@@ -273,6 +273,7 @@ for i, time in enumerate(time_range):  # interate over dump files
 # GENERATE DIFFUSION PLOTS
 
 plot_list = range(1, run_num_tot, 1)  # runs to plot (inc step if too many runs)
+plot_list = [2, 3, 5, 6]
 sampled_vol_frac = vol_frac(sampled_vol_values, mol_length, N_molecules)
 
 fig, axs = plt.subplots(nrows=1, ncols=len(plot_list), sharey=True, figsize=(10, 5))
@@ -309,8 +310,8 @@ for plot_index, data_index in enumerate(plot_list):
 
     if USE_MANUAL_BASIS:
         # SET BASIS MANUALLY
-        vec_basis = np.array([[0, 1, 0], [0.4, 0, 0.9], [0.9, 0, 0.4]])
-        axis_labels = ["Director", "Bisector", "Normal"]
+        vec_basis = np.array([[0.2, 0, 0.9], [0, 1, 0], [0.9, 0, -0.2]])
+        axis_labels = ["Bisector", "Director", "Normal"]
 
     vec_basis = vec_basis / np.linalg.norm(vec_basis, axis=1)[:, np.newaxis]
     print(vec_basis)
@@ -322,22 +323,24 @@ for plot_index, data_index in enumerate(plot_list):
 
     #   PLOTTING
 
-    axs[plot_index].set_title(
-        r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
-    )
+    # axs[plot_index].set_title(
+    #     r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
+    # )
 
     plot_times = eq_time_values[1:-1]
     plot_data = np.abs(rms_disp_proj[1:-1, :])
     # remove end values as nan at end and zero at start, so log10 gives errors here
 
-    colours = ["r", "g", "b"]
+    # colours = ["r", "g", "b"]
     colours_fit = ["m", "y", "c"]  # for plotting best fit lines
+    linestyles = ["dotted", "solid", "dashed"]
     for j in range(3):
         axs[plot_index].loglog(
             plot_times,
-            plot_data[:, j],
+            uniform_filter1d(plot_data[:, j], size=int(3)),
             label=label_maker(axis_labels[j], plot_index),
-            color=colours[j],
+            # color=colours[j],
+            linestyle=linestyles[j],
         )
 
         if PLOT_BEST_FIT:
@@ -365,11 +368,11 @@ for plot_index, data_index in enumerate(plot_list):
 # gca = "get current axis"
 ax = plt.gca()
 # ax.get_ylim() returns a tuple of (lower ylim, upper ylim)
-ax.set_ylim((0.01, None))
+ax.set_ylim((0.04, None))
 
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_matrix_sys2.png")
+plt.savefig("rms_displacement_runwise_man_paper2b.svg")
 plt.show()
 

@@ -388,9 +388,15 @@ for plot_index, data_index in enumerate(plot_list):
     # rms_disp has values for all timesteps in sample. so apply the same dot operation to all vectors
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
-            axs[plot_index].loglog(eq_range, plot_data[:, j], label=axis_labels[j])
+            axs[plot_index].loglog(
+                eq_range,
+                uniform_filter1d(plot_data[:, j], size=int(4)),
+                label=axis_labels[j],
+            )
         else:
-            axs[plot_index].loglog(eq_range, plot_data[:, j])
+            axs[plot_index].loglog(
+                eq_range, uniform_filter1d(plot_data[:, j], size=int(4))
+            )
 
     if plot_best_fit:
         axs[plot_index].plot(

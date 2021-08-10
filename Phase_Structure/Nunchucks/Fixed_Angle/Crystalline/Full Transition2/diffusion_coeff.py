@@ -290,7 +290,7 @@ for plot_index, data_index in enumerate(plot_list):
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(
-                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j],
             )
             if plot_best_fit == True and j == 2:  # only needs to be plotted once
                 axs[plot_index].plot(
@@ -329,14 +329,19 @@ fig.legend(loc="center right")
 plt.savefig("rms_displacement_runwise2.png")
 plt.show()
 
+marker_style = ["x", "1", "+"]
 for i in range(dimension_num):
     plt.plot(
-        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
+        sampled_vol_frac,
+        sampled_D_values[:, i],
+        "x",
+        label=axis_labels[i],
+        marker=marker_style[i],
     )
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
-# plt.savefig("order_vs_diffusion_with_bc.png")
+plt.savefig("order_vs_diffusion_with_bc.svg")
 plt.show()
 
 print("Volume fraction = " + str(sampled_vol_frac))

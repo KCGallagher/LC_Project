@@ -8,7 +8,7 @@ sampling_freq = 1  # only samples one in X files (must be integer)
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
-CRYSTALLINE_FLAG = False  # For when the system director is known
+CRYSTALLINE_FLAG = True  # For when the system director is known
 
 # READ PARAMETER VALUES FROM LOG FILE
 
@@ -98,9 +98,7 @@ def order_param(data, summed_ave_director, summed_ave_bisector):
     )  # reshape allows broadcasting
 
     if CRYSTALLINE_FLAG:  # for known director - y axis in crystalline case
-        system_director = np.array(
-            [0.41404765, 0.03287738, 0.90585189]
-        )  # can be ave bisector, must be normalised
+        system_director = np.array([0, 1, 0])  # can be ave bisector, must be normalised
         cosine_values = np.dot(norm_bisectors, system_director)
 
         mean_director = np.mean(norm_directors, axis=0)

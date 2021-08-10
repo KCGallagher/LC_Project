@@ -296,7 +296,7 @@ for plot_index, data_index in enumerate(plot_list):
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
 fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_bf2.eps")
+plt.savefig("rms_displacement_runwise_bf2.png")
 plt.show()
 
 markers = ["x", "1", "+"]
@@ -307,6 +307,6 @@ for i in range(dimension_num):
 plt.ylabel(r"Diffusion Coefficient ($D_{i}$)")
 plt.xlabel(r"Volume Fraction ($\phi$)")
 plt.legend()
-plt.savefig("order_vs_diffusion_with_bc.eps")
+plt.savefig("order_vs_diffusion_with_bc.svg")
 plt.show()
 
