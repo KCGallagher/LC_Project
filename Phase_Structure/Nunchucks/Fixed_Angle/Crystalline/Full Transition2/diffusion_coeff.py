@@ -336,7 +336,7 @@ for i in range(dimension_num):
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
 plt.legend()
-plt.savefig("order_vs_diffusion_with_bc.png")
+# plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
 
 print("Volume fraction = " + str(sampled_vol_frac))

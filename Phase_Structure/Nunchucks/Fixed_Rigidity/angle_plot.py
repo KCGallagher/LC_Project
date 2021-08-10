@@ -6,7 +6,7 @@ from scipy.ndimage import uniform_filter1d  # for rolling average
 from phase_plot import vol_frac
 
 file_root = "output_T_0.5_time_"
-sampling_freq = 40  # only samples one in X files (must be integer) #30
+sampling_freq = 60  # only samples one in X files (must be integer) #30
 plotting_freq = 1  # only plots on in X of the sampled distributions
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -68,6 +68,9 @@ log_file.close()
 tot_mix_time = sum(mix_steps_values)
 run_time = tot_mix_time + run_num * equilibrium_time
 time_range = range(0, int(run_time), int(dump_interval * sampling_freq))
+time_range = range(
+    int(run_time), 0, int(dump_interval * sampling_freq * -1)
+)  # reversed order
 print(
     "N_molecules, run_time, dump_interval = "
     + str((N_molecules, run_time, dump_interval))
@@ -177,7 +180,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    angle_data = angle_dist(rod_positions)
+    angle_data = angle_dist(rod_positions, remove_split_mol=True)
     angle_mean_values[i] = np.mean(angle_data)  # evaluate order param at time t
 
     angle_data = np.where(
@@ -185,28 +188,34 @@ for i, time in enumerate(time_range):  # interate over dump files
     )  # remove spurious high values
 
     tot_plot_num = len(time_range) // plotting_freq
-    colors = plt.cm.viridis(np.linspace(0, 1, tot_plot_num))
+    colors = plt.cm.gnuplot(np.linspace(0, 1, tot_plot_num))
     if i % plotting_freq == 0 and time != 0:
-        print(time)
         sns.kdeplot(
-            angle_data,
-            color=colors[i // plotting_freq - 1],
+            np.arccos(angle_data) * (180 / np.pi),
+            color=colors[i // plotting_freq],  # -1 for normal order plotting
             bw_adjust=0.1,  # adjusts smoothing (default is 1)
-            # gridsize=50,
+            # gridsize=5000,
             alpha=1,  # adjusts transparency
         )
 
-    print("T = " + str(time) + "/" + str(run_time))
+    print(
+        "T = "
+        + str(time)
+        + "/"
+        + str(run_time)
+        + ", Mean = "
+        + str(np.nanmean(angle_data))
+    )
 
-sm = plt.cm.ScalarMappable(cmap=cm.viridis, norm=plt.Normalize(vmin=0, vmax=run_time))
+sm = plt.cm.ScalarMappable(cmap=cm.gnuplot_r, norm=plt.Normalize(vmin=0, vmax=run_time))
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
 # plt.title("Evolution of angle distribution")
-plt.xlim([-1, 1])
-plt.xlabel(r"Nunchuck Angle ($cos(\theta)$)")
+plt.xlim([60, 180])
+plt.xlabel(r"Nunchuck Angle ($\theta$)")
 plt.ylabel("Normalised Frequency")
-plt.savefig("nun_fr_angledist.eps")
+plt.savefig("nun_fr_angledist.svg")
 plt.show()
 
 plt.plot(time_range, angle_mean_values)
