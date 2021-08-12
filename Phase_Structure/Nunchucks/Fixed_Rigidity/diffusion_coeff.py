@@ -9,6 +9,9 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 DIRECTIONAL_COEFF = True
+REPEAT_CORRECTION = (
+    False  # if you have repeated samples at the same volume fracion (no shrinking step)
+)
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -245,6 +248,15 @@ for i, time in enumerate(time_range):  # interate over dump files
             run_num += 1
             equilibrium_flag = False
 
+        if time == sampling_times[indices[0] + 1, 0] and REPEAT_CORRECTION:
+            # The next sample starts as this one ends (ie due to zero shrinking time)
+            initial_sample = com_positions
+            sampled_vol_values[indices[0]] = box_volume
+            extra_displacement = np.zeros_like(com_positions)  # reset for each sample
+
+            run_origin = i  # so ongoing measurement starts from zero each time
+            equilibrium_flag = True
+
     previous_positions = com_positions
     # print("T = " + str(time) + "/" + str(run_time))
 
@@ -270,31 +282,58 @@ for plot_index, data_index in enumerate(plot_list):
     eq_time_values = np.array(eq_range)
     eq_time_values[0] = eq_time_values[1]  # remove zero so log can be evaluated
 
-    slope, intercept, r_value, p_value, std_err = linregress(
+    slope_x, intercept_x, r_value_x, p_value_x, std_err_x = linregress(
         np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 0])
     )  # consider x axis for purpose of this
-    plot_best_fit = True
+    slope_y, intercept_y, r_value_y, p_value_y, std_err_y = linregress(
+        np.log10(eq_time_values), np.log10(rms_disp_values[data_index, :, 1])
+    )  # consider x axis for purpose of this
+
+    plot_best_fit = False
 
     print(
-        "For vol frac = " + "{:.6f}".format(sampled_vol_frac[data_index]) + ", slope = "
-        "{:.4f}".format(slope) + ", error = " + "{:.6f}".format(std_err)
-    )  # can add this onto graph with plt.annotate if desired
+        "X: For vol frac = "
+        + "{:.2f}".format(sampled_vol_frac[data_index])
+        + ", x_slope = "
+        + "{:.2f}".format(slope_x)
+        + ", y_slope = "
+        + "{:.2f}".format(slope_y)
+        + ", intercept ratio = "
+        + "{:.2f}".format(10 ** intercept_x / 10 ** intercept_y)
+    )
 
     for j in range(dimension_num):
         if plot_index == 0:  # for legend
             axs[plot_index].loglog(
-                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j]
+                eq_range, rms_disp_values[data_index, :, j], label=axis_labels[j],
             )
-        else:
+            if plot_best_fit == True and j == 2:  # only needs to be plotted once
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_x) * (10 ** intercept_x),
+                    label="Best fit (x)",
+                    linestyle="dashed",
+                )
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_y) * (10 ** intercept_y),
+                    label="Best fit (y)",
+                    linestyle="dashed",
+                )
+        else:  # no legend entries
             axs[plot_index].loglog(eq_range, rms_disp_values[data_index, :, j])
 
-    if plot_best_fit == True:
-        axs[plot_index].plot(
-            eq_time_values,
-            (eq_time_values ** slope) * (10 ** intercept),
-            label="Best fit",
-            linestyle="dashed",
-        )
+            if plot_best_fit == True and j == 2:
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_x) * (10 ** intercept_x),
+                    linestyle="dashed",
+                )
+                axs[plot_index].plot(
+                    eq_time_values,
+                    (eq_time_values ** slope_y) * (10 ** intercept_y),
+                    linestyle="dashed",
+                )
 
 axs[int(len(plot_list) / 2)].set_xlabel(
     "Time (Arbitrary Units)"
@@ -304,9 +343,14 @@ fig.legend(loc="center right")
 plt.savefig("rms_displacement_runwise2.png")
 plt.show()
 
+marker_style = ["x", "1", "+"]
 for i in range(dimension_num):
     plt.plot(
-        sampled_vol_frac, sampled_D_values[:, i], "x", label=axis_labels[i],
+        sampled_vol_frac,
+        sampled_D_values[:, i],
+        "x",
+        label=axis_labels[i],
+        marker=marker_style[i],
     )
 plt.ylabel("Diffusion Coefficient")
 plt.xlabel("Volume Fraction")
@@ -314,3 +358,5 @@ plt.legend()
 plt.savefig("order_vs_diffusion_with_bc.png")
 plt.show()
 
+print("Volume fraction = " + str(sampled_vol_frac))
+print("D_x/D_y = " + str(sampled_D_values[:, 0] / sampled_D_values[:, 1]))
