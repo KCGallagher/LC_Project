@@ -21,11 +21,14 @@ FILE_ROOT = (
 )
 
 USE_CARTESIAN_BASIS = False
-USE_MANUAL_BASIS = False  # Primarily for testing, can set basis manually
-USE_AVERAGE_BASIS = True
+USE_MANUAL_BASIS = True  # Primarily for testing, can set basis manually
+USE_AVERAGE_BASIS = False
 # Avarage vectors used for system basis, otherwise final disp used
 
 PLOT_BEST_FIT = False
+REPEAT_CORRECTION = (
+    True  # if you have repeated samples at the same volume fracion (no shrinking step)
+)
 
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -113,7 +116,7 @@ for i in range(len(mix_steps_values)):
     sampling_times[i, 0] = time_counter
     time_counter += equilibrium_time
     sampling_times[i, 1] = time_counter
-print("Sampling Times: " + str(sampling_times))
+# print("Sampling Times: " + str(sampling_times))
 
 assert time_counter == run_time, "Unexpected result in sampling times"
 
@@ -263,6 +266,17 @@ for i, time in enumerate(time_range):  # interate over dump files
             run_num += 1
             equilibrium_flag = False
 
+            if time == sampling_times[indices[0] + 1, 0] and REPEAT_CORRECTION:
+                # The next sample starts as this one ends (ie due to zero shrinking time)
+                initial_sample = com_positions
+                sampled_vol_values[indices[0]] = box_volume
+                extra_displacement = np.zeros_like(
+                    com_positions
+                )  # reset for each sample
+
+                run_origin = i  # so ongoing measurement starts from zero each time
+                equilibrium_flag = True
+
     if equilibrium_flag:  # MEASURE ONGOING RMS DISPLACEMENT
         position_vector = rms_displacement(
             com_positions + extra_displacement,  # takes current values
@@ -290,8 +304,7 @@ for plot_index, data_index in enumerate(plot_list):
     # only need a 3x1 vector for each time point in each sample, not a 3x3 matrix
 
     #   MATRIX DIAGONALISATION
-    final_displacement = rms_disp_values[data_index, -2, :, :]
-    print(final_displacement)
+    final_displacement = rms_disp_values[data_index, -3, :, :]
     # penultimate array used as final array is nans
     eigen_val, vec_basis = np.linalg.eig(final_displacement)
 
@@ -314,11 +327,11 @@ for plot_index, data_index in enumerate(plot_list):
 
     if USE_MANUAL_BASIS:
         # SET BASIS MANUALLY
-        vec_basis = np.array([[0, 1, 0], [0.7, 0, 0.7], [0.7, 0, -0.7]])
-        axis_labels = ["Director", "Bisector", "Normal"]
+        vec_basis = np.array([[0.3, 0, 0.9], [0, 1, 0], [0.9, 0, -0.3]])
+        axis_labels = ["Bisector", "Director", "Normal"]
 
     vec_basis = vec_basis / np.linalg.norm(vec_basis, axis=1)[:, np.newaxis]
-    print(vec_basis)
+    print("Vector Basis: " + str(vec_basis))
 
     for i in range(len(eq_range)):
         rms_disp_proj[i, :] = np.matmul(
@@ -326,7 +339,10 @@ for plot_index, data_index in enumerate(plot_list):
         )
 
     #   PLOTTING
-
+    if np.isnan(
+        sampled_vol_frac[data_index]
+    ):  # yep its a fudge but this is correct in this case
+        sampled_vol_frac[data_index] = sampled_vol_frac[data_index - 1]
     axs[plot_index].set_title(
         r"$\phi =$" + "{:.2f}".format(sampled_vol_frac[data_index])
     )
@@ -337,12 +353,14 @@ for plot_index, data_index in enumerate(plot_list):
 
     colours = ["r", "g", "b"]
     colours_fit = ["m", "y", "c"]  # for plotting best fit lines
+    linestyles = ["dotted", "solid", "dashed"]
     for j in range(3):
         axs[plot_index].loglog(
             plot_times,
             plot_data[:, j],
             label=label_maker(axis_labels[j], plot_index),
-            color=colours[j],
+            # color=colours[j],
+            linestyle=linestyles[j],
         )
 
         if PLOT_BEST_FIT:
@@ -374,7 +392,7 @@ ax.set_ylim((0.01, None))
 
 axs[int(len(plot_list) / 2)].set_xlabel("Time Step")  # use median of plot_list
 axs[0].set_ylabel(r"RMS Displacement ($\langle x_{i}\rangle^{2}$)")
-fig.legend(loc="center right")
-plt.savefig("rms_displacement_runwise_matrix_sys_ave.png")
+# fig.legend(loc="center right")
+plt.savefig("rms_displacement_runwise_matrix_man3.svg")
 plt.show()
 

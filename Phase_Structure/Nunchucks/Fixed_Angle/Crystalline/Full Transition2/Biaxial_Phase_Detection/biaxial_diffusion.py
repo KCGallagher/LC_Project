@@ -207,21 +207,21 @@ else:
 volume_values = np.full(len(time_range), np.nan)  # new array of NaN
 
 # for ongoing measurements:
-rms_disp_values = np.full((run_num_tot, len(eq_range), dimension_num), np.nan)
+rms_disp_values = np.full((run_num_tot + 1, len(eq_range), dimension_num), np.nan)
 time_origin = 0
 run_num = 0
 
 # for sampled measurements:
-sampled_D_values = np.full((len(mix_steps_values), dimension_num), np.nan)
-sampled_vol_values = np.full(len(mix_steps_values), np.nan)
+sampled_D_values = np.full((len(mix_steps_values) + 1, dimension_num), np.nan)
+sampled_vol_values = np.full(len(mix_steps_values) + 1, np.nan)
 equilibrium_flag = False  # denotes whether system is currently in an equillibrium run
 
 extra_displacement = np.zeros((N_molecules, 3))
 # additional values to account for crossing the boundaries of the box
 
-director_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
-bisector_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
-normal_vectors = np.full((len(mix_steps_values) - 1, 3), np.nan)
+director_vectors = np.full((len(mix_steps_values) + 1, 3), np.nan)
+bisector_vectors = np.full((len(mix_steps_values) + 1, 3), np.nan)
+normal_vectors = np.full((len(mix_steps_values) + 1, 3), np.nan)
 
 for i, time in enumerate(time_range):  # interate over dump files
     data_file = open(FILE_ROOT + str(time) + ".dump", "r")
@@ -406,7 +406,11 @@ fig.legend(loc="center right")
 plt.savefig("rms_displacement_runwise_sys.png")
 plt.show()
 
-print("Mean Director: " + str(np.mean(director_vectors, axis=0)))
-print("Mean Bisector: " + str(np.mean(bisector_vectors, axis=0)))
-print("Mean Normal : " + str(np.mean(normal_vectors, axis=0)))
+mean_director = np.nanmean(director_vectors, axis=0)
+mean_bisector = np.nanmean(bisector_vectors, axis=0)
+mean_normal = np.nanmean(normal_vectors, axis=0)
+
+print("Mean Director: " + str(mean_director / np.linalg.norm(mean_director)))
+print("Mean Bisector: " + str(mean_bisector / np.linalg.norm(mean_bisector)))
+print("Mean Normal : " + str(mean_normal / np.linalg.norm(mean_normal)))
 
