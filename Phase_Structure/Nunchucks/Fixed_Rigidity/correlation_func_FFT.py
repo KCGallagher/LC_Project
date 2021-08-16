@@ -196,12 +196,11 @@ def correlation_func(pos_data, box_dim, cell_num, channel_num, delta_m_list, ord
         m_vector = pos // cell_dim  # integer steps from corner (origin) of region
         m_vector = m_vector.astype(int)
         # This also acts as index for relevant cell in p(m)
-        # print(pos, box_dim)
         try:
-            sph_density_array[
-                m_vector[0], m_vector[1], m_vector[2], :
-            ] += sph_harm_array[index, :]
-            # sph_density_array[tuple(m_vector.astype(int))] += sph_harm_array[index, :]
+            # sph_density_array[
+            #     m_vector[0], m_vector[1], m_vector[2], :
+            # ] += sph_harm_array[index, :] # explicit version of subsequent line
+            sph_density_array[tuple(m_vector.astype(int))] += sph_harm_array[index, :]
         except IndexError:
             problem_identified = False
             for i in range(3):
@@ -216,10 +215,9 @@ def correlation_func(pos_data, box_dim, cell_num, channel_num, delta_m_list, ord
                     m_vector = pos // cell_dim  # redo previous calculations
                     m_vector = m_vector.astype(int)
 
-                    sph_density_array[
-                        m_vector[0], m_vector[1], m_vector[2], :
-                    ] += sph_harm_array[index, :]
-                    # sph_density_array[tuple(m_vector.astype(int))] += sph_harm_array[index, :]
+                    sph_density_array[tuple(m_vector.astype(int))] += sph_harm_array[
+                        index, :
+                    ]
             if not problem_identified:
                 raise  # I.e. error was not due to this suspected floating point issue
 
@@ -243,28 +241,19 @@ def correlation_func(pos_data, box_dim, cell_num, channel_num, delta_m_list, ord
     ]  # positive, non-zero freq components only
 
     for i, delta_m in enumerate(delta_m_list):
-        delta_m_vector = np.array([0, delta_m, 0])
         outer_sum_tot = 0
 
         for f_index, freq in enumerate(pos_freq_components):
-            # sum over k wavevectors, given by inverse of delta_m values
-            k_vector = np.array([0, freq, 0])  # again aligned along y axes
+            # sum over k wavevectors (defined along y axis), given by inverse of delta_m values
 
             rms_ft_density = rms_ft_density_sums[f_index]
 
             outer_sum_tot += (
                 ((4 * np.pi) / (2 * order + 1))
                 * (rms_ft_density)
-                * np.exp(
-                    -2j
-                    * np.pi
-                    * np.dot(
-                        k_vector, delta_m_vector
-                    )  # trivial as both aligned along y axis
-                    / cell_num
-                )
+                * np.exp(-2j * np.pi * freq * delta_m / cell_num)
             )
-        # print(cell_num, len(pos_freq_components)) # same number of cell_num as tot freq components
+
         correlation_data[i] = outer_sum_tot / len(
             pos_freq_components
         )  # i.e. divide by total number of freq comp.
@@ -344,8 +333,7 @@ for i, file_time in enumerate(time_range):  # interate over dump files
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
 
-    # delta_m_list = np.linspace(0, POSITION_BIN_NUM, endpoint=False)
-    delta_m_list = np.arange(0, POSITION_BIN_NUM)
+    delta_m_list = np.arange(0, POSITION_BIN_NUM)  # increase in integer steps
 
     plotting_distance_list, correlation_data = correlation_func(
         rod_positions,
