@@ -28,6 +28,8 @@ CHANNEL_NUM = (
 )
 # this should be order O(N^2/3) = 128, while POSITION_BIN_NUM should be 10 to 100 * O(N^1/3) = 512
 
+USE_MANUAL_IFFT = True
+
 # mol_length = 10  #uncomment on older datasets
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
@@ -127,9 +129,9 @@ def rms_fourier_transform(sph_harm_array):
         )  # find magnitude squared
         summed_fourier_components += ms_channel
 
-    mean_fourier_components = summed_fourier_components / (
-        input_array_shape[0] * input_array_shape[2]
-    )
+    # mean_fourier_components = summed_fourier_components / (
+    #     input_array_shape[0] * input_array_shape[2]
+    # ) # Unused as I don't believe this has the correct normalisation
     return summed_fourier_components  # no need for mean?
 
 
@@ -232,40 +234,34 @@ def correlation_func(pos_data, box_dim, cell_num, channel_num, delta_m_list, ord
         )
     rms_ft_density_sums = np.sum(rms_ft_density_array, axis=1)  # sum over suborders
 
-    freq_components = fftfreq(
-        rms_ft_density_array[:, sub_order_index].size, cell_dim[1]
-    )
-    end_index = len(freq_components)
-    pos_freq_components = freq_components[
-        1 : int((end_index + 1) / 2)
-    ]  # positive, non-zero freq components only
+    # Manual implementation of Inverse Fourier transform
+    if USE_MANUAL_IFFT:
+        for i, delta_m in enumerate(delta_m_list):
+            outer_sum_tot = 0
+            for m_k in range(cell_num):
+                # m_k is index of cell in fourier space, increasing in integer steps
+                rms_ft_density = rms_ft_density_sums[m_k]
 
-    for i, delta_m in enumerate(delta_m_list):
-        outer_sum_tot = 0
+                outer_sum_tot += (
+                    ((4 * np.pi) / (2 * order + 1))
+                    * (rms_ft_density)
+                    * np.exp(-2j * np.pi * m_k * delta_m / cell_num)
+                )
 
-        for f_index, freq in enumerate(pos_freq_components):
-            # sum over k wavevectors (defined along y axis), given by inverse of delta_m values
+            correlation_data[i] = (
+                outer_sum_tot / cell_num
+            )  # i.e. divide by total number of freq comp.
+        distance_list = (
+            delta_m_list * cell_dim[1]
+        )  # Taking displacement along the y axis only
 
-            rms_ft_density = rms_ft_density_sums[f_index]
-
-            outer_sum_tot += (
-                ((4 * np.pi) / (2 * order + 1))
-                * (rms_ft_density)
-                * np.exp(-2j * np.pi * freq * delta_m / cell_num)
-            )
-
-        correlation_data[i] = outer_sum_tot / len(
-            pos_freq_components
-        )  # i.e. divide by total number of freq comp.
-
-    # USE DISPLACEMENTS ALOG Y AXIS ONLY FOR THIS
-    distance_list = delta_m_list * cell_dim[1]
-
-    if False:  # for automatic ifft
+    else:  # For automatic ifft
         distance_list = np.linspace(
             0, box_dimensions[1], cell_num, endpoint=False
         )  # plotting testing
-        correlation_data = ((4 * np.pi) / (2 * order + 1)) * ifft(rms_ft_density_sums)
+        correlation_data = ((4 * np.pi) / (2 * order + 1)) * (ifft(rms_ft_density_sums))
+        # no fftshift here, as peak should be at zero freq
+
     return (
         distance_list,
         np.real(correlation_data) / len(theta_array),
@@ -365,7 +361,7 @@ cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 plt.title("Max_Value = " + str(round(max_value, 2)))
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig(
-    "test_image_fft2_M" + str(POSITION_BIN_NUM) + "_H" + str(CHANNEL_NUM) + "norm.png"
-)
+# plt.savefig(
+#     "test_image_fft2_M" + str(POSITION_BIN_NUM) + "_H" + str(CHANNEL_NUM) + "norm.png"
+# )
 plt.show()
