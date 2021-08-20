@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  27 JUL 2021 14:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7300 64-bit) (preloaded format=pdflatex 2020.2.13)  20 AUG 2021 14:41
 entering extended mode
 **./ProjectReport_edited.tex
 (ProjectReport_edited.tex
@@ -1754,7 +1754,7 @@ df>
 (epstopdf)                    size: 16758 bytes
 (epstopdf)             Command: <epstopdf --outfile=Figures/nun_diff_Dcoeff-eps
 -converted-to.pdf Figures/nun_diff_Dcoeff.eps>
-(epstopdf)             \includegraphics on input line 399.
+(epstopdf)             \includegraphics on input line 398.
 Package epstopdf Info: Output file is already uptodate.
 
 
@@ -1765,11 +1765,11 @@ df): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
 File: Figures/nun_diff_Dcoeff-eps-converted-to.pdf Graphic file (type pdf)
 <use Figures/nun_diff_Dcoeff-eps-converted-to.pdf>
 Package pdftex.def Info: Figures/nun_diff_Dcoeff-eps-converted-to.pdf  used on 
-input line 399.
+input line 398.
 (pdftex.def)             Requested size: 338.58632pt x 254.12389pt.
 [14 <./Figures/nun_diff_rmsplots-eps-converted-to.pdf>] [15 <./Figures/nun_diff
 _Dcoeff-eps-converted-to.pdf>] [16]
-Overfull \hbox (9.32146pt too wide) in paragraph at lines 425--425
+Overfull \hbox (9.32146pt too wide) in paragraph at lines 424--424
 []\T1/XCharter-TLF/m/n/10.95 (-20) H. Zi-m-mer-mann, R. Poupko, Z. Luz and J. B
 il-lard, `  Pyr-amidic meso-phases', Zeits-chrift für Naturforschung
  []
@@ -1780,7 +1780,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [19]
-Overfull \hbox (11.4783pt too wide) in paragraph at lines 425--425
+Overfull \hbox (11.4783pt too wide) in paragraph at lines 424--424
 []\T1/XCharter-TLF/m/n/10.95 (-20) J. W. Doane, R. S. Parker, B. Cvikl, D. L. J
 ohn-son and D. L. Fishel, `  Pos-sible second-order nematicsmectic-
  []
@@ -1795,7 +1795,7 @@ Package logreq Info: Writing requests to 'ProjectReport_edited.run.xml'.
 Here is how much of TeX's memory you used:
  21541 strings out of 481565
  417648 string characters out of 2914627
- 1085249 words of memory out of 3000000
+ 1085251 words of memory out of 3000000
  36109 multiletter control sequences out of 15000+200000
  734684 words of font info for 296 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1829,7 +1829,7 @@ msfonts/cm/cmsy10.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
 pe1/public/amsfonts/cm/cmsy8.pfb><C:/Users/KitG/AppData/Local/Programs/MiKTeX 2
 .9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/KitG/AppData/Local/Programs/Mi
 KTeX 2.9/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on ProjectReport_edited.pdf (26 pages, 2701737 bytes).
+Output written on ProjectReport_edited.pdf (26 pages, 2701697 bytes).
 PDF statistics:
  530 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
