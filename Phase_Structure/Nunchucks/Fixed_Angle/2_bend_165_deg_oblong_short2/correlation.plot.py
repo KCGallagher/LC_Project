@@ -1,5 +1,3 @@
-"""Additional approaches to calcuating the pair-wise orientational order correlation function, using different director vectors"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
@@ -9,12 +7,7 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
-
-DIRECTOR_METHOD = "molecule"
-# Options are molecule/arm/bisector/normal
-
-# mol_length = 10  #uncomment on older datasets
+SEPARATION_BIN_NUM = 20  # number of bins for radius dependance pair-wise correlation
 
 plt.rcParams.update({"font.size": 13})  # for figures to go into latex at halfwidth
 
@@ -82,37 +75,6 @@ print(
 
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
-def find_director(data, method="molecule"):
-    """Obtains director from molecule positions, through a variety of methods
-    
-    First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
-    Third index gives the component of the position (x,y,z)
-
-    'molecule' calculates director between ends of the molecule; 
-    'arm' calculates director along first arm of molecule; 
-    'bisector' gives the director along the bisector of the join angle; 
-    'normal' gives the bisector out of the plane of the molecule
-    """
-
-    if method == "molecule":
-        return data[:, 2, :] - data[:, 0, :]
-
-    elif method == "arm":
-        return data[:, 1, :] - data[:, 0, :]
-
-    elif method == "bisector":
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        return data[:, 1, :] - midpoints
-
-    elif method == "normal":
-        arm1 = data[:, 1, :] - data[:, 0, :]
-        arm2 = data[:, 2, :] - data[:, 1, :]
-        return np.cross(arm1, arm2)
-
-    else:
-        raise ValueError("Unknown argument to find_director()")
 
 
 def find_angle(vec1, vec2):
@@ -141,12 +103,11 @@ def find_separation(pos1, pos2, box_dim):
 
 
 def eval_angle_array(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
+    """Input data in array of size Molecule Number x 3 x 3
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
+    Second index gives particle number within molecule (first/last)
     Third index gives the component of the position (x,y,z)
 
     Outputs N x N x 2 array, for pairwise values of separation and angle
@@ -155,15 +116,12 @@ def eval_angle_array(data, box_dim):
     angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
     # dtype specified to reduce storgae required
 
-    director = find_director(
-        data, method=DIRECTOR_METHOD
-    )  # director vector for whole of molecule
+    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
 
     for i in range(N_molecules - 1):
         for j in range(i + 1, N_molecules):
             # Only considering terms of symmetric matrix above diagonal
             # Separation between centres of each molecule:
-
             angle_array[i, j, 0] = find_separation(
                 data[i, 1, :], data[j, 1, :], box_dim
             )
@@ -176,15 +134,6 @@ def eval_angle_array(data, box_dim):
 
 
 def correlation_func(data, box_dim):
-    """Input data in array of size Molecule Number x 3 x 3, and list of box_dim
-
-    Input data will be rod_positions array which stores input data   
-    First index gives molecule number
-    Second index gives particle number within molecule (first/last)
-    Third index gives the component of the position (x,y,z)
-
-    Returns array of correlation data at each radius"""
-
     angle_array = eval_angle_array(data, box_dim)
     max_separation = np.max(angle_array[:, :, 0])
 
@@ -289,7 +238,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     if i == 0:
         continue  # don't plot this case
     plt.plot(
-        separation_bins, correlation_data, color=colors[i],
+        separation_bins, np.abs(correlation_data), color=colors[i],
     )
 
     print("T = " + str(time) + "/" + str(run_time))
@@ -298,9 +247,8 @@ sm = plt.cm.ScalarMappable(cmap=cm.viridis, norm=plt.Normalize(vmin=0, vmax=run_
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
-# plt.title("Pairwise Angular Correlation Function")
+plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_" + str(DIRECTOR_METHOD) + "_exp_c.png"
-plt.savefig(image_name)
+plt.savefig("correlation_func_colour2.png")
 plt.show()

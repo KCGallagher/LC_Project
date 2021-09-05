@@ -1,4 +1,5 @@
-"""Additional approaches to calcuating the pair-wise orientational order correlation function, using different director vectors"""
+"""Traditional method to calculate the pair-wise orientational order correlation function
+Uses the end-to-end molecule vector as the director"""
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,10 +10,12 @@ from phase_plot import vol_frac
 
 FILE_ROOT = "output_T_0.5_time_"  # two underscores to match typo in previous code
 SAMPLING_FREQ = 20  # only samples one in X files (must be integer)
-SEPARATION_BIN_NUM = 30  # number of bins for radius dependance pair-wise correlation
+SEPARATION_BIN_NUM = 16  # number of bins for radius dependance pair-wise correlation
 
-DIRECTOR_METHOD = "molecule"
-# Options are molecule/arm/bisector/normal
+CLOSE_PARTICLE_COORDS = True
+# Uses director based on atoms adjacent to central particles, not end atoms in molecule
+ONE_DIMENSIONAL_CORRELATIONS = True
+CORRELATION_AXIS = [0, 1, 0]  # project correlation onto this axis
 
 # mol_length = 10  #uncomment on older datasets
 
@@ -82,37 +85,6 @@ print(
 
 
 # time_range = range(0, 3300000, 100000)  # FOR SIMPLICITY IN TESTING
-def find_director(data, method="molecule"):
-    """Obtains director from molecule positions, through a variety of methods
-    
-    First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
-    Third index gives the component of the position (x,y,z)
-
-    'molecule' calculates director between ends of the molecule; 
-    'arm' calculates director along first arm of molecule; 
-    'bisector' gives the director along the bisector of the join angle; 
-    'normal' gives the bisector out of the plane of the molecule
-    """
-
-    if method == "molecule":
-        return data[:, 2, :] - data[:, 0, :]
-
-    elif method == "arm":
-        return data[:, 1, :] - data[:, 0, :]
-
-    elif method == "bisector":
-        midpoints = 0.5 * (data[:, 2, :] + data[:, 0, :])
-        return data[:, 1, :] - midpoints
-
-    elif method == "normal":
-        arm1 = data[:, 1, :] - data[:, 0, :]
-        arm2 = data[:, 2, :] - data[:, 1, :]
-        return np.cross(arm1, arm2)
-
-    else:
-        raise ValueError("Unknown argument to find_director()")
 
 
 def find_angle(vec1, vec2):
@@ -125,19 +97,26 @@ def find_angle(vec1, vec2):
     return np.sum(vec1 * vec2)
 
 
-def find_separation(pos1, pos2, box_dim):
+def find_separation(
+    pos1, pos2, box_dim, ONE_DIMENSIONAL_CORRELATIONS, CORRELATION_AXIS=[1, 1, 1]
+):
     """Finds separation between two positions
 
     This method finds the minimum separation, accounting for the periodic BC
     pos1, pos2 are the position vectors of the two points
-    box_dim is a vector (of equal length) giving the dimensions of the simulation region"""
+    box_dim is a vector (of equal length) giving the dimensions of the simulation region
+    
+    Can return either the absolute magnitude of the separation or a given component"""
     separation = pos1 - pos2
     for i in range(len(pos1)):  # should be 3 dimensional
         if np.abs(pos1[i] - pos2[i]) > box_dim[i] / 2:
             # use distance to ghost instead
             separation[i] = box_dim[i] - np.abs(pos1[i] - pos2[i])
-
-    return np.linalg.norm(separation)
+    if ONE_DIMENSIONAL_CORRELATIONS:
+        normalised_axis = CORRELATION_AXIS / np.linalg.norm(CORRELATION_AXIS)
+        return np.dot(separation, normalised_axis)
+    else:
+        return np.linalg.norm(separation)
 
 
 def eval_angle_array(data, box_dim):
@@ -145,8 +124,7 @@ def eval_angle_array(data, box_dim):
 
     Input data will be rod_positions array which stores input data   
     First index gives molecule number
-    Second index gives particle number within molecule 
-        Corresponds to: start of director/ centre/ end of director
+    Second index gives particle number within molecule (first/last)
     Third index gives the component of the position (x,y,z)
 
     Outputs N x N x 2 array, for pairwise values of separation and angle
@@ -155,17 +133,18 @@ def eval_angle_array(data, box_dim):
     angle_array = np.full((N_molecules, N_molecules, 2), np.nan, dtype=np.float32)
     # dtype specified to reduce storgae required
 
-    director = find_director(
-        data, method=DIRECTOR_METHOD
-    )  # director vector for whole of molecule
+    director = data[:, 2, :] - data[:, 0, :]  # director vector for whole of molecule
 
     for i in range(N_molecules - 1):
         for j in range(i + 1, N_molecules):
             # Only considering terms of symmetric matrix above diagonal
             # Separation between centres of each molecule:
-
             angle_array[i, j, 0] = find_separation(
-                data[i, 1, :], data[j, 1, :], box_dim
+                data[i, 1, :],
+                data[j, 1, :],
+                box_dim,
+                ONE_DIMENSIONAL_CORRELATIONS,
+                CORRELATION_AXIS,
             )
             # Angle between arms of molecule:
             angle_array[i, j, 1] = find_angle(director[i, :], director[j, :])
@@ -261,22 +240,26 @@ for i, time in enumerate(time_range):  # interate over dump files
                 except ValueError:
                     pass  # any non-floats in this line are ignored
 
-            # # Save positional coordatinates of end particles - REGULAR
-            # if int(particle_values[2]) == 1:  # first particle
-            #     rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            # if int(particle_values[2]) == int((mol_length + 1) / 2):  # central particle
-            #     rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            # if int(particle_values[2]) == mol_length:  # last particle
-            #     rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+            # Save positional coordatinates of end particles
+            index_num = int(particle_values[1]) - 1  # id of particle
+            if CLOSE_PARTICLE_COORDS:
+                centre = (mol_length + 1) / 2
+                if int(particle_values[2]) == int(centre - 1):
+                    rod_positions[index_num, 0, :] = particle_values[3:6]
+                if int(particle_values[2]) == int(centre):  # central particle
+                    rod_positions[index_num, 1, :] = particle_values[3:6]
+                if int(particle_values[2]) == int(centre + 1):
+                    rod_positions[index_num, 2, :] = particle_values[3:6]
 
-            # Save positional coordatinates of end particles - CLOSE
-            centre = (mol_length + 1) / 2
-            if int(particle_values[2]) == int(centre - 1):
-                rod_positions[int(particle_values[1]) - 1, 0, :] = particle_values[3:6]
-            if int(particle_values[2]) == int(centre):  # central particle
-                rod_positions[int(particle_values[1]) - 1, 1, :] = particle_values[3:6]
-            if int(particle_values[2]) == int(centre + 1):
-                rod_positions[int(particle_values[1]) - 1, 2, :] = particle_values[3:6]
+            else:  # Regular - Use coordinates from end atoms of molecules
+                if int(particle_values[2]) == 1:  # first particle
+                    rod_positions[index_num, 0, :] = particle_values[3:6]
+                if int(particle_values[2]) == int(
+                    (mol_length + 1) / 2
+                ):  # central particle
+                    rod_positions[index_num, 1, :] = particle_values[3:6]
+                if int(particle_values[2]) == mol_length:  # last particle
+                    rod_positions[index_num, 2, :] = particle_values[3:6]
 
     data_file.close()  # close data_file for time step t
     volume_values[i] = box_volume
@@ -285,7 +268,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
-    colors = plt.cm.viridis(np.linspace(0, 1, tot_plot_num))
+    colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
     plt.plot(
@@ -294,13 +277,12 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     print("T = " + str(time) + "/" + str(run_time))
 
-sm = plt.cm.ScalarMappable(cmap=cm.viridis, norm=plt.Normalize(vmin=0, vmax=run_time))
+sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
-# plt.title("Pairwise Angular Correlation Function")
+plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-image_name = "correlation_func_" + str(DIRECTOR_METHOD) + "_exp_c.png"
-plt.savefig(image_name)
+plt.savefig("correlation_func_yaxis.png")
 plt.show()

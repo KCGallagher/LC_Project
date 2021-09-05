@@ -122,7 +122,7 @@ def find_angle(vec1, vec2):
     vec1 = vec1 / np.linalg.norm(vec1)  # normalise vectors
     vec2 = vec2 / np.linalg.norm(vec2)
 
-    return np.sum(vec1 * vec2)
+    return np.abs(np.sum(vec1 * vec2))  # changed
 
 
 def find_separation(pos1, pos2, box_dim):
