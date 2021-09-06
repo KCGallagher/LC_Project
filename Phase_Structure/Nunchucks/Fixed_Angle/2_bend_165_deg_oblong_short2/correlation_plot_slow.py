@@ -268,7 +268,7 @@ for i, time in enumerate(time_range):  # interate over dump files
     )  # evaluate order param at time t
 
     tot_plot_num = len(time_range)
-    colors = plt.cm.cividis(np.linspace(0, 1, tot_plot_num))
+    colors = plt.cm.gnuplot_r(np.linspace(0, 1, tot_plot_num))
     if i == 0:
         continue  # don't plot this case
     plt.plot(
@@ -277,12 +277,12 @@ for i, time in enumerate(time_range):  # interate over dump files
 
     print("T = " + str(time) + "/" + str(run_time))
 
-sm = plt.cm.ScalarMappable(cmap=cm.cividis, norm=plt.Normalize(vmin=0, vmax=run_time))
+sm = plt.cm.ScalarMappable(cmap=cm.gnuplot_r, norm=plt.Normalize(vmin=0, vmax=run_time))
 cbar = plt.colorbar(sm)
 cbar.ax.set_ylabel("Number of Time Steps", rotation=270, labelpad=15)
 
 plt.title("Pairwise Angular Correlation Function")
 plt.xlabel("Particle Separation")
 plt.ylabel("Correlation Function")
-plt.savefig("correlation_func_yaxis.png")
+plt.savefig("correlation_func_yaxis_b.png")
 plt.show()
