@@ -15,9 +15,9 @@ This repo has been published publically so that others can access my code, repli
 
 I therefore wish to highlight a number of aspects of this repository that have been added with public/externals users specifically in mind.
 
-**Simulation_Scripts** - Contains all files required to initialise and run a molecular dynamics simulation on this system, using LAMMPS
-**Analysis_Scripts** - Contains all the python scripts used to analyse and plot the output files of the simulation scripts
-**Final_Documents/ProjectReport_final** - My Masters report, containing detailed accounts of the methodology and results
+**Simulation_Scripts** - Contains all files required to initialise and run a molecular dynamics simulation on this system, using LAMMPS  
+**Analysis_Scripts** - Contains all the python scripts used to analyse and plot the output files of the simulation scripts  
+**Final_Documents/ProjectReport_final** - My Masters report, containing detailed accounts of the methodology and results  
 
 A more complete explanation of the structure of this repository is avaliable in the ```contents.txt``` file.
 
