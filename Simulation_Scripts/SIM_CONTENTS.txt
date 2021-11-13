@@ -1,0 +1,40 @@
+This directory contains all the files required to run simulations akin to those presented in 
+this report. I have included example running scripts, in this case for running simulations
+on flexible polymers from a dilute state.
+
+in.run_loop is the main script that runs the simulation - this can be ran from command line
+with lmp_serial -in in.run_loop. This will call in.run_setup (which must be located in the 
+same directory) to set up the simulation and define the parameters, before running in.run_loop
+multiple times (once from each pair of resizing and equillibration stages).
+    These scripts use a text based command language developed specifically for LAMMPS - 
+    extensive documentation is avaliable on their website https://docs.lammps.org/Manual.html
+
+This script takes an input file -  a simple example of this is included 
+(input_data_nunchucks_24_10.file) so that other users can see the basic format required here.
+This file codes for 24 randomly positioned particles, each formed of 10 beads ('atoms') 
+connected linearly. The bonds and angles between these atoms must all also be defined.
+    Care must also be taken on the naming convention of these files, to match the format
+    specified in the in.run_setup file. The example files here have been used for different
+    purposes (ie crystalline vs dilute simulations) and so may not all be consistent.
+
+This file may be generated automatically from the nunchuck.py file. This may be run directly
+from command line using the command: 
+py nunchuck.py -g 'molecule_number', 'molecule_length', 'box_side_length' (replace '' with numbers)
+
+The nunchuck.py file generates an isotropic state. Please note this may take significant time to generate 
+in large systems, particularly if the system is not sufficiently dilute (as the system has to reject many
+possible configurations while it tries to find a random orientation of each particle that does not overlap
+with any in the system already).
+
+In comparison, nunchuck_crystalline.py generates a crystalline state, with all beads in a simple cubic 
+lattice. This script takes 4 input arguments (mol_length, x_num, y_num, z_num), as well as flag for
+mode (-g for generator). I.e. py nunchuck.py -g 15 16 4 16
+Note that i_num is the number of molecules in the i-th axis
+This script automically aligns molecules along the y axis, with layers in the x-z plane.
+
+Note that such systems require short relaxation periods where the system volume is increased slightly,
+to prevent overlap occuring between molecules in the simulation (causing instability).
+This period can also be utilised to change the shape of the simulation molecules (as they are generated
+in a linear configuration) in the nunchuck_crystalline.py script. This is a delicate art to avoid
+simulation errors, and so an example procedure is given in in.run_setup_crystalline to generate a
+highly dense structure of nunchucks with a fixed central bend of 120 degrees.
