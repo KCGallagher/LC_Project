@@ -1,0 +1,163 @@
+This file contains a summary of the role of each of the analysis files; in effect duplciating the docstrings at the start of each file for ease of access.
+
+All scripts define a 'file_root' at the start of the script; this assumes that the data files (both the output and log files) are in the same directory 
+as the analysis script, but can be modified if this is not the case. The location of the saved figure at the end of the script can be modified similarly.
+
+angle_plot.py - Plots the distribution of opening angles in a sample.
+
+    This script records the opening angle (i.e. the angle between the two arms of 
+    the nunchuck) for all molecules in the sample. It should be noted that molecules whose 
+    centres span the boundaries of the simulation region are not included in this sample
+    as the measurement of their angles is typically prone to error; this is typically a 
+    small number of the sample and the total count of these it output for the user.
+
+    It returns a plot of kernel densities for the angle disctribution over time - typically
+    this may indicate the formation of a preferential angle from an isotropic distribution.
+    This may be more obvious in the evolution of mean angle over time.
+
+biaxial_diffusion.py - Calculates the diffusion coefficient over each equillibration run. 
+
+    Runs in LAMMPS are split into resizing and equillibration runs, and this script 
+    separates out the data from the equillibration runs, before calculating the diffusion
+    coefficient for each one.
+    It explicitly accounts for additional displacement when crossing the periodic 
+    boundaries, assuming multiple crossing do not occur on faster timescales than the
+    sampling period. This file is also adapted for biaxial phase structure
+
+biaxial_director_plot.py - Plots the development of the biaxial order parameter over time
+
+    This script calculates the classical (nematic) order parameter based on the 
+    direction of the molecular bisector (although this can be changed using the 
+    method argument of the order_param() function). Th order function is caluclated
+    using the M-matrix method described by Eppenga et al., and described in the 
+    project report.
+
+    Plots the evolution of this order parameter over time, alongside the time
+    evolution of the volume fraction.
+    
+correlation_plot.py - Plots a pair wise angular correlation function over time
+
+    This script calculates the angle between each pair of molecules at
+    each sampling timestep. It then bins those angles by distance, so 
+    we can determine whether particles that are close together are more 
+    likely to be aligned than particles further away, indicating a 
+    greater degree of short range than long range order. The correlation
+    function itself is determined by the second order legendre polynomial
+    of the cosine of this angle, and is further detailed in the report.
+
+correlation_plot_fast.py - Faster method to plot a pair wise correlation function over time
+
+    This script calculates the angle between each pair of molecules at
+    each sampling timestep. It then bins those angles by distance, so 
+    we can determine whether particles that are close together are more 
+    likely to be aligned than particles further away, indicating a 
+    greater degree of short range than long range order. The correlation
+    function itself uses spherical harmonics so avoid costly angle calculations 
+    (which are O(N^2)), and uses the end-to-end molecule vector as the director.
+
+correlation_plot_FT - Fourier transform method to calculate the pair-wise correlation function 
+
+    This script calculates the pair-wise orientational order correlation function over 
+    particle separation (y component only here, for crystalline structures configured with
+    layers along the y-axis or channels along the y-axis). 
+
+    As detailed by Daan Frenkel, this uses spherical harmonics to 
+    avoid costly angle calculations (which are O(N^2)) as well as fourier transform methods. 
+    Uses the end-to-end molecule vector as the director, and also includes channels approach,
+    where particle separations are only caluclated along one axis, and between particles in the 
+    same channel, where these channels are orientated along the target axis, to remove confounding
+    displacements perpendicular to this axis. This allows much faster computation without significant
+    loss of accuracy, and can be used in cases where the channels are along a special axis (ie for
+    a system configured with layers perpendicular to this axis) or in (initially) isotropic systems.
+
+    There may be normalisation issues with this, as p(m) is not normalised, 
+    but this is not relevant for our work
+
+correlation_plot_other.py - Plots a pair wise correlation function for non-conventional directors
+
+    This script extends the functionality of correlation_plot.py, taking 
+    additional approaches to calcuating the pair-wise orientational order 
+    correlation function, using different director vectors (listed below)
+    and either the first or second order Legendre polynomial dependant on
+    the symmetry of the director chosen (see report for deatils).
+
+    'molecule' calculates director between ends of the molecule; 
+    'arm' calculates director along first arm of molecule; 
+    'bisector' gives the director along the bisector of the join angle; 
+    'normal' gives the bisector out of the plane of the molecule
+
+diffusion_coeff.py - Calculates the diffusion coefficient over each equillibration run. 
+
+    This plots the root mean squared (rms) diffusion over each equillibration run separately,
+    and calculates the diffusion coefficient, both through the overall displacement over the 
+    duration of each equillibration stage, and using linear regression to average across all
+    timescales within each equillibration stage. 
+
+    It also plots these diffusion coefficients at each volume fraction, for easy evaluation 
+    of the phase at each stage in the simulation.
+
+    Note that this script accounts for additional displacement when crossing the periodic boundaries.
+
+diffusion_matrix.py - Calculates the diffusion matrix over each equillibration run. 
+
+    This script calculates the component-wise directional diffusion matrix, 
+    which is then diagonalised to determine the principle axes of the system.
+    These may be specified as the cartesian axes, as some other manually 
+    inputted basis, or using the eigenvectors from the M-matrix method.
+
+    If the eigenvectors method is used, these are only computed for the total 
+    displacement over the lifetime of the simulation, to ensure uniform 
+    measurement/comparison during a simulation. These axes are then used as a basis, 
+    which converts cartesian displacements to the displacements in the basis of
+    the system. This ensures the basis is constant for each sample.
+
+    Accounts for additional displacement when crossing the periodic boundary conditions
+    This file is adapted to include contraction periods in the simulation duration, 
+    and to detect potential biaxial phase structure.
+    
+diffusion_plots.py - Calculates the rms displacement and diffusion coefficient over different timescales
+
+    This script calculates the component-wise directional diffusion coefficients, 
+    which may also be converted back into the overall root-mean-squared displacement.
+    These components are given in the cartesian basis. These are plotted over time,
+    including a directional approach (treating each coordinate separately). Diffusion 
+    coefficients may be calculated by considering displacement over the entire equillibration
+    period, or from sampling a shorter timescale within this.
+
+    This accounts for additional displacement when crossing the periodic boundary conditions
+
+director_plot.py - Plots the development of the nematic order parameter over time
+
+    This script calculates the classical (nematic) order parameter based on the 
+    direction of the molecular vector (directed along the axis of the molecule, 
+    between the first and last atoms). Th order function is caluclated
+    using the M-matrix method described by Eppenga et al., and described in the 
+    project report.
+
+    Plots the evolution of this order parameter over time, alongside the time
+    evolution of the volume fraction. Also plots the order parameter against
+    volume fraction for each sampling point.
+
+phase_plot.py - Plots the development of thermodynamic variables over time
+
+    This script loops over all equillibration runs of the system, to
+    plot the evolution of thermodynamic variables pressure and internal
+    temperature of the timescale of the simulation.
+
+    This also defines a function to calculate the volume fraction from
+    the current volume, and molecular parameters.
+
+    
+smectic_plot.py - Plots the development of the smectic order parameter over time
+
+    This script calculates the smectic order parameter based on the position
+    of the central atom of each molecule. The order function is caluclated
+    using the fourier components of the position distribution.
+
+    Plots the evolution of this order parameter over time, alongside the time
+    evolution of the volume fraction. 
+
+    Also plots the molecule's centre-of-mass distribution over time (the
+    formation of a smaectic phase is shown by the emergence of periodic
+    components in this plot). This transition can also be characterised by 
+    changes to the variation and mean of the centre of mass distribution.

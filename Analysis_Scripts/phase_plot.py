@@ -1,3 +1,13 @@
+"""Plots the development of thermodynamic variables over time
+
+This script loops over all equillibration runs of the system, to
+plot the evolution of thermodynamic variables pressure and internal
+temperature of the timescale of the simulation.
+
+This also defines a function to calculate the volume fraction from
+the current volume, and molecular parameters.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average

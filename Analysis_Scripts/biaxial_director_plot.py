@@ -1,3 +1,15 @@
+""" Plots the development of the biaxial order parameter over time
+
+This script calculates the classical (nematic) order parameter based on the 
+direction of the molecular bisector (although this can be changed using the 
+method argument of the order_param() function). Th order function is caluclated
+using the M-matrix method described by Eppenga et al., and described in the 
+project report.
+
+Plots the evolution of this order parameter over time, alongside the time
+evolution of the volume fraction.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average

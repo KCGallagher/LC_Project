@@ -1,3 +1,18 @@
+"""Plots the development of the smectic order parameter over time
+
+This script calculates the smectic order parameter based on the position
+of the central atom of each molecule. The order function is caluclated
+using the fourier components of the position distribution.
+
+Plots the evolution of this order parameter over time, alongside the time
+evolution of the volume fraction. 
+
+Also plots the molecule's centre-of-mass distribution over time (the
+formation of a smaectic phase is shown by the emergence of periodic
+components in this plot). This transition can also be characterised by 
+changes to the variation and mean of the centre of mass distribution.
+"""
+
 import numpy as np
 import scipy
 import matplotlib.pyplot as plt

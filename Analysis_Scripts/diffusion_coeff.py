@@ -1,5 +1,15 @@
 """Calculates the diffusion coefficient over each equillibration run. 
-Accounts for additional displacement when crossing the periodic boundary conditions"""
+
+This plots the root mean squared (rms) diffusion over each equillibration run separately,
+and calculates the diffusion coefficient, both through the overall displacement over the 
+duration of each equillibration stage, and using linear regression to average across all
+timescales within each equillibration stage. 
+
+It also plots these diffusion coefficients at each volume fraction, for easy evaluation 
+of the phase at each stage in the simulation.
+
+Note that this script accounts for additional displacement when crossing the periodic boundaries.
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

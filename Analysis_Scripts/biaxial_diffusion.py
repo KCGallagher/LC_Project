@@ -1,7 +1,14 @@
 """Calculates the diffusion coefficient over each equillibration run. 
-Accounts for additional displacement when crossing the periodic boundary conditions
 
-This file is adapted for biaxial phase structure"""
+Runs in LAMMPS are split into resizing and equillibration runs, and this script 
+separates out the data from the equillibration runs, before calculating the diffusion
+coefficient for each one.
+It explicitly accounts for additional displacement when crossing the periodic 
+boundaries, assuming multiple crossing do not occur on faster timescales than the
+sampling period.
+
+This file is adapted for biaxial phase structure
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

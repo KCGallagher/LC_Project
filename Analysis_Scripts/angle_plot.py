@@ -1,3 +1,16 @@
+"""Plots the distribution of opening angles in a sample.
+
+This script records the opening angle (i.e. the angle between the two arms of 
+the nunchuck) for all molecules in the sample. It should be noted that molecules whose 
+centres span the boundaries of the simulation region are not included in this sample
+as the measurement of their angles is typically prone to error; this is typically a 
+small number of the sample and the total count of these it output for the user.
+
+It returns a plot of kernel densities for the angle disctribution over time - typically
+this may indicate the formation of a preferential angle from an isotropic distribution.
+This may be more obvious in the evolution of mean angle over time.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm

@@ -1,14 +1,20 @@
 """Calculates the diffusion matrix over each equillibration run. 
-This is then diagonalised to determine the principle axes of the system.
 
-However, to ensure uniform measurement/comparison during a simulation, these
-are only compiuted for the total displacement over the lifetime of the simulation.
-These axes are then used as a basis, which converts cartesian displacements to 
-the displacements in the basis of the system. This ensures the basis is constant
-for each sample.
+This script calculates the component-wise directional diffusion matrix, 
+which is then diagonalised to determine the principle axes of the system.
+These may be specified as the cartesian axes, as some other manually 
+inputted basis, or using the eigenvectors from the M-matrix method.
+
+If the eigenvectors method is used, these are only computed for the total 
+displacement over the lifetime of the simulation, to ensure uniform 
+measurement/comparison during a simulation. These axes are then used as a basis, 
+which converts cartesian displacements to the displacements in the basis of
+ the system. This ensures the basis is constant for each sample.
 
 Accounts for additional displacement when crossing the periodic boundary conditions
-This file is adapted to include contraction periods, and biaxial phase structure"""
+This file is adapted to include contraction periods in the simulation duration, 
+and to detect potential biaxial phase structure.
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

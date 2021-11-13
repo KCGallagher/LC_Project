@@ -1,5 +1,14 @@
-"""Calculates the rms displacement over the simulation, and diffusion coefficient over different timescales
-Plots these over time, including a directional approach (treating each coordinate separately)."""
+"""Calculates the rms displacement and diffusion coefficient over different timescales
+
+This script calculates the component-wise directional diffusion coefficients, 
+which may also be converted back into the overall root-mean-squared displacement.
+These components are given in the cartesian basis. These are plotted over time,
+including a directional approach (treating each coordinate separately). Diffusion 
+coefficients may be calculated by considering displacement over the entire equillibration
+period, or from sampling a shorter timescale within this.
+
+This accounts for additional displacement when crossing the periodic boundary conditions
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt

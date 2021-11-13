@@ -1,3 +1,16 @@
+""" Plots the development of the nematic order parameter over time
+
+This script calculates the classical (nematic) order parameter based on the 
+direction of the molecular vector (directed along the axis of the molecule, 
+between the first and last atoms). Th order function is caluclated
+using the M-matrix method described by Eppenga et al., and described in the 
+project report.
+
+Plots the evolution of this order parameter over time, alongside the time
+evolution of the volume fraction. Also plots the order parameter against
+volume fraction for each sampling point.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d  # for rolling average
